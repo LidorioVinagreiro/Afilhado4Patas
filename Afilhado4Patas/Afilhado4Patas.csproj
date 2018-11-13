@@ -11,4 +11,11 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.5" PrivateAssets="All" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Guest\" />
+    <Folder Include="Views\Funcionario\" />
+    <Folder Include="Views\Responsavel\" />
+    <Folder Include="Views\Utilizador\" />
+  </ItemGroup>
+
 </Project>
