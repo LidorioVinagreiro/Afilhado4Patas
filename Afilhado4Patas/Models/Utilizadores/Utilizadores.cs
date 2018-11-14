@@ -9,5 +9,6 @@ namespace Afilhado4Patas.Models.Utilizadores
     public class Utilizadores : IdentityUser
     {
         public Perfil Perfil { get; set; }
+        public int idade { get; set; }
     }
 }
