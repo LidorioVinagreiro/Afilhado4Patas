@@ -8,7 +8,7 @@ namespace Afilhado4Patas.Models.Utilizadores
 {
     public class Utilizadores : IdentityUser
     {
-        public Perfil Perfil { get; set; }
-        public int idade { get; set; }
+
+        /*ADICIONAR PROPRIEDADES NOVAS DO IDENTITY TAREFA 1*/
     }
 }
