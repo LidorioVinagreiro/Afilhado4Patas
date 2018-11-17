@@ -35,3 +35,13 @@ body {
         display: none;
     }
 }
+
+#navegar {
+    padding-top: 50%;
+}
+
+#box{
+    background: #fff;
+    margin-bottom: 2rem;
+    text-align: center;
+}
