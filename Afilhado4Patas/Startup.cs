@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Afilhado4Patas.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Afilhado4Patas.Models.Utilizadores;
 
 namespace Afilhado4Patas
 {
@@ -37,7 +38,7 @@ namespace Afilhado4Patas
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>()
+            services.AddDefaultIdentity<Utilizadores>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
