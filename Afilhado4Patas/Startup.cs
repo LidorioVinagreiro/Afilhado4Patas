@@ -34,10 +34,16 @@ namespace Afilhado4Patas
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+            
+            // Use SQL Database if in Azure, otherwise, use SQLite
+            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "PRODUCT")
+                services.AddDbContext<ApplicationDbContext>(options =>
+                        options.UseSqlServer(Configuration.GetConnectionString("Server=tcp:<Afilhado4Patas>.database.windows.net,1433;Database=coreDB;User ID=<sw1819>;Password=<Swpv1819>;Encrypt=true;Connection Timeout=30;")));
+            else
+                services.AddDbContext<ApplicationDbContext>(options =>
+                        options.UseSqlServer("Data Source=localdatabase.db"));
+            // Automatically perform database migration
+            services.BuildServiceProvider().GetService<ApplicationDbContext>().Database.Migrate();
             services.AddDefaultIdentity<Utilizadores>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
