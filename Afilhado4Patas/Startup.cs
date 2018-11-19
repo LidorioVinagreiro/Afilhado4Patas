@@ -38,7 +38,7 @@ namespace Afilhado4Patas
             // Use SQL Database if in Azure, otherwise, use SQLite
             if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "PRODUCTION")
                 services.AddDbContext<ApplicationDbContext>(options =>
-                        options.UseSqlServer(Configuration.GetConnectionString("Server=tcp:<Afilhado4Patas>.database.windows.net,1433;Database=coreDB;User ID=<sw1819>;Password=<Swpv1819>;Encrypt=true;Connection Timeout=30;")));
+                        options.UseSqlServer(Configuration.GetConnectionString("MyDbConnection")));
             else
                 services.AddDbContext<ApplicationDbContext>(options =>
                         options.UseSqlServer("Data Source=localdatabase.db"));
