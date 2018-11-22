@@ -1,5 +1,6 @@
 ﻿using System;
 using Afilhado4Patas.Data;
+using Afilhado4Patas.Models.Utilizadores;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
@@ -15,6 +16,15 @@ namespace Afilhado4Patas.Areas.Identity
         public void Configure(IWebHostBuilder builder)
         {
             builder.ConfigureServices((context, services) => {
+                services.AddDbContext<ApplicationDbContext>(options =>
+                    options.UseSqlServer(
+                        context.Configuration.GetConnectionString("DefaultConnection")));
+
+                services.AddIdentityCore<Utilizadores>(config =>
+                {
+                    config.SignIn.RequireConfirmedEmail = true;
+                })
+                .AddEntityFrameworkStores<ApplicationDbContext>();
             });
         }
     }

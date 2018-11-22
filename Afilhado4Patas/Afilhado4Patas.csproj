@@ -17,7 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Identity\Services\" />
     <Folder Include="Views\Guest\" />
     <Folder Include="Views\Funcionario\" />
     <Folder Include="Views\Responsavel\" />
