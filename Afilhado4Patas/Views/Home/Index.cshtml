@@ -1,7 +1,6 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-<br />
 <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="6000">
     <ol class="carousel-indicators">
         <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
@@ -9,21 +8,24 @@
         <li data-target="#myCarousel" data-slide-to="2"></li>
     </ol>
     <div class="carousel-inner" role="listbox">
-        <div class="item active">
-            <img src="~/images/cães-diversos_476606794.jpg" alt="ASP.NET" class="img-responsive" />
-        </div>
-        <!--
-        <div class="item">
-            <img src="~/images/banner3.svg" alt="Microsoft Azure" class="img-responsive" />
+        <div id="seccao_foto" class="item active">
+            <img id="fotos_inicio" src="~/images/foto_1.jpg" alt="ASP.NET" class="img-responsive" />
             <div class="carousel-caption" role="option">
-                <p>
-                    Learn how Microsoft's Azure cloud platform allows you to build, deploy, and scale web apps.
-                    <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkID=525027&clcid=0x409">
-                        Learn More
-                    </a>
-                </p>
+                <p id="titulos">Adote um animal.</p>
             </div>
-        </div>-->
+        </div>
+        <div id="seccao_foto" class="item">
+            <img id="fotos_inicio" src="~/images/foto_2.jpg" alt="ASP.NET" class="img-responsive" />
+            <div class="carousel-caption" role="option">
+                <p id="titulos">Salve uma vida.</p>
+            </div>
+        </div>
+        <div id="seccao_foto" class="item">
+            <img id="fotos_inicio" src="~/images/foto_3.jpg" alt="ASP.NET" class="img-responsive" />
+            <div class="carousel-caption" role="option">
+                <p id="titulos">Ganhe um amigo.</p>
+            </div>
+        </div>
     </div>
     <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
         <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
