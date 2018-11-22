@@ -14,7 +14,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Afilhado4Patas.Models.Utilizadores;
 using Microsoft.AspNetCore.Identity.UI.Services;
-using Afilhado4Patas.Services;
 using Afilhado4Patas.Areas.Identity.Services;
 
 namespace Afilhado4Patas
@@ -45,12 +44,12 @@ namespace Afilhado4Patas
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             // Automatically perform database migration
             services.BuildServiceProvider().GetService<ApplicationDbContext>().Database.Migrate();
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
             // requires
             // using Microsoft.AspNetCore.Identity.UI.Services;
             // using WebPWrecover.Services;
-            services.AddSingleton<IEmailSender, EmailSender>();
-            services.Configure<AuthMessageSenderOptions>(Configuration);
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);            
+            services.AddSingleton<EmailSender>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

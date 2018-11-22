@@ -1,41 +1,39 @@
-﻿using Afilhado4Patas.Services;
-using Microsoft.AspNetCore.Identity.UI.Services;
+﻿using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.Options;
 using SendGrid;
 using SendGrid.Helpers.Mail;
+using System.Net;
+using System.Net.Mail;
 using System.Threading.Tasks;
 
 namespace Afilhado4Patas.Areas.Identity.Services
 {
     public class EmailSender : IEmailSender
     {
-        public EmailSender(IOptions<AuthMessageSenderOptions> optionsAccessor)
-        {
-            Options = optionsAccessor.Value;
-        }
-
-        public AuthMessageSenderOptions Options { get; } //set only via Secret Manager
-
         public Task SendEmailAsync(string email, string subject, string message)
         {
-            return Execute(Options.SendGridKey, subject, message, email);
+            return Execute(subject, message, email);
         }
 
-        public Task Execute(string apiKey, string subject, string message, string email)
+        public Task Execute(string subject, string message, string email)
         {
-            var client = new SendGridClient(apiKey);
-            var msg = new SendGridMessage()
+            var mailMessage = new MailMessage
             {
-                From = new EmailAddress("afilhados4patas@gmail.com", "Afilhados4Patas"),
+                From = new MailAddress("afilhados4patas@gmail.com", "Afilhados4Patas"),
                 Subject = subject,
-                PlainTextContent = message,
-                HtmlContent = message
+                Body = message
             };
-            msg.AddTo(new EmailAddress(email));
-            
-            msg.SetClickTracking(false, false);
 
-            return client.SendEmailAsync(msg);
+            mailMessage.To.Add(email);
+
+            var smtpClient = new SmtpClient
+            {
+                Credentials = new NetworkCredential("azure_9ff8de35d7d8dad2f48f48ed257df722@azure.com", "Swpv1819"),
+                Host = "smtp.sendgrid.net",
+                Port = 587
+            };
+
+            return smtpClient.SendMailAsync(mailMessage);
         }
     }
 }

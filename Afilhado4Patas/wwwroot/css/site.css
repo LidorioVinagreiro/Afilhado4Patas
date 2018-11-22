@@ -91,7 +91,7 @@ footer{
     src:url('../fonts/prosto sans bold.otf') format('opentype');
 }
 
-.carousel-caption{
+#seccao{
     left:100px;
 }
 
