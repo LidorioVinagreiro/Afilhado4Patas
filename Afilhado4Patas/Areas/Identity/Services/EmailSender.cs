@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Afilhado4Patas.Areas.Identity.Services
 {
-    public class EmailSender : IEmailSender
+    public class EmailSender
     {
         public EmailSender(IOptions<AuthMessageSenderOptions> optionsAccessor)
         {
