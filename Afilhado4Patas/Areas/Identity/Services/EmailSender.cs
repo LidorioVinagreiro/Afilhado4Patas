@@ -43,7 +43,7 @@ namespace Afilhado4Patas.Areas.Identity.Services
                 Host = "smtp.sendgrid.net",
                 Port = 587
             };
-
+            smtpClient.DeliveryMethod = SmtpDeliveryMethod.PickupDirectoryFromIis;
             return smtpClient.SendMailAsync(mailMessage);
         }        
     }
