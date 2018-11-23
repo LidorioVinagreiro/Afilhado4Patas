@@ -36,14 +36,13 @@ namespace Afilhado4Patas.Areas.Identity.Services
 
             mailMessage.IsBodyHtml = true;
             mailMessage.To.Add(email);
-
+            
             var smtpClient = new SmtpClient
             {
                 Credentials = new NetworkCredential(user, key),
                 Host = "smtp.sendgrid.net",
                 Port = 587
             };
-            smtpClient.DeliveryMethod = SmtpDeliveryMethod.PickupDirectoryFromIis;
             return smtpClient.SendMailAsync(mailMessage);
         }        
     }
