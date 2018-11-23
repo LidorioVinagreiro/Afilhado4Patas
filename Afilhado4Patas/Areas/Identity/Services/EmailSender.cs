@@ -12,13 +12,6 @@ namespace Afilhado4Patas.Areas.Identity.Services
 {
     public class EmailSender : IEmailSender
     {
-        public EmailSender(IOptions<AuthMessageSenderOptions> optionsAccessor)
-        {
-            Options = optionsAccessor.Value;
-        }
-
-        public AuthMessageSenderOptions Options { get; } //set only via Secret Manager
-
         public Task SendEmailAsync(string email, string subject, string message)
         {
             return Execute(subject, message, email);
