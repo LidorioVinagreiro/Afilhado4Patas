@@ -81,7 +81,7 @@ namespace Afilhado4Patas.Areas.Identity.Pages.Account
                         values: new { userId = user.Id, code = code },
                         protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
+                    await _emailSender.SendEmailAsync(Input.Email, "Confirme o seu email",
                         $"Obrigado pelo seu registo! Para confirmar a sua conta <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clique aqui</a>.");
 
                     // await _signInManager.SignInAsync(user, isPersistent: false);
