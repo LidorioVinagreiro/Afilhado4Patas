@@ -75,10 +75,10 @@ footer{
 
 #logo {
     position: absolute;
-    top: 5px;
-    left: 50px;
-    height: 90px;
-    width: 130px;
+    top: 1%;
+    left: 5%;
+    height: 8%;
+    width: 12%;
     z-index: 100;
 }
 
