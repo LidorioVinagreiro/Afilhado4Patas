@@ -21,11 +21,11 @@ namespace Afilhado4Patas.Areas.Identity.Services
 
         public AuthMessageSenderOptions Options { get; } //set only via Secret Manager
 
-        public Task SendEmailAsync(string email, string subject, string html, string message)
+        public Task SendEmailAsync(string email, string subject, string message)
         {
-            return Execute(subject, message, html, email);
+            return Execute(subject, message, email);
         }
-        public Task Execute(string subject, string message, string html, string email)
+        public Task Execute(string subject, string message, string email)
         {
             /*string user = Options.SendGridUser;
             string key = Options.SendGridKey;
@@ -53,8 +53,7 @@ namespace Afilhado4Patas.Areas.Identity.Services
             {
                 From = new EmailAddress("afilhados4patas@gmail.com", "Afilhados4Patas"),
                 Subject = subject,
-                PlainTextContent = message,
-                HtmlContent = html
+                HtmlContent = message
             };
             msg.AddTo(new EmailAddress(email, ""));
             return client.SendEmailAsync(msg);
