@@ -50,6 +50,7 @@ namespace Afilhado4Patas
             // using Microsoft.AspNetCore.Identity.UI.Services;
             // using WebPWrecover.Services;
             services.AddSingleton<EmailSender>();
+            services.Configure<AuthMessageSenderOptions>(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
