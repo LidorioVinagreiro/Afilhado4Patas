@@ -28,7 +28,7 @@ namespace Afilhado4Patas.Areas.Identity.Services
 
             var smtpClient = new SmtpClient
             {
-                Credentials = new NetworkCredential("azure_9f922f94df34beff51efe2828c22841a@azure.com", "Swpv1819"),
+                Credentials = new NetworkCredential("", ""),
                 Host = "smtp.sendgrid.net",
                 Port = 587
             };
