@@ -31,6 +31,7 @@ namespace Afilhado4Patas.Areas.Identity.Services
                 Body = message
             };
 
+            mailMessage.IsBodyHtml = true;
             mailMessage.To.Add(email);
 
             var smtpClient = new SmtpClient
