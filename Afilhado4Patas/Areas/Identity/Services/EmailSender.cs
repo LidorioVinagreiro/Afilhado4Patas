@@ -2,6 +2,8 @@
 using Microsoft.Azure.KeyVault;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 using System;
 using System.Diagnostics;
 using System.Net;
@@ -25,7 +27,7 @@ namespace Afilhado4Patas.Areas.Identity.Services
         }
         public Task Execute(string subject, string message, string email)
         {
-            string user = Options.SendGridUser;
+            /*string user = Options.SendGridUser;
             string key = Options.SendGridKey;
             var mailMessage = new MailMessage
             {
@@ -43,7 +45,18 @@ namespace Afilhado4Patas.Areas.Identity.Services
                 Host = "smtp.sendgrid.net",
                 Port = 587
             };
-            return smtpClient.SendMailAsync(mailMessage);
+            return smtpClient.SendMailAsync(mailMessage);*/
+
+            var apiKey = System.Environment.GetEnvironmentVariable("SENDGRID_APIKEY");
+            var client = new SendGridClient(apiKey);
+            var msg = new SendGridMessage()
+            {
+                From = new EmailAddress("afilhados4patas@gmail.com", "Afilhados4Patas"),
+                Subject = subject,
+                PlainTextContent = message,
+            };
+            msg.AddTo(new EmailAddress(email, ""));
+            return client.SendEmailAsync(msg);
         }        
     }
 }
