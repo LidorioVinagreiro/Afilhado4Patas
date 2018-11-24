@@ -9,24 +9,24 @@
 <br />
 <br />
 <div class="row">
-    <h2>Registo</h2>
+    <h2>Registo</h2> <span data-placement="right" class="glyphicon glyphicon-question-sign" title="Utilizar esta página para criar uma conta"></span>
     <div class="col-md-4">
         <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
             <h4>Crie a sua nova conta.</h4>
             <hr />
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Input.Email"></label>
+                <label asp-for="Input.Email"></label><span data-placement="right" class="glyphicon glyphicon-question-sign" title="Inserir Email válido"></span>
                 <input asp-for="Input.Email" class="form-control" />
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Input.Password"></label>
+                <label asp-for="Input.Password"></label><span data-placement="right" class="glyphicon glyphicon-question-sign" title="Inserir password válida"></span>
                 <input asp-for="Input.Password" class="form-control" />
                 <span asp-validation-for="Input.Password" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Input.ConfirmPassword"></label>
+                <label asp-for="Input.ConfirmPassword"></label><span data-placement="right" class="glyphicon glyphicon-question-sign" title="Reescrever password"></span>
                 <input asp-for="Input.ConfirmPassword" class="form-control" />
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>

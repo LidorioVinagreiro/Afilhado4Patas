@@ -10,19 +10,19 @@
 <br />
 <br />
 <div class="row">
-    <h2>@ViewData["Title"]</h2>
+    <h2>@ViewData["Title"]</h2><span data-placement="right" class="glyphicon glyphicon-question-sign" title="Utilizar esta página para efectuar o login após o registo e validação do email"></span>
     <div class="col-md-4">
         <section>
             <form method="post">
                 <hr />
                 <div asp-validation-summary="All" class="text-danger"></div>
                 <div class="form-group">
-                    <label asp-for="Input.Email"></label>
+                    <label asp-for="Input.Email"></label><span data-placement="right" class="glyphicon glyphicon-question-sign" title="Inserir Email"></span>
                     <input asp-for="Input.Email" class="form-control" />
                     <span asp-validation-for="Input.Email" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="Input.Password"></label>
+                    <label asp-for="Input.Password"></label><span data-placement="right" class="glyphicon glyphicon-question-sign" title="Inserir password"></span>
                     <input asp-for="Input.Password" class="form-control" />
                     <span asp-validation-for="Input.Password" class="text-danger"></span>
                 </div>
