@@ -9,24 +9,38 @@
 <br />
 <br />
 <div class="row">
-    <h2>Registo</h2> <span data-placement="right" class="glyphicon glyphicon-question-sign" title="Utilizar esta página para criar uma conta"></span>
+    <h2>Registo</h2> <span data-placement="right" class="glyphicon glyphicon-question-sign" 
+                           title="Utilizar esta página para criar uma conta"></span>
     <div class="col-md-4">
         <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
             <h4>Crie a sua nova conta.</h4>
             <hr />
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Input.Email"></label><span data-placement="right" class="glyphicon glyphicon-question-sign" title="Inserir Email válido"></span>
+                <label asp-for="Input.Email"></label>  <span data-placement="right" class="glyphicon glyphicon-question-sign" 
+                                                           title="Insira um Email válido
+Com o seguinte formato:
+exemplo@exemplo.com "></span>
                 <input asp-for="Input.Email" class="form-control" />
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Input.Password"></label><span data-placement="right" class="glyphicon glyphicon-question-sign" title="Inserir password válida"></span>
+                <label asp-for="Input.Password"></label>  <span data-placement="right" class="glyphicon glyphicon-question-sign" 
+                                                              title="Inserir uma password válida 
+A password deverá conter pelo menos um caracter dos seguintes: 
+Letras: Aa-Zz 
+Numeros: 0-9 
+Caracter não Alfa-Numérico: / , . _ - ,etc"></span>
                 <input asp-for="Input.Password" class="form-control" />
                 <span asp-validation-for="Input.Password" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Input.ConfirmPassword"></label><span data-placement="right" class="glyphicon glyphicon-question-sign" title="Reescrever password"></span>
+                <label asp-for="Input.ConfirmPassword"></label>  <span data-placement="right" class="glyphicon glyphicon-question-sign" 
+                                                                     title="Confirma a sua password 
+A password deverá conter pelo menos um caracter dos seguintes: 
+Letras: Aa-Zz 
+Numeros: 0-9 
+Caracter não Alfa-Numérico: / , . _ - ,etc"></span>
                 <input asp-for="Input.ConfirmPassword" class="form-control" />
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
