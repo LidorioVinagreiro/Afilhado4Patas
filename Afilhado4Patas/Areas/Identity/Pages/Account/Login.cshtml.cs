@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using Afilhado4Patas.Models.Utilizadores;
+using Afilhado4Patas.Data;
 
 namespace Afilhado4Patas.Areas.Identity.Pages.Account
 {

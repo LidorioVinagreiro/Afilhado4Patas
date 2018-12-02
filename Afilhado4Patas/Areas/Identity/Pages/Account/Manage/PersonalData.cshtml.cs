@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Afilhado4Patas.Models.Utilizadores;
+using Afilhado4Patas.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;

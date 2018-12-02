@@ -1,10 +1,16 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-
+using System.ComponentModel.DataAnnotations.Schema;
+using Afilhado4Patas.Data;
 namespace Afilhado4Patas.Models
 {
     public class Perfil
     {
+        [Key]
+        public int Id { get; set; }
+        [ForeignKey("Utilizadores")]
+        public string UtilizadorId { get; set; }
+        public virtual Utilizadores Utilizador { get; set; }
         [Display(Name = "Primeiro Nome")]
         public string FirstName { get; set; }
         [Display(Name = "Ultimo Nome")]
@@ -31,7 +37,7 @@ namespace Afilhado4Patas.Models
             get { return Genre;
             }
             set {
-                if (value.ToLower() != "m" || value.ToLower() != "f"){
+                if (value.ToLower() != "m" || value.ToLower() != "f") {
                     Genre = "indefenido";
                 }
                 else {
