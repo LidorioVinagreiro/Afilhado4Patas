@@ -10,6 +10,7 @@ namespace Afilhado4Patas.Data
 {
     public class Utilizadores : IdentityUser
     {
+
         [ForeignKey("Perfil")]
         public int PerfilId { get; set; }
         public virtual Perfil Perfil { get; set; }

@@ -9,6 +9,7 @@ namespace Afilhado4Patas.Models
         [Key]
         public int Id { get; set; }
         [ForeignKey("Utilizadores")]
+        [Required]
         public string UtilizadorId { get; set; }
         public virtual Utilizadores Utilizador { get; set; }
         [Display(Name = "Primeiro Nome")]
