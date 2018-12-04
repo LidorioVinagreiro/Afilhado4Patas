@@ -12,9 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Afilhado4Patas.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Afilhado4Patas.Models.Utilizadores;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using Afilhado4Patas.Areas.Identity.Services;
+using Afilhado4Patas.Data;
 
 namespace Afilhado4Patas
 {
