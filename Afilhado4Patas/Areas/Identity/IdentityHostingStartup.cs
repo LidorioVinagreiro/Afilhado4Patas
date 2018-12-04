@@ -1,6 +1,5 @@
 ﻿using System;
 using Afilhado4Patas.Data;
-using Afilhado4Patas.Models.Utilizadores;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;

@@ -12,13 +12,13 @@ namespace Afilhado4Patas.Data.Migrations
                 name: "PerfilId",
                 table: "AspNetUsers",
                 nullable: true);
-
+            /*
             migrationBuilder.AddColumn<string>(
                 name: "Discriminator",
                 table: "AspNetUsers",
                 nullable: false,
                 defaultValue: "");
-
+                */
             migrationBuilder.CreateTable(
                 name: "PerfilTable",
                 columns: table => new
@@ -73,10 +73,10 @@ namespace Afilhado4Patas.Data.Migrations
             migrationBuilder.DropColumn(
                 name: "PerfilId",
                 table: "AspNetUsers");
-
+            /*
             migrationBuilder.DropColumn(
                 name: "Discriminator",
-                table: "AspNetUsers");
+                table: "AspNetUsers");*/
         }
     }
 }
