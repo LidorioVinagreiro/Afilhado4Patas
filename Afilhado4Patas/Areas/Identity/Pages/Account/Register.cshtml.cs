@@ -5,6 +5,7 @@ using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Afilhado4Patas.Areas.Identity.Services;
 using Afilhado4Patas.Data;
+using Afilhado4Patas.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -21,17 +22,19 @@ namespace Afilhado4Patas.Areas.Identity.Pages.Account
         private readonly UserManager<Utilizadores> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly EmailSender _emailSender;
-
+        private readonly ApplicationDbContext _contexto;
         public RegisterModel(
             UserManager<Utilizadores> userManager,
             SignInManager<Utilizadores> signInManager,
             ILogger<RegisterModel> logger,
-            EmailSender emailSender)
+            EmailSender emailSender,
+            ApplicationDbContext contexto)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _contexto = contexto;
         }
 
         [BindProperty]
@@ -72,7 +75,16 @@ namespace Afilhado4Patas.Areas.Identity.Pages.Account
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User created a new account with password.");
+                    Perfil perfilUtilizador = new Perfil
+                    {
+                        UtilizadorId = user.Id
+
+                    };
+                    _contexto.PerfilTable.Add(perfilUtilizador);
+                    user.PerfilId = perfilUtilizador.Id;
+                    _contexto.SaveChanges();
+
+                        _logger.LogInformation("User created a new account with password.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var callbackUrl = Url.Page(
