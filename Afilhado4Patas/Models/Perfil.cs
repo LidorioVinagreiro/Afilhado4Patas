@@ -29,23 +29,9 @@ namespace Afilhado4Patas.Models
         public string Photo { get; set; }
         [Display(Name = "Data de Nascimento")]
         public DateTime Birthday { get; set; }
-        /*[Display(Name = "Idade")]
-        public string Age { get { return ((DateTime.UtcNow - Birthday).TotalDays/365).ToString(); } }*/
+        [Display(Name = "Idade")]       
         public string Age { get; set; }
-        private string Genero;
         [Display(Name = "Género")]
-        public string Genre
-        {
-            get { return this.Genero;
-            }
-            set {
-                if (value.ToLower() != "m" || value.ToLower() != "f") {
-                    Genero = "indefenido";
-                }
-                else {
-                    Genero = value;
-                }
-            }
-        }
+        public string Genre{ get; set; }
     }
 }
