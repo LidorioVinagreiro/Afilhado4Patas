@@ -23,6 +23,7 @@ namespace Afilhado4Patas.Areas.Identity.Pages.Account
         private readonly ILogger<RegisterModel> _logger;
         private readonly EmailSender _emailSender;
         private readonly ApplicationDbContext _contexto;
+
         public RegisterModel(
             UserManager<Utilizadores> userManager,
             SignInManager<Utilizadores> signInManager,
@@ -71,7 +72,7 @@ namespace Afilhado4Patas.Areas.Identity.Pages.Account
             returnUrl = returnUrl ?? Url.Content("~/");
             if (ModelState.IsValid)
             {
-                var user = new Utilizadores { UserName = Input.Email, Email = Input.Email };
+                var user = new Utilizadores { UserName = Input.Email, Email = Input.Email, PerfilId = null };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
@@ -81,10 +82,11 @@ namespace Afilhado4Patas.Areas.Identity.Pages.Account
 
                     };
                     _contexto.PerfilTable.Add(perfilUtilizador);
+                    _contexto.SaveChanges();
                     user.PerfilId = perfilUtilizador.Id;
                     _contexto.SaveChanges();
 
-                        _logger.LogInformation("User created a new account with password.");
+                    _logger.LogInformation("User created a new account with password.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var callbackUrl = Url.Page(

@@ -12,7 +12,7 @@ namespace Afilhado4Patas.Data
     {
 
         [ForeignKey("Perfil")]
-        public int PerfilId { get; set; }
+        public int? PerfilId { get; set; }
         public virtual Perfil Perfil { get; set; }
         /*ADICIONAR PROPRIEDADES NOVAS DO IDENTITY TAREFA 1*/
     }
