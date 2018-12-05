@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
 using System.Net.Mail;
@@ -20,26 +21,6 @@ namespace Afilhado4Patas.Areas.Identity.Services
         }
         public Task Execute(string subject, string message, string email)
         {
-            /*string user = Options.SendGridUser;
-            string key = Options.SendGridKey;
-            var mailMessage = new MailMessage
-            {
-                From = new MailAddress("afilhados4patas@gmail.com", "Afilhados4Patas"),
-                Subject = subject,
-                Body = message
-            };
-
-            mailMessage.IsBodyHtml = true;
-            mailMessage.To.Add(email);
-            
-            var smtpClient = new SmtpClient
-            {
-                Credentials = new NetworkCredential(user, key),
-                Host = "smtp.sendgrid.net",
-                Port = 587
-            };
-            return smtpClient.SendMailAsync(mailMessage);*/
-
             var apiKey = System.Environment.GetEnvironmentVariable("SENDGRID_APIKEY");
             var client = new SendGridClient(apiKey);
             var msg = new SendGridMessage()

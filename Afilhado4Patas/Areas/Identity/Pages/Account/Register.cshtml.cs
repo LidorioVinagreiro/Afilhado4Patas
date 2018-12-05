@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Net.Mail;
+using System.Net.Mime;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Afilhado4Patas.Areas.Identity.Services;
 using Afilhado4Patas.Data;
 using Afilhado4Patas.Models;
+using Afilhado4Patas.Views.Emails.ConfirmAccount;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -23,19 +27,22 @@ namespace Afilhado4Patas.Areas.Identity.Pages.Account
         private readonly ILogger<RegisterModel> _logger;
         private readonly EmailSender _emailSender;
         private readonly ApplicationDbContext _contexto;
+        private readonly RazorView _razorView;
 
         public RegisterModel(
             UserManager<Utilizadores> userManager,
             SignInManager<Utilizadores> signInManager,
             ILogger<RegisterModel> logger,
             EmailSender emailSender,
-            ApplicationDbContext contexto)
+            ApplicationDbContext contexto,
+            RazorView razorView)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
             _contexto = contexto;
+            _razorView = razorView;
         }
 
         [BindProperty]
@@ -95,8 +102,11 @@ namespace Afilhado4Patas.Areas.Identity.Pages.Account
                         values: new { userId = user.Id, code = code },
                         protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirme o seu email",
-                        $"Obrigado pelo seu registo! Para confirmar a sua conta <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clique aqui</a>.");
+                    var confirmAccountModel = new ConfirmAccountEmailViewModel($"<a href='{HtmlEncoder.Default.Encode(callbackUrl)}'></a>");                   
+
+                    string body = await _razorView.RenderViewToStringAsync("/Views/Emails/ConfirmAccount/ConfirmAccount.cshtml", confirmAccountModel);
+                    
+                    await _emailSender.SendEmailAsync(Input.Email, "Confirme o seu email", body);
 
                     // await _signInManager.SignInAsync(user, isPersistent: false);
                     return LocalRedirect(returnUrl);
