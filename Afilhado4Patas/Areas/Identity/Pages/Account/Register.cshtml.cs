@@ -101,8 +101,8 @@ namespace Afilhado4Patas.Areas.Identity.Pages.Account
                         pageHandler: null,
                         values: new { userId = user.Id, code = code },
                         protocol: Request.Scheme);
-
-                    var confirmAccountModel = new ConfirmAccountEmailViewModel($"<a href='{HtmlEncoder.Default.Encode(callbackUrl)}'></a>");                   
+                    string link = HtmlEncoder.Default.Encode(callbackUrl);
+                    var confirmAccountModel = new ConfirmAccountEmailViewModel(link);                   
 
                     string body = await _razorView.RenderViewToStringAsync("/Views/Emails/ConfirmAccount/ConfirmAccount.cshtml", confirmAccountModel);
                     
