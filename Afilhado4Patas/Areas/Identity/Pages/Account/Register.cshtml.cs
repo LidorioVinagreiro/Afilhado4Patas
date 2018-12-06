@@ -1,10 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Net.Mail;
+using System.Net.Mime;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using Afilhado4Patas.Areas.Identity.Services;
 using Afilhado4Patas.Data;
+using Afilhado4Patas.Models;
+using Afilhado4Patas.Views.Emails.ConfirmAccount;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -19,18 +25,24 @@ namespace Afilhado4Patas.Areas.Identity.Pages.Account
         private readonly SignInManager<Utilizadores> _signInManager;
         private readonly UserManager<Utilizadores> _userManager;
         private readonly ILogger<RegisterModel> _logger;
-        private readonly IEmailSender _emailSender;
+        private readonly EmailSender _emailSender;
+        private readonly ApplicationDbContext _contexto;
+        private readonly RazorView _razorView;
 
         public RegisterModel(
             UserManager<Utilizadores> userManager,
             SignInManager<Utilizadores> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            EmailSender emailSender,
+            ApplicationDbContext contexto,
+            RazorView razorView)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _contexto = contexto;
+            _razorView = razorView;
         }
 
         [BindProperty]
@@ -67,10 +79,20 @@ namespace Afilhado4Patas.Areas.Identity.Pages.Account
             returnUrl = returnUrl ?? Url.Content("~/");
             if (ModelState.IsValid)
             {
-                var user = new Utilizadores { UserName = Input.Email, Email = Input.Email };
+                var user = new Utilizadores { UserName = Input.Email, Email = Input.Email, PerfilId = null };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
+                    Perfil perfilUtilizador = new Perfil
+                    {
+                        UtilizadorId = user.Id
+
+                    };
+                    _contexto.PerfilTable.Add(perfilUtilizador);
+                    _contexto.SaveChanges();
+                    user.PerfilId = perfilUtilizador.Id;
+                    _contexto.SaveChanges();
+
                     _logger.LogInformation("User created a new account with password.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -79,11 +101,14 @@ namespace Afilhado4Patas.Areas.Identity.Pages.Account
                         pageHandler: null,
                         values: new { userId = user.Id, code = code },
                         protocol: Request.Scheme);
+                    string link = HtmlEncoder.Default.Encode(callbackUrl);
+                    var confirmAccountModel = new ConfirmAccountEmailViewModel(link);                   
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    string body = await _razorView.RenderViewToStringAsync("/Views/Emails/ConfirmAccount/ConfirmAccount.cshtml", confirmAccountModel);
+                    
+                    await _emailSender.SendEmailAsync(Input.Email, "Confirme o seu email", $"<a href=\"{link}\">carrega</a>");
 
-                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    // await _signInManager.SignInAsync(user, isPersistent: false);
                     return LocalRedirect(returnUrl);
                 }
                 foreach (var error in result.Errors)
