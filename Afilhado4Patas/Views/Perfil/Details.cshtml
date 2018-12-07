@@ -1,8 +1,49 @@
-﻿
+﻿@using Microsoft.AspNetCore.Identity
+@using Afilhado4Patas.Data;
+
+@model Afilhado4Patas.Models.Perfil
+
+@inject SignInManager<Utilizadores> SignInManager
+@inject UserManager<Utilizadores> UserManager
 @{
     ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Details</h2>
+<h2>Prefil de @UserManager.GetUserName(User)</h2>
+
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Photo)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Photo)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.LastName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Birthday)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Birthday)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Birthday)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Birthday)
+        </dd>
+    </dl>
+</div>
 
