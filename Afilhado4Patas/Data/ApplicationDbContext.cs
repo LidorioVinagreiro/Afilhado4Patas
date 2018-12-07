@@ -19,5 +19,6 @@ namespace Afilhado4Patas.Data
 
         public DbSet<Utilizadores> Utilizadores { get; set; }
         public DbSet<Perfil> PerfilTable { get; set; }
+        public DbSet<Tarefa> Tarefa { get; set; }
     }
 }
