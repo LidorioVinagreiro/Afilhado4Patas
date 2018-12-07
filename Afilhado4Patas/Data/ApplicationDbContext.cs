@@ -4,6 +4,7 @@ using System.Text;
 using Afilhado4Patas.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Afilhado4Patas.Models.ViewModels;
 
 namespace Afilhado4Patas.Data
 {
@@ -20,5 +21,6 @@ namespace Afilhado4Patas.Data
             base.OnModelCreating(builder);
             
         }
+        public DbSet<Afilhado4Patas.Models.ViewModels.EditarPerfilViewModel> EditarPerfilViewModel { get; set; }
     }
 }

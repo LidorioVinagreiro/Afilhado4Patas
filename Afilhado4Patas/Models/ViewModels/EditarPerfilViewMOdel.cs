@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -7,6 +9,9 @@ namespace Afilhado4Patas.Models.ViewModels
 {
     public class EditarPerfilViewModel
     {
+        [Key]
+        public int Id { get; set; }
+        [ForeignKey("Utilizadores")]
 
         [Display(Name = "Primeiro Nome")]
         public string FirstName { get; set; }
@@ -28,30 +33,31 @@ namespace Afilhado4Patas.Models.ViewModels
         [Display(Name = "Nif")]
         public string NIF { get; set; }
 
-        //Link para a bd
         [Display(Name = "Foto")]
         public string Photo { get; set; }
 
         [Display(Name = "Data de Nascimento")]
         public DateTime Birthday { get; set; }
 
-        [Required(ErrorMessage = "O campo {0} é obrigatório.")]
-        [StringLength(100, ErrorMessage = "A {0} tem de ter entre {2} a {1} caracteres.", MinimumLength = 6)]
+        [Display(Name = "Idade")]
+        public string Age { get { return ((DateTime.UtcNow - Birthday).TotalDays / 365).ToString(); } }
+
+        [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "Password Atual")]
+        [Display(Name = "Current password")]
         public string OldPassword { get; set; }
 
-        [Required(ErrorMessage = "O campo {0} é obrigatório.")]
-        [StringLength(100, ErrorMessage = "A {0} tem de ter entre {2} a {1} caracteres.", MinimumLength = 6)]
+        [Required]
+        [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Nova Password")]
+        [Display(Name = "New password")]
         public string NewPassword { get; set; }
 
-        [Required(ErrorMessage = "O campo {0} é obrigatório.")]
         [DataType(DataType.Password)]
-        [Display(Name = "Confirmar password")]
-        [Compare("NewPassword", ErrorMessage = "A password e a password de confirmação não estão iguais.")]
+        [Display(Name = "Confirm new password")]
+        [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
 
     }
 }
