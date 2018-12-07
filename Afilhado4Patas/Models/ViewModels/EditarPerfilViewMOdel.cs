@@ -28,6 +28,7 @@ namespace Afilhado4Patas.Models.ViewModels
         [Display(Name = "Nif")]
         public string NIF { get; set; }
 
+        //Link para a bd
         [Display(Name = "Foto")]
         public string Photo { get; set; }
 
