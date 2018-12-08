@@ -86,7 +86,7 @@ namespace Afilhado4Patas.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,FirstName,LastName,Street,City,Postalcode,NIF,Photo,Birthday,OldPassword,NewPassword,ConfirmPassword")] Perfil editarPerfilViewModel)
+        public async Task<IActionResult> Edit(string id, [Bind("Id,FirstName,LastName,Street,City,Postalcode,NIF,Photo,Birthday")] Perfil editarPerfilViewModel)
         {
             if (id == null)
             {

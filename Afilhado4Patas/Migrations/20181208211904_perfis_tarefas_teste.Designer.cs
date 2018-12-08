@@ -10,14 +10,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Afilhado4Patas.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181207180835_tarefa2")]
-    partial class tarefa2
+    [Migration("20181208211904_perfis_tarefas_teste")]
+    partial class perfis_tarefas_teste
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.3-rtm-32065")
+                .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -33,6 +33,8 @@ namespace Afilhado4Patas.Migrations
 
                     b.Property<string>("City");
 
+                    b.Property<string>("ConfirmPassword");
+
                     b.Property<string>("FirstName");
 
                     b.Property<string>("Genre");
@@ -40,6 +42,13 @@ namespace Afilhado4Patas.Migrations
                     b.Property<string>("LastName");
 
                     b.Property<string>("NIF");
+
+                    b.Property<string>("NewPassword")
+                        .IsRequired()
+                        .HasMaxLength(100);
+
+                    b.Property<string>("OldPassword")
+                        .IsRequired();
 
                     b.Property<string>("Photo");
 
@@ -52,6 +61,31 @@ namespace Afilhado4Patas.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("PerfilTable");
+                });
+
+            modelBuilder.Entity("Afilhado4Patas.Models.Tarefa", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("Completada");
+
+                    b.Property<string>("Descricao");
+
+                    b.Property<DateTime>("Fim");
+
+                    b.Property<string>("FuncionarioId");
+
+                    b.Property<DateTime>("Inicio");
+
+                    b.Property<string>("UtilizadorId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UtilizadorId");
+
+                    b.ToTable("Tarefa");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -233,6 +267,13 @@ namespace Afilhado4Patas.Migrations
                     b.ToTable("Utilizadores");
 
                     b.HasDiscriminator().HasValue("Utilizadores");
+                });
+
+            modelBuilder.Entity("Afilhado4Patas.Models.Tarefa", b =>
+                {
+                    b.HasOne("Afilhado4Patas.Data.Utilizadores", "Utilizador")
+                        .WithMany()
+                        .HasForeignKey("UtilizadorId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

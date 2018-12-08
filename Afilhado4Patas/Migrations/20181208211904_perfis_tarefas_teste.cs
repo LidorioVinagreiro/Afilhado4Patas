@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Afilhado4Patas.Migrations
 {
-    public partial class primeira : Migration
+    public partial class perfis_tarefas_teste : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -38,7 +38,10 @@ namespace Afilhado4Patas.Migrations
                     Photo = table.Column<string>(nullable: true),
                     Birthday = table.Column<DateTime>(nullable: false),
                     Age = table.Column<string>(nullable: true),
-                    Genre = table.Column<string>(nullable: true)
+                    Genre = table.Column<string>(nullable: true),
+                    OldPassword = table.Column<string>(nullable: false),
+                    NewPassword = table.Column<string>(maxLength: 100, nullable: false),
+                    ConfirmPassword = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -96,7 +99,7 @@ namespace Afilhado4Patas.Migrations
                         column: x => x.PerfilId,
                         principalTable: "PerfilTable",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -124,8 +127,8 @@ namespace Afilhado4Patas.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
-                    ProviderKey = table.Column<string>(maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(nullable: false),
+                    ProviderKey = table.Column<string>(nullable: false),
                     ProviderDisplayName = table.Column<string>(nullable: true),
                     UserId = table.Column<string>(nullable: false)
                 },
@@ -169,8 +172,8 @@ namespace Afilhado4Patas.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<string>(nullable: false),
-                    LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
-                    Name = table.Column<string>(maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(nullable: false),
                     Value = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -182,6 +185,30 @@ namespace Afilhado4Patas.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Tarefa",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    FuncionarioId = table.Column<string>(nullable: true),
+                    UtilizadorId = table.Column<string>(nullable: true),
+                    Inicio = table.Column<DateTime>(nullable: false),
+                    Fim = table.Column<DateTime>(nullable: false),
+                    Descricao = table.Column<string>(nullable: true),
+                    Completada = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tarefa", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Tarefa_AspNetUsers_UtilizadorId",
+                        column: x => x.UtilizadorId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -229,6 +256,11 @@ namespace Afilhado4Patas.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tarefa_UtilizadorId",
+                table: "Tarefa",
+                column: "UtilizadorId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -247,6 +279,9 @@ namespace Afilhado4Patas.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Tarefa");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

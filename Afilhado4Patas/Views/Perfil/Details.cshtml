@@ -10,6 +10,11 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+
+<br />
+<br />
+<br />
+<br />
 <h2>Prefil de @UserManager.GetUserName(User)</h2>
 
 <div>
@@ -60,5 +65,8 @@
 </div>
 <div>
     <a asp-controller="Perfil" asp-action="Edit" asp-route-id="@UserManager.GetUserName(User)">Editar</a>
+</div>
+<div>
+    <a>Alterar Palavra-Passe</a>
 </div>
 
