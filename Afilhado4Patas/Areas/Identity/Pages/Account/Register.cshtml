@@ -1,5 +1,5 @@
 ﻿@page
-@model RegisterModel
+@model Afilhado4Patas.Areas.Identity.Pages.Account.RegisterModel
 @{
     ViewData["Title"] = "Register";
 }
@@ -17,29 +17,53 @@
             <hr />
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Input.Email"></label>  <span data-placement="right" class="glyphicon glyphicon-question-sign" 
-                                                           title="Insira um Email válido
+                <label asp-for="Input.Nome"></label>
+                <input asp-for="Input.Nome" class="form-control" />
+                <span asp-validation-for="Input.Nome" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Apelido"></label>
+                <input asp-for="Input.Apelido" class="form-control" />
+                <span asp-validation-for="Input.Apelido" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Genero"></label>
+                <div>
+                    Masculino
+                    <input asp-for="Input.Genero" type="radio" value="Masculino"/>
+                    Feminino
+                    <input asp-for="Input.Genero" type="radio" value="Feminino"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.DataNascimento"></label>
+                <input asp-for="Input.DataNascimento" type="date" asp-format="{0:dd-MM-yyyy}" class="form-control" />
+                <span asp-validation-for="Input.DataNascimento" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Email"></label>  <span data-placement="right" class="glyphicon glyphicon-question-sign"
+                                                             title="Insira um Email válido
 Com o seguinte formato:
 exemplo@exemplo.com "></span>
                 <input asp-for="Input.Email" class="form-control" />
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Input.Password"></label>  <span data-placement="right" class="glyphicon glyphicon-question-sign" 
-                                                              title="Inserir uma password válida 
-A password deverá conter pelo menos um caracter dos seguintes: 
-Letras: Aa-Zz 
-Numeros: 0-9 
+                <label asp-for="Input.Password"></label>  <span data-placement="right" class="glyphicon glyphicon-question-sign"
+                                                                title="Inserir uma password válida
+A password deverá conter pelo menos um caracter dos seguintes:
+Letras: Aa-Zz
+Numeros: 0-9
 Caracter não Alfa-Numérico: / , . _ - ,etc"></span>
                 <input asp-for="Input.Password" class="form-control" />
                 <span asp-validation-for="Input.Password" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Input.ConfirmPassword"></label>  <span data-placement="right" class="glyphicon glyphicon-question-sign" 
-                                                                     title="Confirma a sua password 
-A password deverá conter pelo menos um caracter dos seguintes: 
-Letras: Aa-Zz 
-Numeros: 0-9 
+                <label asp-for="Input.ConfirmPassword"></label>  <span data-placement="right" class="glyphicon glyphicon-question-sign"
+                                                                       title="Confirma a sua password
+A password deverá conter pelo menos um caracter dos seguintes:
+Letras: Aa-Zz
+Numeros: 0-9
 Caracter não Alfa-Numérico: / , . _ - ,etc"></span>
                 <input asp-for="Input.ConfirmPassword" class="form-control" />
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>

@@ -57,6 +57,14 @@ namespace Afilhado4Patas.Areas.Identity.Pages.Account
             [Display(Name = "Email")]
             public string Email { get; set; }
 
+            public string Nome { get; set; }
+
+            public string Apelido { get; set; }
+
+            public DateTime DataNascimento { get; set; }
+            
+            public string Genero { get; set; }
+
             [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             [DataType(DataType.Password)]
@@ -85,8 +93,11 @@ namespace Afilhado4Patas.Areas.Identity.Pages.Account
                 {
                     Perfil perfilUtilizador = new Perfil
                     {
-                        UtilizadorId = user.Id
-
+                        UtilizadorId = user.Id,
+                        FirstName = Input.Nome,
+                        LastName = Input.Apelido,
+                        Genre = Input.Genero,
+                        Birthday = Input.DataNascimento
                     };
                     _contexto.PerfilTable.Add(perfilUtilizador);
                     _contexto.SaveChanges();
