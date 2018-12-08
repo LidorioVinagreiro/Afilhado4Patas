@@ -7,17 +7,17 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace Afilhado4Patas.Migrations
+namespace Afilhado4Patas.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181207175828_tarefa")]
-    partial class tarefa
+    [Migration("20181208183934_Mario")]
+    partial class Mario
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.3-rtm-32065")
+                .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -26,8 +26,6 @@ namespace Afilhado4Patas.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Age");
 
                     b.Property<DateTime>("Birthday");
 
@@ -213,9 +211,11 @@ namespace Afilhado4Patas.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.Property<string>("LoginProvider");
+                    b.Property<string>("LoginProvider")
+                        .HasMaxLength(128);
 
-                    b.Property<string>("ProviderKey");
+                    b.Property<string>("ProviderKey")
+                        .HasMaxLength(128);
 
                     b.Property<string>("ProviderDisplayName");
 
@@ -246,9 +246,11 @@ namespace Afilhado4Patas.Migrations
                 {
                     b.Property<string>("UserId");
 
-                    b.Property<string>("LoginProvider");
+                    b.Property<string>("LoginProvider")
+                        .HasMaxLength(128);
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .HasMaxLength(128);
 
                     b.Property<string>("Value");
 
@@ -261,7 +263,7 @@ namespace Afilhado4Patas.Migrations
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
-                    b.Property<int?>("PerfilId");
+                    b.Property<int>("PerfilId");
 
                     b.HasIndex("PerfilId")
                         .IsUnique()
@@ -321,7 +323,8 @@ namespace Afilhado4Patas.Migrations
                 {
                     b.HasOne("Afilhado4Patas.Models.Perfil", "Perfil")
                         .WithOne("Utilizador")
-                        .HasForeignKey("Afilhado4Patas.Data.Utilizadores", "PerfilId");
+                        .HasForeignKey("Afilhado4Patas.Data.Utilizadores", "PerfilId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }
