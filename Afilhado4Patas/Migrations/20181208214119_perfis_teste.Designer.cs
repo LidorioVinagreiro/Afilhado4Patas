@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Afilhado4Patas.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181208211904_perfis_tarefas_teste")]
-    partial class perfis_tarefas_teste
+    [Migration("20181208214119_perfis_teste")]
+    partial class perfis_teste
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -33,8 +33,6 @@ namespace Afilhado4Patas.Migrations
 
                     b.Property<string>("City");
 
-                    b.Property<string>("ConfirmPassword");
-
                     b.Property<string>("FirstName");
 
                     b.Property<string>("Genre");
@@ -42,13 +40,6 @@ namespace Afilhado4Patas.Migrations
                     b.Property<string>("LastName");
 
                     b.Property<string>("NIF");
-
-                    b.Property<string>("NewPassword")
-                        .IsRequired()
-                        .HasMaxLength(100);
-
-                    b.Property<string>("OldPassword")
-                        .IsRequired();
 
                     b.Property<string>("Photo");
 

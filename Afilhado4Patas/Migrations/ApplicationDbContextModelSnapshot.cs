@@ -31,8 +31,6 @@ namespace Afilhado4Patas.Migrations
 
                     b.Property<string>("City");
 
-                    b.Property<string>("ConfirmPassword");
-
                     b.Property<string>("FirstName");
 
                     b.Property<string>("Genre");
@@ -40,13 +38,6 @@ namespace Afilhado4Patas.Migrations
                     b.Property<string>("LastName");
 
                     b.Property<string>("NIF");
-
-                    b.Property<string>("NewPassword")
-                        .IsRequired()
-                        .HasMaxLength(100);
-
-                    b.Property<string>("OldPassword")
-                        .IsRequired();
 
                     b.Property<string>("Photo");
 

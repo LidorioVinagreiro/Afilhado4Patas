@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Afilhado4Patas.Migrations
 {
-    public partial class perfis_tarefas_teste : Migration
+    public partial class perfis_teste : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -38,10 +38,7 @@ namespace Afilhado4Patas.Migrations
                     Photo = table.Column<string>(nullable: true),
                     Birthday = table.Column<DateTime>(nullable: false),
                     Age = table.Column<string>(nullable: true),
-                    Genre = table.Column<string>(nullable: true),
-                    OldPassword = table.Column<string>(nullable: false),
-                    NewPassword = table.Column<string>(maxLength: 100, nullable: false),
-                    ConfirmPassword = table.Column<string>(nullable: true)
+                    Genre = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
