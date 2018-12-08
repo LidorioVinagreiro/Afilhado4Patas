@@ -25,6 +25,7 @@
     <Folder Include="Views\Guest\" />
     <Folder Include="Views\Funcionario\" />
     <Folder Include="Views\Responsavel\" />
+    <Folder Include="Views\Utilizador\" />
   </ItemGroup>
 
 </Project>

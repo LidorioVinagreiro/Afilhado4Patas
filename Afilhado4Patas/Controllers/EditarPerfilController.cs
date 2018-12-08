@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Afilhado4Patas.Data;
-using Afilhado4Patas.Models.ViewModels;
+using Afilhado4Patas.Models;
 
 namespace Afilhado4Patas.Controllers
 {
@@ -18,11 +18,11 @@ namespace Afilhado4Patas.Controllers
         {
             _context = context;
         }
-
+        /*
         // GET: EditarPerfil
         public async Task<IActionResult> Index()
         {
-            return View(await _context.EditarPerfilViewModel.ToListAsync());
+            return View(await _context.Perfil.ToListAsync());
         }
 
         // GET: EditarPerfil/Details/5
@@ -148,6 +148,6 @@ namespace Afilhado4Patas.Controllers
         private bool EditarPerfilViewModelExists(int id)
         {
             return _context.EditarPerfilViewModel.Any(e => e.Id == id);
-        }
+        }*/
     }
 }

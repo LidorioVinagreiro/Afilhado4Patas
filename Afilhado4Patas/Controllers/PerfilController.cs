@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Afilhado4Patas.Data;
+using Afilhado4Patas.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Afilhado4Patas.Controllers
 {
@@ -63,30 +65,64 @@ namespace Afilhado4Patas.Controllers
         }
 
         // GET: Perfil/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<IActionResult> Edit(string id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var editarPerfilViewModel = _context.Utilizadores.Where(e => e.Email == id).ToList().FirstOrDefault();
+            Perfil perfil = editarPerfilViewModel.Perfil;
+            if (editarPerfilViewModel == null)
+            {
+                return NotFound();
+            }
+            return View(perfil);
         }
 
-        // POST: Perfil/Edit/5
+        // POST: EditarPerfil/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<IActionResult> Edit(string id, [Bind("Id,FirstName,LastName,Street,City,Postalcode,NIF,Photo,Birthday,OldPassword,NewPassword,ConfirmPassword")] Perfil editarPerfilViewModel)
         {
-            try
+            if (id == null)
             {
-                // TODO: Add update logic here
+                return NotFound();
+            }
 
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(editarPerfilViewModel);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!PerfilExists(editarPerfilViewModel.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
                 return RedirectToAction(nameof(Index));
             }
-            catch
-            {
-                return View();
-            }
+            return View(editarPerfilViewModel);
         }
 
-        // GET: Perfil/Delete/5
-        public ActionResult Delete(int id)
+        private bool PerfilExists(int id)
+        {
+            return _context.PerfilTable.Any(e => e.Id == id);
+        }
+
+    // GET: Perfil/Delete/5
+    public ActionResult Delete(int id)
         {
             return View();
         }
