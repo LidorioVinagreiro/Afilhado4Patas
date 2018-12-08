@@ -12,7 +12,8 @@ using Microsoft.EntityFrameworkCore;
 using Afilhado4Patas.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Afilhado4Patas.Data;
+using Afilhado4Patas.Areas.Identity.Services;
+using Microsoft.Extensions.Logging;
 
 namespace Afilhado4Patas
 {
@@ -35,18 +36,25 @@ namespace Afilhado4Patas
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.AddIdentity<Utilizadores, IdentityRole>(config => config.SignIn.RequireConfirmedEmail = true)
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
+            
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<Utilizadores>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
-
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            // Automatically perform database migration
+            services.BuildServiceProvider().GetService<ApplicationDbContext>().Database.Migrate();
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);            
+            services.AddSingleton<EmailSender>();
+            services.AddScoped<RazorView>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env,ILoggerFactory loggerFactory)
         {
+            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+            loggerFactory.AddDebug();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -71,5 +79,7 @@ namespace Afilhado4Patas
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
+        
+        
     }
 }

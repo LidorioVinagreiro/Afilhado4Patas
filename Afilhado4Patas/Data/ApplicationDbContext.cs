@@ -4,23 +4,21 @@ using System.Text;
 using Afilhado4Patas.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Afilhado4Patas.Models.ViewModels;
 
 namespace Afilhado4Patas.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {
-        public DbSet<Perfil> PerfilTable { get; set; }
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-            : base(options)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
         }
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<Perfil>().HasOne(u => u.Utilizador).WithOne(p => p.Perfil).OnDelete(DeleteBehavior.Cascade);
-            base.OnModelCreating(builder);
-            
+            base.OnModelCreating(builder);            
         }
-        public DbSet<Afilhado4Patas.Models.ViewModels.EditarPerfilViewModel> EditarPerfilViewModel { get; set; }
+
+        public DbSet<Utilizadores> Utilizadores { get; set; }
+        public DbSet<Perfil> PerfilTable { get; set; }
+        public DbSet<Tarefa> Tarefa { get; set; }
     }
 }

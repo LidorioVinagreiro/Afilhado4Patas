@@ -4,18 +4,20 @@ using Afilhado4Patas.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace Afilhado4Patas.Data.Migrations
+namespace Afilhado4Patas.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181208171540_TabelaTarefa_Perfil")]
+    partial class TabelaTarefa_Perfil
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
+                .HasAnnotation("ProductVersion", "2.1.3-rtm-32065")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -24,6 +26,8 @@ namespace Afilhado4Patas.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Age");
 
                     b.Property<DateTime>("Birthday");
 
@@ -43,48 +47,36 @@ namespace Afilhado4Patas.Data.Migrations
 
                     b.Property<string>("Street");
 
-                    b.Property<string>("UtilizadorId")
-                        .IsRequired();
+                    b.Property<string>("UtilizadorId");
 
                     b.HasKey("Id");
 
                     b.ToTable("PerfilTable");
                 });
 
-            modelBuilder.Entity("Afilhado4Patas.Models.ViewModels.EditarPerfilViewModel", b =>
+            modelBuilder.Entity("Afilhado4Patas.Models.Tarefa", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("Birthday");
+                    b.Property<bool>("Completada");
 
-                    b.Property<string>("City");
+                    b.Property<string>("Descricao");
 
-                    b.Property<string>("ConfirmPassword");
+                    b.Property<DateTime>("Fim");
 
-                    b.Property<string>("FirstName");
+                    b.Property<string>("FuncionarioId");
 
-                    b.Property<string>("LastName");
+                    b.Property<DateTime>("Inicio");
 
-                    b.Property<string>("NIF");
-
-                    b.Property<string>("NewPassword")
-                        .IsRequired()
-                        .HasMaxLength(100);
-
-                    b.Property<string>("OldPassword")
-                        .IsRequired();
-
-                    b.Property<string>("Photo");
-
-                    b.Property<string>("Postalcode");
-
-                    b.Property<string>("Street");
+                    b.Property<string>("UtilizadorId");
 
                     b.HasKey("Id");
 
-                    b.ToTable("EditarPerfilViewModel");
+                    b.HasIndex("UtilizadorId");
+
+                    b.ToTable("Tarefa");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -209,11 +201,9 @@ namespace Afilhado4Patas.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.Property<string>("LoginProvider")
-                        .HasMaxLength(128);
+                    b.Property<string>("LoginProvider");
 
-                    b.Property<string>("ProviderKey")
-                        .HasMaxLength(128);
+                    b.Property<string>("ProviderKey");
 
                     b.Property<string>("ProviderDisplayName");
 
@@ -244,11 +234,9 @@ namespace Afilhado4Patas.Data.Migrations
                 {
                     b.Property<string>("UserId");
 
-                    b.Property<string>("LoginProvider")
-                        .HasMaxLength(128);
+                    b.Property<string>("LoginProvider");
 
-                    b.Property<string>("Name")
-                        .HasMaxLength(128);
+                    b.Property<string>("Name");
 
                     b.Property<string>("Value");
 
@@ -261,7 +249,7 @@ namespace Afilhado4Patas.Data.Migrations
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
-                    b.Property<int>("PerfilId");
+                    b.Property<int?>("PerfilId");
 
                     b.HasIndex("PerfilId")
                         .IsUnique()
@@ -270,6 +258,13 @@ namespace Afilhado4Patas.Data.Migrations
                     b.ToTable("Utilizadores");
 
                     b.HasDiscriminator().HasValue("Utilizadores");
+                });
+
+            modelBuilder.Entity("Afilhado4Patas.Models.Tarefa", b =>
+                {
+                    b.HasOne("Afilhado4Patas.Data.Utilizadores", "Utilizador")
+                        .WithMany()
+                        .HasForeignKey("UtilizadorId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -321,8 +316,7 @@ namespace Afilhado4Patas.Data.Migrations
                 {
                     b.HasOne("Afilhado4Patas.Models.Perfil", "Perfil")
                         .WithOne("Utilizador")
-                        .HasForeignKey("Afilhado4Patas.Data.Utilizadores", "PerfilId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("Afilhado4Patas.Data.Utilizadores", "PerfilId");
                 });
 #pragma warning restore 612, 618
         }

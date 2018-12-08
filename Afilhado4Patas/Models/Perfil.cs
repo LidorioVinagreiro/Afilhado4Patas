@@ -9,7 +9,6 @@ namespace Afilhado4Patas.Models
         [Key]
         public int Id { get; set; }
         [ForeignKey("Utilizadores")]
-        [Required]
         public string UtilizadorId { get; set; }
         public virtual Utilizadores Utilizador { get; set; }
         [Display(Name = "Primeiro Nome")]
@@ -30,21 +29,9 @@ namespace Afilhado4Patas.Models
         public string Photo { get; set; }
         [Display(Name = "Data de Nascimento")]
         public DateTime Birthday { get; set; }
-        [Display(Name = "Idade")]
-        public string Age { get { return ((DateTime.UtcNow - Birthday).TotalDays/365).ToString(); } }
+        [Display(Name = "Idade")]       
+        public string Age { get; set; }
         [Display(Name = "Género")]
-        public string Genre
-        {
-            get { return Genre;
-            }
-            set {
-                if (value.ToLower() != "m" || value.ToLower() != "f") {
-                    Genre = "indefenido";
-                }
-                else {
-                    Genre = value;
-                }
-            }
-        }
+        public string Genre{ get; set; }
     }
 }

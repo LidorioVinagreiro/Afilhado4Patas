@@ -9,18 +9,19 @@
     <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post" id="logoutForm" class="navbar-right">
         <ul class="nav navbar-nav navbar-right">
             <li>
-                <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
+                <!--<a asp-area="Identity" asp-page="/Account/Manage/Index" asp-route-id="@UserManager.GetUserName(User)" title="Manage">Ola @UserManager.GetUserName(User)!</a>-->
+                <a asp-controller="Perfil" asp-action="Details" asp-route-id="@UserManager.GetUserName(User)" title="Manage">Ola @UserManager.GetUserName(User)!</a>
             </li>
             <li>
-                <button type="submit" class="btn btn-link navbar-btn navbar-link">Logout</button>
+                <button type="submit" class="btn btn-link navbar-btn navbar-link">Fechar Sessao</button>
             </li>
         </ul>
     </form>
 }
 else
 {
-    <ul class="nav navbar-nav navbar-right">
-        <li><a asp-area="Identity" asp-page="/Account/Register">Register</a></li>
-        <li><a asp-area="Identity" asp-page="/Account/Login">Login</a></li>
+    <ul id="ul_nav_items_login" class="nav navbar-nav navbar-right">
+        <li><a asp-area="Identity" asp-page="/Account/Register">Registo</a></li>
+        <li><a asp-area="Identity" asp-page="/Account/Login">Inicie Sessao</a></li>
     </ul>
 }
