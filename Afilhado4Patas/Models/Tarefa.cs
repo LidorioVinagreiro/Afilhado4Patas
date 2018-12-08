@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using Afilhado4Patas.Data;
 
 namespace Afilhado4Patas.Models
 {
@@ -10,8 +12,9 @@ namespace Afilhado4Patas.Models
     {
         [Key]
         public int Id { get; set; }
-        [Display(Name = "Funcionario")]
+        [ForeignKey("Funcionario")]
         public string FuncionarioId { get; set; }
+        public virtual Utilizadores Utilizador { get; set; }
         [Display(Name = "Data de Inicio")]
         public DateTime Inicio { get; set; }
         [Display(Name = "Data de Fim")]

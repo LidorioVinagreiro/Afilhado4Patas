@@ -4,14 +4,16 @@ using Afilhado4Patas.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Afilhado4Patas.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181208160804_RodrigoUser")]
+    partial class RodrigoUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -68,11 +70,7 @@ namespace Afilhado4Patas.Migrations
 
                     b.Property<DateTime>("Inicio");
 
-                    b.Property<string>("UtilizadorId");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UtilizadorId");
 
                     b.ToTable("Tarefa");
                 });
@@ -256,13 +254,6 @@ namespace Afilhado4Patas.Migrations
                     b.ToTable("Utilizadores");
 
                     b.HasDiscriminator().HasValue("Utilizadores");
-                });
-
-            modelBuilder.Entity("Afilhado4Patas.Models.Tarefa", b =>
-                {
-                    b.HasOne("Afilhado4Patas.Data.Utilizadores", "Utilizador")
-                        .WithMany()
-                        .HasForeignKey("UtilizadorId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

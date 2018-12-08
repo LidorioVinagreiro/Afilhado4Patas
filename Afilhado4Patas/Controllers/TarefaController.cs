@@ -8,44 +8,50 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Afilhado4Patas.Controllers
 {
-    public class PerfilController : Controller
+    public class TarefaController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public PerfilController(ApplicationDbContext context)
+        public TarefaController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Perfil
+        // GET: Tarefa
         public ActionResult Index()
+        {
+            var tarefas = _context.Tarefa.ToList();
+
+            return View("List", tarefas);
+        }
+
+        public ActionResult TarefasPorCompletar()
+        {
+            var tarefas = _context.Tarefa.Where(t => t.Completada == false).ToList();
+
+            return View("List", tarefas);
+        }
+
+        public ActionResult TarefasCompletadas()
+        {
+            var tarefas = _context.Tarefa.Where(t => t.Completada == true).ToList();
+
+            return View("List", tarefas);
+        }
+
+        // GET: Tarefa/Details/5
+        public ActionResult Details(int id)
         {
             return View();
         }
 
-        // GET: Perfil/Details/5
-        public ActionResult Details(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var user = _context.Utilizadores.FirstOrDefault(u => u.Email == id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-            return View(user);
-        }
-
-        // GET: Perfil/Create
+        // GET: Tarefa/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Perfil/Create
+        // POST: Tarefa/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(IFormCollection collection)
@@ -62,13 +68,13 @@ namespace Afilhado4Patas.Controllers
             }
         }
 
-        // GET: Perfil/Edit/5
+        // GET: Tarefa/Edit/5
         public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: Perfil/Edit/5
+        // POST: Tarefa/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, IFormCollection collection)
@@ -85,13 +91,13 @@ namespace Afilhado4Patas.Controllers
             }
         }
 
-        // GET: Perfil/Delete/5
+        // GET: Tarefa/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: Perfil/Delete/5
+        // POST: Tarefa/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)
