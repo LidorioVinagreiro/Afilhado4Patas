@@ -1,0 +1,72 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Afilhado4Patas.Data;
+
+@model Afilhado4Patas.Data.Utilizadores
+
+@inject SignInManager<Utilizadores> SignInManager
+@inject UserManager<Utilizadores> UserManager
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<br />
+<br />
+<br />
+<br />
+<h2>Prefil de @UserManager.GetUserName(User)</h2>
+
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Perfil.Photo)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Perfil.Photo)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Perfil.FirstName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Perfil.FirstName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Perfil.LastName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Perfil.LastName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Perfil.Birthday)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Perfil.Birthday)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Perfil.City)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Perfil.City)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Perfil.Genre)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Perfil.Genre)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-controller="Perfil" asp-action="Edit" asp-route-id="@UserManager.GetUserName(User)">Editar</a>
+</div>
+<div>
+    <a>Alterar Palavra-Passe</a>
+</div>
+

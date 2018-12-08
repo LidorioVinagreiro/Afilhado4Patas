@@ -22,10 +22,28 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Guest\" />
-    <Folder Include="Views\Funcionario\" />
-    <Folder Include="Views\Responsavel\" />
-    <Folder Include="Views\Utilizador\" />
+    <Folder Include="Views\Perfil\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Views\Funcionario\Details.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Funcionario\Edit.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Guest\Details.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Guest\Edit.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Responsavel\Details.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Responsavel\Edit.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
   </ItemGroup>
 
 </Project>
