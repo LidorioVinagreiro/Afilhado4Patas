@@ -27,6 +27,8 @@ namespace Afilhado4Patas.Areas.Identity.Pages.Account
         [BindProperty]
         public InputModel Input { get; set; }
 
+        public string display = "none";
+
         public class InputModel
         {
             [Required]
@@ -36,13 +38,14 @@ namespace Afilhado4Patas.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync()
         {
+            display = "none";
             if (ModelState.IsValid)
             {
                 var user = await _userManager.FindByEmailAsync(Input.Email);
                 if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
                 {
-                    // Don't reveal that the user does not exist or is not confirmed
-                    return RedirectToPage("./ForgotPasswordConfirmation");
+                    
+                     display = "block";
                 }
                 else
                 {
