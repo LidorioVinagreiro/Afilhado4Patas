@@ -25,16 +25,9 @@ namespace Afilhado4Patas.Controllers
             return View("List", tarefas);
         }
 
-        public ActionResult TarefasPorCompletar()
+        public ActionResult TarefasARealizar()
         {
             var tarefas = _context.Tarefa.Where(t => t.Completada == false).ToList();
-
-            return View("List", tarefas);
-        }
-
-        public ActionResult TarefasCompletadas()
-        {
-            var tarefas = _context.Tarefa.Where(t => t.Completada == true).ToList();
 
             return View("List", tarefas);
         }
