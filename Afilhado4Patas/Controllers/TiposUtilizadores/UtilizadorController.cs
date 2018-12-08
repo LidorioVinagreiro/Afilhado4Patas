@@ -122,7 +122,9 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             {
                 try
                 {
-                    _context.Update(editarPerfilViewModel);
+                    var userid = _context.Utilizadores.FirstOrDefault(u => u.UserName == id).Id;
+                    var perfil = _context.PerfilTable.FirstOrDefault(p => p.UtilizadorId == userid);
+                    perfil = editarPerfilViewModel;
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
