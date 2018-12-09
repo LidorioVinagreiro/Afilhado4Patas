@@ -22,5 +22,6 @@ namespace Afilhado4Patas.Models
         [Display(Name = "Descricao")]
         public string Descricao { get; set; }
         public bool Completada { get; set; }
+ 
     }
 }

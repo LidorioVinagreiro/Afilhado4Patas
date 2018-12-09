@@ -98,8 +98,9 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                 return NotFound();
             }
 
-            var editarPerfilViewModel = _context.Utilizadores.Where(e => e.Email == id).ToList().FirstOrDefault();
+            var editarPerfilViewModel = _context.Utilizadores.Where(e => e.Email == id).Include(p=> p.Perfil).FirstOrDefault();
             Perfil perfil = editarPerfilViewModel.Perfil;
+
             if (editarPerfilViewModel == null)
             {
                 return NotFound();
