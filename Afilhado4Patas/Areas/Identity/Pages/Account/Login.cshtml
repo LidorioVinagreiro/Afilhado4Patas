@@ -10,8 +10,7 @@
 <br />
 <br />
 <div class="row">
-    <h2>@ViewData["Title"]</h2><span data-placement="right" class="glyphicon glyphicon-question-sign" 
-                                     title="Utilizar esta página para efectuar o login após o registo e validação do email"></span>
+    <h2>@ViewData["Title"]</h2>
     <div class="col-md-4">
         <section>
             <form method="post">
@@ -28,10 +27,9 @@ exemplo@exemplo.com "></span>
                 <div class="form-group">
                     <label asp-for="Input.Password"></label>  <span data-placement="right" class="glyphicon glyphicon-question-sign" 
                                                                   title="Inserir uma password válida 
-A password deverá conter pelo menos um caracter dos seguintes: 
+A password deverá conter pelo menos um caracter dos seguintes e ter um comprimento de 8 caracteres: 
 Letras: Aa-Zz 
-Numeros: 0-9 
-Caracter não Alfa-Numérico: / , . _ - ,etc"></span>
+Numeros: 0-9 "></span>
                     <input asp-for="Input.Password" class="form-control" />
                     <span asp-validation-for="Input.Password" class="text-danger"></span>
                 </div>

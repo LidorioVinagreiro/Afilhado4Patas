@@ -25,8 +25,6 @@ namespace Afilhado4Patas.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Age");
-
                     b.Property<DateTime>("Birthday");
 
                     b.Property<string>("City");

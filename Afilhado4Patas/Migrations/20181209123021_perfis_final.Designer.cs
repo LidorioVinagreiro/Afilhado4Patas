@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Afilhado4Patas.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181208214119_perfis_teste")]
-    partial class perfis_teste
+    [Migration("20181209123021_perfis_final")]
+    partial class perfis_final
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -26,8 +26,6 @@ namespace Afilhado4Patas.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Age");
 
                     b.Property<DateTime>("Birthday");
 
