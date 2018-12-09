@@ -39,6 +39,11 @@ namespace Afilhado4Patas.Controllers
             return View();
         }
 
+        public IActionResult RegistoCompleto()
+        {
+            return View();
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

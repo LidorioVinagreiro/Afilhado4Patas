@@ -123,9 +123,8 @@ namespace Afilhado4Patas.Areas.Identity.Pages.Account
                     string body = await _razorView.RenderViewToStringAsync("/Views/Emails/ConfirmAccount/ConfirmAccount.cshtml", confirmAccountModel);
                     
                     await _emailSender.SendEmailAsync(Input.Email, "Confirme o seu email", $"<a href=\"{link}\">carrega</a>");
-
-                    // await _signInManager.SignInAsync(user, isPersistent: false);
-                    return LocalRedirect(returnUrl);
+                    
+                    return RedirectToAction("RegistoCompleto", "Home");
                 }
                 foreach (var error in result.Errors)
                 {
@@ -134,7 +133,7 @@ namespace Afilhado4Patas.Areas.Identity.Pages.Account
             }
 
             // If we got this far, something failed, redisplay form
-            return Page();
+            return RedirectToPage("/Index");
         }
     }
 }
