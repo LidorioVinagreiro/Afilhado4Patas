@@ -24,6 +24,7 @@ namespace Afilhado4Patas.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<Utilizadores> _signInManager;
         private readonly UserManager<Utilizadores> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly EmailSender _emailSender;
         private readonly ApplicationDbContext _contexto;
@@ -34,9 +35,11 @@ namespace Afilhado4Patas.Areas.Identity.Pages.Account
             SignInManager<Utilizadores> signInManager,
             ILogger<RegisterModel> logger,
             EmailSender emailSender,
+            RoleManager<IdentityRole> roleManager,
             ApplicationDbContext contexto,
             RazorView razorView)
         {
+            _roleManager = roleManager;
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
@@ -103,7 +106,15 @@ namespace Afilhado4Patas.Areas.Identity.Pages.Account
                     _contexto.SaveChanges();
                     user.PerfilId = perfilUtilizador.Id;
                     _contexto.SaveChanges();
-
+                    var x = _roleManager.RoleExistsAsync("Utilizador");
+                    IdentityResult resultRole = await _userManager.AddToRoleAsync(user, "Utilizador");
+                    if (resultRole.Succeeded)
+                    {
+                        _logger.LogInformation("Atribuido Role");
+                    }
+                    else {
+                        _logger.LogInformation("Falha no role");
+                    }
                     _logger.LogInformation("User created a new account with password.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);

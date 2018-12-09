@@ -37,7 +37,7 @@ namespace Afilhado4Patas
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddIdentity<Utilizadores, IdentityRole>(config => config.SignIn.RequireConfirmedEmail = true)
+            services.AddIdentity<Utilizadores,IdentityRole>(config => config.SignIn.RequireConfirmedEmail = true )
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
             
@@ -54,6 +54,7 @@ namespace Afilhado4Patas
                 services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);            
             services.AddSingleton<EmailSender>();
             services.AddScoped<RazorView>();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

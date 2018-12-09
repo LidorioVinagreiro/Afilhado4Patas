@@ -4,12 +4,14 @@ using System.Threading.Tasks;
 using Afilhado4Patas.Data;
 using Afilhado4Patas.Models;
 using Afilhado4Patas.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Afilhado4Patas.Controllers.TiposUtilizadores
 {
+    [Authorize(Roles = "Utilizador")]
     public class UtilizadorController : Controller
     {
         private readonly ApplicationDbContext _context;
