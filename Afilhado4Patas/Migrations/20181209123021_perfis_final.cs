@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Afilhado4Patas.Migrations
 {
-    public partial class perfis_teste : Migration
+    public partial class perfis_final : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -37,7 +37,6 @@ namespace Afilhado4Patas.Migrations
                     NIF = table.Column<string>(nullable: true),
                     Photo = table.Column<string>(nullable: true),
                     Birthday = table.Column<DateTime>(nullable: false),
-                    Age = table.Column<string>(nullable: true),
                     Genre = table.Column<string>(nullable: true)
                 },
                 constraints: table =>

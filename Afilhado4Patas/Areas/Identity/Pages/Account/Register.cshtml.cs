@@ -57,23 +57,28 @@ namespace Afilhado4Patas.Areas.Identity.Pages.Account
             [Display(Name = "Email")]
             public string Email { get; set; }
 
+            [Required]
             public string Nome { get; set; }
 
+            [Required]
             public string Apelido { get; set; }
 
+            [Required]
             public DateTime DataNascimento { get; set; }
-            
+
+            [Required]
             public string Genero { get; set; }
 
             [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 8)]
             [DataType(DataType.Password)]
-            [Display(Name = "Password")]
+            [Display(Name = "Palavra-Passe")]
             public string Password { get; set; }
 
+            [Required]
             [DataType(DataType.Password)]
-            [Display(Name = "Confirm password")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+            [Display(Name = "Confirme Palavra-Passe")]
+            [Compare("Password", ErrorMessage = "As palavras-passes inseridas não são iguais")]
             public string ConfirmPassword { get; set; }
         }
 
