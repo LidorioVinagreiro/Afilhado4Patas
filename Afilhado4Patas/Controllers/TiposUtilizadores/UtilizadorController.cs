@@ -172,7 +172,8 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                 {
                     return NotFound();
                 }
-                return View("Perfil", user);
+                var userUpdated = _context.Utilizadores.Where(e => e.Email == id).Include(p => p.Perfil).FirstOrDefault();
+                return View("Perfil", userUpdated);
             }
             return View("Index");
         }

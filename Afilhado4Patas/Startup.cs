@@ -14,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Afilhado4Patas.Areas.Identity.Services;
 using Microsoft.Extensions.Logging;
+using System.Data.SqlClient;
 
 namespace Afilhado4Patas
 {
@@ -43,8 +44,14 @@ namespace Afilhado4Patas
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             // Automatically perform database migration
-            services.BuildServiceProvider().GetService<ApplicationDbContext>().Database.Migrate();
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);            
+            try
+            {
+                services.BuildServiceProvider().GetService<ApplicationDbContext>().Database.Migrate();
+            }
+            catch (SqlException e) {
+                // log information about exception
+            }
+                services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);            
             services.AddSingleton<EmailSender>();
             services.AddScoped<RazorView>();
         }
