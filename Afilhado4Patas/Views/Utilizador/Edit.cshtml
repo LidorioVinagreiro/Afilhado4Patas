@@ -1,4 +1,4 @@
-﻿@model Afilhado4Patas.Models.Perfil
+﻿@model Afilhado4Patas.Models.ViewModels.PerfilViewModel
 
 @using Microsoft.AspNetCore.Identity
 @using Afilhado4Patas.Data;
@@ -23,7 +23,7 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
+            <!--            <input type="hidden" asp-for="Id" />-->
             <div class="form-group">
                 <label asp-for="FirstName" class="control-label"></label>
                 <input asp-for="FirstName" class="form-control" />
@@ -34,36 +34,38 @@
                 <input asp-for="LastName" class="form-control" />
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Street" class="control-label"></label>
-                <input asp-for="Street" class="form-control" />
-                <span asp-validation-for="Street" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="City" class="control-label"></label>
-                <input asp-for="City" class="form-control" />
-                <span asp-validation-for="City" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Postalcode" class="control-label"></label>
-                <input asp-for="Postalcode" class="form-control" />
-                <span asp-validation-for="Postalcode" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="NIF" class="control-label"></label>
-                <input asp-for="NIF" class="form-control" />
-                <span asp-validation-for="NIF" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Photo" class="control-label"></label>
-                <input asp-for="Photo" class="form-control" />
-                <span asp-validation-for="Photo" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Birthday" class="control-label"></label>
-                <input asp-for="Birthday" type="date" class="form-control" />
-                <span asp-validation-for="Birthday" class="text-danger"></span>
-            </div>
+            <!--
+    <div class="form-group">
+        <label asp-for="Street" class="control-label"></label>
+        <input asp-for="Street" class="form-control" />
+        <span asp-validation-for="Street" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="City" class="control-label"></label>
+        <input asp-for="City" class="form-control" />
+        <span asp-validation-for="City" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Postalcode" class="control-label"></label>
+        <input asp-for="Postalcode" class="form-control" />
+        <span asp-validation-for="Postalcode" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="NIF" class="control-label"></label>
+        <input asp-for="NIF" class="form-control" />
+        <span asp-validation-for="NIF" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Photo" class="control-label"></label>
+        <input asp-for="Photo" class="form-control" />
+        <span asp-validation-for="Photo" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Birthday" class="control-label"></label>
+        <input asp-for="Birthday" type="date" class="form-control" />
+        <span asp-validation-for="Birthday" class="text-danger"></span>
+    </div>
+        -->
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>

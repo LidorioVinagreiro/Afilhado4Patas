@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Afilhado4Patas.Data;
 using Afilhado4Patas.Models;
+using Afilhado4Patas.Models.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -103,7 +104,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             {
                 return NotFound();
             }
-            return View(perfil);
+            return View(new PerfilViewModel { FirstName=perfil.FirstName,LastName=perfil.LastName });
         }
 
         // POST: EditarPerfil/Edit/5
@@ -111,7 +112,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,FirstName,LastName,Street,City,Postalcode,NIF,Photo,Birthday")] Perfil editarPerfilViewModel)
+        public async Task<IActionResult> Edit(string id,PerfilViewModel editarPerfilViewModel)
         {
             if (id == null)
             {
@@ -124,23 +125,18 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                 {
                     var userid = _context.Utilizadores.FirstOrDefault(u => u.UserName == id).Id;
                     var perfil = _context.PerfilTable.FirstOrDefault(p => p.UtilizadorId == userid);
-                    perfil = editarPerfilViewModel;
+                    perfil.FirstName = editarPerfilViewModel.FirstName;
+                    perfil.LastName = editarPerfilViewModel.LastName;
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PerfilExists(editarPerfilViewModel.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    return NotFound();
                 }
-                return RedirectToAction(nameof(Index));
+                //return RedirectToAction(nameof(Index));
+                return View("Details");
             }
-            return View(editarPerfilViewModel);
+            return View("Index");
         }
 
         private bool PerfilExists(int id)
