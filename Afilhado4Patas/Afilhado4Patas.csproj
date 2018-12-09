@@ -11,6 +11,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Views\Perfil\**" />
+    <Content Remove="Views\Perfil\**" />
+    <EmbeddedResource Remove="Views\Perfil\**" />
+    <None Remove="Views\Perfil\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="Views\Funcionario\Details.cshtml" />
     <Content Remove="Views\Funcionario\Edit.cshtml" />
     <Content Remove="Views\Guest\Details.cshtml" />
@@ -32,8 +39,6 @@
 
   <ItemGroup>
     <Folder Include="Views\Funcionario\" />
-    <Folder Include="Views\Guest\" />
-    <Folder Include="Views\Perfil\" />
     <Folder Include="Views\Responsavel\" />
   </ItemGroup>
 

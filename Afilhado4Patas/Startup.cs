@@ -77,7 +77,7 @@ namespace Afilhado4Patas
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Guest/Error");
                 app.UseHsts();
             }
 
@@ -91,7 +91,7 @@ namespace Afilhado4Patas
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Guest}/{action=Index}/{id?}");
             });
         }
         

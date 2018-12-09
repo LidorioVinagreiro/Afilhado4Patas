@@ -33,7 +33,7 @@ namespace Afilhado4Patas.Areas.Identity.Pages.Account
             _logger.LogInformation("User logged out.");
             if (returnUrl != null)
             {
-                return LocalRedirect(returnUrl);
+                return RedirectToAction("Index","Guest");
             }
             else
             {

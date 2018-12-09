@@ -1,6 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@using Afilhado4Patas.Data;
-
+@using Afilhado4Patas.Data
 @inject SignInManager<Utilizadores> SignInManager
 @inject UserManager<Utilizadores> UserManager
 
@@ -30,15 +29,39 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul id="ul_nav_items" class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Inicio</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">Sobre nós</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Adotar">Adotar</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Doar">Doar</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contactos</a></li>
-                    @if (User.IsInRole("Funcionario"))
+                    @if (User.IsInRole("Responsavel"))
                     {
-                    <li><a asp-area="" asp-controller="Tarefa" asp-action="Index">Tarefas</a></li>
+                        <li><a asp-area="" asp-controller="Responsavel" asp-action="Index">Inicio</a></li>
+                        <li><a asp-area="" asp-controller="Responsavel" asp-action="About">Sobre nós</a></li>
+                        <li><a asp-area="" asp-controller="Responsavel" asp-action="Adotar">Adotar</a></li>
+                        <li><a asp-area="" asp-controller="Responsavel" asp-action="Doar">Doar</a></li>
+                        <li><a asp-area="" asp-controller="Responsavel" asp-action="Contact">Contactos</a></li>
                     }
+                    else if (User.IsInRole("Funcionario"))
+                    {
+                        <li><a asp-area="" asp-controller="Functionario" asp-action="Index">Inicio</a></li>
+                        <li><a asp-area="" asp-controller="Functionario" asp-action="About">Sobre nós</a></li>
+                        <li><a asp-area="" asp-controller="Functionario" asp-action="Adotar">Adotar</a></li>
+                        <li><a asp-area="" asp-controller="Functionario" asp-action="Doar">Doar</a></li>
+                        <li><a asp-area="" asp-controller="Functionario" asp-action="Contact">Contactos</a></li>
+                    }
+                    else if (User.IsInRole("Utilizador"))
+                    {
+                        <li><a asp-area="" asp-controller="Utilizador" asp-action="Index">Inicio</a></li>
+                        <li><a asp-area="" asp-controller="Utilizador" asp-action="About">Sobre nós</a></li>
+                        <li><a asp-area="" asp-controller="Utilizador" asp-action="Adotar">Adotar</a></li>
+                        <li><a asp-area="" asp-controller="Utilizador" asp-action="Doar">Doar</a></li>
+                        <li><a asp-area="" asp-controller="Utilizador" asp-action="Contact">Contactos</a></li>
+                    }
+                    else
+                    {
+                        <li><a asp-area="" asp-controller="Guest" asp-action="Index">Inicio</a></li>
+                        <li><a asp-area="" asp-controller="Guest" asp-action="About">Sobre nós</a></li>
+                        <li><a asp-area="" asp-controller="guest" asp-action="Adotar">Adotar</a></li>
+                        <li><a asp-area="" asp-controller="Guest" asp-action="Doar">Doar</a></li>
+                        <li><a asp-area="" asp-controller="Guest" asp-action="Contact">Contactos</a></li>
+
+                    }                 
                 </ul>
                 <partial name="_LoginPartial" />
             </div>

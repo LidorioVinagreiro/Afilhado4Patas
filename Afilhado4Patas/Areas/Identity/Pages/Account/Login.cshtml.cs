@@ -18,10 +18,12 @@ namespace Afilhado4Patas.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<Utilizadores> _signInManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly UserManager<Utilizadores> _userManager;
 
-        public LoginModel(SignInManager<Utilizadores> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(SignInManager<Utilizadores> signInManager, UserManager<Utilizadores> userManager,ILogger<LoginModel> logger)
         {
             _signInManager = signInManager;
+            _userManager = userManager;
             _logger = logger;
         }
 
@@ -78,7 +80,17 @@ namespace Afilhado4Patas.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
-                    return LocalRedirect(returnUrl);
+
+                    Utilizadores user = _userManager.Users.Where(u => u.Email == Input.Email).FirstOrDefault();
+                    IList<string> roles = await _userManager.GetRolesAsync(user);
+                    string role = roles.FirstOrDefault();
+                    if (role == "Utilizador")
+                        return RedirectToAction("Index","Utilizador");//LocalRedirect(returnUrl);
+                    if (role == "Responsavel")
+                        return RedirectToAction("Index", "Responsavel");//LocalRedirect(returnUrl);
+                    if (role == "Funcionario")
+                        return RedirectToAction("Index", "Funcionario");//LocalRedirect(returnUrl);
+
                 }
                 if (result.RequiresTwoFactor)
                 {

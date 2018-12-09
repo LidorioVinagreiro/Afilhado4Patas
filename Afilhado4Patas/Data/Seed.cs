@@ -27,25 +27,39 @@ namespace Afilhado4Patas.Data
                     roleResult = await RoleManager.CreateAsync(new IdentityRole(roleName));
                 }
             }
-// creating a super user who could maintain the web app
-//            var poweruser = new Utilizadores
-//            {
-//                UserName = Configuration.GetSection("AppSettings")["UserEmail"],
-//                Email = Configuration.GetSection("AppSettings")["UserEmail"]
-//            };
-//​
-//            string userPassword = Configuration.GetSection("AppSettings")["UserPassword"];
-//            var user = await UserManager.FindByEmailAsync(Configuration.GetSection("AppSettings")["UserEmail"]);
-//​
-//            if (user == null)
-//            {
-//                var createPowerUser = await UserManager.CreateAsync(poweruser, userPassword);
-//                if (createPowerUser.Succeeded)
-//                {
-//                    // here we assign the new user the "Admin" role 
-//                    await UserManager.AddToRoleAsync(poweruser, "Admin");
-//                }
-//            }
+            var poweruser = new Utilizadores
+            {
+                UserName = "afilhados4Patas@gmail.com",
+                Email = "afilhados4Patas@gmail.com",
+                EmailConfirmed = true
+            };
+            string userPassword = "afilhados4patas";
+            var user = await UserManager.FindByEmailAsync(poweruser.Email);
+            if (user == null)
+            {
+                var createPowerUser = await UserManager.CreateAsync(poweruser, userPassword);
+                if (createPowerUser.Succeeded)
+                {
+                    await UserManager.AddToRoleAsync(poweruser, "Responsavel");
+                }
+            }
+
+            var funcionario = new Utilizadores
+            {
+                UserName = "funcionario@gmail.com",
+                Email = "funcionario@gmail.com",
+                EmailConfirmed = true
+            };
+            string funcionarioPassword = "funcionario";
+            var funcionarUser = await UserManager.FindByEmailAsync(funcionario.Email);
+            if (funcionarUser == null)
+            {
+                var createPowerUser = await UserManager.CreateAsync(funcionario, funcionarioPassword);
+                if (createPowerUser.Succeeded)
+                {
+                    await UserManager.AddToRoleAsync(funcionario, "Funcionario");
+                }
+            }
         }
     }
 }
