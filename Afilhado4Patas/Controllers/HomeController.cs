@@ -29,11 +29,6 @@ namespace Afilhado4Patas.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
         public IActionResult Adotar()
         {
             return View();

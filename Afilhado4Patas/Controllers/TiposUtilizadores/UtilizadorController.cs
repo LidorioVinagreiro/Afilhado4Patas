@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Afilhado4Patas.Data;
@@ -49,10 +47,9 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         {
             return View();
         }
-
-
-        // GET: Perfil/Details/5
-        public ActionResult Details(string id)
+        
+        // GET: Perfil
+        public ActionResult Perfil(string id)
         {
             if (id == null)
             {
@@ -90,14 +87,13 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             }
         }
 
-        // GET: Perfil/Edit/5
-        public async Task<IActionResult> Edit(string id)
+        // GET: PerfilEditarDadosPessoais
+        public async Task<IActionResult> PerfilEditarDadosPessoais(string id)
         {
             if (id == null)
             {
                 return NotFound();
             }
-
             var editarPerfilViewModel = _context.Utilizadores.Where(e => e.Email == id).Include(p=> p.Perfil).FirstOrDefault();
             Perfil perfil = editarPerfilViewModel.Perfil;
 
@@ -105,16 +101,87 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             {
                 return NotFound();
             }
-            return View(new PerfilViewModel { FirstName=perfil.FirstName,LastName=perfil.LastName });
+            PerfilViewModel modelo = new PerfilViewModel
+            {
+                FirstName = perfil.FirstName,
+                LastName = perfil.LastName,
+                Street = perfil.Street,
+                City = perfil.City,
+                Postalcode = perfil.Postalcode,
+                NIF = perfil.NIF,
+                Photo = perfil.Photo,
+                Birthday = perfil.Birthday,
+                Genre = perfil.Genre
+            };
+            return View(modelo);
         }
 
-        // POST: EditarPerfil/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //GET PerfilEditarMorada
+        public async Task<IActionResult> PerfilEditarMorada(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var editarPerfilViewModel = _context.Utilizadores.Where(e => e.Email == id).Include(p => p.Perfil).FirstOrDefault();
+            Perfil perfil = editarPerfilViewModel.Perfil;
+
+            if (editarPerfilViewModel == null)
+            {
+                return NotFound();
+            }
+            PerfilViewModel modelo = new PerfilViewModel
+            {
+                FirstName = perfil.FirstName,
+                LastName = perfil.LastName,
+                Street = perfil.Street,
+                City = perfil.City,
+                Postalcode = perfil.Postalcode,
+                NIF = perfil.NIF,
+                Photo = perfil.Photo,
+                Birthday = perfil.Birthday,
+                Genre = perfil.Genre
+            };
+            return View(modelo);
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id,PerfilViewModel editarPerfilViewModel)
+        public async Task<IActionResult> PerfilEditarDadosPessoais(string id,PerfilViewModel editarPerfilViewModel)
         {
+            Utilizadores user;
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {                    
+                    user = _context.Utilizadores.Where(e => e.Email == id).Include(p => p.Perfil).FirstOrDefault();
+                    var perfil = _context.PerfilTable.FirstOrDefault(p => p.UtilizadorId == user.Id);
+                    perfil.FirstName = editarPerfilViewModel.FirstName;
+                    perfil.LastName = editarPerfilViewModel.LastName;
+                    perfil.NIF = editarPerfilViewModel.NIF;
+                    perfil.Birthday = editarPerfilViewModel.Birthday;
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    return NotFound();
+                }
+                return View("Perfil", user);
+            }
+            return View("Index");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> PerfilEditarMorada(string id, PerfilViewModel editarPerfilViewModel)
+        {
+            Utilizadores user;
             if (id == null)
             {
                 return NotFound();
@@ -124,18 +191,18 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             {
                 try
                 {
-                    var userid = _context.Utilizadores.FirstOrDefault(u => u.UserName == id).Id;
-                    var perfil = _context.PerfilTable.FirstOrDefault(p => p.UtilizadorId == userid);
-                    perfil.FirstName = editarPerfilViewModel.FirstName;
-                    perfil.LastName = editarPerfilViewModel.LastName;
+                    user = _context.Utilizadores.Where(e => e.Email == id).Include(p => p.Perfil).FirstOrDefault();                    
+                    var perfil = _context.PerfilTable.FirstOrDefault(p => p.UtilizadorId == user.Id);
+                    perfil.City = editarPerfilViewModel.City;
+                    perfil.Street = editarPerfilViewModel.Street;
+                    perfil.Postalcode = editarPerfilViewModel.Postalcode;
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
                     return NotFound();
                 }
-                //return RedirectToAction(nameof(Index));
-                return View("Details");
+                return View("Perfil", user);
             }
             return View("Index");
         }

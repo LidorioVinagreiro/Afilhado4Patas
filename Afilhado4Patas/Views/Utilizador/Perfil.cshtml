@@ -6,7 +6,7 @@
 @inject SignInManager<Utilizadores> SignInManager
 @inject UserManager<Utilizadores> UserManager
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Perfil";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -15,7 +15,7 @@
 <br />
 <br />
 <br />
-<h2>Prefil de @UserManager.GetUserName(User)</h2>
+<h2> Perfil de @Html.DisplayFor(model => model.Perfil.FirstName) @Html.DisplayFor(model => model.Perfil.LastName)</h2>
 
 <div>
     <dl class="dl-horizontal">
@@ -64,9 +64,15 @@
     </dl>
 </div>
 <div>
-    <a asp-controller="Utilizador" asp-action="Edit" asp-route-id="@UserManager.GetUserName(User)">Editar</a>
+    <a asp-controller="Utilizador" asp-action="PerfilEditarDadosPessoais" asp-route-id="@UserManager.GetUserName(User)">Editar Dados Pessoais</a>
+</div>
+<div>
+    <a asp-controller="Utilizador" asp-action="PerfilEditarMorada" asp-route-id="@UserManager.GetUserName(User)">Editar Morada</a>
 </div>
 <div>
     <a>Alterar Palavra-Passe</a>
+</div>
+<div>
+    <a>Alterar Foto de Perfil</a>
 </div>
 

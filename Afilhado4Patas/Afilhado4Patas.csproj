@@ -11,6 +11,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Views\Funcionario\Details.cshtml" />
+    <Content Remove="Views\Funcionario\Edit.cshtml" />
+    <Content Remove="Views\Guest\Details.cshtml" />
+    <Content Remove="Views\Guest\Edit.cshtml" />
+    <Content Remove="Views\Responsavel\Details.cshtml" />
+    <Content Remove="Views\Responsavel\Edit.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.Azure.KeyVault" Version="3.0.2" />
@@ -22,26 +31,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Views\Funcionario\" />
+    <Folder Include="Views\Guest\" />
     <Folder Include="Views\Perfil\" />
+    <Folder Include="Views\Responsavel\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="Views\Funcionario\Details.cshtml">
-      <Pack>$(IncludeRazorContentInPack)</Pack>
-    </Content>
-    <Content Update="Views\Funcionario\Edit.cshtml">
-      <Pack>$(IncludeRazorContentInPack)</Pack>
-    </Content>
-    <Content Update="Views\Guest\Details.cshtml">
-      <Pack>$(IncludeRazorContentInPack)</Pack>
-    </Content>
-    <Content Update="Views\Guest\Edit.cshtml">
-      <Pack>$(IncludeRazorContentInPack)</Pack>
-    </Content>
-    <Content Update="Views\Responsavel\Details.cshtml">
-      <Pack>$(IncludeRazorContentInPack)</Pack>
-    </Content>
-    <Content Update="Views\Responsavel\Edit.cshtml">
+    <Content Update="Views\Utilizador\PerfilEditarMorada.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
   </ItemGroup>

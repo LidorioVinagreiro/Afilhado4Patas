@@ -20,7 +20,7 @@ namespace Afilhado4Patas.Models
         [Display(Name = "Cidade")]
         public string City { get; set; }
         [Display(Name = "Código de Postal")]
-        [RegularExpression(@"\d{4}-\d{3}",ErrorMessage ="Insira um código válido")]
+        [RegularExpression(@"\d{4}-\d{3}", ErrorMessage = "Insira um código válido")]
         public string Postalcode { get; set; }
         [RegularExpression(@"\d{9}")]
         [Display(Name = "Nif")]
@@ -29,9 +29,7 @@ namespace Afilhado4Patas.Models
         public string Photo { get; set; }
         [Display(Name = "Data de Nascimento")]
         public DateTime Birthday { get; set; }
-        [Display(Name = "Idade")]       
-        public string Age { get; set; }
         [Display(Name = "Género")]
-        public string Genre{ get; set; }
+        public string Genre { get; set; }
     }
 }
