@@ -99,6 +99,7 @@ namespace Afilhado4Patas.Areas.Identity.Pages.Account
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
+                    var x = _roleManager.RoleExistsAsync("Utilizador");
                     Perfil perfilUtilizador = new Perfil
                     {
                         UtilizadorId = user.Id,
@@ -111,7 +112,7 @@ namespace Afilhado4Patas.Areas.Identity.Pages.Account
                     _contexto.SaveChanges();
                     user.PerfilId = perfilUtilizador.Id;
                     _contexto.SaveChanges();
-                    var x = _roleManager.RoleExistsAsync("Utilizador");
+
                     IdentityResult resultRole = await _userManager.AddToRoleAsync(user, "Utilizador");
                     if (resultRole.Succeeded)
                     {
