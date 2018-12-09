@@ -24,7 +24,6 @@ namespace Afilhado4Patas.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<Utilizadores> _signInManager;
         private readonly UserManager<Utilizadores> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly EmailSender _emailSender;
         private readonly ApplicationDbContext _contexto;
@@ -35,11 +34,9 @@ namespace Afilhado4Patas.Areas.Identity.Pages.Account
             SignInManager<Utilizadores> signInManager,
             ILogger<RegisterModel> logger,
             EmailSender emailSender,
-            RoleManager<IdentityRole> roleManager,
             ApplicationDbContext contexto,
             RazorView razorView)
         {
-            _roleManager = roleManager;
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
@@ -99,7 +96,6 @@ namespace Afilhado4Patas.Areas.Identity.Pages.Account
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
-                    var x = _roleManager.RoleExistsAsync("Utilizador");
                     Perfil perfilUtilizador = new Perfil
                     {
                         UtilizadorId = user.Id,

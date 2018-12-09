@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Afilhado4Patas.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<Utilizadores,IdentityRole,string>
+    public class ApplicationDbContext : IdentityDbContext<Utilizadores>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {

@@ -19,11 +19,6 @@ namespace Afilhado4Patas.Areas.Identity
                     options.UseSqlServer(
                         context.Configuration.GetConnectionString("DefaultConnection")));
 
-                services.AddIdentityCore<Utilizadores>(config =>
-                {
-                    config.SignIn.RequireConfirmedEmail = true;
-                })
-                .AddEntityFrameworkStores<ApplicationDbContext>();
             });
         }
     }
