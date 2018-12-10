@@ -9,6 +9,7 @@ using Afilhado4Patas.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace Afilhado4Patas.Controllers.TiposUtilizadores
@@ -188,7 +189,85 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         public ActionResult Tarefas()
         {
             List<Tarefa> tarefas = _context.Tarefa.ToList();
-            return View(tarefas);
+            return View("ListaTarefas", tarefas);
+        }
+
+        public ActionResult TarefasARealizar()
+        {
+            var tarefas = _context.Tarefa.Where(t => t.Completada == false).ToList();
+
+            return View("ListaTarefas", tarefas);
+        }
+
+        public ActionResult EditarTarefa(int id)
+        {
+            var tarefa = _context.Tarefa.Where(u => u.Id == id).FirstOrDefault();
+
+            List<Utilizadores> funcionarios = (from users in _context.Utilizadores
+                join a in _context.UserRoles on users.Id equals a.UserId
+                join b in _context.Roles on a.RoleId equals b.Id
+                where b.Name == "Funcionario" && users.Active == true
+                select users).Include(p => p.Perfil).ToList();
+
+            TarefaViewModel t = new TarefaViewModel
+            {
+                FuncionarioId = tarefa.FuncionarioId,
+                Inicio = tarefa.Inicio,
+                Fim = tarefa.Fim,
+                Descricao = tarefa.Descricao
+            }; 
+
+
+            ViewData["FuncionarioId"] = new SelectList(funcionarios, "Id", "Perfil.FirstName + Perfil.LastName", tarefa.FuncionarioId);
+            return View("EditarTarefa", t);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditarTarefa(int id, TarefaViewModel tarefaView)
+        {
+            Tarefa tarefa;
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    tarefa = _context.Tarefa.Where(e => e.Id == id).Include(p => p.Utilizador).FirstOrDefault();
+                    var user = _context.Utilizadores.FirstOrDefault(p => p.Id == tarefa.FuncionarioId);
+                    tarefa.Descricao = tarefaView.Descricao;
+                    tarefa.Inicio = tarefaView.Inicio;
+                    tarefa.Fim = tarefaView.Fim;
+                    _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    return NotFound();
+                }
+                var tarefaUpdated = _context.Tarefa.Where(e => e.Id == id).Include(p => p.Utilizador).FirstOrDefault();
+                return View("../Funcionarios/Tarefa", tarefaUpdated);
+            }
+
+            return View("ListaTarefas");
+        }
+
+        public ActionResult ApagarTarefa(int id)
+        {
+            var tarefa = _context.Tarefa.FirstOrDefault(t => t.Id == id);
+            _context.Tarefa.Remove(tarefa);
+            _context.SaveChanges();
+
+            List<Tarefa> tarefas = _context.Tarefa.ToList();
+
+            return View("ListaTarefas", tarefas);
+        }
+
+        public ActionResult AdicionarTarefa()
+        {
+            return View();
         }
 
         public ActionResult AdicionarFuncionarios()
