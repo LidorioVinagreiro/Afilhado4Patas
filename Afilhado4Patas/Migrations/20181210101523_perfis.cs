@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Afilhado4Patas.Migrations
 {
-    public partial class user_active : Migration
+    public partial class perfis : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
