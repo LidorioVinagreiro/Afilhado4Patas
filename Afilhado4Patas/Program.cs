@@ -25,7 +25,8 @@ namespace Afilhado4Patas
                 {
                     var serviceProvider = services.GetRequiredService<IServiceProvider>();
                     var configuration = services.GetRequiredService<IConfiguration>();
-                    Seed.CreateRoles(serviceProvider, configuration).Wait();
+                    var contexto = services.GetRequiredService<ApplicationDbContext>();
+                    Seed.CreateInitialData(serviceProvider, configuration, contexto).Wait();
                 }
                 catch (Exception exception)
                 {

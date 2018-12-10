@@ -38,11 +38,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Funcionario\" />
-    <Folder Include="Views\Responsavel\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Update="Views\Utilizador\PerfilEditarMorada.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

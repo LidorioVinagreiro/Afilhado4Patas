@@ -23,31 +23,27 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
 
         public IActionResult Index()
         {
-            return View();
+            return View("../Guest/Index");
         }
 
         public IActionResult About()
         {
-            ViewData["Message"] = "Your application description page.";
-
-            return View();
+            return View("../Guest/About");
         }
 
         public IActionResult Contact()
         {
-            ViewData["Message"] = "Your contact page.";
-
-            return View();
+            return View("../Guest/Contact");
         }
 
         public IActionResult Adotar()
         {
-            return View();
+            return View("../Guest/Adotar");
         }
 
         public IActionResult Doar()
         {
-            return View();
+            return View("../Guest/Doar");
         }
         
         // GET: Perfil
@@ -64,29 +60,6 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                 return NotFound();
             }
             return View(user);
-        }
-
-        // GET: Perfil/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Perfil/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add insert logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
         }
 
         // GET: PerfilEditarDadosPessoais

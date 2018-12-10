@@ -1,0 +1,60 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Afilhado4Patas.Data;
+
+@inject SignInManager<Utilizadores> SignInManager
+@inject UserManager<Utilizadores> UserManager
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br />
+<br />
+<br />
+<br />
+<!--
+<h1>Adicionar Funcionarios</h1>
+<br />
+<h1>Lista de Utilizadores</h1>
+<div id="checkboxes">
+    <form asp-controller="Responsavel" asp-action="AdicionarFuncionario" method="post">
+        <div class="form-group">
+            <label asp-for="Input.Nome"></label>
+            <input asp-for="Input.Nome" class="form-control" />
+            <span asp-validation-for="Input.Nome" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Input.Apelido"></label>
+            <input asp-for="Input.Apelido" class="form-control" />
+            <span asp-validation-for="Input.Apelido" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Input.Genero"></label>
+            <div>
+                Masculino
+                <input asp-for="Input.Genero" type="radio" value="Masculino" />
+                Feminino
+                <input asp-for="Input.Genero" type="radio" value="Feminino" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Input.DataNascimento"></label>
+            <input asp-for="Input.DataNascimento" type="date" asp-format="{0:dd-MM-yyyy}" class="form-control" />
+            <span asp-validation-for="Input.DataNascimento" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Input.Email"></label>
+            <input asp-for="Input.Email" class="form-control" />
+            <span asp-validation-for="Input.Email" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Input.Password"></label>
+            <input asp-for="Input.Password" class="form-control" />
+            <span asp-validation-for="Input.Password" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-default">Adicionar Funcionarios</button>
+    </form>
+</div>
+<div>
+    <a asp-controller="Responsavel" asp-action="Perfil" asp-route-id="@UserManager.GetUserName(User)">Voltar ao Perfil</a>
+</div>
+    -->

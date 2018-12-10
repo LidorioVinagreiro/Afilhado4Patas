@@ -75,4 +75,22 @@
 <div>
     <a>Alterar Foto de Perfil</a>
 </div>
+@if (User.IsInRole("Funcionario"))
+{
+    <div>
+        <a asp-controller="Funcionario" asp-action="MinhasTarefas" asp-route-id="@UserManager.GetUserName(User)">Minhas Tarefas</a>
+    </div>
+}
+@if (User.IsInRole("Responsavel"))
+{
+    <div>
+        <a asp-controller="Responsavel" asp-action="Tarefas" asp-route-id="@UserManager.GetUserName(User)">Tarefas</a>
+    </div>
+    <div>
+        <a asp-controller="Responsavel" asp-action="ListaFuncionarios" asp-route-id="@UserManager.GetUserName(User)">Funcionários</a>
+    </div>
+}
+
+
+
 

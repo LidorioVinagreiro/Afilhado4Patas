@@ -1,0 +1,32 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Afilhado4Patas.Data;
+
+@model IEnumerable<Utilizadores> 
+
+@inject SignInManager<Utilizadores> SignInManager
+@inject UserManager<Utilizadores> UserManager
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br />
+<br />
+<br />
+<br />
+
+<h1>Lista de Funcionarios</h1>
+<div id="checkboxes">
+    <form asp-controller="Responsavel" asp-action="RemoverFuncionarios" method="post">
+        <ul id="lista">
+            @foreach (var funcionario in Model)
+            {
+                <li><input type="checkbox" value="@funcionario.Id" name="funcionario">@funcionario.Perfil.FirstName @funcionario.Perfil.LastName</li>
+            }
+        </ul>
+        <button type="submit" class="btn btn-default">Remover Funcionarios</button>
+    </form>
+</div>
+<a asp-controller="Responsavel" asp-action="AdicionarFuncionarios">Adicionar Funcionarios</a>
+<div>
+    <a asp-controller="Responsavel" asp-action="Perfil" asp-route-id="@UserManager.GetUserName(User)">Voltar ao Perfil</a>
+</div>

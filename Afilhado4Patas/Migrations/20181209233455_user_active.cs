@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Afilhado4Patas.Migrations
 {
-    public partial class perfis_final : Migration
+    public partial class user_active : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -84,8 +84,8 @@ namespace Afilhado4Patas.Migrations
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
-                    Discriminator = table.Column<string>(nullable: false),
-                    PerfilId = table.Column<int>(nullable: true)
+                    PerfilId = table.Column<int>(nullable: true),
+                    Active = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -235,13 +235,6 @@ namespace Afilhado4Patas.Migrations
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUsers_PerfilId",
-                table: "AspNetUsers",
-                column: "PerfilId",
-                unique: true,
-                filter: "[PerfilId] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
                 name: "EmailIndex",
                 table: "AspNetUsers",
                 column: "NormalizedEmail");
@@ -252,6 +245,13 @@ namespace Afilhado4Patas.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_PerfilId",
+                table: "AspNetUsers",
+                column: "PerfilId",
+                unique: true,
+                filter: "[PerfilId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Tarefa_UtilizadorId",

@@ -42,7 +42,7 @@
 </div>
 
 <div>
-    <a asp-action="Perfil" asp-route-id="@UserManager.GetUserName(User)">Voltar ao Perfil</a>
+    <a asp-controller="Utilizador" asp-action="Perfil" asp-route-id="@UserManager.GetUserName(User)">Voltar ao Perfil</a>
 </div>
 
 @section Scripts {
