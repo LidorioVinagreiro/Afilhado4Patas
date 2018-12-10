@@ -8,6 +8,7 @@ using Afilhado4Patas.Models;
 using Afilhado4Patas.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,10 +18,12 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
     public class ResponsavelController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<Utilizadores> _userManager;
 
-        public ResponsavelController(ApplicationDbContext context)
+        public ResponsavelController(ApplicationDbContext context, UserManager<Utilizadores> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         public IActionResult Index()
@@ -197,16 +200,36 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         }
         
         [HttpPost]
-        public ActionResult AdicionarFuncionario()
+        public async Task<ActionResult> AdicionarFuncionario(AdicionarFuncionarioViewModel modelo)
         {
-            List<string> lista = Request.Form["funcionario"].ToList();
-            foreach (var elemento in lista)
+            var novoFuncionario = new Utilizadores
             {
-                var user = _context.Utilizadores.Where(u => u.Id == elemento).FirstOrDefault();
-                user.Active = false;
+                UserName = modelo.Input.Email,
+                Email = modelo.Input.Email,
+                EmailConfirmed = true,
+                Active = true
+            };
+            var user = await _userManager.FindByEmailAsync(novoFuncionario.Email);
+            if (user == null)
+            {
+                var createFuncionario = await _userManager.CreateAsync(novoFuncionario, modelo.Input.Password);
+                Perfil perfilFuncionario = new Perfil
+                {
+                    UtilizadorId = novoFuncionario.Id,
+                    FirstName = modelo.Input.Nome,
+                    LastName = modelo.Input.Apelido,
+                    Genre = modelo.Input.Genero,
+                    Birthday = modelo.Input.DataNascimento
+                };
+                _context.PerfilTable.Add(perfilFuncionario);
                 _context.SaveChanges();
+                novoFuncionario.PerfilId = perfilFuncionario.Id;
+                _context.SaveChanges();
+                if (createFuncionario.Succeeded)
+                {
+                    await _userManager.AddToRoleAsync(novoFuncionario, "Funcionario");
+                }
             }
-            //lista.items
             List<Utilizadores> funcionarios = (from users in _context.Utilizadores
                                                join a in _context.UserRoles on users.Id equals a.UserId
                                                join b in _context.Roles on a.RoleId equals b.Id

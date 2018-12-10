@@ -79,44 +79,46 @@ namespace Afilhado4Patas.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
-                // This doesn't count login failures towards account lockout
-                // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var utilizador = _context.Utilizadores.Where(u => u.Email == Input.Email).FirstOrDefault();
-                if (utilizador.Active) {
-                    var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: true);
-                    if (result.Succeeded)
+                if (utilizador != null) {
+                    if (utilizador.Active)
                     {
-                        _logger.LogInformation("User logged in.");
+                        var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: true);
+                        if (result.Succeeded)
+                        {
+                            _logger.LogInformation("User logged in.");
 
-                        Utilizadores user = _userManager.Users.Where(u => u.Email == Input.Email).FirstOrDefault();
-                        IList<string> roles = await _userManager.GetRolesAsync(user);
-                        string role = roles.FirstOrDefault();
-                        if (role == "Utilizador")
-                            return RedirectToAction("Index", "Utilizador");//LocalRedirect(returnUrl);
-                        if (role == "Responsavel")
-                            return RedirectToAction("Index", "Responsavel");//LocalRedirect(returnUrl);
-                        if (role == "Funcionario")
-                            return RedirectToAction("Index", "Funcionario");//LocalRedirect(returnUrl);
+                            Utilizadores user = _userManager.Users.Where(u => u.Email == Input.Email).FirstOrDefault();
+                            IList<string> roles = await _userManager.GetRolesAsync(user);
+                            string role = roles.FirstOrDefault();
+                            if (role == "Utilizador")
+                                return RedirectToAction("Index", "Utilizador");//LocalRedirect(returnUrl);
+                            if (role == "Responsavel")
+                                return RedirectToAction("Index", "Responsavel");//LocalRedirect(returnUrl);
+                            if (role == "Funcionario")
+                                return RedirectToAction("Index", "Funcionario");//LocalRedirect(returnUrl);
 
-                    }
-                    if (result.RequiresTwoFactor)
-                    {
-                        return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
-                    }
-                    if (result.IsLockedOut)
-                    {
-                        _logger.LogWarning("User account locked out.");
-                        return RedirectToPage("./Lockout");
+                        }
+                        if (result.RequiresTwoFactor)
+                        {
+                            return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
+                        }
+                        else
+                        {
+                            ModelState.AddModelError(string.Empty, "Tentativa de Inicio de Sessão Falhada");
+                            return Page();
+                        }
                     }
                     else
                     {
-                        ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                        return Page();
+                        _logger.LogWarning("Esta conta encontra-se bloqueada. Tente novamente com outra conta!");
+                        return RedirectToPage("./Lockout");
                     }
                 }
                 else
                 {
-                    display = "block";
+                    ModelState.AddModelError(string.Empty, "Tentativa de Inicio de Sessão Falhada");
+                    return Page();
                 }
             }
 
