@@ -13,6 +13,7 @@ namespace Afilhado4Patas.Models
         [Key]
         public int Id { get; set; }
         [ForeignKey("Funcionario")]
+        [Display(Name = "Funcionario")]
         public string FuncionarioId { get; set; }
         public virtual Utilizadores Utilizador { get; set; }
         [Display(Name = "Data de Inicio")]
@@ -21,7 +22,8 @@ namespace Afilhado4Patas.Models
         public DateTime Fim { get; set; }
         [Display(Name = "Descricao")]
         public string Descricao { get; set; }
+        [Display(Name = "Completa")]
         public bool Completada { get; set; }
- 
+
     }
 }

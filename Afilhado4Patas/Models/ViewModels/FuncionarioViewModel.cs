@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Afilhado4Patas.Models.ViewModels
 {
-    public class AdicionarFuncionarioViewModel
+    public class FuncionarioViewModel
     {
-        public AdicionarFuncionarioViewModel()
+        public FuncionarioViewModel()
         {
         }
 

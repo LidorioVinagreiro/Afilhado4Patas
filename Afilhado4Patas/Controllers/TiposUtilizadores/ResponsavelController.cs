@@ -52,6 +52,10 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View("../Guest/Doar");
         }
 
+        /****************************************************************************************************/
+        /******************************************** Perfil ***********************************************/
+        /****************************************************************************************************/
+
         // GET: Perfil
         public ActionResult Perfil(string id)
         {
@@ -65,9 +69,9 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             {
                 return NotFound();
             }
-            return View("../Utilizador/Perfil",user);
+            return View("../Utilizador/Perfil", user);
         }
-        
+
         // GET: PerfilEditarDadosPessoais
         public async Task<IActionResult> PerfilEditarDadosPessoais(string id)
         {
@@ -189,72 +193,54 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View("Index");
         }
 
-        public ActionResult Tarefas()
-        {
-            List<Tarefa> tarefas = _context.Tarefa.ToList();
-            return View("ListaTarefas", tarefas);
+        /****************************************************************************************************/
+        /******************************************** Tarefas ***********************************************/
+        /****************************************************************************************************/
+
+        public ActionResult ListaTarefas()
+        {            
+            return View(ListaTotalTarefasModel());
         }
 
         public ActionResult TarefasARealizar()
         {
             var tarefas = _context.Tarefa.Where(t => t.Completada == false).ToList();
-
             return View("ListaTarefas", tarefas);
         }
 
         public ActionResult EditarTarefa(int id)
         {
-            var tarefa = _context.Tarefa.Where(u => u.Id == id).FirstOrDefault();
+            Tarefa tarefa = _context.Tarefa.Where(u => u.Id == id).Include(u => u.Utilizador).FirstOrDefault();
 
-            List<Utilizadores> funcionarios = (from users in _context.Utilizadores
-                join a in _context.UserRoles on users.Id equals a.UserId
-                join b in _context.Roles on a.RoleId equals b.Id
-                where b.Name == "Funcionario" && users.Active == true
-                select users).Include(p => p.Perfil).ToList();
-
-            TarefaViewModel t = new TarefaViewModel
+            TarefaViewModel tarefaModel = new TarefaViewModel
             {
-                FuncionarioId = tarefa.FuncionarioId,
-                Inicio = tarefa.Inicio,
+                Id = tarefa.Id,
+                Descricao = tarefa.Descricao,
                 Fim = tarefa.Fim,
-                Descricao = tarefa.Descricao
-            }; 
-
-
-            ViewData["FuncionarioId"] = new SelectList(funcionarios, "Id", "Perfil.FirstName + Perfil.LastName", tarefa.FuncionarioId);
-            return View("EditarTarefa", t);
+                Inicio = tarefa.Inicio,
+                Utilizador = (from users in _context.Utilizadores
+                              join a in _context.Tarefa on users.Id equals a.FuncionarioId
+                              where a.Id == tarefa.Id
+                              select users).Include(p => p.Perfil).FirstOrDefault(),
+                FuncionarioId = tarefa.FuncionarioId,
+                ListaFuncionarios = ListaTotalFuncionarios(),
+                Completada = tarefa.Completada
+            };
+            return View(tarefaModel);
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult EditarTarefa(int id, TarefaViewModel tarefaView)
+        public ActionResult EditarTarefa(TarefaViewModel tarefaModel)
         {
-            Tarefa tarefa;
-            if (id == null)
-            {
-                return NotFound();
-            }
+            var tarefa = _context.Tarefa.Where(e => e.Id == tarefaModel.Id).FirstOrDefault();
+            var user = _context.Utilizadores.Where(u => u.Id == tarefaModel.FuncionarioId).Include(p => p.Perfil).FirstOrDefault();
+            tarefa.Descricao = tarefaModel.Descricao;
+            tarefa.Fim = tarefaModel.Fim;
+            tarefa.FuncionarioId = user.Id;
+            tarefa.Utilizador = user;
+            _context.SaveChanges();
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    tarefa = _context.Tarefa.Where(e => e.Id == id).Include(p => p.Utilizador).FirstOrDefault();
-                    var user = _context.Utilizadores.FirstOrDefault(p => p.Id == tarefa.FuncionarioId);
-                    tarefa.Descricao = tarefaView.Descricao;
-                    tarefa.Inicio = tarefaView.Inicio;
-                    tarefa.Fim = tarefaView.Fim;
-                    _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    return NotFound();
-                }
-                var tarefaUpdated = _context.Tarefa.Where(e => e.Id == id).Include(p => p.Utilizador).FirstOrDefault();
-                return View("../Funcionarios/Tarefa", tarefaUpdated);
-            }
-
-            return View("ListaTarefas");
+            return View("ListaTarefas", ListaTotalTarefasModel());
         }
 
         public ActionResult ApagarTarefa(int id)
@@ -262,15 +248,88 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             var tarefa = _context.Tarefa.FirstOrDefault(t => t.Id == id);
             _context.Tarefa.Remove(tarefa);
             _context.SaveChanges();
-
-            List<Tarefa> tarefas = _context.Tarefa.ToList();
-
-            return View("ListaTarefas", tarefas);
+            
+            return View("ListaTarefas", ListaTotalTarefasModel());
         }
 
         public ActionResult AdicionarTarefa()
         {
-            return View();
+            TarefaViewModel tarefaModel = new TarefaViewModel();
+            tarefaModel.ListaFuncionarios = ListaTotalFuncionarios();
+            return View(tarefaModel);
+        }
+
+        [HttpPost]
+        public ActionResult AdicionarTarefa(TarefaViewModel modelo)
+        {
+            Utilizadores funcionario = _context.Utilizadores.Where(u => u.Id == modelo.FuncionarioId).Include(p => p.Perfil).FirstOrDefault();
+            Tarefa novaTarefa = new Tarefa
+            {
+                FuncionarioId = modelo.FuncionarioId,
+                Descricao = modelo.Descricao,
+                Inicio = modelo.Inicio,
+                Fim = modelo.Fim,
+                Utilizador = funcionario,
+                Completada = false
+            };
+            _context.Tarefa.Add(novaTarefa);
+            _context.SaveChanges();
+            
+            return View("ListaTarefas", ListaTotalTarefasModel());
+        }
+
+        public ActionResult Tarefa(int id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            Tarefa tarefa = _context.Tarefa.Where(u => u.Id == id).FirstOrDefault();
+            TarefaViewModel tarefaModel = new TarefaViewModel
+            {
+                Id = tarefa.Id,
+                FuncionarioId = tarefa.FuncionarioId,
+                Inicio = tarefa.Inicio,
+                Fim = tarefa.Fim,
+                Descricao = tarefa.Descricao,
+                Completada = tarefa.Completada
+            };
+            tarefaModel.Utilizador = _context.Utilizadores.Where(u => u.Id == tarefa.FuncionarioId).Include(p => p.Perfil).FirstOrDefault();
+            tarefaModel.ListaFuncionarios = ListaTotalFuncionarios();
+            return View(tarefaModel);
+        }
+
+        public List<TarefaViewModel> ListaTotalTarefasModel()
+        {
+            List<Tarefa> tarefas = _context.Tarefa.ToList();
+            List<TarefaViewModel> tarefasModel = new List<TarefaViewModel>();
+            List<Utilizadores> funcionarios = new List<Utilizadores>();
+            foreach (var tarefa in tarefas)
+            {
+                TarefaViewModel t = new TarefaViewModel {
+                    Id = tarefa.Id,
+                    FuncionarioId = tarefa.FuncionarioId,
+                    Inicio = tarefa.Inicio,
+                    Fim = tarefa.Fim,
+                    Descricao = tarefa.Descricao,
+                    Completada = tarefa.Completada
+                };
+                
+                t.Utilizador = _context.Utilizadores.Where(u => u.Id == tarefa.FuncionarioId).Include(p => p.Perfil).FirstOrDefault();
+                t.ListaFuncionarios = ListaTotalFuncionarios();
+                tarefasModel.Add(t);
+            }
+
+            return tarefasModel;
+        }
+
+        /****************************************************************************************************/
+        /******************************************** Funcionarios ******************************************/
+        /****************************************************************************************************/
+
+        public ActionResult ListaFuncionarios()
+        {
+            return View(ListaTotalFuncionarios());
         }
 
         public ActionResult AdicionarFuncionarios()
@@ -279,7 +338,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         }
         
         [HttpPost]
-        public async Task<ActionResult> AdicionarFuncionario(AdicionarFuncionarioViewModel modelo)
+        public async Task<ActionResult> AdicionarFuncionario(FuncionarioViewModel modelo)
         {
             var novoFuncionario = new Utilizadores
             {
@@ -309,12 +368,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                     await _userManager.AddToRoleAsync(novoFuncionario, "Funcionario");
                 }
             }
-            List<Utilizadores> funcionarios = (from users in _context.Utilizadores
-                                               join a in _context.UserRoles on users.Id equals a.UserId
-                                               join b in _context.Roles on a.RoleId equals b.Id
-                                               where b.Name == "Funcionario" && users.Active == true
-                                               select users).Include(p => p.Perfil).ToList();
-            return View("ListaFuncionarios", funcionarios);
+            return View("ListaFuncionarios", ListaTotalFuncionarios());
         }
 
         [HttpPost]
@@ -327,25 +381,8 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                 user.Active = false;
                 _context.SaveChanges();
             }
-            //lista.items
-            List<Utilizadores> funcionarios = (from users in _context.Utilizadores
-                                               join a in _context.UserRoles on users.Id equals a.UserId
-                                               join b in _context.Roles on a.RoleId equals b.Id
-                                               where b.Name == "Funcionario" && users.Active == true
-                                               select users).Include(p => p.Perfil).ToList();
-            return View("ListaFuncionarios", funcionarios);
+            return View("ListaFuncionarios", ListaTotalFuncionarios());
         }
-
-        public ActionResult ListaFuncionarios()
-        {
-            List<Utilizadores> funcionarios = (from users in _context.Utilizadores
-                                               join a in _context.UserRoles on users.Id equals a.UserId
-                                               join b in _context.Roles on a.RoleId equals b.Id
-                                               where b.Name == "Funcionario" && users.Active == true
-                                               select users).Include(p => p.Perfil).ToList();
-            return View(funcionarios);
-        }
-
 
         private bool PerfilExists(int id)
         {
@@ -357,6 +394,15 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        public List<Utilizadores> ListaTotalFuncionarios()
+        {
+            return (from users in _context.Utilizadores
+                                               join a in _context.UserRoles on users.Id equals a.UserId
+                                               join b in _context.Roles on a.RoleId equals b.Id
+                                               where b.Name == "Funcionario" && users.Active == true
+                                               select users).Include(p => p.Perfil).ToList();
+        }        
 
     }
 }

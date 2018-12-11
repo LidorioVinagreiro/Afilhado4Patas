@@ -48,6 +48,10 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View("../Guest/Doar");
         }
 
+        /****************************************************************************************************/
+        /******************************************** Perfil ***********************************************/
+        /****************************************************************************************************/
+
         // GET: Perfil
         public ActionResult Perfil(string id)
         {
@@ -185,30 +189,73 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View("Index");
         }
 
-        // GET: MinhasTarefas
+        /****************************************************************************************************/
+        /******************************************** Tarefa  ***********************************************/
+        /****************************************************************************************************/
+
+            
         public ActionResult MinhasTarefas(string id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            List<Tarefa> tarefas = _context.Tarefa.Where(u => u.FuncionarioId == id).ToList();
-            return View(tarefas);
+            return View(ListaTotalTarefasUtilizadorModel(id));
         }
-
-        // GET: MinhasTarefas
+        
         public ActionResult Tarefa(int id)
         {
             if (id == null)
             {
                 return NotFound();
             }
-
-            var tarefa = _context.Tarefa.Where(u => u.Id == id).FirstOrDefault();
-            return View(tarefa);
+            Tarefa tarefa = _context.Tarefa.Where(u => u.Id == id).FirstOrDefault();
+            TarefaViewModel tarefaModel = new TarefaViewModel
+                {
+                    Id = tarefa.Id,
+                    FuncionarioId = tarefa.FuncionarioId,
+                    Inicio = tarefa.Inicio,
+                    Fim = tarefa.Fim,
+                    Descricao = tarefa.Descricao,
+                    Completada = tarefa.Completada
+                };
+            tarefaModel.Utilizador = _context.Utilizadores.Where(u => u.Id == tarefa.FuncionarioId).Include(p => p.Perfil).FirstOrDefault();
+            tarefaModel.ListaFuncionarios = ListaTotalFuncionarios();            
+            return View(tarefaModel);
         }
 
+        public List<TarefaViewModel> ListaTotalTarefasUtilizadorModel(string id)
+        {
+            List<Tarefa> tarefas =  (from tarefa in _context.Tarefa
+                                    join a in _context.Utilizadores on tarefa.FuncionarioId equals a.Id
+                                    where a.Email == id
+                                    select tarefa).ToList();
+            List<TarefaViewModel> tarefasModel = new List<TarefaViewModel>();
+            List<Utilizadores> funcionarios = new List<Utilizadores>();
+            foreach (var tarefa in tarefas)
+            {
+                TarefaViewModel t = new TarefaViewModel
+                {
+                    Id = tarefa.Id,
+                    FuncionarioId = tarefa.FuncionarioId,
+                    Inicio = tarefa.Inicio,
+                    Fim = tarefa.Fim,
+                    Descricao = tarefa.Descricao,
+                    Completada = tarefa.Completada
+                };
+
+                t.Utilizador = _context.Utilizadores.Where(u => u.Id == tarefa.FuncionarioId).Include(p => p.Perfil).FirstOrDefault();
+                t.ListaFuncionarios = ListaTotalFuncionarios();
+                tarefasModel.Add(t);
+            }
+
+            return tarefasModel;
+        }
+
+        public List<Utilizadores> ListaTotalFuncionarios()
+        {
+            return (from users in _context.Utilizadores
+                    join a in _context.UserRoles on users.Id equals a.UserId
+                    join b in _context.Roles on a.RoleId equals b.Id
+                    where b.Name == "Funcionario" && users.Active == true
+                    select users).Include(p => p.Perfil).ToList();
+        }
 
         private bool PerfilExists(int id)
         {

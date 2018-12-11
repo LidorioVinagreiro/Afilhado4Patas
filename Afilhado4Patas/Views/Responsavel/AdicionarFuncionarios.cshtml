@@ -1,7 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Identity;
 @using Afilhado4Patas.Data;
 
-@model Afilhado4Patas.Models.ViewModels.AdicionarFuncionarioViewModel;
+@model Afilhado4Patas.Models.ViewModels.FuncionarioViewModel;
 
 @inject SignInManager<Utilizadores> SignInManager
 @inject UserManager<Utilizadores> UserManager
@@ -16,7 +16,7 @@
 <h1>Adicionar Funcionario</h1>
 <br />
 <div id="checkboxes">
-    @using (@Html.BeginForm("AdicionarFuncionario", "Responsavel", new { AdicionarFuncionarioViewModel = Model }, FormMethod.Post))
+    @using (@Html.BeginForm("AdicionarFuncionario", "Responsavel", new { Funcionario = Model }, FormMethod.Post))
     { 
         <div class="form-group">
             <label asp-for="Input.Nome"></label>

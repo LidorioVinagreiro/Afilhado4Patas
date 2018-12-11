@@ -1,12 +1,11 @@
-﻿@model Afilhado4Patas.Models.ViewModels.TarefaViewModel
-
-@using Microsoft.AspNetCore.Identity
+﻿@using Microsoft.AspNetCore.Identity;
 @using Afilhado4Patas.Data;
+
+@model Afilhado4Patas.Models.ViewModels.TarefaViewModel;
 
 @inject SignInManager<Utilizadores> SignInManager
 @inject UserManager<Utilizadores> UserManager
 @{
-    ViewData["Title"] = "EditarTarefa";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -14,43 +13,40 @@
 <br />
 <br />
 <br />
-<h2>Editar Tarefa</h2>
-
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="PerfilEditarDadosPessoais">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="FuncionarioId" class="control-label"></label>
-                <select asp-for="FuncionarioId" class="form-control" asp-items="ViewBag.FuncionarioId"></select>
-                <span asp-validation-for="FuncionarioId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Descricao" class="control-label"></label>
-                <input asp-for="Descricao" class="form-control" />
-                <span asp-validation-for="Descricao" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Fim" class="control-label"></label>
-                <input asp-for="Fim" type="date" class="form-control" />
-                <span asp-validation-for="Fim" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Inicio" class="control-label"></label>
-                <input asp-for="Inicio" type="date" class="form-control" />
-                <span asp-validation-for="Inicio" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Confirmar" class="btn btn-default" />
-            </div>
-        </form>
-    </div>
+<h1>Editar Tarefa</h1>
+<br />
+<div id="checkboxes">
+    @using (@Html.BeginForm("EditarTarefa", "Responsavel", new { Tarefa = Model }, FormMethod.Post))
+    {
+        <div class="form-group">
+            <label asp-for="Descricao"></label>
+            <input asp-for="Descricao" type="text" class="form-control" />
+            <span asp-validation-for="Descricao" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Fim"></label>
+            <input asp-for="Fim" type="date" asp-format="{0:dd-MM-yyyy}" class="form-control" />
+            <span asp-validation-for="Fim" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="FuncionarioId"></label>
+            <select asp-for="FuncionarioId" class="form-control">
+                @foreach (var funcionario in Model.ListaFuncionarios )
+                {
+                    if (Model.FuncionarioId == funcionario.Id)
+                    {
+                        <option value="@funcionario.Id" selected>@funcionario.Perfil.FirstName @funcionario.Perfil.LastName</option>
+                    }
+                    else
+                    {
+                        <option value="@funcionario.Id">@funcionario.Perfil.FirstName @funcionario.Perfil.LastName</option>
+                    }
+                }
+            </select>
+        </div>
+        <button type="submit" class="btn btn-default">Editar Tarefa</button>
+    }
 </div>
-
 <div>
-    <a asp-controller="Responsavel" asp-action="Tarefas" asp-route-id="@UserManager.GetUserName(User)">Voltar ao Perfil</a>
+    <a asp-controller="Responsavel" asp-action="ListaTarefas" asp-route-id="@UserManager.GetUserName(User)">Voltar á Lista de Tarefas</a>
 </div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}

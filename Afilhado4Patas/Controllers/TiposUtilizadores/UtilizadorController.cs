@@ -45,7 +45,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         {
             return View("../Guest/Doar");
         }
-        
+
+        /****************************************************************************************************/
+        /******************************************** Perfil ***********************************************/
+        /****************************************************************************************************/
+
         // GET: Perfil
         public ActionResult Perfil(string id)
         {
@@ -59,7 +63,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             {
                 return NotFound();
             }
-            return View(user);
+            return View("../Utilizador/Perfil", user);
         }
 
         // GET: PerfilEditarDadosPessoais
@@ -69,7 +73,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             {
                 return NotFound();
             }
-            var editarPerfilViewModel = _context.Utilizadores.Where(e => e.Email == id).Include(p=> p.Perfil).FirstOrDefault();
+            var editarPerfilViewModel = _context.Utilizadores.Where(e => e.Email == id).Include(p => p.Perfil).FirstOrDefault();
             Perfil perfil = editarPerfilViewModel.Perfil;
 
             if (editarPerfilViewModel == null)
@@ -88,7 +92,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                 Birthday = perfil.Birthday,
                 Genre = perfil.Genre
             };
-            return View(modelo);
+            return View("../Utilizador/PerfilEditarDadosPessoais", modelo);
         }
 
         //GET PerfilEditarMorada
@@ -118,12 +122,12 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                 Birthday = perfil.Birthday,
                 Genre = perfil.Genre
             };
-            return View(modelo);
+            return View("../Utilizador/PerfilEditarMorada", modelo);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> PerfilEditarDadosPessoais(string id,PerfilViewModel editarPerfilViewModel)
+        public async Task<IActionResult> PerfilEditarDadosPessoais(string id, PerfilViewModel editarPerfilViewModel)
         {
             Utilizadores user;
             if (id == null)
@@ -134,7 +138,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             if (ModelState.IsValid)
             {
                 try
-                {                    
+                {
                     user = _context.Utilizadores.Where(e => e.Email == id).Include(p => p.Perfil).FirstOrDefault();
                     var perfil = _context.PerfilTable.FirstOrDefault(p => p.UtilizadorId == user.Id);
                     perfil.FirstName = editarPerfilViewModel.FirstName;
@@ -167,7 +171,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             {
                 try
                 {
-                    user = _context.Utilizadores.Where(e => e.Email == id).Include(p => p.Perfil).FirstOrDefault();                    
+                    user = _context.Utilizadores.Where(e => e.Email == id).Include(p => p.Perfil).FirstOrDefault();
                     var perfil = _context.PerfilTable.FirstOrDefault(p => p.UtilizadorId == user.Id);
                     perfil.City = editarPerfilViewModel.City;
                     perfil.Street = editarPerfilViewModel.Street;
