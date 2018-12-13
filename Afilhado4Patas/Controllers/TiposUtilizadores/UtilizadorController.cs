@@ -63,7 +63,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             {
                 return NotFound();
             }
-            return View("../Utilizador/Perfil", user);
+            return View(user);
         }
 
         // GET: PerfilEditarDadosPessoais

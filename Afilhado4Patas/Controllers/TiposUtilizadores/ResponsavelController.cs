@@ -69,7 +69,8 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             {
                 return NotFound();
             }
-            return View("../Utilizador/Perfil", user);
+            return RedirectToAction("Perfil","Utilizador",new { id});
+  //          return View("../Utilizador/Perfil", user);
         }
 
         // GET: PerfilEditarDadosPessoais
@@ -210,7 +211,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
 
         public ActionResult EditarTarefa(int id)
         {
-            Tarefa tarefa = _context.Tarefa.Where(u => u.Id == id).Include(u => u.Utilizador).FirstOrDefault();
+            Tarefa tarefa = _context.Tarefa.Where(u => u.Id == id).Include(u => u.Utilizador).ThenInclude(p => p.Perfil).FirstOrDefault();
 
             TarefaViewModel tarefaModel = new TarefaViewModel
             {
@@ -218,10 +219,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                 Descricao = tarefa.Descricao,
                 Fim = tarefa.Fim,
                 Inicio = tarefa.Inicio,
-                Utilizador = (from users in _context.Utilizadores
-                              join a in _context.Tarefa on users.Id equals a.FuncionarioId
-                              where a.Id == tarefa.Id
-                              select users).Include(p => p.Perfil).FirstOrDefault(),
+                Utilizador = tarefa.Utilizador,
                 FuncionarioId = tarefa.FuncionarioId,
                 ListaFuncionarios = ListaTotalFuncionarios(),
                 Completada = tarefa.Completada
@@ -232,12 +230,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         [HttpPost]
         public ActionResult EditarTarefa(TarefaViewModel tarefaModel)
         {
-            var tarefa = _context.Tarefa.Where(e => e.Id == tarefaModel.Id).FirstOrDefault();
-            var user = _context.Utilizadores.Where(u => u.Id == tarefaModel.FuncionarioId).Include(p => p.Perfil).FirstOrDefault();
+            var tarefa = _context.Tarefa.Where(e => e.Id == tarefaModel.Id).Include(u => u.Utilizador).ThenInclude(p => p.Perfil).FirstOrDefault();
             tarefa.Descricao = tarefaModel.Descricao;
             tarefa.Fim = tarefaModel.Fim;
-            tarefa.FuncionarioId = user.Id;
-            tarefa.Utilizador = user;
+            tarefa.FuncionarioId = tarefa.Utilizador.Id;
+            tarefa.Utilizador = tarefa.Utilizador;
             _context.SaveChanges();
 
             return View("ListaTarefas", ListaTotalTarefasModel());
@@ -284,7 +281,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             {
                 return NotFound();
             }
-            Tarefa tarefa = _context.Tarefa.Where(u => u.Id == id).FirstOrDefault();
+            Tarefa tarefa = _context.Tarefa.Where(u => u.Id == id).Include(u => u.Utilizador).ThenInclude(p => p.Perfil).FirstOrDefault();
             TarefaViewModel tarefaModel = new TarefaViewModel
             {
                 Id = tarefa.Id,
@@ -292,16 +289,16 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                 Inicio = tarefa.Inicio,
                 Fim = tarefa.Fim,
                 Descricao = tarefa.Descricao,
-                Completada = tarefa.Completada
+                Completada = tarefa.Completada,
+                Utilizador = tarefa.Utilizador,
+                ListaFuncionarios = ListaTotalFuncionarios()
             };
-            tarefaModel.Utilizador = _context.Utilizadores.Where(u => u.Id == tarefa.FuncionarioId).Include(p => p.Perfil).FirstOrDefault();
-            tarefaModel.ListaFuncionarios = ListaTotalFuncionarios();
             return View(tarefaModel);
         }
 
         public List<TarefaViewModel> ListaTotalTarefasModel()
         {
-            List<Tarefa> tarefas = _context.Tarefa.ToList();
+            List<Tarefa> tarefas = _context.Tarefa.Include(u => u.Utilizador).ThenInclude(p => p.Perfil).ToList();
             List<TarefaViewModel> tarefasModel = new List<TarefaViewModel>();
             List<Utilizadores> funcionarios = new List<Utilizadores>();
             foreach (var tarefa in tarefas)
@@ -312,11 +309,10 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                     Inicio = tarefa.Inicio,
                     Fim = tarefa.Fim,
                     Descricao = tarefa.Descricao,
-                    Completada = tarefa.Completada
-                };
-                
-                t.Utilizador = _context.Utilizadores.Where(u => u.Id == tarefa.FuncionarioId).Include(p => p.Perfil).FirstOrDefault();
-                t.ListaFuncionarios = ListaTotalFuncionarios();
+                    Completada = tarefa.Completada,
+                    Utilizador = tarefa.Utilizador,
+                    ListaFuncionarios = ListaTotalFuncionarios()
+                };  
                 tarefasModel.Add(t);
             }
 
