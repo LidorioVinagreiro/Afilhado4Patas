@@ -23,7 +23,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             _context = context;
         }
 
-        public IActionResult Index()
+        public IActionResult Perfil()
         {
             return View("../Guest/Index");
         }
