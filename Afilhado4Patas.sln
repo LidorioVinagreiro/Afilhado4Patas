@@ -5,6 +5,10 @@ VisualStudioVersion = 15.0.28010.2050
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Afilhado4Patas", "Afilhado4Patas\Afilhado4Patas.csproj", "{913A6C9C-08AA-464C-9852-6F803A60CFAB}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{64AB7F72-A133-4F85-A085-7AB09E5BC923}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Afilhado4PatasTest", "Afilhado4PatasTest\Afilhado4PatasTest.csproj", "{02381947-8490-4A18-8B9A-961B21920AB6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,9 +19,16 @@ Global
 		{913A6C9C-08AA-464C-9852-6F803A60CFAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{913A6C9C-08AA-464C-9852-6F803A60CFAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{913A6C9C-08AA-464C-9852-6F803A60CFAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02381947-8490-4A18-8B9A-961B21920AB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02381947-8490-4A18-8B9A-961B21920AB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02381947-8490-4A18-8B9A-961B21920AB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02381947-8490-4A18-8B9A-961B21920AB6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{02381947-8490-4A18-8B9A-961B21920AB6} = {64AB7F72-A133-4F85-A085-7AB09E5BC923}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {68DA2E78-705E-4D04-B54F-B21D1DAF24F6}
