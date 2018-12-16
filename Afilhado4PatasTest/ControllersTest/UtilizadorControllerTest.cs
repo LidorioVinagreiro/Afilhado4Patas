@@ -37,5 +37,17 @@ namespace Afilhado4PatasTest.ControllersTest
                 Assert.IsType<ViewResult>(result);
             }
         }
+
+        [Fact]
+        public async Task Pefil_CanLoadFromContext()
+        {
+            using (var context = new ApplicationDbContext(options))
+            {
+                var controller = new UtilizadorController(context);
+                var result = controller.Index();
+                var viewResult = Assert.IsType<ViewResult>(result);
+                Assert.IsType<ViewResult>(result);
+            }
+        }
     }
 }
