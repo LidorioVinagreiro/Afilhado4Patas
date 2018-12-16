@@ -13,7 +13,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ControllersTestes\" />
+    <ProjectReference Include="..\Afilhado4Patas\Afilhado4Patas.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Microsoft.Data.Sqlite">
+      <HintPath>C:\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.data.sqlite.core\2.1.0\lib\netstandard2.0\Microsoft.Data.Sqlite.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
