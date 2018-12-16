@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Afilhado4Patas.Data;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -9,37 +10,31 @@ namespace Afilhado4Patas.Models.ViewModels
 {
     public class FuncionarioViewModel
     {
-        public FuncionarioViewModel()
-        {
-        }
+        [Required]
+        [EmailAddress]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
 
-        [BindProperty]
-        public InputModel Input { get; set; }
+        [Required]
+        public string Nome { get; set; }
 
-        public class InputModel
-        {
-            [Required]
-            [EmailAddress]
-            [Display(Name = "Email")]
-            public string Email { get; set; }
+        [Required]
+        public string Apelido { get; set; }
 
-            [Required]
-            public string Nome { get; set; }
+        [Required]
+        public DateTime DataNascimento { get; set; }
 
-            [Required]
-            public string Apelido { get; set; }
+        [Required]
+        public string Genero { get; set; }
 
-            [Required]
-            public DateTime DataNascimento { get; set; }
+        [Required]
+        [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 8)]
+        [DataType(DataType.Password)]
+        [Display(Name = "Palavra-Passe")]
+        public string Password { get; set; }
 
-            [Required]
-            public string Genero { get; set; }
+        public Utilizadores Utilizador {get; set;}
 
-            [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 8)]
-            [DataType(DataType.Password)]
-            [Display(Name = "Palavra-Passe")]
-            public string Password { get; set; }
-        }
+        public List<TarefaViewModel> ListaTarefas { get; set; }
     }
 }

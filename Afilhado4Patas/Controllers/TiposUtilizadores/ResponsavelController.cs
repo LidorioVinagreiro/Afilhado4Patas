@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Afilhado4Patas.Areas.Identity.Services;
 using Afilhado4Patas.Data;
 using Afilhado4Patas.Models;
 using Afilhado4Patas.Models.ViewModels;
@@ -21,11 +22,13 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<Utilizadores> _userManager;
+        private readonly EmailSender _emailSender;
 
-        public ResponsavelController(ApplicationDbContext context, UserManager<Utilizadores> userManager)
+        public ResponsavelController(ApplicationDbContext context, UserManager<Utilizadores> userManager, EmailSender emailSender)
         {
             _context = context;
             _userManager = userManager;
+            _emailSender = emailSender;
         }
 
         public IActionResult Index()
@@ -271,7 +274,8 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             };
             _context.Tarefa.Add(novaTarefa);
             _context.SaveChanges();
-            
+            _emailSender.SendEmailAsync(funcionario.Email, "Atribuida Nova Tarefa", 
+                "Foi lhe atribuida uma nova tarefa. Dirija-se ao Sistema de Informação para verificar a sua nova Tarefa");
             return View("ListaTarefas", ListaTotalTarefasModel());
         }
 
@@ -337,22 +341,22 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         {
             var novoFuncionario = new Utilizadores
             {
-                UserName = modelo.Input.Email,
-                Email = modelo.Input.Email,
+                UserName = modelo.Email,
+                Email = modelo.Email,
                 EmailConfirmed = true,
                 Active = true
             };
             var user = await _userManager.FindByEmailAsync(novoFuncionario.Email);
             if (user == null)
             {
-                var createFuncionario = await _userManager.CreateAsync(novoFuncionario, modelo.Input.Password);
+                var createFuncionario = await _userManager.CreateAsync(novoFuncionario, modelo.Password);
                 Perfil perfilFuncionario = new Perfil
                 {
                     UtilizadorId = novoFuncionario.Id,
-                    FirstName = modelo.Input.Nome,
-                    LastName = modelo.Input.Apelido,
-                    Genre = modelo.Input.Genero,
-                    Birthday = modelo.Input.DataNascimento
+                    FirstName = modelo.Nome,
+                    LastName = modelo.Apelido,
+                    Genre = modelo.Genero,
+                    Birthday = modelo.DataNascimento
                 };
                 _context.PerfilTable.Add(perfilFuncionario);
                 _context.SaveChanges();
@@ -379,6 +383,25 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View("ListaFuncionarios", ListaTotalFuncionarios());
         }
 
+        public ActionResult VisualizarFuncionario(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var user = _context.Utilizadores.Where(u => u.Email == id).Include(p => p.Perfil).FirstOrDefault();
+            if (user == null)
+            {
+                return NotFound();
+            }
+            FuncionarioViewModel funcionario = new FuncionarioViewModel
+            {
+                Utilizador = user,
+                ListaTarefas = ListaTotalTarefasUtilizadorModel(user.Email)
+            };            
+            return View(funcionario);
+        }
+
         private bool PerfilExists(int id)
         {
             return _context.PerfilTable.Any(e => e.Id == id);
@@ -397,7 +420,33 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                                                join b in _context.Roles on a.RoleId equals b.Id
                                                where b.Name == "Funcionario" && users.Active == true
                                                select users).Include(p => p.Perfil).ToList();
-        }        
+        }
+
+        public List<TarefaViewModel> ListaTotalTarefasUtilizadorModel(string id)
+        {
+            List<Tarefa> tarefas = (from tarefa in _context.Tarefa
+                                    join a in _context.Utilizadores on tarefa.FuncionarioId equals a.Id
+                                    where a.Email == id
+                                    select tarefa).Include(u => u.Utilizador).ThenInclude(p => p.Perfil).ToList();
+            List<TarefaViewModel> tarefasModel = new List<TarefaViewModel>();
+            List<Utilizadores> funcionarios = new List<Utilizadores>();
+            foreach (var tarefa in tarefas)
+            {
+                TarefaViewModel t = new TarefaViewModel
+                {
+                    Id = tarefa.Id,
+                    FuncionarioId = tarefa.FuncionarioId,
+                    Inicio = tarefa.Inicio,
+                    Fim = tarefa.Fim,
+                    Descricao = tarefa.Descricao,
+                    Completada = tarefa.Completada,
+                    Utilizador = tarefa.Utilizador,
+                    ListaFuncionarios = ListaTotalFuncionarios()
+                };
+                tarefasModel.Add(t);
+            }
+            return tarefasModel;
+        }
 
     }
 }

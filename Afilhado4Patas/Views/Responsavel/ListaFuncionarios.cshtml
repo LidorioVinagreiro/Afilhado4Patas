@@ -17,12 +17,46 @@
 <h1>Lista de Funcionarios</h1>
 <div id="checkboxes">
     <form asp-controller="Responsavel" asp-action="RemoverFuncionarios" method="post">
-        <ul id="lista">
-            @foreach (var funcionario in Model)
-            {
-                <li><input type="checkbox" value="@funcionario.Id" name="funcionario">@funcionario.Perfil.FirstName @funcionario.Perfil.LastName</li>
-            }
-        </ul>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Funcionario
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Perfil.FirstName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Perfil.LastName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Perfil.Genre)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var funcionario in Model)
+                {
+                    <tr>
+                        <td>
+                            <input type="checkbox" value="@funcionario.Id" name="funcionario">
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => funcionario.Perfil.FirstName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => funcionario.Perfil.LastName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => funcionario.Perfil.Genre)
+                        </td>
+                        <td>
+                            <a asp-controller="Responsavel" asp-action="VisualizarFuncionario" asp-route-id="@funcionario.Email">Ver Funcionario</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
         <button type="submit" class="btn btn-default">Remover Funcionarios</button>
     </form>
 </div>

@@ -1,0 +1,134 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Afilhado4Patas.Data;
+
+@model Afilhado4Patas.Models.ViewModels.FuncionarioViewModel;
+
+@inject SignInManager<Utilizadores> SignInManager
+@inject UserManager<Utilizadores> UserManager
+@{
+    ViewData["Title"] = "Ficha Funcionario";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br />
+<br />
+<br />
+<br />
+<h2> Ficha de Funcionário de @Html.DisplayFor(model => model.Utilizador.Perfil.FirstName) @Html.DisplayFor(model => model.Utilizador.Perfil.LastName)</h2>
+
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            Dados Pessoais
+        </dt>
+        <br />
+        <br />
+        <dt>
+            @Html.DisplayNameFor(model => model.Utilizador.Perfil.Photo)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Utilizador.Perfil.Photo)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Utilizador.Perfil.FirstName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Utilizador.Perfil.FirstName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Utilizador.Perfil.LastName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Utilizador.Perfil.LastName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Utilizador.Email)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Utilizador.Email)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Utilizador.Perfil.Genre)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Utilizador.Perfil.Genre)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Utilizador.Perfil.Birthday)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Utilizador.Perfil.Birthday)
+        </dd>
+        <br />
+        <dt>
+            Morada
+        </dt>
+        <br />
+        <br />
+        <dt>
+            @Html.DisplayNameFor(model => model.Utilizador.Perfil.City)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Utilizador.Perfil.City)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Utilizador.Perfil.Street)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Utilizador.Perfil.Street)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Utilizador.Perfil.Postalcode)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Utilizador.Perfil.Postalcode)
+        </dd>
+    </dl>
+</div>
+
+<h2>Lista de tarefas do Funcionario</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Descricao
+            </th>
+            <th>
+                Inicio
+            </th>
+            <th>
+                Fim
+            </th>
+            <th>
+                Completada
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.ListaTarefas)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descricao)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Inicio)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Fim)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Completada)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div>
+    <a asp-controller="Responsavel" asp-action="ListaFuncionarios">Voltar á Lista de Funcionários</a>
+</div>
+
+
+
