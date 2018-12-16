@@ -92,7 +92,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                 Birthday = perfil.Birthday,
                 Genre = perfil.Genre
             };
-            return View("../Utilizador/PerfilEditarDadosPessoais", modelo);
+            return View(modelo);
         }
 
         //GET PerfilEditarMorada
@@ -122,7 +122,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                 Birthday = perfil.Birthday,
                 Genre = perfil.Genre
             };
-            return View("../Utilizador/PerfilEditarMorada", modelo);
+            return View(modelo);
         }
 
         [HttpPost]

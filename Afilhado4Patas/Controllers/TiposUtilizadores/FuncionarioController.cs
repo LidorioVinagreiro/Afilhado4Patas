@@ -65,7 +65,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             {
                 return NotFound();
             }
-            return View("../Utilizador/Perfil", user);
+            return View(user);
         }
 
         // GET: PerfilEditarDadosPessoais
@@ -94,7 +94,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                 Birthday = perfil.Birthday,
                 Genre = perfil.Genre
             };
-            return View("../Utilizador/PerfilEditarDadosPessoais", modelo);
+            return View(modelo);
         }
 
         //GET PerfilEditarMorada
@@ -124,7 +124,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                 Birthday = perfil.Birthday,
                 Genre = perfil.Genre
             };
-            return View("../Utilizador/PerfilEditarMorada", modelo);
+            return View(modelo);
         }
 
         [HttpPost]
@@ -193,7 +193,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         /******************************************** Tarefa  ***********************************************/
         /****************************************************************************************************/
 
-            
+
         public ActionResult MinhasTarefas(string id)
         {
             return View(ListaTotalTarefasUtilizadorModel(id));
@@ -205,7 +205,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             {
                 return NotFound();
             }
-            Tarefa tarefa = _context.Tarefa.Where(u => u.Id == id).FirstOrDefault();
+            Tarefa tarefa = _context.Tarefa.Where(t => t.Id == id).Include(u => u.Utilizador).ThenInclude(p => p.Perfil).FirstOrDefault();
             TarefaViewModel tarefaModel = new TarefaViewModel
                 {
                     Id = tarefa.Id,
@@ -213,10 +213,10 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                     Inicio = tarefa.Inicio,
                     Fim = tarefa.Fim,
                     Descricao = tarefa.Descricao,
-                    Completada = tarefa.Completada
-                };
-            tarefaModel.Utilizador = _context.Utilizadores.Where(u => u.Id == tarefa.FuncionarioId).Include(p => p.Perfil).FirstOrDefault();
-            tarefaModel.ListaFuncionarios = ListaTotalFuncionarios();            
+                    Completada = tarefa.Completada,
+                    Utilizador = tarefa.Utilizador,
+                    ListaFuncionarios = ListaTotalFuncionarios()
+                };           
             return View(tarefaModel);
         }
 
@@ -225,7 +225,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             List<Tarefa> tarefas =  (from tarefa in _context.Tarefa
                                     join a in _context.Utilizadores on tarefa.FuncionarioId equals a.Id
                                     where a.Email == id
-                                    select tarefa).ToList();
+                                    select tarefa).Include(u => u.Utilizador).ThenInclude(p => p.Perfil).ToList();
             List<TarefaViewModel> tarefasModel = new List<TarefaViewModel>();
             List<Utilizadores> funcionarios = new List<Utilizadores>();
             foreach (var tarefa in tarefas)
@@ -237,14 +237,12 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                     Inicio = tarefa.Inicio,
                     Fim = tarefa.Fim,
                     Descricao = tarefa.Descricao,
-                    Completada = tarefa.Completada
-                };
-
-                t.Utilizador = _context.Utilizadores.Where(u => u.Id == tarefa.FuncionarioId).Include(p => p.Perfil).FirstOrDefault();
-                t.ListaFuncionarios = ListaTotalFuncionarios();
+                    Completada = tarefa.Completada,
+                    Utilizador = tarefa.Utilizador,
+                    ListaFuncionarios = ListaTotalFuncionarios()
+                };                
                 tarefasModel.Add(t);
             }
-
             return tarefasModel;
         }
 

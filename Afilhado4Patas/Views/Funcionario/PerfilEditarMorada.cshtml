@@ -1,0 +1,50 @@
+﻿@model Afilhado4Patas.Models.ViewModels.PerfilViewModel
+
+@using Microsoft.AspNetCore.Identity
+@using Afilhado4Patas.Data;
+
+@inject SignInManager<Utilizadores> SignInManager
+@inject UserManager<Utilizadores> UserManager
+
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+
+<h4>Editar Morada </h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="PerfilEditarMorada">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Street" class="control-label"></label>
+                <input asp-for="Street" class="form-control" />
+                <span asp-validation-for="Street" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="City" class="control-label"></label>
+                <input asp-for="City" class="form-control" />
+                <span asp-validation-for="City" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Postalcode" class="control-label"></label>
+                <input asp-for="Postalcode" class="form-control" />
+                <span asp-validation-for="Postalcode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Confirmar" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-controller="Funcionario" asp-action="Perfil" asp-route-id="@UserManager.GetUserName(User)">Voltar ao Perfil</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

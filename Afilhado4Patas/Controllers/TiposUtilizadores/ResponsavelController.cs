@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 
 namespace Afilhado4Patas.Controllers.TiposUtilizadores
@@ -69,8 +70,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             {
                 return NotFound();
             }
-            return RedirectToAction("Perfil","Utilizador",new { id});
-  //          return View("../Utilizador/Perfil", user);
+            return View(user);
         }
 
         // GET: PerfilEditarDadosPessoais
@@ -99,7 +99,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                 Birthday = perfil.Birthday,
                 Genre = perfil.Genre
             };
-            return View("../Utilizador/PerfilEditarDadosPessoais", modelo);
+            return View(modelo);
         }
 
         //GET PerfilEditarMorada
@@ -129,7 +129,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                 Birthday = perfil.Birthday,
                 Genre = perfil.Genre
             };
-            return View("../Utilizador/PerfilEditarMorada", modelo);
+            return View(modelo);
         }
 
         [HttpPost]
@@ -315,7 +315,6 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                 };  
                 tarefasModel.Add(t);
             }
-
             return tarefasModel;
         }
 

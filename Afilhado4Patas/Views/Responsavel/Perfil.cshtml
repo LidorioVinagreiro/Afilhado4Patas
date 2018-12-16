@@ -1,0 +1,87 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Afilhado4Patas.Data;
+
+@model Afilhado4Patas.Data.Utilizadores
+
+@inject SignInManager<Utilizadores> SignInManager
+@inject UserManager<Utilizadores> UserManager
+@{
+    ViewData["Title"] = "Perfil";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<br />
+<br />
+<br />
+<br />
+<h2> Perfil de @Html.DisplayFor(model => model.Perfil.FirstName) @Html.DisplayFor(model => model.Perfil.LastName)</h2>
+
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Perfil.Photo)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Perfil.Photo)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Perfil.FirstName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Perfil.FirstName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Perfil.LastName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Perfil.LastName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Perfil.Birthday)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Perfil.Birthday)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Perfil.City)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Perfil.City)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Perfil.Genre)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Perfil.Genre)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-controller="Responsavel" asp-action="PerfilEditarDadosPessoais" asp-route-id="@UserManager.GetUserName(User)">Editar Dados Pessoais</a>
+</div>
+<div>
+    <a asp-controller="Responsavel" asp-action="PerfilEditarMorada" asp-route-id="@UserManager.GetUserName(User)">Editar Morada</a>
+</div>
+<div>
+    <a>Alterar Palavra-Passe</a>
+</div>
+<div>
+    <a>Alterar Foto de Perfil</a>
+</div>
+<div>
+    <a asp-controller="Responsavel" asp-action="ListaTarefas" asp-route-id="@UserManager.GetUserName(User)">Tarefas</a>
+</div>
+<div>
+    <a asp-controller="Responsavel" asp-action="ListaFuncionarios" asp-route-id="@UserManager.GetUserName(User)">Funcionários</a>
+</div>
+
+
+
+

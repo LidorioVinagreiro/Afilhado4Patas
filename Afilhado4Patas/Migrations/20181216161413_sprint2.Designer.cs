@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Afilhado4Patas.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181210101523_perfis")]
-    partial class perfis
+    [Migration("20181216161413_sprint2")]
+    partial class sprint2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
