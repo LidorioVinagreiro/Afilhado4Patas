@@ -7,15 +7,15 @@
 }
 
 <p>
+    Caro @Model.Nome,
+</p>
+<br />
+<p>
     Estamos animados por começar connosco. Primeiro, irá precisar de confirmar a sua conta. Basta clicar no botão abaixo.
 </p>
-
 <br />
-
-@await Html.PartialAsync("EmailButton", new EmailButtonViewModel("Confirmar Conta", Model.ConfirmEmailUrl))
-
+@Html.PartialAsync("EmailButton", new EmailButtonViewModel("Confirmar Conta", Model.ConfirmEmailUrl))
 <br />
-
 <p>
     Equipa de Suporte Afilhados4Patas
 </p>

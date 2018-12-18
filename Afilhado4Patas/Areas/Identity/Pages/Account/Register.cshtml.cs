@@ -134,12 +134,13 @@ namespace Afilhado4Patas.Areas.Identity.Pages.Account
                         values: new { userId = user.Id, code = code },
                         protocol: Request.Scheme);
                     string link = HtmlEncoder.Default.Encode(callbackUrl);
-                    var confirmAccountModel = new ConfirmAccountEmailViewModel(link);                   
+                    var confirmAccountModel = new ConfirmAccountEmailViewModel(link, Input.Nome);                   
 
                     string body = await _razorView.RenderViewToStringAsync("/Views/Emails/ConfirmAccount/ConfirmAccount.cshtml", confirmAccountModel);
                     
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirme o seu email", $"<a href=\"{link}\">carrega</a>");
-                    
+                    //await _emailSender.SendEmailAsync(Input.Email, "Confirme o seu email", $"<a href=\"{link}\">carrega</a>");
+                    await _emailSender.SendEmailAsync(Input.Email, "Confirme o seu email", body);
+
                     return RedirectToAction("RegistoCompleto", "Guest");
                 }
                 foreach (var error in result.Errors)
