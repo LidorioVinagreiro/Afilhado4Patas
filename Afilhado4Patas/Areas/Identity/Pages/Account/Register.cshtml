@@ -14,7 +14,6 @@
         <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
             <h4>Crie a sua nova conta.</h4>
             <hr />
-            <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Input.Nome"></label>
                 <span data-placement="right" class="glyphicon glyphicon-question-sign"
@@ -39,11 +38,13 @@
                     Feminino
                     <input asp-for="Input.Genero" type="radio" value="Feminino"/>
                 </div>
+                <span asp-validation-for="Input.Genero" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Input.DataNascimento"></label>
                 <span data-placement="right" class="glyphicon glyphicon-question-sign"
-      title="Inserir data de nascimento no formato DD-MM-AAAA"></span>
+      title="Inserir data de nascimento no formato DD-MM-AAAA
+                      Deverá ainda ter uma idade maior de 18 anos."></span>
                 <input asp-for="Input.DataNascimento" type="date" asp-format="{0:dd-MM-yyyy}" class="form-control" />
                 <span asp-validation-for="Input.DataNascimento" class="text-danger"></span>
             </div>

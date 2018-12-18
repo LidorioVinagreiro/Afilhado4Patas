@@ -43,15 +43,20 @@ namespace Afilhado4Patas.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
-            [EmailAddress]
+            [Required(ErrorMessage = "Preencha este campo com o seu Email!")]
+            [EmailAddress(ErrorMessage = "Insira um email no formato exemplo@exemplo.com")]
+            [StringLength(50, ErrorMessage = "A {0} deverá ter pelo menos {2} e um maximo de {1} caracteres de comprimento.", MinimumLength = 8)]
+            [Display(Name = "Email")]
             public string Email { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Preencha este campo com a sua Password!")]
+            [RegularExpression(@"^[a-zA-Z0-9]+$", ErrorMessage = "A sua password deverá ter letras (aA) e pelo menos 1 numero e não deverá ter caracteres que não letras ou numeros")]
+            [StringLength(15, ErrorMessage = "A {0} deverá ter pelo menos {2} e um maximo de {1} caracteres de comprimento.", MinimumLength = 8)]
             [DataType(DataType.Password)]
+            [Display(Name = "Palavra-Passe")]
             public string Password { get; set; }
 
-            [Display(Name = "Remember me?")]
+            [Display(Name = "Lembrar-se de mim?")]
             public bool RememberMe { get; set; }
         }
 

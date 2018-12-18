@@ -52,30 +52,38 @@ namespace Afilhado4Patas.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
-            [EmailAddress]
+            [Required(ErrorMessage = "Preencha este campo com o seu Email!")]
+            [EmailAddress(ErrorMessage = "Insira um email no formato exemplo@exemplo.com")]
+            [StringLength(50, ErrorMessage = "A {0} deverá ter pelo menos {2} e um maximo de {1} caracteres de comprimento.", MinimumLength = 8)]
             [Display(Name = "Email")]
             public string Email { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Preencha este campo com o seu Nome!")]
+            [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Use apenas letras neste campo")]
+            [StringLength(20, ErrorMessage = "A {0} deverá ter pelo menos {2} e um maximo de {1} caracteres de comprimento.", MinimumLength = 8)]
             public string Nome { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Preencha este campo com o(s) seu(s) Apelido(s)!")]
+            [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Use apenas letras neste campo")]
+            [StringLength(20, ErrorMessage = "A {0} deverá ter pelo menos {2} e um maximo de {1} caracteres de comprimento.", MinimumLength = 8)]
             public string Apelido { get; set; }
 
-            [Required]
+            [Display(Name = "Data de Nascimento")]
+            [Required(ErrorMessage = "Preencha este campo com a sua Data de Nascimento!")]
+            [DateGreatThen18]
             public DateTime DataNascimento { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Selecione um dos campos Masculino ou Feminino")]
             public string Genero { get; set; }
 
-            [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 8)]
+            [Required(ErrorMessage = "Preencha este campo com a sua Password!")]
+            [RegularExpression(@"^[a-zA-Z0-9]+$", ErrorMessage = "A sua password deverá ter letras (aA) e pelo menos 1 numero e não deverá ter caracteres que não letras ou numeros")]
+            [StringLength(15, ErrorMessage = "A {0} deverá ter pelo menos {2} e um maximo de {1} caracteres de comprimento.", MinimumLength = 8)]
             [DataType(DataType.Password)]
             [Display(Name = "Palavra-Passe")]
             public string Password { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Preencha este campo com a sua Password!")]
             [DataType(DataType.Password)]
             [Display(Name = "Confirme Palavra-Passe")]
             [Compare("Password", ErrorMessage = "As palavras-passes inseridas não são iguais")]
@@ -139,9 +147,8 @@ namespace Afilhado4Patas.Areas.Identity.Pages.Account
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
             }
-
             // If we got this far, something failed, redisplay form
-            return RedirectToPage("/Index");
-        }
+            return Page();
+        }        
     }
 }

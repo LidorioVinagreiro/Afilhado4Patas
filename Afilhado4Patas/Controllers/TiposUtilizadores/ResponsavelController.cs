@@ -164,7 +164,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                 var userUpdated = _context.Utilizadores.Where(e => e.Email == id).Include(p => p.Perfil).FirstOrDefault();
                 return View("Perfil", userUpdated);
             }
-            return View("Index");
+            return View(editarPerfilViewModel);
         }
 
         [HttpPost]
@@ -194,7 +194,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                 }
                 return View("Perfil", user);
             }
-            return View("Index");
+            return View(editarPerfilViewModel);
         }
 
         /****************************************************************************************************/
@@ -233,14 +233,17 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         [HttpPost]
         public ActionResult EditarTarefa(TarefaViewModel tarefaModel)
         {
-            var tarefa = _context.Tarefa.Where(e => e.Id == tarefaModel.Id).Include(u => u.Utilizador).ThenInclude(p => p.Perfil).FirstOrDefault();
-            tarefa.Descricao = tarefaModel.Descricao;
-            tarefa.Fim = tarefaModel.Fim;
-            tarefa.FuncionarioId = tarefa.Utilizador.Id;
-            tarefa.Utilizador = tarefa.Utilizador;
-            _context.SaveChanges();
-
-            return View("ListaTarefas", ListaTotalTarefasModel());
+            if (ModelState.IsValid)
+            {
+                var tarefa = _context.Tarefa.Where(e => e.Id == tarefaModel.Id).Include(u => u.Utilizador).ThenInclude(p => p.Perfil).FirstOrDefault();
+                tarefa.Descricao = tarefaModel.Descricao;
+                tarefa.Fim = tarefaModel.Fim;
+                tarefa.FuncionarioId = tarefa.Utilizador.Id;
+                tarefa.Utilizador = tarefa.Utilizador;
+                _context.SaveChanges();
+                return View("ListaTarefas", ListaTotalTarefasModel());
+            }
+            return View(tarefaModel);
         }
 
         public ActionResult ApagarTarefa(int id)
@@ -262,21 +265,25 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         [HttpPost]
         public ActionResult AdicionarTarefa(TarefaViewModel modelo)
         {
-            Utilizadores funcionario = _context.Utilizadores.Where(u => u.Id == modelo.FuncionarioId).Include(p => p.Perfil).FirstOrDefault();
-            Tarefa novaTarefa = new Tarefa
+            if (ModelState.IsValid)
             {
-                FuncionarioId = modelo.FuncionarioId,
-                Descricao = modelo.Descricao,
-                Inicio = modelo.Inicio,
-                Fim = modelo.Fim,
-                Utilizador = funcionario,
-                Completada = false
-            };
-            _context.Tarefa.Add(novaTarefa);
-            _context.SaveChanges();
-            _emailSender.SendEmailAsync(funcionario.Email, "Atribuida Nova Tarefa", 
-                "Foi lhe atribuida uma nova tarefa. Dirija-se ao Sistema de Informação para verificar a sua nova Tarefa");
-            return View("ListaTarefas", ListaTotalTarefasModel());
+                Utilizadores funcionario = _context.Utilizadores.Where(u => u.Id == modelo.FuncionarioId).Include(p => p.Perfil).FirstOrDefault();
+                Tarefa novaTarefa = new Tarefa
+                {
+                    FuncionarioId = modelo.FuncionarioId,
+                    Descricao = modelo.Descricao,
+                    Inicio = modelo.Inicio,
+                    Fim = modelo.Fim,
+                    Utilizador = funcionario,
+                    Completada = false
+                };
+                _context.Tarefa.Add(novaTarefa);
+                _context.SaveChanges();
+                _emailSender.SendEmailAsync(funcionario.Email, "Atribuida Nova Tarefa",
+                    "Foi lhe atribuida uma nova tarefa. Dirija-se ao Sistema de Informação para verificar a sua nova Tarefa");
+                return View("ListaTarefas", ListaTotalTarefasModel());
+            }
+            return View(modelo);
         }
 
         public ActionResult Tarefa(int id)
@@ -339,35 +346,39 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         [HttpPost]
         public async Task<ActionResult> AdicionarFuncionario(FuncionarioViewModel modelo)
         {
-            var novoFuncionario = new Utilizadores
+            if (ModelState.IsValid)
             {
-                UserName = modelo.Email,
-                Email = modelo.Email,
-                EmailConfirmed = true,
-                Active = true
-            };
-            var user = await _userManager.FindByEmailAsync(novoFuncionario.Email);
-            if (user == null)
-            {
-                var createFuncionario = await _userManager.CreateAsync(novoFuncionario, modelo.Password);
-                Perfil perfilFuncionario = new Perfil
+                var novoFuncionario = new Utilizadores
                 {
-                    UtilizadorId = novoFuncionario.Id,
-                    FirstName = modelo.Nome,
-                    LastName = modelo.Apelido,
-                    Genre = modelo.Genero,
-                    Birthday = modelo.DataNascimento
+                    UserName = modelo.Email,
+                    Email = modelo.Email,
+                    EmailConfirmed = true,
+                    Active = true
                 };
-                _context.PerfilTable.Add(perfilFuncionario);
-                _context.SaveChanges();
-                novoFuncionario.PerfilId = perfilFuncionario.Id;
-                _context.SaveChanges();
-                if (createFuncionario.Succeeded)
+                var user = await _userManager.FindByEmailAsync(novoFuncionario.Email);
+                if (user == null)
                 {
-                    await _userManager.AddToRoleAsync(novoFuncionario, "Funcionario");
+                    var createFuncionario = await _userManager.CreateAsync(novoFuncionario, modelo.Password);
+                    Perfil perfilFuncionario = new Perfil
+                    {
+                        UtilizadorId = novoFuncionario.Id,
+                        FirstName = modelo.Nome,
+                        LastName = modelo.Apelido,
+                        Genre = modelo.Genero,
+                        Birthday = modelo.DataNascimento
+                    };
+                    _context.PerfilTable.Add(perfilFuncionario);
+                    _context.SaveChanges();
+                    novoFuncionario.PerfilId = perfilFuncionario.Id;
+                    _context.SaveChanges();
+                    if (createFuncionario.Succeeded)
+                    {
+                        await _userManager.AddToRoleAsync(novoFuncionario, "Funcionario");
+                    }
                 }
+                return View("ListaFuncionarios", ListaTotalFuncionarios());
             }
-            return View("ListaFuncionarios", ListaTotalFuncionarios());
+            return View(modelo);
         }
 
         [HttpPost]
