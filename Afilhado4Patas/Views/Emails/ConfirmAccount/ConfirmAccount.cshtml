@@ -1,5 +1,5 @@
 ﻿@using Afilhado4Patas.Views.Emails.ConfirmAccount
-@using Afilhado4Patas.Views.Shared
+@using Afilhado4Patas.Views.Emails
 @model ConfirmAccountEmailViewModel
 
 @{
@@ -14,7 +14,7 @@
     Estamos animados por começar connosco. Primeiro, irá precisar de confirmar a sua conta. Basta clicar no botão abaixo.
 </p>
 <br />
-@Html.PartialAsync("EmailButton", new EmailButtonViewModel("Confirmar Conta", Model.ConfirmEmailUrl))
+@await Html.PartialAsync("/Views/Emails/EmailButton.cshtml", new EmailButtonViewModel("Confirmar Conta", Model.ConfirmEmailUrl))
 <br />
 <p>
     Equipa de Suporte Afilhados4Patas
