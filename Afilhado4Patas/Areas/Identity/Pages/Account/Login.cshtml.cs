@@ -45,7 +45,7 @@ namespace Afilhado4Patas.Areas.Identity.Pages.Account
         {
             [Required(ErrorMessage = "Preencha este campo com o seu Email!")]
             [EmailAddress(ErrorMessage = "Insira um email no formato exemplo@exemplo.com")]
-            [StringLength(50, ErrorMessage = "A {0} deverá ter pelo menos {2} e um maximo de {1} caracteres de comprimento.", MinimumLength = 8)]
+            [StringLength(50, ErrorMessage = "O {0} deverá ter um maximo de {1} caracteres de comprimento.")]
             [Display(Name = "Email")]
             public string Email { get; set; }
 
