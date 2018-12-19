@@ -17,6 +17,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Afilhado4Patas.Controllers.TiposUtilizadores
 {
+    /// <summary>
+    /// Controller que contem todas as ações referentes ao responsavel do canil
+    /// </summary>
     [Authorize(Roles = "Responsavel")]
     public class ResponsavelController : Controller
     {
@@ -24,6 +27,12 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         private readonly UserManager<Utilizadores> _userManager;
         private readonly EmailSender _emailSender;
 
+        /// <summary>
+        /// Inicialização do controller
+        /// </summary>
+        /// <param name="context">Objeto da base de dados</param>
+        /// <param name="userManager">Lista de utilizadores</param>
+        /// <param name="emailSender">Objeto que contem a ação de envio de email</param>
         public ResponsavelController(ApplicationDbContext context, UserManager<Utilizadores> userManager, EmailSender emailSender)
         {
             _context = context;
@@ -31,26 +40,46 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             _emailSender = emailSender;
         }
 
+        /// <summary>
+        /// Ação que devolve a view da pagina principal do site
+        /// </summary>
+        /// <returns>View principal do site</returns>
         public IActionResult Index()
         {
             return View("../Guest/Index");
         }
 
+        /// <summary>
+        /// Ação que devolve a view das informações adicionais sobre o site
+        /// </summary>
+        /// <returns>View do Sobre nós</returns>
         public IActionResult About()
         {
             return View("../Guest/About");
         }
 
+        /// <summary>
+        /// Ação que devolve a view com os contactos do nosso site
+        /// </summary>
+        /// <returns>View dos contactos</returns>
         public IActionResult Contact()
         {
             return View("../Guest/Contact");
         }
 
+        /// <summary>
+        /// Ação que devovle a view das adoções
+        /// </summary>
+        /// <returns>View de adoções</returns>
         public IActionResult Adotar()
         {
             return View("../Guest/Adotar");
         }
 
+        /// <summary>
+        /// Ação que devolve a view de doações
+        /// </summary>
+        /// <returns>View das doações</returns>
         public IActionResult Doar()
         {
             return View("../Guest/Doar");
@@ -60,6 +89,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         /******************************************** Perfil ***********************************************/
         /****************************************************************************************************/
 
+        /// <summary>
+        /// Ação que devolve a view do perfil com a informação pessoal do responsavel
+        /// </summary>
+        /// <param name="id">Id do responsavel atual</param>
+        /// <returns>View do perfil com a informação do responsavel</returns>
         // GET: Perfil
         public ActionResult Perfil(string id)
         {
@@ -76,6 +110,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View(user);
         }
 
+        /// <summary>
+        /// Ação quedevole a view que permite a edição das informações no perfil do responsavel
+        /// </summary>
+        /// <param name="id">Id do responsavel atual</param>
+        /// <returns>View de edição dos dados pessoais do perfil</returns>
         // GET: PerfilEditarDadosPessoais
         public async Task<IActionResult> PerfilEditarDadosPessoais(string id)
         {
@@ -105,6 +144,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View(modelo);
         }
 
+        /// <summary>
+        /// Ação que devolve a view que edita a informação atual referente a morada no perfil do responsavel
+        /// </summary>
+        /// <param name="id">Id do responsavel atual</param>
+        /// <returns>View de edição da morada</returns>
         //GET PerfilEditarMorada
         public async Task<IActionResult> PerfilEditarMorada(string id)
         {
@@ -135,6 +179,12 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View(modelo);
         }
 
+        /// <summary>
+        /// Ação que edita a informação no perfil do responsavel
+        /// </summary>
+        /// <param name="id">Id do responsavel atual</param>
+        /// <param name="editarPerfilViewModel">Modelo da informação na view</param>
+        /// <returns>View do perfil do responsavel com a informação atualizada</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> PerfilEditarDadosPessoais(string id, PerfilViewModel editarPerfilViewModel)
@@ -167,6 +217,12 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View(editarPerfilViewModel);
         }
 
+        /// <summary>
+        /// Ação que altera a informação referente a morada do responsavel
+        /// </summary>
+        /// <param name="id">Id do responsavel atual</param>
+        /// <param name="editarPerfilViewModel">Modelo da informação na view</param>
+        /// <returns>View do perfil do responsavel com a informação atualizada</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> PerfilEditarMorada(string id, PerfilViewModel editarPerfilViewModel)
@@ -201,17 +257,30 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         /******************************************** Tarefas ***********************************************/
         /****************************************************************************************************/
 
+        /// <summary>
+        /// Açao que devolve uma view com a listagem de todas as tarefas na base de dados
+        /// </summary>
+        /// <returns>View que mostra a lista de tarefas na base de dados</returns>
         public ActionResult ListaTarefas()
         {            
             return View(ListaTotalTarefasModel());
         }
 
+        /// <summary>
+        /// Ação que devolve a view com a listagem das tarefas que se encontram por realizar
+        /// </summary>
+        /// <returns>View com a lista de tarefas por concluir</returns>
         public ActionResult TarefasARealizar()
         {
             var tarefas = _context.Tarefa.Where(t => t.Completada == false).ToList();
             return View("ListaTarefas", tarefas);
         }
 
+        /// <summary>
+        /// Ação que devolve a view de edição de uma tarefa
+        /// </summary>
+        /// <param name="id">Id da view view a editar</param>
+        /// <returns>View de edição com a informação da tarefa</returns>
         public ActionResult EditarTarefa(int id)
         {
             Tarefa tarefa = _context.Tarefa.Where(u => u.Id == id).Include(u => u.Utilizador).ThenInclude(p => p.Perfil).FirstOrDefault();
@@ -230,6 +299,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View(tarefaModel);
         }
 
+        /// <summary>
+        /// Ação que altera a informação de uma determinada tarefa e devolve a view com a lista de tarefas ja com a tarefa atualizada
+        /// </summary>
+        /// <param name="tarefaModel">Modelo da view de edição de tarefa</param>
+        /// <returns>view com a nova listagem de tarefas</returns>
         [HttpPost]
         public ActionResult EditarTarefa(TarefaViewModel tarefaModel)
         {
@@ -246,6 +320,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View(tarefaModel);
         }
 
+        /// <summary>
+        /// Ação que remove uma tarefa da base de dados
+        /// </summary>
+        /// <param name="id">Id da tarefa</param>
+        /// <returns>View da lista de tarefas atualizada</returns>
         public ActionResult ApagarTarefa(int id)
         {
             var tarefa = _context.Tarefa.FirstOrDefault(t => t.Id == id);
@@ -255,6 +334,10 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View("ListaTarefas", ListaTotalTarefasModel());
         }
 
+        /// <summary>
+        /// Ação que devolve a view de adicionar tarefa
+        /// </summary>
+        /// <returns>View de adicionar tarefa</returns>
         public ActionResult AdicionarTarefa()
         {
             TarefaViewModel tarefaModel = new TarefaViewModel();
@@ -262,6 +345,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View(tarefaModel);
         }
 
+        /// <summary>
+        /// Ação que altera a informação de uma tarefa e devolve a lista de tarefas atualizada
+        /// </summary>
+        /// <param name="modelo">Modelo da view de adicionar tarefa</param>
+        /// <returns>View da lista de tarefas com a nova tarefa adicionada</returns>
         [HttpPost]
         public ActionResult AdicionarTarefa(TarefaViewModel modelo)
         {
@@ -286,6 +374,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View(modelo);
         }
 
+        /// <summary>
+        /// Ação que devolve a view com a informação referente a uma tarefa
+        /// </summary>
+        /// <param name="id">Id da terefa</param>
+        /// <returns>View que mostra a informação de uma tarefa</returns>
         public ActionResult Tarefa(int id)
         {
             if (id == null)
@@ -307,6 +400,10 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View(tarefaModel);
         }
 
+        /// <summary>
+        /// Metodo que devolve a lista de todas as tarefas na base de dados
+        /// </summary>
+        /// <returns>Lista de tarefas na base de dados</returns>
         public List<TarefaViewModel> ListaTotalTarefasModel()
         {
             List<Tarefa> tarefas = _context.Tarefa.Include(u => u.Utilizador).ThenInclude(p => p.Perfil).ToList();
@@ -333,16 +430,29 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         /******************************************** Funcionarios ******************************************/
         /****************************************************************************************************/
 
+        /// <summary>
+        /// Ação que devovle a view com a listagem de todos os funcionarios
+        /// </summary>
+        /// <returns>View da listagem de funcionarios</returns>
         public ActionResult ListaFuncionarios()
         {
             return View(ListaTotalFuncionarios());
         }
 
+        /// <summary>
+        /// Ação que devolve a view com o formulario de adição de um funcionario
+        /// </summary>
+        /// <returns></returns>
         public ActionResult AdicionarFuncionarios()
         {
             return View();
         }
         
+        /// <summary>
+        /// Ação que adiciona um funcionario e devovle a view de listagem de funcionarios com o novo funcionario
+        /// </summary>
+        /// <param name="modelo">Modelo da view de adicionar funcionarios</param>
+        /// <returns>View da lista de funcionarios atualizada</returns>
         [HttpPost]
         public async Task<ActionResult> AdicionarFuncionario(FuncionarioViewModel modelo)
         {
@@ -381,6 +491,10 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View(modelo);
         }
 
+        /// <summary>
+        /// Ação que remove um funcionario e atualiza a view
+        /// </summary>
+        /// <returns>View com a lista de funcionarios atualizada</returns>
         [HttpPost]
         public ActionResult RemoverFuncionarios()
         {
@@ -394,6 +508,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View("ListaFuncionarios", ListaTotalFuncionarios());
         }
 
+        /// <summary>
+        /// Ação que permite ver a pagina de perfil de um funcionario
+        /// </summary>
+        /// <param name="id">Id do funcionario</param>
+        /// <returns>View com a informação do funcionario</returns>
         public ActionResult VisualizarFuncionario(string id)
         {
             if (id == null)
@@ -413,17 +532,30 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View(funcionario);
         }
 
+        /// <summary>
+        /// Metodo que verifica se um perfil existe na base de dados
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Perfil encontrado</returns>
         private bool PerfilExists(int id)
         {
             return _context.PerfilTable.Any(e => e.Id == id);
         }
 
+        /// <summary>
+        /// Ação que devolve a view de erro, caso ocorra um erro esta view e devolvida com a informação do erro
+        /// </summary>
+        /// <returns>View de erro</returns>
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
+        /// <summary>
+        /// Metodo que devolve a lista de todos os funcionarios na base de dados
+        /// </summary>
+        /// <returns>Lista de todos os funcionarios</returns>
         public List<Utilizadores> ListaTotalFuncionarios()
         {
             return (from users in _context.Utilizadores
@@ -433,6 +565,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                                                select users).Include(p => p.Perfil).ToList();
         }
 
+        /// <summary>
+        /// Metodo que devolve todas as tarefas referentes a um funcionario
+        /// </summary>
+        /// <param name="id">Id do funcionario</param>
+        /// <returns>Lista de tarefas associadas ao funcionario</returns>
         public List<TarefaViewModel> ListaTotalTarefasUtilizadorModel(string id)
         {
             List<Tarefa> tarefas = (from tarefa in _context.Tarefa

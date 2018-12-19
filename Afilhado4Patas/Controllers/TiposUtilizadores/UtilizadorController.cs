@@ -11,36 +11,63 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Afilhado4Patas.Controllers.TiposUtilizadores
 {
+    /// <summary>
+    /// Utilizador Controller
+    /// </summary>
     [Authorize(Roles = "Utilizador")]
     public class UtilizadorController : Controller
     {
         private readonly ApplicationDbContext _context;
 
+        /// <summary>
+        /// Inicialização do controller
+        /// </summary>
+        /// <param name="context">Objeto da base dados</param>
         public UtilizadorController(ApplicationDbContext context)
         {
             _context = context;
         }
 
+        /// <summary>
+        /// Ação que devolve a view da pagina principal do site
+        /// </summary>
+        /// <returns>View principal do site</returns>
         public IActionResult Index()
         {
             return View("../Guest/Index");
         }
 
+        /// <summary>
+        /// Ação que devolve a view das informações adicionais sobre o site
+        /// </summary>
+        /// <returns>View do Sobre nós</returns>
         public IActionResult About()
         {
             return View("../Guest/About");
         }
 
+        /// <summary>
+        /// Ação que devolve a view com os contactos do nosso site
+        /// </summary>
+        /// <returns>View dos contactos</returns>
         public IActionResult Contact()
         {
             return View("../Guest/Contact");
         }
 
+        /// <summary>
+        /// Ação que devovle a view das adoções
+        /// </summary>
+        /// <returns>View de adoções</returns>
         public IActionResult Adotar()
         {
             return View("../Guest/Adotar");
         }
 
+        /// <summary>
+        /// Ação que devolve a view de doações
+        /// </summary>
+        /// <returns>View das doações</returns>
         public IActionResult Doar()
         {
             return View("../Guest/Doar");
@@ -50,6 +77,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         /******************************************** Perfil ***********************************************/
         /****************************************************************************************************/
 
+        /// <summary>
+        /// Ação que devolve a view do perfil com a informação pessoal do utilizador atual
+        /// </summary>
+        /// <param name="id">Id do responsavel atual</param>
+        /// <returns>View do perfil com a informação do utilizador</returns>
         // GET: Perfil
         public ActionResult Perfil(string id)
         {
@@ -66,6 +98,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View(user);
         }
 
+        /// <summary>
+        /// Ação quedevole a view que permite a edição das informações no perfil do responsavel
+        /// </summary>
+        /// <param name="id">Id do responsavel atual</param>
+        /// <returns>View de edição dos dados pessoais do perfil</returns>
         // GET: PerfilEditarDadosPessoais
         public async Task<IActionResult> PerfilEditarDadosPessoais(string id)
         {
@@ -95,6 +132,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View(modelo);
         }
 
+        /// <summary>
+        /// Ação que devolve a view que edita a informação atual referente a morada no perfil do responsavel
+        /// </summary>
+        /// <param name="id">Id do responsavel atual</param>
+        /// <returns>View de edição da morada</returns>
         //GET PerfilEditarMorada
         public async Task<IActionResult> PerfilEditarMorada(string id)
         {
@@ -125,6 +167,12 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View(modelo);
         }
 
+        /// <summary>
+        /// Ação que edita a informação no perfil do utilizador
+        /// </summary>
+        /// <param name="id">Id do funcionario atual</param>
+        /// <param name="editarPerfilViewModel">Modelo da informação na view</param>
+        /// <returns>View do perfil de utilizador com a informação atualizada</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> PerfilEditarDadosPessoais(string id, PerfilViewModel editarPerfilViewModel)
@@ -157,6 +205,12 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View(editarPerfilViewModel);
         }
 
+        /// <summary>
+        /// Ação que altera a informação referente a morada do utilizador
+        /// </summary>
+        /// <param name="id">Id do funcionario atual</param>
+        /// <param name="editarPerfilViewModel">Modelo da informação na view</param>
+        /// <returns>View do perfil de utilizador com a informação atualizada</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> PerfilEditarMorada(string id, PerfilViewModel editarPerfilViewModel)
@@ -187,11 +241,20 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View(editarPerfilViewModel);
         }
 
+        /// <summary>
+        /// Metodo que verifica se um perfil existe na base de dados
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Perfil encontrado</returns>
         private bool PerfilExists(int id)
         {
             return _context.PerfilTable.Any(e => e.Id == id);
         }
 
+        /// <summary>
+        /// Ação que devolve a view de erro, caso ocorra um erro esta view e devolvida com a informação do erro
+        /// </summary>
+        /// <returns>View de erro</returns>
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
