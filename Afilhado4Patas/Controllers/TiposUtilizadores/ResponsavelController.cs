@@ -296,7 +296,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                 //Envio de Email
                 var emailTarefaModel = new EmailTarefaViewModel(novaTarefa.Descricao, novaTarefa.Inicio, novaTarefa.Fim, novaTarefa.Utilizador.Perfil.FirstName);
                 string body = await _razorView.RenderViewToStringAsync("/Views/Emails/Tarefas/TarefaAtribuida.cshtml", emailTarefaModel);
-                await _emailSender.SendEmailAsync(novaTarefa.Utilizador.Email, "Tarefa Removida", body);
+                await _emailSender.SendEmailAsync(novaTarefa.Utilizador.Email, "Tarefa Atribuida", body);
 
                 return View("ListaTarefas", ListaTotalTarefasModel());
             }

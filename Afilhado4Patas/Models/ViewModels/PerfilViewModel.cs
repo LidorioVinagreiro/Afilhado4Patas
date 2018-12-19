@@ -46,7 +46,7 @@ namespace Afilhado4Patas.Models.ViewModels
 
         [Display(Name = "Data de Nascimento")]
         [DateGreatThen18]
-        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime Birthday { get; set; }
 
         [Display(Name = "Género")]
