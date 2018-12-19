@@ -8,11 +8,15 @@ namespace Afilhado4Patas.Data
 {
     public class DateEqualOrGreaterThenTodayAttribute : ValidationAttribute
     {
-        public override bool IsValid(object value)
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
             DateTime date = Convert.ToDateTime(value);
-            
-            return date >= DateTime.Now;
-        }
+
+            if (date >= DateTime.Now)
+            {
+                return ValidationResult.Success;
+            }
+            else return new ValidationResult("Data de Inicio deverá ser maior que a data de hoje");            
+        }        
     }
 }

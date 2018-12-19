@@ -16,61 +16,65 @@
             <hr />
             <div class="form-group">
                 <label asp-for="Input.Nome"></label>
-                <span data-placement="right" class="glyphicon glyphicon-question-sign"
+                <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
                       title="Insira o seu Nome"></span>
                 <input asp-for="Input.Nome" class="form-control" />
                 <span asp-validation-for="Input.Nome" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Input.Apelido"></label>
-                <span data-placement="right" class="glyphicon glyphicon-question-sign"
-                      title="Insira os seus Apelidos"></span>
+                <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
+                      title="Insira o(s) seu(s) Apelido(s)"></span>
                 <input asp-for="Input.Apelido" class="form-control" />
                 <span asp-validation-for="Input.Apelido" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Input.Genero"></label>
-                <span data-placement="right" class="glyphicon glyphicon-question-sign"
+                <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
                       title="Selecione o seu genero"></span>
                 <div>
                     Masculino
-                    <input asp-for="Input.Genero" type="radio" value="Masculino"/>
+                    <input asp-for="Input.Genero" type="radio" value="Masculino" />
                     Feminino
-                    <input asp-for="Input.Genero" type="radio" value="Feminino"/>
+                    <input asp-for="Input.Genero" type="radio" value="Feminino" />
                 </div>
                 <span asp-validation-for="Input.Genero" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Input.DataNascimento"></label>
-                <span data-placement="right" class="glyphicon glyphicon-question-sign"
-      title="Inserir data de nascimento no formato DD-MM-AAAA
+                <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
+                      title="Inserir data de nascimento no formato DD-MM-AAAA
                       Deverá ainda ter uma idade maior de 18 anos."></span>
-                <input asp-for="Input.DataNascimento" type="date" asp-format="{0:dd-MM-yyyy}" class="form-control" />
+                <div class="input-group date" id="datepicker">
+                    <input asp-for="Input.DataNascimento" type="text" class="form-control" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
                 <span asp-validation-for="Input.DataNascimento" class="text-danger"></span>
-            </div>
+            </div>            
             <div class="form-group">
-                <label asp-for="Input.Email"></label>  
-                <span data-placement="right" class="glyphicon glyphicon-question-sign"
-                                                             title="Insira um Email válido
-Com o seguinte formato:
-exemplo@exemplo.com "></span>
+                <label asp-for="Input.Email"></label>
+                <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
+                      title="Insira um Email válido
+                        Com o seguinte formato: exemplo@exemplo.com "></span>
                 <input asp-for="Input.Email" class="form-control" />
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Input.Password"></label>  
-                <span data-placement="right" class="glyphicon glyphicon-question-sign"
-                                                                title="Inserir uma palavra-passe válida
-A password deverá conter pelo menos um caracter dos seguintes e ter um comprimento de 8 caracteres: 
-Letras: Aa-Zz
-Numeros: 0-9"></span>
+                <label asp-for="Input.Password"></label>
+                <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
+                      title="Inserir uma palavra-passe válida
+                            A password deverá conter pelo menos um caracter dos seguintes e ter um comprimento minimo de 8 caracteres:
+                            Letras: Aa-Zz
+                            Numeros: 0-9"></span>
                 <input asp-for="Input.Password" class="form-control" />
                 <span asp-validation-for="Input.Password" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Input.ConfirmPassword"></label>  
-                <span data-placement="right" class="glyphicon glyphicon-question-sign"
-                                                                       title="Confirme a sua palavra-passe"></span>
+                <label asp-for="Input.ConfirmPassword"></label>
+                <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
+                      title="Confirme a sua palavra-passe"></span>
                 <input asp-for="Input.ConfirmPassword" class="form-control" />
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>

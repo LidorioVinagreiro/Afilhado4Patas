@@ -71,6 +71,7 @@ namespace Afilhado4Patas.Areas.Identity.Pages.Account
             [Display(Name = "Data de Nascimento")]
             [Required(ErrorMessage = "Preencha este campo com a sua Data de Nascimento!")]
             [DateGreatThen18]
+            [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
             public DateTime DataNascimento { get; set; }
 
             [Required(ErrorMessage = "Selecione um dos campos Masculino ou Feminino")]

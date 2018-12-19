@@ -250,7 +250,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
 
                 return View("ListaTarefas", ListaTotalTarefasModel());
             }
-            
+            tarefaModel.ListaFuncionarios = ListaTotalFuncionarios();
             return View(tarefaModel);
         }
 
@@ -300,6 +300,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
 
                 return View("ListaTarefas", ListaTotalTarefasModel());
             }
+            modelo.ListaFuncionarios = ListaTotalFuncionarios();
             return View(modelo);
         }
 
@@ -355,7 +356,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View(ListaTotalFuncionarios());
         }
 
-        public ActionResult AdicionarFuncionarios()
+        public ActionResult AdicionarFuncionario()
         {
             return View();
         }
