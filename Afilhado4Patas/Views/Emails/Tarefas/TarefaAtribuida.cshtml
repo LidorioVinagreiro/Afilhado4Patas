@@ -1,0 +1,26 @@
+﻿@using Afilhado4Patas.Models.ViewModels
+@model EmailTarefaViewModel
+
+@{
+    ViewData["EmailTitle"] = "Conta Terminada!";
+}
+
+<p>
+    Caro @Model.Nome,
+</p>
+<p>
+    Recebeu uma nova tarefa com os seguintes dados,
+</p>
+<br />
+<p>
+    Data de Inicio: @Model.DataInicio.Date.ToString();
+    Data de Fim: @Model.DataFim.Date.ToString();
+</p>
+<br />
+<p>
+    Descrição: @Model.Descricao
+</p>
+<br />
+<p>
+    Equipa de Suporte Afilhados4Patas
+</p>

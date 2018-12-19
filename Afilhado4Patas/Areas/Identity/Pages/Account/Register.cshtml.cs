@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Afilhado4Patas.Areas.Identity.Services;
 using Afilhado4Patas.Data;
 using Afilhado4Patas.Models;
-using Afilhado4Patas.Views.Emails.ConfirmAccount;
+using Afilhado4Patas.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Identity;
@@ -133,11 +133,9 @@ namespace Afilhado4Patas.Areas.Identity.Pages.Account
                         pageHandler: null,
                         values: new { userId = user.Id, code = code },
                         protocol: Request.Scheme);
-                    string link = HtmlEncoder.Default.Encode(callbackUrl);
-                    var confirmAccountModel = new ConfirmAccountEmailViewModel(link, Input.Nome);
+                    string link = callbackUrl.ToString();
+                    var confirmAccountModel = new EmailViewModel(link, Input.Nome);
                     string body = await _razorView.RenderViewToStringAsync("/Views/Emails/ConfirmAccount/ConfirmAccount.cshtml", confirmAccountModel);
-
-                    //await _emailSender.SendEmailAsync(Input.Email, "Confirme o seu email", $"<a href=\"{link}\">carrega</a>");
                     await _emailSender.SendEmailAsync(Input.Email, "Confirme o seu email", body);
 
                     return RedirectToAction("RegistoCompleto", "Guest");

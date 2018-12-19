@@ -1,0 +1,26 @@
+﻿@using Afilhado4Patas.Models.ViewModels
+@model EmailTarefaViewModel
+
+@{
+    ViewData["EmailTitle"] = "Tarefa Removida!";
+}
+
+<p>
+    Caro @Model.Nome,
+</p>
+<p>
+    A tarefa com os seguintes dados foi removida,
+</p>
+<br />
+<p>
+    Data de Inicio: @Model.DataInicio.Date.ToString();
+    Data de Fim: @Model.DataFim.Date.ToString();
+</p>
+<br />
+<p>
+    Descrição: @Model.Descricao
+</p>
+<br />
+<p>
+    Equipa de Suporte Afilhados4Patas
+</p>

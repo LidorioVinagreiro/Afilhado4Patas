@@ -24,7 +24,7 @@ namespace Afilhado4Patas.Areas.Identity.Pages.Account
         {
             if (userId == null || code == null)
             {
-                return RedirectToPage("/Index");
+                return RedirectToPage("/About");
             }
 
             var user = await _userManager.FindByIdAsync(userId);

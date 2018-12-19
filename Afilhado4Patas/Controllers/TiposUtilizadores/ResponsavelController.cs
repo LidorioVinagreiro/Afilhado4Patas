@@ -23,12 +23,14 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         private readonly ApplicationDbContext _context;
         private readonly UserManager<Utilizadores> _userManager;
         private readonly EmailSender _emailSender;
+        private readonly RazorView _razorView;
 
-        public ResponsavelController(ApplicationDbContext context, UserManager<Utilizadores> userManager, EmailSender emailSender)
+        public ResponsavelController(ApplicationDbContext context, UserManager<Utilizadores> userManager, EmailSender emailSender, RazorView razorView)
         {
             _context = context;
             _userManager = userManager;
             _emailSender = emailSender;
+            _razorView = razorView;
         }
 
         public IActionResult Index()
@@ -231,7 +233,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         }
 
         [HttpPost]
-        public ActionResult EditarTarefa(TarefaViewModel tarefaModel)
+        public async Task<IActionResult> EditarTarefa(TarefaViewModel tarefaModel)
         {
             if (ModelState.IsValid)
             {
@@ -241,17 +243,28 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                 tarefa.FuncionarioId = tarefa.Utilizador.Id;
                 tarefa.Utilizador = tarefa.Utilizador;
                 _context.SaveChanges();
+                //Envio de Email
+                var emailTarefaModel = new EmailTarefaViewModel(tarefa.Descricao, tarefa.Inicio, tarefa.Fim, tarefa.Utilizador.Perfil.FirstName);
+                string body = await _razorView.RenderViewToStringAsync("/Views/Emails/Tarefas/TarefaEditada.cshtml", emailTarefaModel);
+                await _emailSender.SendEmailAsync(tarefa.Utilizador.Email, "Tarefa Editada", body);
+
                 return View("ListaTarefas", ListaTotalTarefasModel());
             }
+            
             return View(tarefaModel);
         }
 
-        public ActionResult ApagarTarefa(int id)
+        public async Task<ActionResult> ApagarTarefa(int id)
         {
-            var tarefa = _context.Tarefa.FirstOrDefault(t => t.Id == id);
+            var tarefa = _context.Tarefa.Where(t => t.Id == id).Include(u => u.Utilizador).ThenInclude(p => p.Perfil).FirstOrDefault();
             _context.Tarefa.Remove(tarefa);
             _context.SaveChanges();
-            
+
+            //Envio de Email
+            var emailTarefaModel = new EmailTarefaViewModel(tarefa.Descricao, tarefa.Inicio, tarefa.Fim, tarefa.Utilizador.Perfil.FirstName);
+            string body = await _razorView.RenderViewToStringAsync("/Views/Emails/Tarefas/TarefaRemovida.cshtml", emailTarefaModel);
+            await _emailSender.SendEmailAsync(tarefa.Utilizador.Email, "Tarefa Removida", body);
+
             return View("ListaTarefas", ListaTotalTarefasModel());
         }
 
@@ -263,7 +276,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         }
 
         [HttpPost]
-        public ActionResult AdicionarTarefa(TarefaViewModel modelo)
+        public async Task<ActionResult> AdicionarTarefa(TarefaViewModel modelo)
         {
             if (ModelState.IsValid)
             {
@@ -279,8 +292,12 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                 };
                 _context.Tarefa.Add(novaTarefa);
                 _context.SaveChanges();
-                _emailSender.SendEmailAsync(funcionario.Email, "Atribuida Nova Tarefa",
-                    "Foi lhe atribuida uma nova tarefa. Dirija-se ao Sistema de Informação para verificar a sua nova Tarefa");
+
+                //Envio de Email
+                var emailTarefaModel = new EmailTarefaViewModel(novaTarefa.Descricao, novaTarefa.Inicio, novaTarefa.Fim, novaTarefa.Utilizador.Perfil.FirstName);
+                string body = await _razorView.RenderViewToStringAsync("/Views/Emails/Tarefas/TarefaAtribuida.cshtml", emailTarefaModel);
+                await _emailSender.SendEmailAsync(novaTarefa.Utilizador.Email, "Tarefa Removida", body);
+
                 return View("ListaTarefas", ListaTotalTarefasModel());
             }
             return View(modelo);
@@ -382,14 +399,18 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         }
 
         [HttpPost]
-        public ActionResult RemoverFuncionarios()
+        public async Task<ActionResult> RemoverFuncionarios()
         {
             List<string> lista = Request.Form["funcionario"].ToList();
             foreach (var elemento in lista)
             {
-                var user = _context.Utilizadores.Where(u => u.Id == elemento).FirstOrDefault();
+                var user = _context.Utilizadores.Where(u => u.Id == elemento).Include(p => p.Perfil).FirstOrDefault();
                 user.Active = false;
                 _context.SaveChanges();
+                //Envio de Email
+                var emailModel = new EmailViewModel("", user.Perfil.FirstName);
+                string body = await _razorView.RenderViewToStringAsync("/Views/Emails/RemoveAccount/RemoveAccount.cshtml", emailModel);
+                await _emailSender.SendEmailAsync(user.Email, "Conta Terminada", body);
             }
             return View("ListaFuncionarios", ListaTotalFuncionarios());
         }

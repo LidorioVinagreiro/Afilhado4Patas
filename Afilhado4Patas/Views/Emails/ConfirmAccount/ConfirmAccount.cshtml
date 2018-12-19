@@ -1,6 +1,5 @@
-﻿@using Afilhado4Patas.Views.Emails.ConfirmAccount
-@using Afilhado4Patas.Views.Emails
-@model ConfirmAccountEmailViewModel
+﻿@using Afilhado4Patas.Models.ViewModels
+@model EmailViewModel
 
 @{
     ViewData["EmailTitle"] = "Bem Vindo!";
@@ -12,7 +11,7 @@
 <p>
     Estamos animados por começar connosco. Primeiro, confirme a sua conta clicando no botão abaixo.
 </p>
-@await Html.PartialAsync("/Views/Emails/EmailButton.cshtml", new EmailButtonViewModel("Confirmar Conta", Model.ConfirmEmailUrl))
+@await Html.PartialAsync("/Views/Emails/EmailButton.cshtml", new EmailButtonViewModel("Confirmar Conta", Model.EmailUrl))
 <br />
 <p>
     Equipa de Suporte Afilhados4Patas

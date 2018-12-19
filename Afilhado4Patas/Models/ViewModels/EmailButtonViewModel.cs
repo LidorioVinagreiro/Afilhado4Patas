@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Afilhado4Patas.Views.Emails
+namespace Afilhado4Patas.Models.ViewModels
 {
     public class EmailButtonViewModel
     {
