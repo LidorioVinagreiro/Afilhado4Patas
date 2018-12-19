@@ -102,7 +102,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         }
 
         /// <summary>
-        /// Ação quedevole a view que permite a edição das informações no perfil do funcionario
+        /// Ação que devole a view que permite a edição das informações no perfil do funcionario
         /// </summary>
         /// <param name="id">Id do funcionario atual</param>
         /// <returns>View de edição dos dados pessoais do perfil</returns>
