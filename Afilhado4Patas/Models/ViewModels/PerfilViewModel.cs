@@ -36,7 +36,7 @@ namespace Afilhado4Patas.Models.ViewModels
         [RegularExpression(@"\d{4}-\d{3}", ErrorMessage = "Insira um código válido no formato XXXX-XXX")]
         public string Postalcode { get; set; }
 
-        [RegularExpression(@"\d{9}", ErrorMessage = "Insira um Numero de Indentificação Fiscal com apenas numeros")]
+        [RegularExpression(@"\d{9}", ErrorMessage = "Insira um Numero de Indentificação Fiscal com apenas numeros e exatamente 9 digitos")]
         [StringLength(9, ErrorMessage = "O {0} deverá ter exatamente 9 digitos", MinimumLength = 9)]
         [Display(Name = "Nif")]
         public string NIF { get; set; }
