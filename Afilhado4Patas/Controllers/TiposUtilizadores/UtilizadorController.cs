@@ -78,10 +78,10 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         /****************************************************************************************************/
 
         /// <summary>
-        /// Ação que devolve a view do perfil com a informação pessoal do utilizador atual
+        /// Ação que devolve a view do perfil com a informação pessoal do responsavel
         /// </summary>
         /// <param name="id">Id do responsavel atual</param>
-        /// <returns>View do perfil com a informação do utilizador</returns>
+        /// <returns>View do perfil com a informação do responsavel</returns>
         // GET: Perfil
         public ActionResult Perfil(string id)
         {
@@ -117,17 +117,12 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             {
                 return NotFound();
             }
-            PerfilViewModel modelo = new PerfilViewModel
+            PerfilEditarDadosPessoaisViewModel modelo = new PerfilEditarDadosPessoaisViewModel
             {
                 FirstName = perfil.FirstName,
                 LastName = perfil.LastName,
-                Street = perfil.Street,
-                City = perfil.City,
-                Postalcode = perfil.Postalcode,
                 NIF = perfil.NIF,
-                Photo = perfil.Photo,
-                Birthday = perfil.Birthday,
-                Genre = perfil.Genre
+                Birthday = perfil.Birthday
             };
             return View(modelo);
         }
@@ -152,30 +147,24 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             {
                 return NotFound();
             }
-            PerfilViewModel modelo = new PerfilViewModel
+            PerfilEditarMoradaViewModel modelo = new PerfilEditarMoradaViewModel
             {
-                FirstName = perfil.FirstName,
-                LastName = perfil.LastName,
                 Street = perfil.Street,
                 City = perfil.City,
-                Postalcode = perfil.Postalcode,
-                NIF = perfil.NIF,
-                Photo = perfil.Photo,
-                Birthday = perfil.Birthday,
-                Genre = perfil.Genre
+                Postalcode = perfil.Postalcode
             };
             return View(modelo);
         }
 
         /// <summary>
-        /// Ação que edita a informação no perfil do utilizador
+        /// Ação que edita a informação no perfil do responsavel
         /// </summary>
-        /// <param name="id">Id do funcionario atual</param>
+        /// <param name="id">Id do responsavel atual</param>
         /// <param name="editarPerfilViewModel">Modelo da informação na view</param>
-        /// <returns>View do perfil de utilizador com a informação atualizada</returns>
+        /// <returns>View do perfil do responsavel com a informação atualizada</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> PerfilEditarDadosPessoais(string id, PerfilViewModel editarPerfilViewModel)
+        public async Task<IActionResult> PerfilEditarDadosPessoais(string id, PerfilEditarDadosPessoaisViewModel editarPerfilViewModel)
         {
             Utilizadores user;
             if (id == null)
@@ -206,14 +195,14 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         }
 
         /// <summary>
-        /// Ação que altera a informação referente a morada do utilizador
+        /// Ação que altera a informação referente a morada do responsavel
         /// </summary>
-        /// <param name="id">Id do funcionario atual</param>
+        /// <param name="id">Id do responsavel atual</param>
         /// <param name="editarPerfilViewModel">Modelo da informação na view</param>
-        /// <returns>View do perfil de utilizador com a informação atualizada</returns>
+        /// <returns>View do perfil do responsavel com a informação atualizada</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> PerfilEditarMorada(string id, PerfilViewModel editarPerfilViewModel)
+        public async Task<IActionResult> PerfilEditarMorada(string id, PerfilEditarMoradaViewModel editarPerfilViewModel)
         {
             Utilizadores user;
             if (id == null)

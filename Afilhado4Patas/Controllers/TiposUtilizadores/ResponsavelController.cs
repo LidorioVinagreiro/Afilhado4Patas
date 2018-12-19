@@ -132,17 +132,12 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             {
                 return NotFound();
             }
-            PerfilViewModel modelo = new PerfilViewModel
+            PerfilEditarDadosPessoaisViewModel modelo = new PerfilEditarDadosPessoaisViewModel
             {
                 FirstName = perfil.FirstName,
                 LastName = perfil.LastName,
-                Street = perfil.Street,
-                City = perfil.City,
-                Postalcode = perfil.Postalcode,
                 NIF = perfil.NIF,
-                Photo = perfil.Photo,
-                Birthday = perfil.Birthday,
-                Genre = perfil.Genre
+                Birthday = perfil.Birthday
             };
             return View(modelo);
         }
@@ -167,17 +162,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             {
                 return NotFound();
             }
-            PerfilViewModel modelo = new PerfilViewModel
+            PerfilEditarMoradaViewModel modelo = new PerfilEditarMoradaViewModel
             {
-                FirstName = perfil.FirstName,
-                LastName = perfil.LastName,
                 Street = perfil.Street,
                 City = perfil.City,
-                Postalcode = perfil.Postalcode,
-                NIF = perfil.NIF,
-                Photo = perfil.Photo,
-                Birthday = perfil.Birthday,
-                Genre = perfil.Genre
+                Postalcode = perfil.Postalcode
             };
             return View(modelo);
         }
@@ -190,7 +179,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         /// <returns>View do perfil do responsavel com a informação atualizada</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> PerfilEditarDadosPessoais(string id, PerfilViewModel editarPerfilViewModel)
+        public async Task<IActionResult> PerfilEditarDadosPessoais(string id, PerfilEditarDadosPessoaisViewModel editarPerfilViewModel)
         {
             Utilizadores user;
             if (id == null)
@@ -228,7 +217,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         /// <returns>View do perfil do responsavel com a informação atualizada</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> PerfilEditarMorada(string id, PerfilViewModel editarPerfilViewModel)
+        public async Task<IActionResult> PerfilEditarMorada(string id, PerfilEditarMoradaViewModel editarPerfilViewModel)
         {
             Utilizadores user;
             if (id == null)
