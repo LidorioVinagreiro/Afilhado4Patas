@@ -4,18 +4,17 @@
     <title></title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <link rel="stylesheet" href="~/css/styleEmail.css" />
 </head>
-<body style="background-color: #f4f4f4; margin: 0 !important; padding: 0 !important;">    
-    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+<body>    
+    <table>
         <tr>
-            <td bgcolor="#8a3d43" align="center">
-                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
+            <td id="td1">
+                <table>
                     <tr>
-                        <td align="center" valign="top" style="padding: 40px 10px 40px 10px;">
+                        <td id="td2">
                             <a>
-                                <img alt="Logo" src="http://afilhado4patas.azurewebsites.net/images/logo.png" style="display: block; width: 140px; max-width: 140px; min-width: 140px; height: 70px; max-height:70px; min-height:70px; font-family: 'Lato', Helvetica, Arial, sans-serif; color: #ffffff; font-size: 18px;" border="0">
+                                <img id="img1">
                             </a>
                         </td>
                     </tr>
@@ -23,36 +22,35 @@
             </td>
         </tr>
         <tr>
-            <td bgcolor="#8a3d43" align="center" style="padding: 0px 10px 0px 10px;">
-                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
+            <td id="td3">
+                <table>
                     <tr>
-                        <td bgcolor="#ffffff" align="center" valign="top" style="padding: 40px 20px 20px 20px; border-radius: 4px 4px 0px 0px; color: #111111; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 48px; font-weight: 400; letter-spacing: 4px; line-height: 48px;">
-                            <h1 style="font-size: 48px; font-weight: 400; margin: 0;">@ViewData["EmailTitle"]</h1>
+                        <td id="td4">
+                            <h1 id="h1">@ViewData["EmailTitle"]</h1>
                         </td>
                     </tr>
                 </table>
             </td>
         </tr>
         <tr>
-            <td bgcolor="#f4f4f4" align="center" style="padding: 0px 10px 0px 10px;">
-                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
+            <td id="td5">
+                <table>
                     <tr>
-                        <td bgcolor="#ffffff" align="left" style="padding: 20px 30px 40px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
+                        <td id="td6">                            
                             @RenderBody()
                         </td>
                     </tr>
                 </table>
             </td>
         </tr>
-        <!-- FOOTER -->
         <tr>
-            <td bgcolor="#f4f4f4" align="center" style="padding: 0px 10px 0px 10px;">
-                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">    
+            <td id="td7">
+                <table>    
                     <tr>
-                        <td bgcolor="#f4f4f4" align="left" style="padding: 0px 30px 30px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 400; line-height: 18px;">
+                        <td id="td8">
                             <br />
-                            <p style="margin: 0;">Se tiver alguma questão, envie um email para afilhados4patas@gmail.com</p>
-                            <p style="margin: 0;">Estaremos felizes em poder ajudá-lo</p>
+                            <p>Se tiver alguma questão, envie um email para afilhados4patas@gmail.com</p>
+                            <p>Estaremos felizes em poder ajudá-lo</p>
                         </td>
                     </tr>
                 </table>

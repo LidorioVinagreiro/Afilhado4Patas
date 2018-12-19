@@ -27,7 +27,7 @@ namespace Afilhado4Patas.Areas.Identity.Services
             {
                 From = new EmailAddress("afilhados4patas@gmail.com", "Afilhados4Patas"),
                 Subject = subject,
-                HtmlContent = message
+                HtmlContent = message                
             };
             msg.AddTo(new EmailAddress(email, ""));
             return client.SendEmailAsync(msg);
