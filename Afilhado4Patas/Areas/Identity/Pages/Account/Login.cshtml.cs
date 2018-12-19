@@ -53,6 +53,7 @@ namespace Afilhado4Patas.Areas.Identity.Pages.Account
             [RegularExpression(@"^[a-zA-Z0-9]+$", ErrorMessage = "A sua password deverá ter letras (aA) e pelo menos 1 numero e não deverá ter caracteres que não letras ou numeros")]
             [StringLength(15, ErrorMessage = "A {0} deverá ter pelo menos {2} e um maximo de {1} caracteres de comprimento.", MinimumLength = 8)]
             [DataType(DataType.Password)]
+            [PasswordAtLeast1LetterAnd1Number]
             [Display(Name = "Palavra-Passe")]
             public string Password { get; set; }
 
