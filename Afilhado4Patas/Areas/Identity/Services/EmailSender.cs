@@ -1,14 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.Azure.KeyVault;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Clients.ActiveDirectory;
-using SendGrid;
-using SendGrid.Helpers.Mail;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Net;
-using System.Net.Mail;
+﻿using System.Net.Mail;
 using System.Threading.Tasks;
 
 namespace Afilhado4Patas.Areas.Identity.Services
@@ -19,9 +9,9 @@ namespace Afilhado4Patas.Areas.Identity.Services
         {
             return Execute(subject, message, email);
         }
-        public Task Execute(string subject, string message, string email)
+        public async Task Execute(string subject, string message, string email)
         {
-            var apiKey = System.Environment.GetEnvironmentVariable("SENDGRID_APIKEY");
+            /*var apiKey = System.Environment.GetEnvironmentVariable("SENDGRID_APIKEY");
             var client = new SendGridClient(apiKey);
             var msg = new SendGridMessage()
             {
@@ -30,7 +20,20 @@ namespace Afilhado4Patas.Areas.Identity.Services
                 HtmlContent = message                
             };
             msg.AddTo(new EmailAddress(email, ""));
-            return client.SendEmailAsync(msg);
+            return client.SendEmailAsync(msg);*/
+
+            MailMessage mail = new MailMessage(new MailAddress("afilhados4patas@gmail.com", "Afilhados4Patas"),
+                new MailAddress(email));
+
+            mail.Subject = subject;
+            mail.Body = message;
+
+            mail.IsBodyHtml = true;
+
+            using (var mailClient = new GmailEmailService())
+            {
+                await mailClient.SendMailAsync(mail);
+            }
         }        
     }
 }
