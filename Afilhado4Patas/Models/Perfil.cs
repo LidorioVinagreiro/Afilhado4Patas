@@ -33,7 +33,8 @@ namespace Afilhado4Patas.Models
         [RegularExpression(@"\d{9}")]
         [Display(Name = "Nif")]
         public string NIF { get; set; }
-
+   
+        public string Directoria { get; set; }
         [Display(Name = "Foto")]
         public string Photo { get; set; }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
 using System.Net.Mail;
 using System.Net.Mime;
 using System.Text.Encodings.Web;
@@ -10,6 +11,7 @@ using Afilhado4Patas.Data;
 using Afilhado4Patas.Models;
 using Afilhado4Patas.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -22,6 +24,7 @@ namespace Afilhado4Patas.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class RegisterModel : PageModel
     {
+        private readonly IHostingEnvironment _hostingEnvironment;
         private readonly SignInManager<Utilizadores> _signInManager;
         private readonly UserManager<Utilizadores> _userManager;
         private readonly ILogger<RegisterModel> _logger;
@@ -30,6 +33,7 @@ namespace Afilhado4Patas.Areas.Identity.Pages.Account
         private readonly RazorView _razorView;
 
         public RegisterModel(
+            IHostingEnvironment hostingEnvironment,
             UserManager<Utilizadores> userManager,
             SignInManager<Utilizadores> signInManager,
             ILogger<RegisterModel> logger,
@@ -37,6 +41,7 @@ namespace Afilhado4Patas.Areas.Identity.Pages.Account
             ApplicationDbContext contexto,
             RazorView razorView)
         {
+            _hostingEnvironment = hostingEnvironment;
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
@@ -141,6 +146,11 @@ namespace Afilhado4Patas.Areas.Identity.Pages.Account
                     string body = await _razorView.RenderViewToStringAsync("/Views/Emails/ConfirmAccount/ConfirmAccount.cshtml", confirmAccountModel);
                     await _emailSender.SendEmailAsync(Input.Email, "Confirme o seu email", body);
 
+                    if (!CreateFolder(user)) {
+                        _logger.LogInformation("Falha ao criar a pasta do utilizador");
+                    }
+                    string directoriaUtilizador = _hostingEnvironment.WebRootPath + "\\Utilizadores\\" + user.Id;
+                    perfilUtilizador.Directoria = directoriaUtilizador;
                     return RedirectToAction("RegistoCompleto", "Guest");
                 }
                 foreach (var error in result.Errors)
@@ -150,6 +160,18 @@ namespace Afilhado4Patas.Areas.Identity.Pages.Account
             }
             // If we got this far, something failed, redisplay form
             return Page();
-        }        
+        }
+        private bool CreateFolder(Utilizadores user) {
+            string pathUtilizadores = _hostingEnvironment.WebRootPath + "\\Utilizadores";
+            string pathUser = pathUtilizadores + "\\" + user.Id;
+            if (Directory.Exists(pathUtilizadores) && !Directory.Exists(pathUser))
+            {
+                Directory.CreateDirectory(pathUser);
+                return Directory.Exists(pathUser);
+            }
+            return Directory.Exists(pathUser);
+        }
+        
+        }
     }
-}
+

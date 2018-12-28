@@ -15,6 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Afilhado4Patas.Areas.Identity.Services;
 using Microsoft.Extensions.Logging;
 using System.Data.SqlClient;
+using System.IO;
 
 namespace Afilhado4Patas
 {
@@ -67,6 +68,20 @@ namespace Afilhado4Patas
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env,ILoggerFactory loggerFactory)
         {
+            string users = "\\Utilizadores";
+            string path = env.WebRootPath + users;
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+
+            string animais = "\\Animais";
+            string pathAnimais = env.WebRootPath + animais;
+            if (!Directory.Exists(pathAnimais))
+            {
+                Directory.CreateDirectory(pathAnimais);
+            }
+
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 

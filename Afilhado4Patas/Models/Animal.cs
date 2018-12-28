@@ -19,8 +19,13 @@ namespace Afilhado4Patas.Models
         public string Porte { get; set; }
         [Display(Name = "Descrição")]
         public string Descricao { get; set; }
+        public string DirectoriaAnimal { get; set; }
         public string Foto { get; set; }
+        public Boolean Adoptado { get; set; }
 
+        [ForeignKey("Perfil")]
+        public int? PadrinhoId { get; set; }
+        public virtual Perfil Padrinho { get; set; }
         [ForeignKey("Raca")]
         public int? RacaId { get; set; }
         public Raca RacaAnimal { get; set; }
