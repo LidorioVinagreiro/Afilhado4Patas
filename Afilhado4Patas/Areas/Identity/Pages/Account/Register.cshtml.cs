@@ -151,6 +151,7 @@ namespace Afilhado4Patas.Areas.Identity.Pages.Account
                     }
                     string directoriaUtilizador = _hostingEnvironment.WebRootPath + "\\Utilizadores\\" + user.Id;
                     perfilUtilizador.Directoria = directoriaUtilizador;
+                    _contexto.SaveChanges();
                     return RedirectToAction("RegistoCompleto", "Guest");
                 }
                 foreach (var error in result.Errors)
@@ -161,6 +162,7 @@ namespace Afilhado4Patas.Areas.Identity.Pages.Account
             // If we got this far, something failed, redisplay form
             return Page();
         }
+
         private bool CreateFolder(Utilizadores user) {
             string pathUtilizadores = _hostingEnvironment.WebRootPath + "\\Utilizadores";
             string pathUser = pathUtilizadores + "\\" + user.Id;

@@ -23,6 +23,19 @@ namespace Afilhado4Patas.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Categorias",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Nome = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Categorias", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "PerfilTable",
                 columns: table => new
                 {
@@ -35,6 +48,7 @@ namespace Afilhado4Patas.Migrations
                     City = table.Column<string>(nullable: true),
                     Postalcode = table.Column<string>(nullable: true),
                     NIF = table.Column<string>(nullable: true),
+                    Directoria = table.Column<string>(nullable: true),
                     Photo = table.Column<string>(nullable: true),
                     Birthday = table.Column<DateTime>(nullable: false),
                     Genre = table.Column<string>(nullable: true)
@@ -66,6 +80,26 @@ namespace Afilhado4Patas.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Racas",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CategoriaId = table.Column<int>(nullable: true),
+                    NomeRaca = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Racas", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Racas_Categorias_CategoriaId",
+                        column: x => x.CategoriaId,
+                        principalTable: "Categorias",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetUsers",
                 columns: table => new
                 {
@@ -94,6 +128,39 @@ namespace Afilhado4Patas.Migrations
                         name: "FK_AspNetUsers_PerfilTable_PerfilId",
                         column: x => x.PerfilId,
                         principalTable: "PerfilTable",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Animais",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    NomeAnimal = table.Column<string>(nullable: true),
+                    DataNasc = table.Column<DateTime>(nullable: false),
+                    Porte = table.Column<string>(nullable: true),
+                    Descricao = table.Column<string>(nullable: true),
+                    DirectoriaAnimal = table.Column<string>(nullable: true),
+                    Foto = table.Column<string>(nullable: true),
+                    Adoptado = table.Column<bool>(nullable: false),
+                    PadrinhoId = table.Column<int>(nullable: true),
+                    RacaId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Animais", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Animais_PerfilTable_PadrinhoId",
+                        column: x => x.PadrinhoId,
+                        principalTable: "PerfilTable",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Animais_Racas_RacaId",
+                        column: x => x.RacaId,
+                        principalTable: "Racas",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -208,6 +275,16 @@ namespace Afilhado4Patas.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Animais_PadrinhoId",
+                table: "Animais",
+                column: "PadrinhoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Animais_RacaId",
+                table: "Animais",
+                column: "RacaId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
                 column: "RoleId");
@@ -254,6 +331,11 @@ namespace Afilhado4Patas.Migrations
                 filter: "[PerfilId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Racas_CategoriaId",
+                table: "Racas",
+                column: "CategoriaId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Tarefa_UtilizadorId",
                 table: "Tarefa",
                 column: "UtilizadorId");
@@ -261,6 +343,9 @@ namespace Afilhado4Patas.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Animais");
+
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -280,10 +365,16 @@ namespace Afilhado4Patas.Migrations
                 name: "Tarefa");
 
             migrationBuilder.DropTable(
+                name: "Racas");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Categorias");
 
             migrationBuilder.DropTable(
                 name: "PerfilTable");

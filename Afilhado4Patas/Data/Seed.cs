@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Afilhado4Patas.Models;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,7 +13,7 @@ namespace Afilhado4Patas.Data
 {
     public static class Seed
     {
-        public static async Task CreateInitialData(IServiceProvider serviceProvider, IConfiguration Configuration, ApplicationDbContext contexto)
+        public static async Task CreateInitialData(IServiceProvider serviceProvider, IConfiguration Configuration, ApplicationDbContext contexto, IHostingEnvironment hostingEnvironment)
         {
             //adding customs roles
             var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
@@ -49,8 +51,10 @@ namespace Afilhado4Patas.Data
                     Street = "Rua Das Flores",
                     NIF = "123456789",
                     Postalcode = "2564-568",
-                    City = "Setubal"
+                    City = "Setubal",
                 };
+                CreateFolder(responsavel, hostingEnvironment);
+                perfilResponsavel.Directoria = hostingEnvironment.WebRootPath + "\\Utilizadores\\" + responsavel.Id;
                 contexto.PerfilTable.Add(perfilResponsavel);
                 contexto.SaveChanges();
                 responsavel.PerfilId = perfilResponsavel.Id;
@@ -85,6 +89,8 @@ namespace Afilhado4Patas.Data
                     Postalcode = "2564-405",
                     City = "Lisboa"
                 };
+                CreateFolder(funcionario, hostingEnvironment);
+                perfilFuncionario.Directoria = hostingEnvironment.WebRootPath + "\\Utilizadores\\" + funcionario.Id;
                 contexto.PerfilTable.Add(perfilFuncionario);
                 contexto.SaveChanges();
                 funcionario.PerfilId = perfilFuncionario.Id;
@@ -119,6 +125,8 @@ namespace Afilhado4Patas.Data
                     Postalcode = "2564-405",
                     City = "Lisboa"
                 };
+                CreateFolder(funcionario2, hostingEnvironment);
+                perfilFuncionario.Directoria = hostingEnvironment.WebRootPath + "\\Utilizadores\\" + funcionario2.Id;
                 contexto.PerfilTable.Add(perfilFuncionario);
                 contexto.SaveChanges();
                 funcionario2.PerfilId = perfilFuncionario.Id;
@@ -128,6 +136,115 @@ namespace Afilhado4Patas.Data
                     await UserManager.AddToRoleAsync(funcionario2, "Funcionario");
                 }
             }
+
+            //Categorias
+            if (contexto.Categorias.Count() == 0)
+            {
+                contexto.Categorias.Add(criarCategoria("Caes"));
+                contexto.Categorias.Add(criarCategoria("Gatos"));
+                contexto.Categorias.Add(criarCategoria("Passaros"));
+                contexto.Categorias.Add(criarCategoria("Cavalos"));
+                contexto.SaveChanges();
+            }
+
+            //Racas
+            if (contexto.Racas.Count() == 0)
+            {
+                //Caes
+                int categoria = retornarCategoriaId("Caes", contexto);
+                contexto.Racas.Add(criarRaca("Bulldogue", categoria));
+                contexto.Racas.Add(criarRaca("Yorkshire Terrier", categoria));
+                contexto.Racas.Add(criarRaca("Labrador Retriever", categoria));
+                contexto.Racas.Add(criarRaca("Pastor-Alemao", categoria));
+                contexto.Racas.Add(criarRaca("Buldogue Frances", categoria));
+                contexto.Racas.Add(criarRaca("Pug", categoria));
+                contexto.Racas.Add(criarRaca("Beagle", categoria));
+                contexto.Racas.Add(criarRaca("Rottweiler", categoria));
+                contexto.Racas.Add(criarRaca("Golden Retriever", categoria));
+                contexto.Racas.Add(criarRaca("Bull Terrier", categoria));
+                contexto.Racas.Add(criarRaca("Cocker Spaniel", categoria));
+                contexto.Racas.Add(criarRaca("Chihuahua", categoria));
+                contexto.Racas.Add(criarRaca("Husky", categoria));
+                contexto.Racas.Add(criarRaca("Pit Bull Terrier", categoria));
+                contexto.Racas.Add(criarRaca("Pinsher", categoria));
+                contexto.Racas.Add(criarRaca("Boxer", categoria));
+                contexto.Racas.Add(criarRaca("Salsicha", categoria));
+                contexto.Racas.Add(criarRaca("Border Collie", categoria));
+                contexto.Racas.Add(criarRaca("Doberman", categoria));
+                contexto.Racas.Add(criarRaca("Akita", categoria));
+                contexto.Racas.Add(criarRaca("Chow-Chow", categoria));
+                contexto.Racas.Add(criarRaca("Sao-Bernardo", categoria));
+                contexto.Racas.Add(criarRaca("Dogue Alemao", categoria));
+                contexto.Racas.Add(criarRaca("Dalmata", categoria));
+                contexto.Racas.Add(criarRaca("Shar-pei", categoria));
+                contexto.Racas.Add(criarRaca("Cane Corso", categoria));
+                contexto.Racas.Add(criarRaca("Terra Nova", categoria));
+                contexto.Racas.Add(criarRaca("Dogue Bordeus", categoria));
+                contexto.Racas.Add(criarRaca("Mastim", categoria));
+                contexto.Racas.Add(criarRaca("Galgo", categoria));
+                contexto.Racas.Add(criarRaca("N/A", categoria));
+
+                ///Gatos
+                categoria = retornarCategoriaId("Gatos", contexto);
+                contexto.Racas.Add(criarRaca("Persa", categoria));
+                contexto.Racas.Add(criarRaca("Siames", categoria));
+                contexto.Racas.Add(criarRaca("Siberiano", categoria));
+                contexto.Racas.Add(criarRaca("N/A", categoria));
+
+                //Cavalos
+                categoria = retornarCategoriaId("Cavalos", contexto);
+                contexto.Racas.Add(criarRaca("Puro Sangue", categoria));
+                contexto.Racas.Add(criarRaca("Cavalo Arabe", categoria));
+                contexto.Racas.Add(criarRaca("Lusitano", categoria));
+                contexto.Racas.Add(criarRaca("Mustangue", categoria));
+                contexto.Racas.Add(criarRaca("N/A", categoria));
+
+                //Passaros
+                categoria = retornarCategoriaId("Passaros", contexto);
+                contexto.Racas.Add(criarRaca("Caturra", categoria));
+                contexto.Racas.Add(criarRaca("Piriquito", categoria));
+                contexto.Racas.Add(criarRaca("Mandarim", categoria));
+                contexto.Racas.Add(criarRaca("Papagaio", categoria));
+                contexto.Racas.Add(criarRaca("N/A", categoria));
+                contexto.SaveChanges();
+            }
+
+        }
+
+        private static Raca criarRaca(string nome, int categoria)
+        {
+            Raca raca = new Raca
+            {
+                NomeRaca = nome,
+                CategoriaId = categoria
+            };
+            return raca;
+        }
+
+        private static Categoria criarCategoria(string nome)
+        {
+            Categoria categoria = new Categoria
+            {
+                Nome = nome
+            };
+            return categoria;
+        }
+
+        private static int retornarCategoriaId(string nome, ApplicationDbContext contexto)
+        {
+            return contexto.Categorias.Where(c => c.Nome == nome).FirstOrDefault().Id;
+        }
+
+        private static bool CreateFolder(Utilizadores user, IHostingEnvironment hostingEnvironment)
+        {
+            string pathUtilizadores = hostingEnvironment.WebRootPath + "\\Utilizadores";
+            string pathUser = pathUtilizadores + "\\" + user.Id;
+            if (Directory.Exists(pathUtilizadores) && !Directory.Exists(pathUser))
+            {
+                Directory.CreateDirectory(pathUser);
+                return Directory.Exists(pathUser);
+            }
+            return Directory.Exists(pathUser);
         }
     }
 }
