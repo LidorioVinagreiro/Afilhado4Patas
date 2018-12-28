@@ -326,6 +326,13 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         {
             return _context.PerfilTable.Any(e => e.Id == id);
         }
+        /****************************************************************************************************/
+        /******************************************** Animais ***********************************************/
+        /****************************************************************************************************/
+
+        public ActionResult RegistarAnimal() {
+            return View("RegistoAnimal");
+        }
 
         /// <summary>
         /// Ação que devolve a view de erro, caso ocorra um erro esta view e devolvida com a informação do erro

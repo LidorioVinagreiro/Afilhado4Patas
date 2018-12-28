@@ -21,5 +21,10 @@ namespace Afilhado4Patas.Data
         public DbSet<Utilizadores> Utilizadores { get; set; }
         public DbSet<Perfil> PerfilTable { get; set; }
         public DbSet<Tarefa> Tarefa { get; set; }
+
+        public DbSet<Animal> Animais { get; set; }
+        public DbSet<Raca> Racas { get; set; }
+        public DbSet<Categoria> Categorias { get; set; }
+
     }
 }
