@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Afilhado4Patas.Migrations
 {
-    public partial class sprint2 : Migration
+    public partial class racas_animais : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
