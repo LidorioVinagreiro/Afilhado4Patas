@@ -98,6 +98,8 @@ namespace Afilhado4Patas.Migrations
 
                     b.Property<int?>("PadrinhoId");
 
+                    b.Property<int>("Peso");
+
                     b.Property<string>("Porte");
 
                     b.Property<int?>("RacaId");

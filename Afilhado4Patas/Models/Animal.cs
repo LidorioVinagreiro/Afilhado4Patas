@@ -17,6 +17,8 @@ namespace Afilhado4Patas.Models
         public DateTime DataNasc { get; set; }
         [Display(Name = "Porte")]
         public string Porte { get; set; }
+        [Display(Name ="Peso")]
+        public int Peso { get; set; }
         [Display(Name = "Descrição")]
         public string Descricao { get; set; }
         public string DirectoriaAnimal { get; set; }

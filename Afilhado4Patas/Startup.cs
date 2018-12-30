@@ -51,7 +51,7 @@ namespace Afilhado4Patas
             .AddDefaultTokenProviders();
             
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("LocalConnection")));
             // Automatically perform database migration
             try
             {
@@ -60,7 +60,9 @@ namespace Afilhado4Patas
             catch (SqlException e) {
                 // log information about exception
             }
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);            
+            services.AddMvc()
+                .AddJsonOptions(options=> options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);            
             services.AddSingleton<EmailSender>();
             services.AddScoped<RazorView>();
         }

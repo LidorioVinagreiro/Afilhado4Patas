@@ -1,15 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Afilhado4Patas.Data;
 using Afilhado4Patas.Models;
 using Afilhado4Patas.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace Afilhado4Patas.Controllers.TiposUtilizadores
 {
@@ -20,14 +24,20 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
     public class FuncionarioController : Controller
     {
         private readonly ApplicationDbContext _context;
-
+        private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly ILogger<Utilizadores> _logger;
         /// <summary>
         /// Inicialização do controller
         /// </summary>
         /// <param name="context">Objeto da base dados</param>
-        public FuncionarioController(ApplicationDbContext context)
+        public FuncionarioController(
+            ApplicationDbContext context,
+            IHostingEnvironment hostingEnvironment,
+            ILogger<Utilizadores> logger)
         {
             _context = context;
+            _hostingEnvironment = hostingEnvironment;
+            _logger = logger;
         }
 
         /// <summary>
@@ -246,7 +256,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         {
             return View(ListaTotalTarefasUtilizadorModel(id));
         }
-        
+
         /// <summary>
         /// Ação que devolve a view com a informação referente a uma tarefa
         /// </summary>
@@ -260,16 +270,16 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             }
             Tarefa tarefa = _context.Tarefa.Where(t => t.Id == id).Include(u => u.Utilizador).ThenInclude(p => p.Perfil).FirstOrDefault();
             TarefaViewModel tarefaModel = new TarefaViewModel
-                {
-                    Id = tarefa.Id,
-                    FuncionarioId = tarefa.FuncionarioId,
-                    Inicio = tarefa.Inicio,
-                    Fim = tarefa.Fim,
-                    Descricao = tarefa.Descricao,
-                    Completada = tarefa.Completada,
-                    Utilizador = tarefa.Utilizador,
-                    ListaFuncionarios = ListaTotalFuncionarios()
-                };           
+            {
+                Id = tarefa.Id,
+                FuncionarioId = tarefa.FuncionarioId,
+                Inicio = tarefa.Inicio,
+                Fim = tarefa.Fim,
+                Descricao = tarefa.Descricao,
+                Completada = tarefa.Completada,
+                Utilizador = tarefa.Utilizador,
+                ListaFuncionarios = ListaTotalFuncionarios()
+            };
             return View(tarefaModel);
         }
 
@@ -280,7 +290,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         /// <returns>lista das tarefas de um utilizador</returns>
         public List<TarefaViewModel> ListaTotalTarefasUtilizadorModel(string id)
         {
-            List<Tarefa> tarefas =  (from tarefa in _context.Tarefa
+            List<Tarefa> tarefas = (from tarefa in _context.Tarefa
                                     join a in _context.Utilizadores on tarefa.FuncionarioId equals a.Id
                                     where a.Email == id
                                     select tarefa).Include(u => u.Utilizador).ThenInclude(p => p.Perfil).ToList();
@@ -298,7 +308,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                     Completada = tarefa.Completada,
                     Utilizador = tarefa.Utilizador,
                     ListaFuncionarios = ListaTotalFuncionarios()
-                };                
+                };
                 tarefasModel.Add(t);
             }
             return tarefasModel;
@@ -331,7 +341,62 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         /****************************************************************************************************/
 
         public ActionResult RegistarAnimal() {
-            return View("RegistoAnimal");
+            var model = new RegistarAnimalViewModel();
+            model.Categorias = _context.Categorias.Select(categ => new SelectListItem()
+            {
+                Value = categ.Id.ToString(),
+                Text = categ.Nome
+            }).ToList();
+            return View("RegistoAnimal", model);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult RegistarAnimal([Bind] RegistarAnimalViewModel model) {
+            if (ModelState.IsValid)
+            {
+                Animal entradaAnimal = new Animal
+                {
+                    NomeAnimal = model.NomeAnimal,
+                    Descricao = model.Descricao,
+                    DataNasc = model.DataNasc,
+                    Porte = model.Porte,
+                    Peso = model.Peso,
+                    RacaId = model.RacaId,
+                    Adoptado = false
+                };
+                _context.Animais.Add(entradaAnimal);
+                _context.SaveChanges();               
+                entradaAnimal.DirectoriaAnimal = _hostingEnvironment.WebRootPath+"\\Animais\\" + entradaAnimal.Id;
+                if (!CreateFolder(entradaAnimal.DirectoriaAnimal)) {
+                    _logger.LogInformation("Falha ao criar a pasta do animal");
+                }
+                _context.SaveChanges();
+                return View("RegistoCompleto");
+            }
+            model.Categorias = _context.Categorias.Select(categ => new SelectListItem()
+            {
+                Value = categ.Id.ToString(),
+                Text = categ.Nome
+            }).ToList();
+            return View("RegistoAnimal", model);
+        }
+        private bool CreateFolder(string path)
+        {
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+                return Directory.Exists(path);
+            }
+            return Directory.Exists(path);
+        }
+
+        [HttpGet]
+        public JsonResult RacasPorCategoria(int CategoriaID) {
+            var racas = (from racasAux in _context.Racas
+                         where racasAux.CategoriaId == CategoriaID
+                         orderby racasAux.NomeRaca
+                                     select new Raca { Id = racasAux.Id, NomeRaca = racasAux.NomeRaca }).ToList();
+            return Json(new SelectList(racas,"Id","NomeRaca"));
         }
 
         /// <summary>
