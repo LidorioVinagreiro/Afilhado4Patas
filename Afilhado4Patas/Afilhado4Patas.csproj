@@ -50,6 +50,9 @@
     <Content Update="Views\Funcionario\PerfilEditarDadosPessoais.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Views\Funcionario\PerfilEditarFotoPerfil.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\Funcionario\PerfilEditarMorada.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
@@ -59,10 +62,16 @@
     <Content Update="Views\Responsavel\PerfilEditarDadosPessoais.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Views\Responsavel\PerfilEditarFotoPerfil.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\Responsavel\PerfilEditarMorada.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Views\Responsavel\Tarefa.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Utilizador\PerfilEditarFotoPerfil.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Views\Utilizador\PerfilEditarMorada.cshtml">

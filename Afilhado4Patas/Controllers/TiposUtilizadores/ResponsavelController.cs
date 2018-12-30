@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Afilhado4Patas.Areas.Identity.Services;
 using Afilhado4Patas.Data;
 using Afilhado4Patas.Models;
 using Afilhado4Patas.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -27,6 +30,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         private readonly UserManager<Utilizadores> _userManager;
         private readonly EmailSender _emailSender;
         private readonly RazorView _razorView;
+        private readonly IHostingEnvironment _hostingEnvironment;
 
         /// <summary>
         /// Inicialização do controller
@@ -35,12 +39,13 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         /// <param name="userManager">Lista de utilizadores</param>
         /// <param name="emailSender">Objeto que contem a ação de envio de email</param>
         /// <param name="razorView">Objeto que constroi as paginas para o corpo dos emails</param>
-        public ResponsavelController(ApplicationDbContext context, UserManager<Utilizadores> userManager, EmailSender emailSender, RazorView razorView)
+        public ResponsavelController(ApplicationDbContext context, UserManager<Utilizadores> userManager, EmailSender emailSender, RazorView razorView, IHostingEnvironment hostingEnvironment)
         {
             _context = context;
             _userManager = userManager;
             _emailSender = emailSender;
             _razorView = razorView;
+            _hostingEnvironment = hostingEnvironment;
         }
 
         /// <summary>
@@ -104,7 +109,6 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             {
                 return NotFound();
             }
-
             var user = _context.Utilizadores.Where(u => u.Email == id).Include(p => p.Perfil).FirstOrDefault();
             if (user == null)
             {
@@ -245,6 +249,40 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View(editarPerfilViewModel);
         }
 
+        public ActionResult PerfilEditarFotoPerfil(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> PerfilEditarFotoPerfil(string id, ImagemPerfilUploadViewModel model)
+        {
+            Utilizadores user;
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                if (model.File != null)
+                {
+                    user = _context.Utilizadores.Where(u => u.Email == id).Include(p => p.Perfil).FirstOrDefault();
+                    user.Perfil.Photo = model.File.FileName;
+                    _context.SaveChanges();
+                    var filePath = user.Perfil.Directoria + "\\" + model.File.FileName;
+                    var fileStream = new FileStream(filePath, FileMode.Create);
+                    await model.File.CopyToAsync(fileStream);
+                    return View("Perfil", user);
+                }
+            }
+            return View();
+        }
+
         /****************************************************************************************************/
         /******************************************** Tarefas ***********************************************/
         /****************************************************************************************************/
@@ -254,7 +292,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         /// </summary>
         /// <returns>View que mostra a lista de tarefas na base de dados</returns>
         public ActionResult ListaTarefas()
-        {            
+        {
             return View(ListaTotalTarefasModel());
         }
 
@@ -419,7 +457,8 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             List<Utilizadores> funcionarios = new List<Utilizadores>();
             foreach (var tarefa in tarefas)
             {
-                TarefaViewModel t = new TarefaViewModel {
+                TarefaViewModel t = new TarefaViewModel
+                {
                     Id = tarefa.Id,
                     FuncionarioId = tarefa.FuncionarioId,
                     Inicio = tarefa.Inicio,
@@ -428,7 +467,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                     Completada = tarefa.Completada,
                     Utilizador = tarefa.Utilizador,
                     ListaFuncionarios = ListaTotalFuncionarios()
-                };  
+                };
                 tarefasModel.Add(t);
             }
             return tarefasModel;
@@ -540,7 +579,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             {
                 Utilizador = user,
                 ListaTarefas = ListaTotalTarefasUtilizadorModel(user.Email)
-            };            
+            };
             return View(funcionario);
         }
 
@@ -571,10 +610,10 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         public List<Utilizadores> ListaTotalFuncionarios()
         {
             return (from users in _context.Utilizadores
-                                               join a in _context.UserRoles on users.Id equals a.UserId
-                                               join b in _context.Roles on a.RoleId equals b.Id
-                                               where b.Name == "Funcionario" && users.Active == true
-                                               select users).Include(p => p.Perfil).ToList();
+                    join a in _context.UserRoles on users.Id equals a.UserId
+                    join b in _context.Roles on a.RoleId equals b.Id
+                    where b.Name == "Funcionario" && users.Active == true
+                    select users).Include(p => p.Perfil).ToList();
         }
 
         /// <summary>

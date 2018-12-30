@@ -1,0 +1,60 @@
+﻿@model Afilhado4Patas.Models.ViewModels.ImagemPerfilUploadViewModel
+
+@using Microsoft.AspNetCore.Identity
+@using Afilhado4Patas.Data;
+
+@inject SignInManager<Utilizadores> SignInManager
+@inject UserManager<Utilizadores> UserManager
+@inject ApplicationDbContext Context
+@{
+    ViewData["Title"] = "Editar Perfil";
+}
+
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+
+<h4>Editar Dados Pessoais </h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        @{Utilizadores user = Context.Utilizadores.Where(u => u.Email == UserManager.GetUserName(User)).FirstOrDefault();
+            Perfil perfil = Context.PerfilTable.Where(p => p.Id == user.PerfilId).FirstOrDefault();
+            if (perfil.Photo != null)
+            {
+                string src = "/Utilizadores/" + user.Id + "/" + perfil.Photo;
+                <img src="@src" />
+            }
+            else
+            {
+                <img id="imagem_perfil" src="~/images/default.jpg" />
+            }
+        }
+        <br />
+        <br />
+        <form method="post" asp-action="PerfilEditarFotoPerfil" asp-controller="Utilizador" enctype="multipart/form-data">
+            <div class="form-group">
+                <label asp-for="File" class="control-label"></label>
+                <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
+                      title="Insira a sua foto de perfil.
+Deverá ter o formato JPG."></span>
+                <input type="file" asp-for="File" class="form-control" />
+                <span asp-validation-for="File" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Confirmar" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-controller="Utilizador" asp-action="Perfil" asp-route-id="@UserManager.GetUserName(User)">Voltar ao Perfil</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

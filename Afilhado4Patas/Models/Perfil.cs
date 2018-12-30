@@ -35,6 +35,7 @@ namespace Afilhado4Patas.Models
         public string NIF { get; set; }
    
         public string Directoria { get; set; }
+        
         [Display(Name = "Foto")]
         public string Photo { get; set; }
 

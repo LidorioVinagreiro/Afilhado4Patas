@@ -5,6 +5,7 @@
 
 @inject SignInManager<Utilizadores> SignInManager
 @inject UserManager<Utilizadores> UserManager
+@inject ApplicationDbContext Context
 @{
     ViewData["Title"] = "Perfil";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -19,17 +20,25 @@
 
 <div>
     <dl class="dl-horizontal">
+        @{Utilizadores user = Context.Utilizadores.Where(u => u.Email == UserManager.GetUserName(User)).FirstOrDefault();
+            Perfil perfil = Context.PerfilTable.Where(p => p.Id == user.PerfilId).FirstOrDefault();
+            if (perfil.Photo != null)
+            {
+                string src = "/Utilizadores/" + user.Id + "/" + perfil.Photo;
+                <img id="imagem_perfil" src="@src" />
+            }
+            else
+            {
+                <img id="imagem_perfil" src="~/images/default.jpg" />
+            }
+        }
+        <br />
+        <br />
         <dt>
             Dados Pessoais
         </dt>
         <br />
         <br />
-        <dt>
-            @Html.DisplayNameFor(model => model.Perfil.Photo)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Perfil.Photo)
-        </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Perfil.FirstName)
         </dt>
@@ -96,7 +105,7 @@
     <a>Alterar Palavra-Passe</a>
 </div>
 <div>
-    <a>Alterar Foto de Perfil</a>
+    <a asp-controller="Funcionario" asp-action="PerfilEditarFotoPerfil" asp-route-id="@UserManager.GetUserName(User)">Alterar Foto de Perfil</a>
 </div>
 <div>
     <a asp-controller="Funcionario" asp-action="MinhasTarefas" asp-route-id="@UserManager.GetUserName(User)">Minhas Tarefas</a>

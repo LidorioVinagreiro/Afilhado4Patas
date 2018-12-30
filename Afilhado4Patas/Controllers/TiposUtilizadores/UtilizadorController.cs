@@ -8,6 +8,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
+using System.Collections.Generic;
+using System.Net.Http.Headers;
 
 namespace Afilhado4Patas.Controllers.TiposUtilizadores
 {
@@ -18,14 +23,16 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
     public class UtilizadorController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IHostingEnvironment _hostingEnvironment;
 
         /// <summary>
         /// Inicialização do controller
         /// </summary>
         /// <param name="context">Objeto da base dados</param>
-        public UtilizadorController(ApplicationDbContext context)
+        public UtilizadorController(ApplicationDbContext context, IHostingEnvironment hostingEnvironment)
         {
             _context = context;
+            _hostingEnvironment = hostingEnvironment;
         }
 
         /// <summary>
@@ -202,7 +209,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         /// <returns>View do perfil do responsavel com a informação atualizada</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> PerfilEditarMorada(string id, PerfilEditarMoradaViewModel editarPerfilViewModel)
+        public async Task<ActionResult> PerfilEditarMorada(string id, PerfilEditarMoradaViewModel editarPerfilViewModel)
         {
             Utilizadores user;
             if (id == null)
@@ -228,6 +235,40 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                 return View("Perfil", user);
             }
             return View(editarPerfilViewModel);
+        }
+
+        public ActionResult PerfilEditarFotoPerfil(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> PerfilEditarFotoPerfil(string id, ImagemPerfilUploadViewModel model)
+        {
+            Utilizadores user;
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                if (model.File != null)
+                {
+                    user = _context.Utilizadores.Where(u => u.Email == id).Include(p => p.Perfil).FirstOrDefault();
+                    user.Perfil.Photo = model.File.FileName;
+                    _context.SaveChanges();
+                    var filePath = user.Perfil.Directoria + "\\" + model.File.FileName;
+                    var fileStream = new FileStream(filePath, FileMode.Create);
+                    await model.File.CopyToAsync(fileStream);
+                    return View("Perfil", user);
+                }
+            }
+            return View();
         }
 
         /// <summary>
