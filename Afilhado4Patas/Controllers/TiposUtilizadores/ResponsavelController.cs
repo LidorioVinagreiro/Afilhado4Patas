@@ -283,6 +283,55 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View();
         }
 
+        public async Task<IActionResult> PerfilEditarPalavraPasse(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> PerfilEditarPalavraPasse(string id, PerfilEditarPalavraPasseViewModel model)
+        {
+            Utilizadores user;
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    user = _context.Utilizadores.Where(u => u.Email == id).FirstOrDefault();
+                    if (await _userManager.CheckPasswordAsync(user, model.OldPassword))
+                    {
+                        await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+                        return View("PalavraPasseEditada");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Palavra-Passe antiga inserida não coincide com a sua palavra-passe");
+                        model.ConfirmNewPassword = "";
+                        model.NewPassword = "";
+                        model.OldPassword = "";
+                        return View(model);
+                    }
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    return NotFound();
+                }
+            }
+            model.ConfirmNewPassword = "";
+            model.NewPassword = "";
+            model.OldPassword = "";
+            return View(model);
+        }
+
         /****************************************************************************************************/
         /******************************************** Tarefas ***********************************************/
         /****************************************************************************************************/

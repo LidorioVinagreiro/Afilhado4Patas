@@ -10,6 +10,7 @@ using Afilhado4Patas.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -26,6 +27,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         private readonly ApplicationDbContext _context;
         private readonly IHostingEnvironment _hostingEnvironment;
         private readonly ILogger<Utilizadores> _logger;
+        private readonly UserManager<Utilizadores> _userManager;
         /// <summary>
         /// Inicialização do controller
         /// </summary>
@@ -33,11 +35,13 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         public FuncionarioController(
             ApplicationDbContext context,
             IHostingEnvironment hostingEnvironment,
-            ILogger<Utilizadores> logger)
+            ILogger<Utilizadores> logger,
+            UserManager<Utilizadores> userManager)
         {
             _context = context;
             _hostingEnvironment = hostingEnvironment;
             _logger = logger;
+            _userManager = userManager;
         }
 
         /// <summary>
@@ -275,6 +279,55 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                 }
             }
             return View();
+        }
+
+        public async Task<IActionResult> PerfilEditarPalavraPasse(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            return View(new PerfilEditarPalavraPasseViewModel());
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> PerfilEditarPalavraPasse(string id, PerfilEditarPalavraPasseViewModel model)
+        {
+            Utilizadores user;
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    user = _context.Utilizadores.Where(u => u.Email == id).FirstOrDefault();
+                    if (await _userManager.CheckPasswordAsync(user, model.OldPassword))
+                    {
+                        await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+                        return View("PalavraPasseEditada");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Palavra-Passe antiga inserida não coincide com a sua palavra-passe");
+                        model.ConfirmNewPassword = "";
+                        model.NewPassword = "";
+                        model.OldPassword = "";
+                        return View(model);
+                    }
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    return NotFound();
+                }
+            }
+            model.ConfirmNewPassword = "";
+            model.NewPassword = "";
+            model.OldPassword = "";
+            return View(model);
         }
 
         /****************************************************************************************************/

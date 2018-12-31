@@ -101,7 +101,7 @@
     <a asp-controller="Responsavel" asp-action="PerfilEditarMorada" asp-route-id="@UserManager.GetUserName(User)">Editar Morada</a>
 </div>
 <div>
-    <a>Alterar Palavra-Passe</a>
+    <a asp-controller="Responsavel" asp-action="PerfilEditarPalavraPasse" asp-route-id="@UserManager.GetUserName(User)">Alterar Palavra-Passe</a>
 </div>
 <div>
     <a asp-controller="Responsavel" asp-action="PerfilEditarFotoPerfil" asp-route-id="@UserManager.GetUserName(User)">Alterar Foto de Perfil</a>

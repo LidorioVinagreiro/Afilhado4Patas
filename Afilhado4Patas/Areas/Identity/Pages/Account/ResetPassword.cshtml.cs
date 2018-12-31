@@ -26,18 +26,26 @@ namespace Afilhado4Patas.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
-            [EmailAddress]
+            [Required(ErrorMessage = "Preencha este campo com o seu Email!")]
+            [EmailAddress(ErrorMessage = "Insira um email no formato exemplo@exemplo.com")]
+            [StringLength(50, ErrorMessage = "O {0} deverá ter um maximo de {1} caracteres de comprimento.")]
+            [Display(Name = "Email")]
             public string Email { get; set; }
-
-            [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            
+            [Required(ErrorMessage = "Preencha este campo com a sua Password!")]
+            [PasswordAtLeast1LetterAnd1Number]
+            [RegularExpression(@"^[a-zA-Z0-9]+$", ErrorMessage = "A sua password deverá ter letras (aA) e pelo menos 1 numero e não deverá ter caracteres que não letras ou numeros")]
+            [StringLength(15, ErrorMessage = "A {0} deverá ter pelo menos {2} e um maximo de {1} caracteres de comprimento.", MinimumLength = 8)]
             [DataType(DataType.Password)]
+            [Display(Name = "Palavra-Passe")]
             public string Password { get; set; }
 
+            [Required(ErrorMessage = "Preencha este campo com a sua Password!")]
+            [PasswordAtLeast1LetterAnd1Number]
+            [RegularExpression(@"^[a-zA-Z0-9]+$", ErrorMessage = "A sua password deverá ter letras (aA) e pelo menos 1 numero e não deverá ter caracteres que não letras ou numeros")]
+            [StringLength(15, ErrorMessage = "A {0} deverá ter pelo menos {2} e um maximo de {1} caracteres de comprimento.", MinimumLength = 8)]
             [DataType(DataType.Password)]
-            [Display(Name = "Confirm password")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+            [Display(Name = "Palavra-Passe")]
             public string ConfirmPassword { get; set; }
 
             public string Code { get; set; }

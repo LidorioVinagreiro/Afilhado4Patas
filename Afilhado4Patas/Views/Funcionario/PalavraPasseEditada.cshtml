@@ -1,0 +1,18 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Afilhado4Patas.Data;
+
+@inject SignInManager<Utilizadores> SignInManager
+@inject UserManager<Utilizadores> UserManager
+@inject ApplicationDbContext Context
+
+<br />
+<br />
+<br />
+<br />
+<br />
+<h2>@ViewData["Title"]</h2>
+<p>
+    A sua palavra-passe foi alterada com sucesso!
+    <br />
+    <a asp-controller="Funcionario" asp-action="Perfil" asp-route-id="@UserManager.GetUserName(User)">Voltar ao Perfil</a>
+</p>

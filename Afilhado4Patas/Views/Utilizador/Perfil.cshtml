@@ -11,7 +11,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
 <br />
 <br />
 <br />
@@ -102,7 +101,7 @@
     <a asp-controller="Utilizador" asp-action="PerfilEditarMorada" asp-route-id="@UserManager.GetUserName(User)">Editar Morada</a>
 </div>
 <div>
-    <a>Alterar Palavra-Passe</a>
+    <a asp-controller="Utilizador" asp-action="PerfilEditarPalavraPasse" asp-route-id="@UserManager.GetUserName(User)">Alterar Palavra-Passe</a>
 </div>
 <div>
     <a asp-controller="Utilizador" asp-action="PerfilEditarFotoPerfil" asp-route-id="@UserManager.GetUserName(User)">Alterar Foto de Perfil</a>

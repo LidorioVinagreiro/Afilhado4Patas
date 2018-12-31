@@ -36,8 +36,10 @@ namespace Afilhado4Patas.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
-            [EmailAddress]
+            [Required(ErrorMessage = "Preencha este campo com o seu Email!")]
+            [EmailAddress(ErrorMessage = "Insira um email no formato exemplo@exemplo.com")]
+            [StringLength(50, ErrorMessage = "O {0} deverá ter um maximo de {1} caracteres de comprimento.")]
+            [Display(Name = "Email")]
             public string Email { get; set; }
         }
 

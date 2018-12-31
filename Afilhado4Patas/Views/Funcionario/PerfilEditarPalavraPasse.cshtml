@@ -1,0 +1,70 @@
+﻿@model Afilhado4Patas.Models.ViewModels.PerfilEditarPalavraPasseViewModel
+
+@using Microsoft.AspNetCore.Identity
+@using Afilhado4Patas.Data;
+
+@inject SignInManager<Utilizadores> SignInManager
+@inject UserManager<Utilizadores> UserManager
+@inject ApplicationDbContext Context
+
+<br />
+<br />
+<br />
+<br />
+<h4>Alterar Palavra-Passe</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        @{Utilizadores user = Context.Utilizadores.Where(u => u.Email == UserManager.GetUserName(User)).FirstOrDefault();
+            Perfil perfil = Context.PerfilTable.Where(p => p.Id == user.PerfilId).FirstOrDefault();
+            if (perfil.Photo != null)
+            {
+                string src = "/Utilizadores/" + user.Id + "/" + perfil.Photo;
+                <img src="@src" />
+            }
+            else
+            {
+                <img id="imagem_perfil" src="~/images/default.jpg" />
+            }
+        }
+        <br />
+        <br />
+        <form asp-action="PerfilEditarPalavraPasse" asp-controller="Funcionario">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="OldPassword"></label>
+                <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
+                      title="Insira a sua palavra-passe antiga"></span>
+                <input asp-for="OldPassword" class="form-control" />
+                <span asp-validation-for="OldPassword" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NewPassword"></label>
+                <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
+                      title="Inserir uma palavra-passe válida
+                            A password deverá conter pelo menos um caracter dos seguintes e ter um comprimento minimo de 8 caracteres:
+                            Letras: Aa-Zz
+                            Numeros: 0-9"></span>
+                <input asp-for="NewPassword" class="form-control" />
+                <span asp-validation-for="NewPassword" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ConfirmNewPassword"></label>
+                <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
+                      title="Confirme a sua nova palavra-passe"></span>
+                <input asp-for="ConfirmNewPassword" class="form-control" />
+                <span asp-validation-for="ConfirmNewPassword" class="text-danger"></span>
+            </div>
+            <button type="submit" value="Alterar Palavra-Passe" class="btn btn-default">Alterar Palavra-Passe</button>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-controller="Funcionario" asp-action="Perfil" asp-route-id="@UserManager.GetUserName(User)">Voltar ao Perfil</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
