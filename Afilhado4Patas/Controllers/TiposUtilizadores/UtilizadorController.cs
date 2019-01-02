@@ -108,6 +108,21 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View(user);
         }
 
+        public ActionResult PerfilAnimal(int id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var user = _context.Animais.Where(u => u.Id == id).Include(p => p.Padrinho).FirstOrDefault();
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return View("../Animal/PerfilAnimal", user);
+        }
+
         /// <summary>
         /// Ação quedevole a view que permite a edição das informações no perfil do responsavel
         /// </summary>
