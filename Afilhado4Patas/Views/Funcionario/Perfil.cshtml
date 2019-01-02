@@ -11,15 +11,11 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
-<br />
-<br />
-<br />
-<br />
-<h2> Perfil de @Html.DisplayFor(model => model.Perfil.FirstName) @Html.DisplayFor(model => model.Perfil.LastName)</h2>
-
-<div>
-    <dl class="dl-horizontal">
+<div id="perfil">
+    <div>
+        <span> Perfil de @Html.DisplayFor(model => model.Perfil.FirstName) @Html.DisplayFor(model => model.Perfil.LastName)</span>
+    </div>
+    <div id="perfil_container1">
         @{Utilizadores user = Context.Utilizadores.Where(u => u.Email == UserManager.GetUserName(User)).FirstOrDefault();
             Perfil perfil = Context.PerfilTable.Where(p => p.Id == user.PerfilId).FirstOrDefault();
             if (perfil.Photo != null)
@@ -32,85 +28,72 @@
                 <img id="imagem_perfil" src="~/images/default.jpg" />
             }
         }
-        <br />
-        <br />
-        <dt>
-            Dados Pessoais
-        </dt>
-        <br />
-        <br />
-        <dt>
-            @Html.DisplayNameFor(model => model.Perfil.FirstName)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Perfil.FirstName)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Perfil.LastName)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Perfil.LastName)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Perfil.Genre)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Perfil.Genre)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Perfil.Birthday)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Perfil.Birthday)
-        </dd>
-        <br />
-        <dt>
-            Morada
-        </dt>
-        <br />
-        <br />
-        <dt>
-            @Html.DisplayNameFor(model => model.Perfil.City)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Perfil.City)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Perfil.Street)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Perfil.Street)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Perfil.Postalcode)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Perfil.Postalcode)
-        </dd>
-    </dl>
+        <div id="edit_options">
+            <a asp-controller="Funcionario" asp-action="PerfilEditarDadosPessoais" asp-route-id="@UserManager.GetUserName(User)">
+                <img id="icon" src="~/images/edit.png" />
+                <span id="options_spans">Editar Dados Pessoais</span>
+            </a>
+        </div>
+        <div id="edit_options">
+            <a asp-controller="Funcionario" asp-action="PerfilEditarMorada" asp-route-id="@UserManager.GetUserName(User)">
+                <img id="icon" src="~/images/map.png" />
+                <span id="options_spans">Editar Morada</span>
+            </a>
+        </div>
+        <div id="edit_options">
+            <a asp-controller="Funcionario" asp-action="PerfilEditarPalavraPasse" asp-route-id="@UserManager.GetUserName(User)">
+                <img id="icon" src="~/images/password.png" />
+                <span id="options_spans">Alterar Palavra-Passe</span>
+            </a>
+        </div>
+        <div id="edit_options">
+            <a asp-controller="Funcionario" asp-action="PerfilEditarFotoPerfil" asp-route-id="@UserManager.GetUserName(User)">
+                <img id="icon" src="~/images/picture.png" />
+                <span id="options_spans">Alterar Foto de Perfil</span>
+            </a>
+        </div>
+        <div id="edit_options">
+            <a asp-controller="Funcionario" asp-action="MinhasTarefas" asp-route-id="@UserManager.GetUserName(User)">
+                <img id="icon" src="~/images/tasks.png" />
+                <span id="options_spans">Minhas Tarefas</span>
+            </a>
+        </div>
+    </div>
+    <div id="perfil_container2">
+        <table id="user_info_table">
+            <tr id="info_tr">
+                <td id="info_nome">@Html.DisplayNameFor(model => model.Perfil.FirstName)</td>
+                <td id="info_conteudo">@Html.DisplayFor(model => model.Perfil.FirstName)</td>
+            </tr>
+            <tr id="info_tr">
+                <td id="info_nome">@Html.DisplayNameFor(model => model.Perfil.LastName)</tdid="info_name">
+                <td id="info_conteudo">@Html.DisplayFor(model => model.Perfil.LastName)</td>
+            </tr>
+            <tr id="info_tr">
+                <td id="info_nome">@Html.DisplayNameFor(model => model.Email)</td>
+                <td id="info_conteudo">@Html.DisplayFor(model => model.Email)</td>
+            </tr>
+            <tr id="info_tr">
+                <td id="info_nome">@Html.DisplayNameFor(model => model.Perfil.Genre)</td>
+                <td id="info_conteudo">@Html.DisplayFor(model => model.Perfil.Genre)</td>
+            </tr>
+            <tr id="info_tr">
+                <td id="info_nome">@Html.DisplayNameFor(model => model.Perfil.Birthday)</td>
+                <td id="info_conteudo">@Model.Perfil.Birthday.ToString("dd/MM/yyyy")</td>
+            <tr id="info_tr">
+                <td id="info_nome">@Html.DisplayNameFor(model => model.Perfil.City)</td>
+                <td id="info_conteudo">@Html.DisplayFor(model => model.Perfil.City)</td>
+            </tr>
+            <tr id="info_tr">
+                <td id="info_nome">@Html.DisplayNameFor(model => model.Perfil.Street)</td>
+                <td id="info_conteudo">@Html.DisplayFor(model => model.Perfil.Street)</td>
+            </tr>
+            <tr id="info_tr">
+                <td id="info_nome">@Html.DisplayNameFor(model => model.Perfil.Postalcode)</td>
+                <td id="info_conteudo">@Html.DisplayFor(model => model.Perfil.Postalcode)</td>
+            </tr>
+        </table>
+    </div>
 </div>
-<div>
-    <a asp-controller="Funcionario" asp-action="PerfilEditarDadosPessoais" asp-route-id="@UserManager.GetUserName(User)">Editar Dados Pessoais</a>
-</div>
-<div>
-    <a asp-controller="Funcionario" asp-action="PerfilEditarMorada" asp-route-id="@UserManager.GetUserName(User)">Editar Morada</a>
-</div>
-<div>
-    <a asp-controller="Funcionario" asp-action="PerfilEditarPalavraPasse" asp-route-id="@UserManager.GetUserName(User)">Alterar Palavra-Passe</a>
-</div>
-<div>
-    <a asp-controller="Funcionario" asp-action="PerfilEditarFotoPerfil" asp-route-id="@UserManager.GetUserName(User)">Alterar Foto de Perfil</a>
-</div>
-<div>
-    <a asp-controller="Funcionario" asp-action="MinhasTarefas" asp-route-id="@UserManager.GetUserName(User)">Minhas Tarefas</a>
-</div>
-
-
 
 

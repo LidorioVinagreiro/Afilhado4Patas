@@ -3,29 +3,48 @@
 
 @inject SignInManager<Utilizadores> SignInManager
 @inject UserManager<Utilizadores> UserManager
+@inject ApplicationDbContext Context
 
 @if (SignInManager.IsSignedIn(User))
 {
     <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post" id="logoutForm" class="navbar-right">
-        <ul class="nav navbar-nav navbar-right">
-            @if (User.IsInRole("Utilizador"))
-            {
-                <li>
-                    <a asp-controller="Utilizador" asp-action="Perfil" asp-route-id="@UserManager.GetUserName(User)" title="Manage">Ola @UserManager.GetUserName(User)!</a>
-                </li>
-            }
-            else if (User.IsInRole("Funcionario"))
-            {
-                <li>
-                    <a asp-controller="Funcionario" asp-action="Perfil" asp-route-id="@UserManager.GetUserName(User)" title="Manage">Ola @UserManager.GetUserName(User)!</a>
-                </li>
-            }
-            else if (User.IsInRole("Responsavel"))
-            {
-                <li>
-                    <a asp-controller="Responsavel" asp-action="Perfil" asp-route-id="@UserManager.GetUserName(User)" title="Manage">Ola @UserManager.GetUserName(User)!</a>
-                </li>
-            }
+        <ul id="ul_nav_items_logout" class="nav navbar-nav navbar-right">
+            <li>
+                @{Utilizadores user = Context.Utilizadores.Where(u => u.Email == UserManager.GetUserName(User)).FirstOrDefault();
+                    Perfil perfil = Context.PerfilTable.Where(p => p.Id == user.PerfilId).FirstOrDefault();
+                    string src = "";
+                    if (perfil.Photo != null)
+                    {
+                        src = "/Utilizadores/" + user.Id + "/" + perfil.Photo;                        
+                    }
+                    else
+                    {
+                        src = "/images/default.jpg";
+                    }
+                    @if (User.IsInRole("Utilizador"))
+                    {
+                        <a asp-controller="Utilizador" asp-action="Perfil" asp-route-id="@UserManager.GetUserName(User)" title="Perfil de Utilizador">
+                            <img id="icon_utilizador" src="@src"/>
+                            <span>@perfil.FirstName @perfil.LastName</span>
+                        </a>
+                    }
+
+                    else if (User.IsInRole("Funcionario"))
+                    {
+                        <a asp-controller="Funcionario" asp-action="Perfil" asp-route-id="@UserManager.GetUserName(User)" title="Perfil de Utilizador">
+                            <img id="icon_utilizador" src="@src" />
+                            <span>@perfil.FirstName @perfil.LastName</span>
+                        </a>
+                    }
+                    else if (User.IsInRole("Responsavel"))
+                    {
+                        <a asp-controller="Responsavel" asp-action="Perfil" asp-route-id="@UserManager.GetUserName(User)" title="Perfil de Utilizador">
+                            <img id="icon_utilizador" src="@src" />
+                            <span>@perfil.FirstName @perfil.LastName</span>
+                        </a>
+                    }
+                }
+            </li>
             <li>
                 <button type="submit" class="btn btn-link navbar-btn navbar-link">Fechar Sessao</button>
             </li>
@@ -36,6 +55,6 @@ else
 {
     <ul id="ul_nav_items_login" class="nav navbar-nav navbar-right">
         <li><a asp-area="Identity" asp-page="/Account/Register">Registo</a></li>
-        <li><a asp-area="Identity" asp-page="/Account/Login">Inicie Sessao</a></li>
+        <li><a asp-area="Identity" asp-page="/Account/Login">Iniciar Sessao</a></li>
     </ul>
 }
