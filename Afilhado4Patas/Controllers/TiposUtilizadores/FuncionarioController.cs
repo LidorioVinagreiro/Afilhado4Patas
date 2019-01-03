@@ -502,7 +502,9 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                 Peso = model.Peso,
                 Descricao = model.Descricao,
                 DataNasc = model.DataNasc,
-                Porte = model.Porte
+                Porte = model.Porte,
+                Ativo = model.Ativo,
+                Adoptado = model.Adoptado
             }; 
             if(!(model.RacaAnimal is null)){
                 modelo.CategoriaId = model.RacaAnimal.CategoriaId;
