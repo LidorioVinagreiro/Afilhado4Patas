@@ -13,6 +13,7 @@ namespace Afilhado4PatasTest.ControllersTest
 {
     public class GuestControllerTest
     {
+        
         public string connectionString = "DataSource=:memory:";
         public SqliteConnection connection;
         public DbContextOptions<ApplicationDbContext> options;

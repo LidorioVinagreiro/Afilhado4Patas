@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Afilhado4Patas.Migrations
 {
-    public partial class racas_animais : Migration
+    public partial class animaisactivos : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -141,12 +141,14 @@ namespace Afilhado4Patas.Migrations
                     NomeAnimal = table.Column<string>(nullable: true),
                     DataNasc = table.Column<DateTime>(nullable: false),
                     Porte = table.Column<string>(nullable: true),
+                    Peso = table.Column<int>(nullable: false),
                     Descricao = table.Column<string>(nullable: true),
                     DirectoriaAnimal = table.Column<string>(nullable: true),
                     Foto = table.Column<string>(nullable: true),
                     Adoptado = table.Column<bool>(nullable: false),
                     PadrinhoId = table.Column<int>(nullable: true),
-                    RacaId = table.Column<int>(nullable: true)
+                    RacaId = table.Column<int>(nullable: true),
+                    Ativo = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {

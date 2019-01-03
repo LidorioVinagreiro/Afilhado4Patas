@@ -17,6 +17,7 @@ namespace Afilhado4PatasTest.ControllersTest
 {
     public class UtilizadorControllerTest
     {
+        
         public string connectionString = "DataSource=:memory:";
         public SqliteConnection connection;
         public DbContextOptions<ApplicationDbContext> options;

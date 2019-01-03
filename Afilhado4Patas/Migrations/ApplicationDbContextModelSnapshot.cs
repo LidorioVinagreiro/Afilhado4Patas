@@ -86,6 +86,8 @@ namespace Afilhado4Patas.Migrations
 
                     b.Property<bool>("Adoptado");
 
+                    b.Property<bool>("Ativo");
+
                     b.Property<DateTime>("DataNasc");
 
                     b.Property<string>("Descricao");

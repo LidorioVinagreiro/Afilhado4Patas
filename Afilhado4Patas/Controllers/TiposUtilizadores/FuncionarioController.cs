@@ -43,7 +43,6 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             _logger = logger;
             _userManager = userManager;
         }
-
         /// <summary>
         /// Ação que devolve a view da pagina principal do site
         /// </summary>
@@ -449,7 +448,8 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                     Porte = model.Porte,
                     Peso = model.Peso,
                     RacaId = model.RacaId,
-                    Adoptado = false
+                    Adoptado = false,
+                    Ativo = false
                 };
                 _context.Animais.Add(entradaAnimal);
                 _context.SaveChanges();               
@@ -467,6 +467,68 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             }).ToList();
             return View("RegistoAnimal", model);
         }
+
+        public ActionResult VerListaAnimais() {
+            List<Animal> model = _context.Animais.ToList();
+            return View("ListaAnimais", model);
+        }
+
+        public ActionResult ApagarAnimal(int id)
+        {
+            Animal removerAnimal = _context.Animais.Where(animal => animal.Id == id).FirstOrDefault();
+            removerAnimal.Ativo = false;
+            _context.SaveChanges();
+            List<Animal> model = _context.Animais.ToList();
+            return View("ListaAnimais", model);
+        }
+
+
+        public ActionResult DetalhesAnimal(int id)
+        {
+            Animal model = _context.Animais.Where(animal => animal.Id == id).FirstOrDefault();
+            return View("DetalhesAnimal", model);
+        }
+
+        public ActionResult EditarAnimal(int id) {
+            Animal model = _context.Animais.Where(animal => animal.Id == id).Include(raca => raca.RacaAnimal).FirstOrDefault();
+            EditarAnimalViewModel modelo = new EditarAnimalViewModel
+            {
+                Categorias = _context.Categorias.Select(categ => new SelectListItem()
+                {
+                    Value = categ.Id.ToString(),
+                    Text = categ.Nome
+                }).ToList(),
+                NomeAnimal = model.NomeAnimal,
+                Peso = model.Peso,
+                Descricao = model.Descricao,
+                DataNasc = model.DataNasc,
+                Porte = model.Porte
+            }; 
+            if(!(model.RacaAnimal is null)){
+                modelo.CategoriaId = model.RacaAnimal.CategoriaId;
+            }
+
+            if (!(model.RacaAnimal is null))
+            {
+                modelo.RacaId = model.RacaAnimal.Id;
+            }
+            return View("EditarAnimal", modelo);
+        }
+
+        [HttpPost]
+        public ActionResult EditarAnimal(Animal model) {
+            if (ModelState.IsValid)
+            {
+                _context.Animais.Update(model);
+                _context.SaveChanges();
+                return View("ListaAnimais",_context.Animais.ToList());
+            }
+            else {
+                ModelState.AddModelError("", "Informação errada EditarAnimal HTTPPOST");
+                return View("EditarAnimal", model);
+            }
+        }
+
         private bool CreateFolder(string path)
         {
             if (!Directory.Exists(path))
@@ -485,6 +547,8 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                                      select new Raca { Id = racasAux.Id, NomeRaca = racasAux.NomeRaca }).ToList();
             return Json(new SelectList(racas,"Id","NomeRaca"));
         }
+
+
 
         /// <summary>
         /// Ação que devolve a view de erro, caso ocorra um erro esta view e devolvida com a informação do erro

@@ -1,0 +1,85 @@
+﻿@model Afilhado4Patas.Models.Animal
+
+@{
+    ViewData["Title"] = "DetalhesAnimal";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>DetalhesAnimal</h2>
+
+<div>
+    <h4>Animal</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.NomeAnimal)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NomeAnimal)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DataNasc)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DataNasc)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Porte)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Porte)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Peso)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Peso)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Descricao)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Descricao)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DirectoriaAnimal)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DirectoriaAnimal)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Foto)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Foto)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Adoptado)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Adoptado)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Ativo)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Ativo)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Padrinho)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Padrinho.Id)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.RacaAnimal)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.RacaAnimal.Id)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

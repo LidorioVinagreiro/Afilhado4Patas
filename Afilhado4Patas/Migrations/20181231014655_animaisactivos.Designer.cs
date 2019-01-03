@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Afilhado4Patas.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181229155008_pesoAnimal")]
-    partial class pesoAnimal
+    [Migration("20181231014655_animaisactivos")]
+    partial class animaisactivos
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -87,6 +87,8 @@ namespace Afilhado4Patas.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<bool>("Adoptado");
+
+                    b.Property<bool>("Ativo");
 
                     b.Property<DateTime>("DataNasc");
 
