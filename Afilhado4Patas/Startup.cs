@@ -51,7 +51,7 @@ namespace Afilhado4Patas
             .AddDefaultTokenProviders();
             
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("LocalConnection")));
             // Automatically perform database migration
             try
             {

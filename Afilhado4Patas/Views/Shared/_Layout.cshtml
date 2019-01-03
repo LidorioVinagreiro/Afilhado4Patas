@@ -51,7 +51,9 @@
                         <li><a asp-area="" asp-controller="Funcionario" asp-action="Doar">Doar</a></li>
                         <li><a asp-area="" asp-controller="Funcionario" asp-action="Contact">Contactos</a></li>
                         <li><a asp-area="" asp-controller="Funcionario" asp-action="RegistarAnimal">Registo Animal</a></li>
-                    }
+                        <li><a asp-area="" asp-controller="Funcionario" asp-action="VerListaAnimais">Lista Animais</a></li>
+                        
+                            }
                     else if (User.IsInRole("Utilizador"))
                     {
                         <li><a asp-area="" asp-controller="Utilizador" asp-action="Index">Inicio</a></li>

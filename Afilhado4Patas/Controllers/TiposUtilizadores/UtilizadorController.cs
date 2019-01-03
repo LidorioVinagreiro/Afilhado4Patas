@@ -29,7 +29,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         /// Inicialização do controller
         /// </summary>
         /// <param name="context">Objeto da base dados</param>
-        public UtilizadorController(ApplicationDbContext context, IHostingEnvironment hostingEnvironment)
+        public UtilizadorController(ApplicationDbContext context,IHostingEnvironment hostingEnvironment)
         {
             _context = context;
             _hostingEnvironment = hostingEnvironment;

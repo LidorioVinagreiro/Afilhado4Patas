@@ -21,16 +21,21 @@ namespace Afilhado4Patas.Models
         public int Peso { get; set; }
         [Display(Name = "Descrição")]
         public string Descricao { get; set; }
+        [Display(Name ="Directoria")]
         public string DirectoriaAnimal { get; set; }
+        [Display(Name ="Foto")]
         public string Foto { get; set; }
+        [Display(Name ="Adoptado")]
         public Boolean Adoptado { get; set; }
-
         [ForeignKey("Perfil")]
+        [Display(Name ="Padrinho Id")]
         public int? PadrinhoId { get; set; }
         public virtual Perfil Padrinho { get; set; }
         [ForeignKey("Raca")]
+        [Display(Name ="Id Raça")]
         public int? RacaId { get; set; }
-        public Raca RacaAnimal { get; set; }
-
+        public virtual Raca RacaAnimal { get; set; }
+        [Display(Name ="Ativo")]
+        public Boolean Ativo { get; set; }
     }
 }
