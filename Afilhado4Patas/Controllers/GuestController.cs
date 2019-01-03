@@ -73,6 +73,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View();
         }
 
+        public IActionResult Animais()
+        {
+            return View();
+        }
+
         /// <summary>
         /// Ação que devolve a view de registo no site
         /// </summary>
