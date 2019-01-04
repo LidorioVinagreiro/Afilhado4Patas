@@ -20,7 +20,7 @@
                 @Html.DisplayNameFor(model => model.DataNasc)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Porte)
+                @Html.DisplayNameFor(model => model.PorteId)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Peso)
@@ -59,7 +59,7 @@
                 @Html.DisplayFor(modelItem => item.DataNasc)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Porte)
+                @Html.DisplayFor(modelItem => item.PorteAnimal.TipoPorte)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Peso)

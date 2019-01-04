@@ -22,9 +22,9 @@ namespace Afilhado4Patas.Models.ViewModels
         [DateGreaterThanZeroLessThan100]
         public DateTime DataNasc { get; set; }
 
-        [RegularExpression(@"(pequeno)|(médio)|(grande)",ErrorMessage ="Deve inserir pequeno|médio|grande")]
+        [Required(ErrorMessage = "É necessário preencher este campo")]
         [Display(Name = "Porte")]
-        public string Porte { get; set; }
+        public int PorteId { get; set; }
 
         public List<SelectListItem> Portes { get; set; }
 

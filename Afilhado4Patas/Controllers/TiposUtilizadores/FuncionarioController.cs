@@ -427,6 +427,8 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         {
             return _context.PerfilTable.Any(e => e.Id == id);
         }
+
+
         /****************************************************************************************************/
         /******************************************** Animais ***********************************************/
         /****************************************************************************************************/
@@ -438,8 +440,14 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                 Value = categ.Id.ToString(),
                 Text = categ.Nome
             }).ToList();
+            model.Portes = _context.Portes.Select(porte => new SelectListItem()
+            {
+                Value = porte.Id.ToString(),
+                Text = porte.TipoPorte
+            }).ToList();
             return View("RegistoAnimal", model);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult RegistarAnimal([Bind] RegistarAnimalViewModel model) {
@@ -450,14 +458,15 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                     NomeAnimal = model.NomeAnimal,
                     Descricao = model.Descricao,
                     DataNasc = model.DataNasc,
-                    Porte = model.Porte,
+                    PorteId = model.PorteId,
                     Peso = model.Peso,
                     RacaId = model.RacaId,
                     Adoptado = false,
-                    Ativo = false
+                    Ativo = true
                 };
                 _context.Animais.Add(entradaAnimal);
                 _context.SaveChanges();               
+
                 entradaAnimal.DirectoriaAnimal = _hostingEnvironment.WebRootPath+"\\Animais\\" + entradaAnimal.Id;
                 if (!CreateFolder(entradaAnimal.DirectoriaAnimal)) {
                     _logger.LogInformation("Falha ao criar a pasta do animal");
@@ -465,10 +474,16 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                 _context.SaveChanges();
                 return View("RegistoCompleto");
             }
+
             model.Categorias = _context.Categorias.Select(categ => new SelectListItem()
             {
                 Value = categ.Id.ToString(),
                 Text = categ.Nome
+            }).ToList();
+            model.Portes = _context.Portes.Select(porte => new SelectListItem()
+            {
+                Value = porte.Id.ToString(),
+                Text = porte.TipoPorte
             }).ToList();
             return View("RegistoAnimal", model);
         }
@@ -507,7 +522,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                 Peso = model.Peso,
                 Descricao = model.Descricao,
                 DataNasc = model.DataNasc,
-                Porte = model.Porte,
+                PorteId = model.PorteId,
                 Ativo = model.Ativo,
                 Adoptado = model.Adoptado
             }; 
