@@ -147,6 +147,15 @@ namespace Afilhado4Patas.Data
                 contexto.SaveChanges();
             }
 
+            //Categorias
+            if (contexto.Portes.Count() == 0)
+            {
+                contexto.Portes.Add(criarPorte("Pequeno"));
+                contexto.Portes.Add(criarPorte("Medio"));
+                contexto.Portes.Add(criarPorte("Grande"));
+                contexto.SaveChanges();
+            }
+
             //Racas
             if (contexto.Racas.Count() == 0)
             {
@@ -228,6 +237,15 @@ namespace Afilhado4Patas.Data
                 Nome = nome
             };
             return categoria;
+        }
+
+        private static Porte criarPorte(string nome)
+        {
+            Porte porte = new Porte
+            {
+                TipoPorte = nome
+            };
+            return porte;
         }
 
         private static int retornarCategoriaId(string nome, ApplicationDbContext contexto)

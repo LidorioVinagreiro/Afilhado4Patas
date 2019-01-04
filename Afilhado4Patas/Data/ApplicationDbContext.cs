@@ -25,6 +25,6 @@ namespace Afilhado4Patas.Data
         public DbSet<Animal> Animais { get; set; }
         public DbSet<Raca> Racas { get; set; }
         public DbSet<Categoria> Categorias { get; set; }
-
+        public DbSet<Porte> Portes { get; set; }
     }
 }

@@ -22,7 +22,22 @@
 
 </head>
 <body>
-    <a href="http://afilhado4patas.azurewebsites.net/" style="text-decoration: none"><img id="logo" src="~/images/logo.png" /></a>
+    @if (User.IsInRole("Responsavel"))
+    {
+        <a asp-controller="Responsavel" asp-action="Index" style="text-decoration: none"><img id="logo" src="~/images/logo.png" /></a>
+    }
+    else if (User.IsInRole("Funcionario"))
+    {
+        <a asp-controller="Funcionario" asp-action="Index" style="text-decoration: none"><img id="logo" src="~/images/logo.png" /></a>
+    }
+    else if (User.IsInRole("Utilizador"))
+    {
+        <a asp-controller="Utilizador" asp-action="Index" style="text-decoration: none"><img id="logo" src="~/images/logo.png" /></a>
+    }
+    else
+    {
+        <a asp-controller="Guest" asp-action="Index" style="text-decoration: none"><img id="logo" src="~/images/logo.png" /></a>
+    }
     <nav id="nav" class="navbar navbar-inverse navbar-fixed-top">
         <div id="container">
             <div class="navbar-header">
@@ -34,13 +49,30 @@
                 </button>
             </div>
             <div id="navegador" class="navbar-collapse collapse">
-                <ul id="ul_nav_items_left" class="nav navbar-nav">
+                <ul class="menu clearfix float-left">
                     @if (User.IsInRole("Responsavel"))
                     {
                         <li><a asp-area="" asp-controller="Responsavel" asp-action="Index">Inicio</a></li>
                         <li><a asp-area="" asp-controller="Responsavel" asp-action="About">Sobre nós</a></li>
                         <li><a asp-area="" asp-controller="Responsavel" asp-action="Adotar">Adotar</a></li>
                         <li><a asp-area="" asp-controller="Responsavel" asp-action="Doar">Doar</a></li>
+                        <li>
+                            <a>Animais</a>
+                            <ul class="sub-menu clearfix">
+                                <li><a asp-controller="Responsavel" asp-action="Animais">Os nossos Animais</a></li>
+                                <li><a asp-area="" asp-controller="Responsavel" asp-action="RegistarAnimal">Registo Animal</a></li>
+                                <li><a asp-area="" asp-controller="Responsavel" asp-action="VerListaAnimais">Lista Animais (Detalhada)</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a>Funcionarios</a>
+                            <ul class="sub-menu clearfix">
+                                <li><a asp-controller="Responsavel" asp-action="ListaFuncionarios">Lista de Funcionarios</a></li>
+                                <li><a asp-controller="Responsavel" asp-action="AdicionarFuncionario">Adicionar Funcionario</a></li>
+                                <li><a asp-controller="Responsavel" asp-action="ListaTarefas">Lista de Tarefas</a></li>
+                                <li><a asp-controller="Responsavel" asp-action="AdicionarTarefa">Adicionar Tarefa</a></li>
+                            </ul>
+                        </li>
                         <li><a asp-area="" asp-controller="Responsavel" asp-action="Contact">Contactos</a></li>
                     }
                     else if (User.IsInRole("Funcionario"))
@@ -49,17 +81,35 @@
                         <li><a asp-area="" asp-controller="Funcionario" asp-action="About">Sobre nós</a></li>
                         <li><a asp-area="" asp-controller="Funcionario" asp-action="Adotar">Adotar</a></li>
                         <li><a asp-area="" asp-controller="Funcionario" asp-action="Doar">Doar</a></li>
+                        <li>
+                            <a asp-controller="Funcionario" asp-action="Animais">Animais</a>
+                            <ul class="sub-menu clearfix">
+                                <li><a>Os nossos Animais</a></li>
+                                <li><a asp-area="" asp-controller="Funcionario" asp-action="RegistarAnimal">Registo Animal</a></li>
+                                <li><a asp-area="" asp-controller="Funcionario" asp-action="VerListaAnimais">Lista Animais (Detalhada)</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a>Funcionarios</a>
+                            <ul class="sub-menu clearfix">
+                                <li><a asp-controller="Funcionario" asp-action="MinhasTarefas" asp-route-id="@UserManager.GetUserName(User)">Minhas Tarefas</a></li>
+                            </ul>
+                        </li>
                         <li><a asp-area="" asp-controller="Funcionario" asp-action="Contact">Contactos</a></li>
-                        <li><a asp-area="" asp-controller="Funcionario" asp-action="RegistarAnimal">Registo Animal</a></li>
-                        <li><a asp-area="" asp-controller="Funcionario" asp-action="VerListaAnimais">Lista Animais</a></li>
-                        
-                            }
+
+                    }
                     else if (User.IsInRole("Utilizador"))
                     {
                         <li><a asp-area="" asp-controller="Utilizador" asp-action="Index">Inicio</a></li>
                         <li><a asp-area="" asp-controller="Utilizador" asp-action="About">Sobre nós</a></li>
                         <li><a asp-area="" asp-controller="Utilizador" asp-action="Adotar">Adotar</a></li>
                         <li><a asp-area="" asp-controller="Utilizador" asp-action="Doar">Doar</a></li>
+                        <li>
+                            <a>Animais</a>
+                            <ul class="sub-menu clearfix">
+                                <li><a asp-controller="Utilizador" asp-action="Animais">Os nossos Animais</a></li>
+                            </ul>
+                        </li>
                         <li><a asp-area="" asp-controller="Utilizador" asp-action="Contact">Contactos</a></li>
                     }
                     else
@@ -68,9 +118,13 @@
                         <li><a asp-area="" asp-controller="Guest" asp-action="About">Sobre nós</a></li>
                         <li><a asp-area="" asp-controller="Guest" asp-action="Adotar">Adotar</a></li>
                         <li><a asp-area="" asp-controller="Guest" asp-action="Doar">Doar</a></li>
+                        <li>
+                            <a>Animais</a>
+                            <ul class="sub-menu clearfix">
+                                <li><a asp-controller="Guest" asp-action="Animais">Os nossos Animais</a></li>
+                            </ul>
+                        </li>
                         <li><a asp-area="" asp-controller="Guest" asp-action="Contact">Contactos</a></li>
-                        <li><a asp-area="" asp-controller="Guest" asp-action="Animais">Animais</a></li>
-
                     }
                 </ul>
                 <partial name="_LoginPartial" />

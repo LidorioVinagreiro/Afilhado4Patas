@@ -53,13 +53,13 @@
             </a>
         </div>
         <div id="edit_options">
-            <a asp-controller="Responsavel" asp-action="ListaTarefas" asp-route-id="@UserManager.GetUserName(User)">
+            <a asp-controller="Responsavel" asp-action="ListaTarefas">
                 <img id="icon" src="~/images/tasks.png" />
                 <span id="options_spans">Tarefas</span>
             </a>
         </div>
         <div id="edit_options">
-            <a asp-controller="Responsavel" asp-action="ListaFuncionarios" asp-route-id="@UserManager.GetUserName(User)">                
+            <a asp-controller="Responsavel" asp-action="ListaFuncionarios">                
                 <img id="icon" src="~/images/funcionarios.png" />
                 <span id="options_spans">Funcionários</span>
             </a>
@@ -72,7 +72,7 @@
                 <td id="info_conteudo">@Html.DisplayFor(model => model.Perfil.FirstName)</td>
             </tr>
             <tr id="info_tr">
-                <td id="info_nome">@Html.DisplayNameFor(model => model.Perfil.LastName)</tdid="info_name">
+                <td id="info_nome">@Html.DisplayNameFor(model => model.Perfil.LastName)</td>
                 <td id="info_conteudo">@Html.DisplayFor(model => model.Perfil.LastName)</td>
             </tr>
             <tr id="info_tr">
