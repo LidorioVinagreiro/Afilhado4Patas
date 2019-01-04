@@ -13,7 +13,17 @@ namespace Afilhado4Patas.Areas.Identity.Services
 
         /// <summary>
         /// Construtor da classe GmailEmailService que recolhe os dados de configurações Google para envio de emails
-        /// </summary>
+        /// </summary>        
+        public GmailEmailService() :
+            base("smtp.gmail.com", 587)
+        {
+            this.UserName = "afilhados4patas@gmail.com";
+            this.EnableSsl = true;
+            this.UseDefaultCredentials = false;
+            this.Credentials = new System.Net.NetworkCredential(this.UserName, "Afilhados4patas/123");
+        }
+
+        /*
         public GmailEmailService() :
             base(System.Environment.GetEnvironmentVariable("GmailHost"), Int32.Parse(System.Environment.GetEnvironmentVariable("GmailPort")))
         {
@@ -21,6 +31,6 @@ namespace Afilhado4Patas.Areas.Identity.Services
             this.EnableSsl = Boolean.Parse(System.Environment.GetEnvironmentVariable("GmailSsl"));
             this.UseDefaultCredentials = false;
             this.Credentials = new System.Net.NetworkCredential(this.UserName, System.Environment.GetEnvironmentVariable("GmailPassword"));
-        }
+        }*/
     }
 }
