@@ -98,19 +98,5 @@ namespace Afilhado4PatasTest.ControllersTest
                 Assert.IsType<ViewResult>(result);
             }
         }
-
-        [Fact]
-        public async Task Tarefa_ReturnViewResult_WhenModelStateValid()
-        {
-            using (var context = new ApplicationDbContext(options))
-            {
-                var controller = new FuncionarioController(context, hostingEnvironment, logger, userManager);
-                Tarefa tarefa = context.Tarefa.FirstOrDefault();
-
-                var result = controller.Tarefa(tarefa.Id);
-
-                Assert.IsType<ViewResult>(result);
-            }
-        }
     }
 }
