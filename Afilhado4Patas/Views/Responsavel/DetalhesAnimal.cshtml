@@ -1,0 +1,87 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Afilhado4Patas.Data;
+
+@model Afilhado4Patas.Models.Animal
+
+@inject SignInManager<Utilizadores> SignInManager
+@inject UserManager<Utilizadores> UserManager
+
+@{
+    ViewData["Title"] = "DetalhesAnimal";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>DetalhesAnimal</h2>
+
+<div>
+    <h4>Animal</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.NomeAnimal)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NomeAnimal)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DataNasc)
+        </dt>
+        <dd>
+            @Model.DataNasc.ToString("dd/MM/yyyy")
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PorteId)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PorteAnimal.TipoPorte)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Peso)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Peso)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Descricao)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Descricao)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Adoptado)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Adoptado)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Ativo)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Ativo)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Padrinho)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Padrinho.FirstName) @Html.DisplayFor(model => model.Padrinho.LastName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.RacaAnimal)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.RacaAnimal.NomeRaca)
+        </dd>
+    </dl>
+</div>
+<div id="edit_options">
+    <a asp-controller="Responsavel" asp-action="EditarAnimal" asp-route-id=@Model.Id>
+        <img id="icon" src="~/images/voltar.png" />
+        <span id="options_spans">Editar</span>
+    </a>
+</div>
+<div id="edit_options">
+    <a asp-controller="Responsavel" asp-action="ListaAnimais">
+        <img id="icon" src="~/images/voltar.png" />
+        <span id="options_spans">Voltar</span>
+    </a>
+</div>

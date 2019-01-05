@@ -82,7 +82,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         {
             Animal animal = _context.Animais.Where(a => a.Id == id).Include(b => b.RacaAnimal).ThenInclude(c => c.CategoriaRaca).FirstOrDefault();
             animal.PorteAnimal = _context.Portes.Where(p => p.Id == animal.PorteId).FirstOrDefault();
-            animal.Padrinho = _context.PerfilTable.Where(r => r.UtilizadorId == animal.PadrinhoId).FirstOrDefault();
+            animal.Padrinho = _context.PerfilTable.Where(r => r.Id == animal.PadrinhoId).FirstOrDefault();
             return View(animal);
         }
 

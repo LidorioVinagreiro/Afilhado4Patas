@@ -15,6 +15,9 @@ namespace Afilhado4Patas.Models
         [Display(Name = "Nome do Animal")]
         public string NomeAnimal { get; set; }
 
+        [Display(Name = "Sexo do Animal")]
+        public string Sexo { get; set; }
+
         [Display(Name = "Data Nascimento")]
         public DateTime DataNasc { get; set; }
         
@@ -40,7 +43,7 @@ namespace Afilhado4Patas.Models
 
         [ForeignKey("Perfil")]
         [Display(Name ="Padrinho")]
-        public string PadrinhoId { get; set; }
+        public int? PadrinhoId { get; set; }
         public virtual Perfil Padrinho { get; set; }
 
         [ForeignKey("Raca")]

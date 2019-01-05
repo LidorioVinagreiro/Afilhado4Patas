@@ -11,9 +11,12 @@ namespace Afilhado4Patas.Models
     {
         [Key]
         public int Id { get; set; }
+
         [ForeignKey("Categoria")]
+        [Display(Name = "Especie")]
         public int? CategoriaId { get; set; }
         public Categoria CategoriaRaca { get; set; }
+
         [Display(Name = "Raça")]
         public string NomeRaca { get; set; }
 

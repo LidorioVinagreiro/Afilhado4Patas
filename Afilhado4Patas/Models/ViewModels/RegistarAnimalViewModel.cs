@@ -16,6 +16,9 @@ namespace Afilhado4Patas.Models.ViewModels
         [Display(Name = "Nome do Animal")]
         public string NomeAnimal { get; set; }
 
+        [Required(ErrorMessage = "Selecione um dos campos Macho ou Fêmea")]
+        public string Sexo { get; set; }
+
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         [Required(ErrorMessage = "É necessário preencher este campo")]
         [Display(Name = "Data Nascimento")]
