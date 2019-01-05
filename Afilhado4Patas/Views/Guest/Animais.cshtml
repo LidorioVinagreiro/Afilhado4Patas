@@ -7,9 +7,6 @@
 </div>
 <div id="pagina_pesquisa">
     <div id="container_left">
-
-
-
         <div id="container" class="container">
             <div id="row" class="row">
                 <div class="animal_item">
@@ -286,23 +283,20 @@
             <ul>
                 @{
                     List<Categoria> categorias = Context.Categorias.ToList();
-                    List<Raca> racas = Context.Racas.ToList();
-                    List<string> portes = new List<string>();
-                    portes.Add("Pequeno");
-                    portes.Add("Medio");
-                    portes.Add("Grande");
+                    //List<Raca> racas = Context.Racas.ToList();
+                    List<Porte> portes = Context.Portes.ToList();
 
                     <li>
                         <h1>Categorias</h1>
                         @foreach (var categoria in categorias)
                         {
                             <div>
-                                <input type="checkbox" value=@categoria.Id disabled/>
+                                <input type="checkbox" value=@categoria.Id />
                                 <span>@categoria.Nome</span>
                             </div>
                         }
                     </li>
-                    <li>
+                    /*<li>
                         <h1>Raças</h1>
                         @foreach (var raca in racas)
                         {
@@ -311,14 +305,14 @@
                                 <span>@raca.NomeRaca</span>
                             </div>
                         }
-                    </li>
+                    </li>*/
                     <li>
                         <h1>Portes</h1>
                         @foreach (var porte in portes)
                         {
                             <div>
-                                <input type="checkbox" value=@porte />
-                                <span>@porte</span>
+                                <input type="checkbox" value=@porte.Id />
+                                <span>@porte.TipoPorte</span>
                             </div>
                         }
                     </li>

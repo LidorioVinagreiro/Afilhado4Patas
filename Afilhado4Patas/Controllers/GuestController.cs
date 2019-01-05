@@ -78,6 +78,14 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View();
         }
 
+        public IActionResult FichaAnimal(int id)
+        {
+            Animal animal = _context.Animais.Where(a => a.Id == id).Include(b => b.RacaAnimal).ThenInclude(c => c.CategoriaRaca).FirstOrDefault();
+            animal.PorteAnimal = _context.Portes.Where(p => p.Id == animal.PorteId).FirstOrDefault();
+            animal.Padrinho = _context.PerfilTable.Where(r => r.UtilizadorId == animal.PadrinhoId).FirstOrDefault();
+            return View(animal);
+        }
+
         /// <summary>
         /// Ação que devolve a view de registo no site
         /// </summary>

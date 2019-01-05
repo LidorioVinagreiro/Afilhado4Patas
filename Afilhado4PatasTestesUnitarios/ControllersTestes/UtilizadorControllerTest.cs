@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 using Moq;
+using Microsoft.AspNetCore.Hosting;
 
 namespace Afilhado4PatasTest.ControllersTest
 {
@@ -22,8 +23,10 @@ namespace Afilhado4PatasTest.ControllersTest
         public SqliteConnection connection;
         public DbContextOptions<ApplicationDbContext> options;
         public ApplicationDbContext contextDB;
+        public IHostingEnvironment hostingEnvironment;
+        public UserManager<Utilizadores> userManager;
 
-        public UtilizadorControllerTest()
+        public UtilizadorControllerTest(IServiceProvider serviceProvider, IHostingEnvironment hosting)
         {
             connection = new SqliteConnection(connectionString);
             connection.Open();
@@ -32,6 +35,7 @@ namespace Afilhado4PatasTest.ControllersTest
                 .Options;
             contextDB = new ApplicationDbContext(options);
             contextDB.Database.EnsureCreated();
+            /*
             contextDB.Roles.AddRange(
                     new IdentityRole("Responsavel"),
                     new IdentityRole("Funcionario"),
@@ -60,7 +64,9 @@ namespace Afilhado4PatasTest.ControllersTest
             contextDB.PerfilTable.Add(perfilResponsavel);
             utilizador1.PerfilId = perfilResponsavel.Id;
                 GetMockUserManager().Object.AddToRoleAsync(utilizador1, "Utilizador");                
-                contextDB.SaveChanges();
+                contextDB.SaveChanges();    */        
+            userManager = serviceProvider.GetRequiredService<UserManager<Utilizadores>>();
+            hostingEnvironment = hosting;
         }
 
         [Fact]
@@ -68,7 +74,7 @@ namespace Afilhado4PatasTest.ControllersTest
         {
             using (contextDB)
             {
-                var controller = new UtilizadorController(contextDB);
+                var controller = new UtilizadorController(contextDB, hostingEnvironment, userManager);
                 var result = controller.Index();
                 var viewResult = Assert.IsType<ViewResult>(result);
                 Assert.IsType<ViewResult>(result);
@@ -80,7 +86,7 @@ namespace Afilhado4PatasTest.ControllersTest
         {
             using (contextDB)
             {
-                var controller = new UtilizadorController(contextDB);
+                var controller = new UtilizadorController(contextDB, hostingEnvironment, userManager);
                 var result = controller.About();
                 var viewResult = Assert.IsType<ViewResult>(result);
                 Assert.IsType<ViewResult>(result);
@@ -92,7 +98,7 @@ namespace Afilhado4PatasTest.ControllersTest
         {
             using (contextDB)
             {
-                var controller = new UtilizadorController(contextDB);
+                var controller = new UtilizadorController(contextDB, hostingEnvironment, userManager);
                 var result = controller.Contact();
                 var viewResult = Assert.IsType<ViewResult>(result);
                 Assert.IsType<ViewResult>(result);
@@ -104,7 +110,7 @@ namespace Afilhado4PatasTest.ControllersTest
         {
             using (contextDB)
             {
-                var controller = new UtilizadorController(contextDB);
+                var controller = new UtilizadorController(contextDB, hostingEnvironment, userManager);
                 var result = controller.Adotar();
                 var viewResult = Assert.IsType<ViewResult>(result);
                 Assert.IsType<ViewResult>(result);
@@ -116,18 +122,11 @@ namespace Afilhado4PatasTest.ControllersTest
         {
             using (contextDB)
             {
-                var controller = new UtilizadorController(contextDB);
+                var controller = new UtilizadorController(contextDB, hostingEnvironment, userManager);
                 var result = controller.Doar();
                 var viewResult = Assert.IsType<ViewResult>(result);
                 Assert.IsType<ViewResult>(result);
             }
-        }
-
-        private Mock<UserManager<Utilizadores>> GetMockUserManager()
-        {
-            var userStoreMock = new Mock<IUserStore<Utilizadores>>();
-            return new Mock<UserManager<Utilizadores>>(
-                userStoreMock.Object, null, null, null, null, null, null, null, null);
-        }
+        }        
     }
 }

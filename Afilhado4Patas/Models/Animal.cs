@@ -40,7 +40,7 @@ namespace Afilhado4Patas.Models
 
         [ForeignKey("Perfil")]
         [Display(Name ="Padrinho")]
-        public int? PadrinhoId { get; set; }
+        public string PadrinhoId { get; set; }
         public virtual Perfil Padrinho { get; set; }
 
         [ForeignKey("Raca")]
