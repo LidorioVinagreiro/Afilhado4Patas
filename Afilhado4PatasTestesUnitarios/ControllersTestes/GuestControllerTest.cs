@@ -13,7 +13,7 @@ namespace Afilhado4PatasTest.ControllersTest
 {
     public class GuestControllerTest
     {
-        
+
         public string connectionString = "DataSource=:memory:";
         public SqliteConnection connection;
         public DbContextOptions<ApplicationDbContext> options;
@@ -35,7 +35,7 @@ namespace Afilhado4PatasTest.ControllersTest
                 var result = controller.Index();
                 var viewResult = Assert.IsType<ViewResult>(result);
                 Assert.IsType<ViewResult>(result);
-            }  
+            }
         }
 
         [Fact]
@@ -47,7 +47,7 @@ namespace Afilhado4PatasTest.ControllersTest
                 var result = controller.About();
                 var viewResult = Assert.IsType<ViewResult>(result);
                 Assert.IsType<ViewResult>(result);
-            }           
+            }
         }
 
         [Fact]

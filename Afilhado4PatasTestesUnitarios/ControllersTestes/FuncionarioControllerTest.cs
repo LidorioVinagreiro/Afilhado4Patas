@@ -12,23 +12,31 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace Afilhado4PatasTest.ControllersTest
 {
     public class FuncionarioControllerTest
     {
-        
+
         public string connectionString = "DataSource=:memory:";
         public SqliteConnection connection;
         public DbContextOptions<ApplicationDbContext> options;
-        
-        public FuncionarioControllerTest()
+        public IHostingEnvironment hostingEnvironment;
+        public ILogger<Utilizadores> logger;
+        public UserManager<Utilizadores> userManager;
+
+        public FuncionarioControllerTest(IServiceProvider serviceProvider, IHostingEnvironment hosting, ILogger<Utilizadores> Ilogger)
         {
             connection = new SqliteConnection(connectionString);
             connection.Open();
             options = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseSqlite(connection)
                 .Options;
+            userManager = serviceProvider.GetRequiredService<UserManager<Utilizadores>>();
+            hostingEnvironment = hosting;
+            logger = Ilogger;
         }
 
         [Fact]
@@ -36,7 +44,7 @@ namespace Afilhado4PatasTest.ControllersTest
         {
             using (var context = new ApplicationDbContext(options))
             {
-                var controller = new FuncionarioController(context);
+                var controller = new FuncionarioController(context, hostingEnvironment, logger, userManager);
                 var result = controller.Index();
                 var viewResult = Assert.IsType<ViewResult>(result);
                 Assert.IsType<ViewResult>(result);
@@ -48,7 +56,7 @@ namespace Afilhado4PatasTest.ControllersTest
         {
             using (var context = new ApplicationDbContext(options))
             {
-                var controller = new FuncionarioController(context);
+                var controller = new FuncionarioController(context, hostingEnvironment, logger, userManager);
                 var result = controller.About();
                 var viewResult = Assert.IsType<ViewResult>(result);
                 Assert.IsType<ViewResult>(result);
@@ -60,7 +68,7 @@ namespace Afilhado4PatasTest.ControllersTest
         {
             using (var context = new ApplicationDbContext(options))
             {
-                var controller = new FuncionarioController(context);
+                var controller = new FuncionarioController(context, hostingEnvironment, logger, userManager);
                 var result = controller.Contact();
                 var viewResult = Assert.IsType<ViewResult>(result);
                 Assert.IsType<ViewResult>(result);
@@ -72,7 +80,7 @@ namespace Afilhado4PatasTest.ControllersTest
         {
             using (var context = new ApplicationDbContext(options))
             {
-                var controller = new FuncionarioController(context);
+                var controller = new FuncionarioController(context, hostingEnvironment, logger, userManager);
                 var result = controller.Adotar();
                 var viewResult = Assert.IsType<ViewResult>(result);
                 Assert.IsType<ViewResult>(result);
@@ -84,7 +92,7 @@ namespace Afilhado4PatasTest.ControllersTest
         {
             using (var context = new ApplicationDbContext(options))
             {
-                var controller = new FuncionarioController(context);
+                var controller = new FuncionarioController(context, hostingEnvironment, logger, userManager);
                 var result = controller.Doar();
                 var viewResult = Assert.IsType<ViewResult>(result);
                 Assert.IsType<ViewResult>(result);
