@@ -261,7 +261,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         }
 
         [HttpPost]
-        public async Task<ActionResult> PerfilEditarFotoPerfil(string id, ImagemPerfilUploadViewModel model)
+        public async Task<ActionResult> PerfilEditarFotoPerfil(string id, ImagemUploadViewModel model)
         {
             Utilizadores user;
             if (id == null)
@@ -470,6 +470,8 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                 _context.SaveChanges();
                 entradaAnimal.DirectoriaAnimal = _hostingEnvironment.WebRootPath + "\\Animais\\" + entradaAnimal.Id;
                 CreateFolder(entradaAnimal.DirectoriaAnimal);
+                CreateFolder(entradaAnimal.DirectoriaAnimal + "\\Anexos");
+                CreateFolder(entradaAnimal.DirectoriaAnimal + "\\Galeria");
                 _context.SaveChanges();
                 return View("RegistoCompleto");
             }
@@ -626,6 +628,131 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             animal.PorteAnimal = _context.Portes.Where(p => p.Id == animal.PorteId).FirstOrDefault();
             animal.Padrinho = _context.PerfilTable.Where(r => r.Id == animal.PadrinhoId).FirstOrDefault();
             return View("../Guest/FichaAnimal", animal);
+        }
+
+        public ActionResult EditarAnimalFotoPerfil(int id)
+        {
+            if (id == 0)
+            {
+                return NotFound();
+            }
+            AnimalImageUploadViewModel model = new AnimalImageUploadViewModel
+            {
+                animal = _context.Animais.Where(a => a.Id == id).FirstOrDefault()
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> EditarAnimalFotoPerfil(int id, AnimalImageUploadViewModel model)
+        {
+            Animal animal = null;
+            if (model == null)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                if (model.File != null)
+                {
+                    animal = _context.Animais.Where(a => a.Id == id).FirstOrDefault();
+                    animal.Foto = model.File.FileName;
+                    _context.SaveChanges();
+                    var filePath = animal.DirectoriaAnimal + "\\" + model.File.FileName;
+                    var fileStream = new FileStream(filePath, FileMode.Create);
+                    await model.File.CopyToAsync(fileStream);
+                    return View("DetalhesAnimal", animal);
+                }
+            }
+            model.animal = _context.Animais.Where(a => a.Id == id).FirstOrDefault();
+            return View(model);
+        }
+
+        public ActionResult AdicionarAnexosFotosAnimal(int id)
+        {
+            if (id == 0)
+            {
+                return NotFound();
+            }
+            AnimalImageUploadViewModel model = new AnimalImageUploadViewModel
+            {
+                animal = _context.Animais.Where(a => a.Id == id).FirstOrDefault()
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> AdicionarAnexosFotosAnimal(int id, AnimalImageUploadViewModel model)
+        {
+            if (model == null)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                if (model.File != null)
+                {
+                    Galeria anexo = new Galeria
+                    {
+                        AnimalId = id,
+                        FicheiroNome = model.File.FileName
+                    };
+                    model.animal = _context.Animais.Where(a => a.Id == id).FirstOrDefault();
+                    _context.FotosAnimais.Add(anexo);
+                    _context.SaveChanges();
+                    var filePath = model.animal.DirectoriaAnimal + "\\Galeria\\" + model.File.FileName;
+                    var fileStream = new FileStream(filePath, FileMode.Create);
+                    await model.File.CopyToAsync(fileStream);
+                    return View("DetalhesAnimal", model.animal);
+                }
+            }
+            model.animal = _context.Animais.Where(a => a.Id == id).FirstOrDefault();
+            return View(model);
+        }
+
+        public ActionResult AdicionarAnexosFicheirosAnimal(int id)
+        {
+            if (id == 0)
+            {
+                return NotFound();
+            }
+            AnimalFileUploadViewModel model = new AnimalFileUploadViewModel
+            {
+                animal = _context.Animais.Where(a => a.Id == id).FirstOrDefault()                
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> AdicionarAnexosFicheirosAnimal(int id, AnimalFileUploadViewModel model)
+        {
+            if (model == null)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                if (model.File != null)
+                {
+                    Anexo anexo = new Anexo
+                    {
+                        AnimalId = id,
+                        FicheiroNome = model.File.FileName
+                    };
+                    model.animal = _context.Animais.Where(a => a.Id == id).FirstOrDefault();
+                    _context.FicheirosAnimais.Add(anexo);
+                    _context.SaveChanges();
+                    var filePath = model.animal.DirectoriaAnimal + "\\Anexos\\" + model.File.FileName;
+                    var fileStream = new FileStream(filePath, FileMode.Create);
+                    await model.File.CopyToAsync(fileStream);
+                    return View("DetalhesAnimal", model.animal);
+                }
+            }
+            model.animal = _context.Animais.Where(a => a.Id == id).FirstOrDefault();
+            return View(model);
         }
 
         private bool CreateFolder(string path)

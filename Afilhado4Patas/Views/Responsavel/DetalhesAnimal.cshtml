@@ -11,77 +11,97 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>DetalhesAnimal</h2>
-
-<div>
-    <h4>Animal</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.NomeAnimal)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.NomeAnimal)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.DataNasc)
-        </dt>
-        <dd>
-            @Model.DataNasc.ToString("dd/MM/yyyy")
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.PorteId)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.PorteAnimal.TipoPorte)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Peso)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Peso)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Descricao)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Descricao)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Adoptado)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Adoptado)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Ativo)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Ativo)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Padrinho)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Padrinho.FirstName) @Html.DisplayFor(model => model.Padrinho.LastName)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.RacaAnimal)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.RacaAnimal.NomeRaca)
-        </dd>
-    </dl>
-</div>
-<div id="edit_options">
-    <a asp-controller="Responsavel" asp-action="EditarAnimal" asp-route-id=@Model.Id>
-        <img id="icon" src="~/images/voltar.png" />
-        <span id="options_spans">Editar</span>
-    </a>
-</div>
-<div id="edit_options">
-    <a asp-controller="Responsavel" asp-action="ListaAnimais">
-        <img id="icon" src="~/images/voltar.png" />
-        <span id="options_spans">Voltar</span>
-    </a>
+<div id="perfil">
+    <div>
+        <span> Ficha Detalhada de animal : @Html.DisplayFor(model => model.NomeAnimal)</span>
+    </div>
+    <div id="perfil_container1">
+        @{
+            if (Model.Foto != null)
+            {
+                string src = "/Animais/" + Model.Id + "/" + Model.Foto;
+                <img id="imagem_perfil" src="@src" />
+            }
+            else
+            {
+                <img id="imagem_perfil" src="~/images/dog-profile.png" />
+            }
+        }
+                <table id="user_info_table">
+                    <tr id="info_tr">
+                        <td id="info_nome">@Html.DisplayNameFor(model => model.NomeAnimal)</td>
+                        <td id="info_conteudo">@Html.DisplayFor(model => model.NomeAnimal)</td>
+                    </tr>
+                    <tr id="info_tr">
+                        <td id="info_nome">@Html.DisplayNameFor(model => model.RacaAnimal.CategoriaId)</td>
+                        <td id="info_conteudo">@Html.DisplayFor(model => model.RacaAnimal.CategoriaRaca.Nome)</td>
+                    </tr>
+                    <tr id="info_tr">
+                        <td id="info_nome">@Html.DisplayNameFor(model => model.Descricao)</td>
+                        <td id="info_conteudo">@Html.DisplayFor(model => model.Descricao)</td>
+                    </tr>
+                    <tr id="info_tr">
+                        <td id="info_nome">@Html.DisplayNameFor(model => model.PorteId)</td>
+                        <td id="info_conteudo">@Html.DisplayFor(model => model.PorteAnimal.TipoPorte)</td>
+                    </tr>
+                    <tr id="info_tr">
+                        <td id="info_nome">@Html.DisplayNameFor(model => model.Peso)</td>
+                        <td id="info_conteudo">@Html.DisplayFor(model => model.Peso) Kg</td>
+                    </tr>
+                    <tr id="info_tr">
+                        <td id="info_nome">@Html.DisplayNameFor(model => model.Sexo)</td>
+                        <td id="info_conteudo">@Html.DisplayFor(model => model.Sexo)</td>
+                    </tr>
+                    <tr id="info_tr">
+                        <td id="info_nome">@Html.DisplayNameFor(model => model.DataNasc)</td>
+                        <td id="info_conteudo">@Model.DataNasc.ToString("dd/MM/yyyy")</td>
+                    </tr>
+                    <tr id="info_tr">
+                        <td id="info_nome">@Html.DisplayNameFor(model => model.RacaId)</td>
+                        <td id="info_conteudo">@Html.DisplayFor(model => model.RacaAnimal.NomeRaca)</td>
+                    </tr>
+                    <tr id="info_tr">
+                        <td id="info_nome">@Html.DisplayNameFor(model => model.Padrinho)</td>
+                        <td id="info_conteudo">@Html.DisplayFor(model => model.Padrinho.FirstName) @Html.DisplayFor(model => model.Padrinho.LastName)</td>
+                    </tr>
+                    <tr id="info_tr">
+                        <td id="info_nome">@Html.DisplayNameFor(model => model.Ativo)</td>
+                        <td id="info_conteudo">@Html.DisplayFor(model => model.Ativo)</td>
+                    </tr>
+                    <tr id="info_tr">
+                        <td id="info_nome">@Html.DisplayNameFor(model => model.Adoptado)</td>
+                        <td id="info_conteudo">@Html.DisplayFor(model => model.Adoptado)</td>
+                    </tr>
+                </table>
+        <div id="edit_options">
+            <a asp-controller="Responsavel" asp-action="EditarAnimal" asp-route-id=@Model.Id>
+                <img id="icon" src="~/images/voltar.png" />
+                <span id="options_spans">Editar</span>
+            </a>
+        </div>
+        <div id="edit_options">
+            <a asp-controller="Responsavel" asp-action="EditarAnimalFotoPerfil" asp-route-id=@Model.Id>
+                <img id="icon" src="~/images/picture.png" />
+                <span id="options_spans">Editar Foto Perfil do Animal</span>
+            </a>
+        </div>
+        <div id="edit_options">
+            <a asp-controller="Responsavel" asp-action="AdicionarAnexosFotosAnimal" asp-route-id=@Model.Id>
+                <img id="icon" src="~/images/picture.png" />
+                <span id="options_spans">Adicionar Fotos á Galeria do Animal</span>
+            </a>
+        </div>
+        <div id="edit_options">
+            <a asp-controller="Responsavel" asp-action="AdicionarAnexosFicheirosAnimal" asp-route-id=@Model.Id>
+                <img id="icon" src="~/images/addfile.png" />
+                <span id="options_spans">Adicionar Anexos á Ficha do Animal</span>
+            </a>
+        </div>
+        <div id="edit_options">
+            <a asp-controller="Responsavel" asp-action="ListaAnimais">
+                <img id="icon" src="~/images/voltar.png" />
+                <span id="options_spans">Voltar</span>
+            </a>
+        </div>
+    </div>
 </div>

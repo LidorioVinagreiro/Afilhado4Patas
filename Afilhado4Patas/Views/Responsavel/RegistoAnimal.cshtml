@@ -12,7 +12,7 @@
         var items = "<option value='0'>Escolha primeiro uma categoria</option>";
         $('#RacaId').html(items);
         $('#CategoriaID').change(function () {
-            var url = '@Url.Content("~/")' + "Funcionario/RacasPorCategoria";
+            var url = '@Url.Content("~/")' + "Responsavel/RacasPorCategoria";
             var id = '#CategoriaID';
             $.getJSON(url, { CategoriaID: $(id).val() }, function (data) {
                 var items = '';
@@ -32,7 +32,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-controller="Funcionario" asp-action="RegistoAnimal">
+        <form asp-controller="Responsavel" asp-action="RegistoAnimal">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="NomeAnimal" class="control-label"></label>
