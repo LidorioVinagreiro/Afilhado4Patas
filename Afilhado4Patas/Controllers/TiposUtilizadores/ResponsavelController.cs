@@ -637,6 +637,231 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View(funcionario);
         }
 
+        /****************************************************************************************************/
+        /******************************************** Animais ******************************************/
+        /****************************************************************************************************/
+
+        /****************************************************************************************************/
+        /******************************************** Animais ***********************************************/
+        /****************************************************************************************************/
+
+        public ActionResult RegistoAnimal()
+        {
+            var model = new RegistarAnimalViewModel();
+            model.Categorias = _context.Categorias.Select(categ => new SelectListItem()
+            {
+                Value = categ.Id.ToString(),
+                Text = categ.Nome
+            }).ToList();
+            model.Portes = _context.Portes.Select(porte => new SelectListItem()
+            {
+                Value = porte.Id.ToString(),
+                Text = porte.TipoPorte
+            }).ToList();
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult RegistoAnimal([Bind] RegistarAnimalViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                Animal entradaAnimal = new Animal
+                {
+                    NomeAnimal = model.NomeAnimal,
+                    Sexo = model.Sexo,
+                    Descricao = model.Descricao,
+                    DataNasc = model.DataNasc,
+                    PorteId = model.PorteId,
+                    Peso = model.Peso,
+                    RacaId = model.RacaId,
+                    Adoptado = false,
+                    Ativo = true
+                };
+                _context.Animais.Add(entradaAnimal);
+                _context.SaveChanges();
+                entradaAnimal.DirectoriaAnimal = _hostingEnvironment.WebRootPath + "\\Animais\\" + entradaAnimal.Id;
+                CreateFolder(entradaAnimal.DirectoriaAnimal);
+                _context.SaveChanges();
+                return View("RegistoCompleto");
+            }
+
+            model.Categorias = _context.Categorias.Select(categ => new SelectListItem()
+            {
+                Value = categ.Id.ToString(),
+                Text = categ.Nome
+            }).ToList();
+            model.Portes = _context.Portes.Select(porte => new SelectListItem()
+            {
+                Value = porte.Id.ToString(),
+                Text = porte.TipoPorte
+            }).ToList();
+            return View(model);
+        }
+
+        public ActionResult ListaAnimais()
+        {
+            List<Animal> model = new List<Animal>();
+            foreach (var animal in _context.Animais.ToList())
+            {
+                animal.RacaAnimal = _context.Racas.Where(r => r.Id == animal.RacaId).Include(c => c.CategoriaRaca).FirstOrDefault();
+                animal.PorteAnimal = _context.Portes.Where(p => p.Id == animal.PorteId).FirstOrDefault();
+                animal.Padrinho = _context.PerfilTable.Where(r => r.Id == animal.PadrinhoId).FirstOrDefault();
+                model.Add(animal);
+            }
+            return View(model);
+        }
+
+        public ActionResult ApagarAnimal(int id)
+        {
+            Animal removerAnimal = _context.Animais.Where(animal => animal.Id == id).FirstOrDefault();
+            removerAnimal.Ativo = false;
+            _context.SaveChanges();
+
+            List<Animal> model = new List<Animal>();
+            foreach (var animal in _context.Animais.ToList())
+            {
+                animal.RacaAnimal = _context.Racas.Where(r => r.Id == animal.RacaId).Include(c => c.CategoriaRaca).FirstOrDefault();
+                animal.PorteAnimal = _context.Portes.Where(p => p.Id == animal.PorteId).FirstOrDefault();
+                animal.Padrinho = _context.PerfilTable.Where(r => r.Id == animal.PadrinhoId).FirstOrDefault();
+                model.Add(animal);
+            }
+            return View("ListaAnimais", model);
+        }
+
+        public ActionResult AtivarAnimal(int id)
+        {
+            Animal removerAnimal = _context.Animais.Where(animal => animal.Id == id).FirstOrDefault();
+            removerAnimal.Ativo = true;
+            _context.SaveChanges();
+
+            List<Animal> model = new List<Animal>();
+            foreach (var animal in _context.Animais.ToList())
+            {
+                animal.RacaAnimal = _context.Racas.Where(r => r.Id == animal.RacaId).Include(c => c.CategoriaRaca).FirstOrDefault();
+                animal.PorteAnimal = _context.Portes.Where(p => p.Id == animal.PorteId).FirstOrDefault();
+                animal.Padrinho = _context.PerfilTable.Where(r => r.Id == animal.PadrinhoId).FirstOrDefault();
+                model.Add(animal);
+            }
+            return View("ListaAnimais", model);
+        }
+
+        public ActionResult DetalhesAnimal(int id)
+        {
+            Animal model = _context.Animais.Where(animal => animal.Id == id).FirstOrDefault();
+            model.RacaAnimal = _context.Racas.Where(r => r.Id == model.RacaId).Include(c => c.CategoriaRaca).FirstOrDefault();
+            model.PorteAnimal = _context.Portes.Where(p => p.Id == model.PorteId).FirstOrDefault();
+            model.Padrinho = _context.PerfilTable.Where(r => r.Id == model.PadrinhoId).FirstOrDefault();
+            return View(model);
+        }
+
+        public ActionResult EditarAnimal(int id)
+        {
+            Animal animal = _context.Animais.Where(a => a.Id == id).Include(raca => raca.RacaAnimal).ThenInclude(c => c.CategoriaRaca).FirstOrDefault();
+            animal.PorteAnimal = _context.Portes.Where(p => p.Id == animal.PorteId).FirstOrDefault();
+            animal.Padrinho = _context.PerfilTable.Where(r => r.Id == animal.PadrinhoId).FirstOrDefault();
+            EditarAnimalViewModel modelo = new EditarAnimalViewModel
+            {
+                Categorias = _context.Categorias.Select(categ => new SelectListItem()
+                {
+                    Value = categ.Id.ToString(),
+                    Text = categ.Nome
+                }).ToList(),
+                Portes = _context.Portes.Select(porte => new SelectListItem()
+                {
+                    Value = porte.Id.ToString(),
+                    Text = porte.TipoPorte
+                }).ToList(),
+                Id = animal.Id,
+                NomeAnimal = animal.NomeAnimal,
+                Sexo = animal.Sexo,
+                Peso = animal.Peso,
+                Descricao = animal.Descricao,
+                DataNasc = animal.DataNasc,
+                PorteId = animal.PorteId,
+                Ativo = animal.Ativo,
+                Adoptado = animal.Adoptado
+            };
+            if (!(animal.RacaAnimal is null))
+            {
+                modelo.CategoriaId = animal.RacaAnimal.CategoriaId;
+            }
+
+            if (!(animal.RacaAnimal is null))
+            {
+                modelo.RacaId = animal.RacaAnimal.Id;
+            }
+            return View(modelo);
+        }
+
+        [HttpPost]
+        public ActionResult EditarAnimal(EditarAnimalViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                Animal animal = _context.Animais.Where(a => a.Id == model.Id).FirstOrDefault();
+                animal.NomeAnimal = model.NomeAnimal;
+                animal.DataNasc = model.DataNasc;
+                animal.PorteId = model.PorteId;
+                animal.Descricao = model.Descricao;
+                animal.Peso = model.Peso;
+                animal.RacaId = model.RacaId;
+                _context.SaveChanges();
+
+                List<Animal> lista = new List<Animal>();
+                foreach (var auxiliar in _context.Animais.ToList())
+                {
+                    auxiliar.RacaAnimal = _context.Racas.Where(r => r.Id == auxiliar.RacaId).Include(c => c.CategoriaRaca).FirstOrDefault();
+                    auxiliar.PorteAnimal = _context.Portes.Where(p => p.Id == auxiliar.PorteId).FirstOrDefault();
+                    auxiliar.Padrinho = _context.PerfilTable.Where(r => r.Id == auxiliar.PadrinhoId).FirstOrDefault();
+                    lista.Add(auxiliar);
+                }
+                return View("ListaAnimais", lista);
+            }
+            ModelState.AddModelError("", "Informação errada EditarAnimal HTTPPOST");
+            model.Categorias = _context.Categorias.Select(categ => new SelectListItem()
+            {
+                Value = categ.Id.ToString(),
+                Text = categ.Nome
+            }).ToList();
+            model.Portes = _context.Portes.Select(porte => new SelectListItem()
+            {
+                Value = porte.Id.ToString(),
+                Text = porte.TipoPorte
+            }).ToList();
+            return View(model);
+        }
+
+        public IActionResult FichaAnimal(int id)
+        {
+            Animal animal = _context.Animais.Where(a => a.Id == id).Include(b => b.RacaAnimal).ThenInclude(c => c.CategoriaRaca).FirstOrDefault();
+            animal.PorteAnimal = _context.Portes.Where(p => p.Id == animal.PorteId).FirstOrDefault();
+            animal.Padrinho = _context.PerfilTable.Where(r => r.Id == animal.PadrinhoId).FirstOrDefault();
+            return View("../Guest/FichaAnimal", animal);
+        }
+        
+
+        private bool CreateFolder(string path)
+        {
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+                return Directory.Exists(path);
+            }
+            return Directory.Exists(path);
+        }
+
+        [HttpGet]
+        public JsonResult RacasPorCategoria(int CategoriaID)
+        {
+            var racas = (from racasAux in _context.Racas
+                         where racasAux.CategoriaId == CategoriaID
+                         orderby racasAux.NomeRaca
+                         select new Raca { Id = racasAux.Id, NomeRaca = racasAux.NomeRaca }).ToList();
+            return Json(new SelectList(racas, "Id", "NomeRaca"));
+        }
+
         /// <summary>
         /// Metodo que verifica se um perfil existe na base de dados
         /// </summary>

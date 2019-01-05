@@ -3,6 +3,8 @@
 
 @model Afilhado4Patas.Models.Animal
 
+@inject SignInManager<Utilizadores> SignInManager
+@inject UserManager<Utilizadores> UserManager
 @inject ApplicationDbContext Context
 @{
     ViewData["Title"] = "Ficha de Animal";
@@ -13,7 +15,7 @@
     <div>
         <span> Ficha de animal : @Html.DisplayFor(model => model.NomeAnimal)</span>
     </div>
-    <div id="perfil_animal_container">
+    <div id="perfil_container1">
         @{Animal animal = Context.Animais.Where(u => u.Id == Model.Id).FirstOrDefault();
             if (animal.Foto != null)
             {
@@ -31,6 +33,10 @@
                 <td id="info_conteudo">@Html.DisplayFor(model => model.NomeAnimal)</td>
             </tr>
             <tr id="info_tr">
+                <td id="info_nome">@Html.DisplayNameFor(model => model.RacaAnimal.CategoriaId)</td>
+                <td id="info_conteudo">@Html.DisplayFor(model => model.RacaAnimal.CategoriaRaca.Nome)</td>
+            </tr>
+            <tr id="info_tr">
                 <td id="info_nome">@Html.DisplayNameFor(model => model.Descricao)</td>
                 <td id="info_conteudo">@Html.DisplayFor(model => model.Descricao)</td>
             </tr>
@@ -43,6 +49,10 @@
                 <td id="info_conteudo">@Html.DisplayFor(model => model.Peso) Kg</td>
             </tr>
             <tr id="info_tr">
+                <td id="info_nome">@Html.DisplayNameFor(model => model.Sexo)</td>
+                <td id="info_conteudo">@Html.DisplayFor(model => model.Sexo)</td>
+            </tr>
+            <tr id="info_tr">
                 <td id="info_nome">@Html.DisplayNameFor(model => model.DataNasc)</td>
                 <td id="info_conteudo">@Model.DataNasc.ToString("dd/MM/yyyy")</td>
             </tr>
@@ -50,16 +60,55 @@
                 <td id="info_nome">@Html.DisplayNameFor(model => model.RacaId)</td>
                 <td id="info_conteudo">@Html.DisplayFor(model => model.RacaAnimal.NomeRaca)</td>
             </tr>
-            <tr id="info_tr">
-                <td id="info_nome">@Html.DisplayNameFor(model => model.RacaAnimal.CategoriaId)</td>
-                <td id="info_conteudo">@Html.DisplayFor(model => model.RacaAnimal.CategoriaRaca.Nome)</td>
-            </tr>
         </table>
-        <div id="edit_options">
-            <a asp-controller="Guest" asp-action="Animais">
-                <img id="icon" src="~/images/voltar.png" />
-                <span id="options_spans">Voltar</span>
-            </a>
-        </div>
+        @if (User.IsInRole("Responsavel"))
+        {
+            <div id="edit_options">
+                <a asp-controller="Responsavel" asp-action="Animais">
+                    <img id="icon" src="~/images/voltar.png" />
+                    <span id="options_spans">Voltar</span>
+                </a>
+            </div>
+        }
+        else if (User.IsInRole("Funcionario"))
+        {
+            <div id="edit_options">
+                <a asp-controller="Funcionario" asp-action="Animais">
+                    <img id="icon" src="~/images/voltar.png" />
+                    <span id="options_spans">Voltar</span>
+                </a>
+            </div>
+        }
+        else if (User.IsInRole("Utilizador"))
+        {
+            <div id="edit_options">
+                <a>
+                    <img id="icon" src="~/images/adotar_icon.png" />
+                    <span id="options_spans">Adotar</span>
+                </a>
+            </div>
+            <div id="edit_options">
+                <a asp-controller="Utilizador" asp-action="Animais">
+                    <img id="icon" src="~/images/voltar.png" />
+                    <span id="options_spans">Voltar</span>
+                </a>
+            </div>
+        }
+        else
+        {
+
+            <div id="edit_options">
+                <a>
+                    <img id="icon" src="~/images/adotar_icon.png" />
+                    <span id="options_spans">Adotar</span>
+                </a>
+            </div>
+            <div id="edit_options">
+                <a asp-controller="Guest" asp-action="Animais">
+                    <img id="icon" src="~/images/voltar.png" />
+                    <span id="options_spans">Voltar</span>
+                </a>
+            </div>
+        }
     </div>
 </div>

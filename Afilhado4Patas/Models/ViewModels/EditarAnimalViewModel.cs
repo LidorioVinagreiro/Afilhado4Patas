@@ -11,10 +11,15 @@ namespace Afilhado4Patas.Models.ViewModels
 {
     public class EditarAnimalViewModel
     {
+        public int Id { get; set; }
+
         [Required(ErrorMessage = "É necessário preencher este campo")]
         [RegularExpression(@"^[a-zA-Z ]+$", ErrorMessage = "Nome não é válido")]
         [Display(Name = "Nome do Animal")]
         public string NomeAnimal { get; set; }
+
+        [Required(ErrorMessage = "Selecione um dos campos Macho ou Fêmea")]
+        public string Sexo { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         [Required(ErrorMessage = "É necessário preencher este campo")]

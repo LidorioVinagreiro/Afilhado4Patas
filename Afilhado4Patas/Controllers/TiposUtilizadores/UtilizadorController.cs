@@ -64,7 +64,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         {
             return View("../Guest/Contact");
         }
-
+        
         /// <summary>
         /// Ação que devovle a view das adoções
         /// </summary>
@@ -86,6 +86,14 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         public IActionResult Animais()
         {
             return View("../Guest/Animais");
+        }
+
+        public IActionResult FichaAnimal(int id)
+        {
+            Animal animal = _context.Animais.Where(a => a.Id == id).Include(b => b.RacaAnimal).ThenInclude(c => c.CategoriaRaca).FirstOrDefault();
+            animal.PorteAnimal = _context.Portes.Where(p => p.Id == animal.PorteId).FirstOrDefault();
+            animal.Padrinho = _context.PerfilTable.Where(r => r.Id == animal.PadrinhoId).FirstOrDefault();
+            return View("../Guest/FichaAnimal", animal);
         }
 
         /****************************************************************************************************/

@@ -1,4 +1,10 @@
-﻿@model Afilhado4Patas.Models.Animal
+﻿@using Microsoft.AspNetCore.Identity
+@using Afilhado4Patas.Data;
+
+@model Afilhado4Patas.Models.Animal
+
+@inject SignInManager<Utilizadores> SignInManager
+@inject UserManager<Utilizadores> UserManager
 
 @{
     ViewData["Title"] = "DetalhesAnimal";
@@ -21,7 +27,7 @@
             @Html.DisplayNameFor(model => model.DataNasc)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.DataNasc)
+            @Model.DataNasc.ToString("dd/MM/yyyy")
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.PorteId)
@@ -42,18 +48,6 @@
             @Html.DisplayFor(model => model.Descricao)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.DirectoriaAnimal)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.DirectoriaAnimal)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Foto)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Foto)
-        </dd>
-        <dt>
             @Html.DisplayNameFor(model => model.Adoptado)
         </dt>
         <dd>
@@ -69,17 +63,25 @@
             @Html.DisplayNameFor(model => model.Padrinho)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Padrinho.Id)
+            @Html.DisplayFor(model => model.Padrinho.FirstName) @Html.DisplayFor(model => model.Padrinho.LastName)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.RacaAnimal)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.RacaAnimal.Id)
+            @Html.DisplayFor(model => model.RacaAnimal.NomeRaca)
         </dd>
     </dl>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+<div id="edit_options">
+    <a asp-controller="Funcionario" asp-action="EditarAnimal" asp-route-id=@Model.Id>
+        <img id="icon" src="~/images/voltar.png" />
+        <span id="options_spans">Editar</span>
+    </a>
+</div>
+<div id="edit_options">
+    <a asp-controller="Funcionario" asp-action="ListaAnimais">
+        <img id="icon" src="~/images/voltar.png" />
+        <span id="options_spans">Voltar</span>
+    </a>
 </div>

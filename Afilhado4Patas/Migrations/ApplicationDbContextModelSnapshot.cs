@@ -98,7 +98,9 @@ namespace Afilhado4Patas.Migrations
 
                     b.Property<string>("NomeAnimal");
 
-                    b.Property<int?>("PadrinhoId");
+                    b.Property<string>("PadrinhoId");
+
+                    b.Property<int?>("PadrinhoId1");
 
                     b.Property<int>("Peso");
 
@@ -106,9 +108,11 @@ namespace Afilhado4Patas.Migrations
 
                     b.Property<int?>("RacaId");
 
+                    b.Property<string>("Sexo");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("PadrinhoId");
+                    b.HasIndex("PadrinhoId1");
 
                     b.HasIndex("PorteId");
 
@@ -339,7 +343,7 @@ namespace Afilhado4Patas.Migrations
                 {
                     b.HasOne("Afilhado4Patas.Models.Perfil", "Padrinho")
                         .WithMany()
-                        .HasForeignKey("PadrinhoId");
+                        .HasForeignKey("PadrinhoId1");
 
                     b.HasOne("Afilhado4Patas.Models.Porte", "PorteAnimal")
                         .WithMany()
