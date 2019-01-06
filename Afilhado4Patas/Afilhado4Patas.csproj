@@ -44,9 +44,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="Views\Funcionario\FichaAnimal.cshtml">
-      <Pack>$(IncludeRazorContentInPack)</Pack>
-    </Content>
     <Content Update="Views\Funcionario\PalavraPasseEditada.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
@@ -82,9 +79,6 @@
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Views\Responsavel\EditarAnimalFotoPerfil.cshtml">
-      <Pack>$(IncludeRazorContentInPack)</Pack>
-    </Content>
-    <Content Update="Views\Responsavel\FichaAnimal.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Views\Responsavel\ListaAnimais.cshtml">

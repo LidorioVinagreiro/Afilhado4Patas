@@ -83,11 +83,19 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View("../Guest/Doar");
         }
 
+        /// <summary>
+        /// Ação que devolve a view dos animais
+        /// </summary>
+        /// <returns>View dos animais</returns>
         public IActionResult Animais()
         {
             return View("../Guest/Animais");
         }
 
+        /// <summary>
+        /// Ação que devolve a view de ficha de um animal
+        /// </summary>
+        /// <returns>View da ficha de um animal</returns>
         public IActionResult FichaAnimal(int id)
         {
             Animal animal = _context.Animais.Where(a => a.Id == id).Include(b => b.RacaAnimal).ThenInclude(c => c.CategoriaRaca).FirstOrDefault();
@@ -101,10 +109,10 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         /****************************************************************************************************/
 
         /// <summary>
-        /// Ação que devolve a view do perfil com a informação pessoal do responsavel
+        /// Ação que devolve a view do perfil com a informação pessoal do utilizador
         /// </summary>
-        /// <param name="id">Id do responsavel atual</param>
-        /// <returns>View do perfil com a informação do responsavel</returns>
+        /// <param name="id">Id do utilizador atual</param>
+        /// <returns>View do perfil com a informação do utilizador</returns>
         // GET: Perfil
         public ActionResult Perfil(string id)
         {
@@ -122,9 +130,9 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         }
 
         /// <summary>
-        /// Ação quedevole a view que permite a edição das informações no perfil do responsavel
+        /// Ação quedevole a view que permite a edição das informações no perfil do utilizador
         /// </summary>
-        /// <param name="id">Id do responsavel atual</param>
+        /// <param name="id">Id do utilizador atual</param>
         /// <returns>View de edição dos dados pessoais do perfil</returns>
         // GET: PerfilEditarDadosPessoais
         public async Task<IActionResult> PerfilEditarDadosPessoais(string id)
@@ -151,9 +159,9 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         }
 
         /// <summary>
-        /// Ação que devolve a view que edita a informação atual referente a morada no perfil do responsavel
+        /// Ação que devolve a view que edita a informação atual referente a morada no perfil do utilizador
         /// </summary>
-        /// <param name="id">Id do responsavel atual</param>
+        /// <param name="id">Id do utilizador atual</param>
         /// <returns>View de edição da morada</returns>
         //GET PerfilEditarMorada
         public async Task<IActionResult> PerfilEditarMorada(string id)
@@ -180,11 +188,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         }
 
         /// <summary>
-        /// Ação que edita a informação no perfil do responsavel
+        /// Ação que edita a informação no perfil do utilizador
         /// </summary>
-        /// <param name="id">Id do responsavel atual</param>
+        /// <param name="id">Id do utilizador atual</param>
         /// <param name="editarPerfilViewModel">Modelo da informação na view</param>
-        /// <returns>View do perfil do responsavel com a informação atualizada</returns>
+        /// <returns>View do perfil do utilizador com a informação atualizada</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> PerfilEditarDadosPessoais(string id, PerfilEditarDadosPessoaisViewModel editarPerfilViewModel)
@@ -218,11 +226,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         }
 
         /// <summary>
-        /// Ação que altera a informação referente a morada do responsavel
+        /// Ação que altera a informação referente a morada do utilizador
         /// </summary>
-        /// <param name="id">Id do responsavel atual</param>
+        /// <param name="id">Id do utilizador atual</param>
         /// <param name="editarPerfilViewModel">Modelo da informação na view</param>
-        /// <returns>View do perfil do responsavel com a informação atualizada</returns>
+        /// <returns>View do perfil do utilizador com a informação atualizada</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> PerfilEditarMorada(string id, PerfilEditarMoradaViewModel editarPerfilViewModel)
@@ -253,6 +261,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View(editarPerfilViewModel);
         }
 
+        /// <summary>
+        /// Ação que devolve a view que edita a informação atual referente a foto de perfil do utilizador
+        /// </summary>
+        /// <param name="id">Id do utilizador atual</param>
+        /// <returns>View de edição de foto de perfil</returns>
         public ActionResult PerfilEditarFotoPerfil(string id)
         {
             if (id == null)
@@ -262,6 +275,12 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View();
         }
 
+        /// <summary>
+        /// Ação que altera a informação referente a foto de perfil do utilizador
+        /// </summary>
+        /// <param name="id">Id do utilizador atual</param>
+        /// <param name="editarPerfilViewModel">Modelo da informação na view</param>
+        /// <returns>View do perfil do utilizador com a informação atualizada</returns>
         [HttpPost]
         public async Task<ActionResult> PerfilEditarFotoPerfil(string id, ImagemUploadViewModel model)
         {
@@ -287,6 +306,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View();
         }
 
+        /// <summary>
+        /// Ação que devolve a view que edita a informação atual referente a palavra passe do utilizador
+        /// </summary>
+        /// <param name="id">Id do utilizador atual</param>
+        /// <returns>View de edição de palavra passe</returns>
         public async Task<IActionResult> PerfilEditarPalavraPasse(string id)
         {
             if (id == null)
@@ -296,6 +320,12 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View(new PerfilEditarPalavraPasseViewModel());
         }
 
+        /// <summary>
+        /// Ação que altera a informação referente a palvra passe do utilizador
+        /// </summary>
+        /// <param name="id">Id do utilizador atual</param>
+        /// <param name="editarPerfilViewModel">Modelo da informação na view</param>
+        /// <returns>View do perfil do utilizador com a informação atualizada</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> PerfilEditarPalavraPasse(string id, PerfilEditarPalavraPasseViewModel model)
