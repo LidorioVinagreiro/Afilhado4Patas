@@ -679,6 +679,8 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                 _context.SaveChanges();
                 entradaAnimal.DirectoriaAnimal = _hostingEnvironment.WebRootPath + "\\Animais\\" + entradaAnimal.Id;
                 CreateFolder(entradaAnimal.DirectoriaAnimal);
+                CreateFolder(entradaAnimal.DirectoriaAnimal + "\\Anexos");
+                CreateFolder(entradaAnimal.DirectoriaAnimal + "\\Galeria");
                 _context.SaveChanges();
                 return View("RegistoCompleto");
             }
