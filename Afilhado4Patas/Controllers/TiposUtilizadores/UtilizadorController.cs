@@ -263,7 +263,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         }
 
         [HttpPost]
-        public async Task<ActionResult> PerfilEditarFotoPerfil(string id, ImagemPerfilUploadViewModel model)
+        public async Task<ActionResult> PerfilEditarFotoPerfil(string id, ImagemUploadViewModel model)
         {
             Utilizadores user;
             if (id == null)

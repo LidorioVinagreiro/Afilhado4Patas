@@ -65,10 +65,20 @@
     <Content Update="Views\Funcionario\PerfilEditarPalavraPasse.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Views\Responsavel\DetalhesAnimal.cshtml">
+    <Content Update="Views\Responsavel\AdicionarAnexosFicheirosAnimal.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Views\Responsavel\AdicionarAnexosFotosAnimal.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Responsavel\DetalhesAnimal.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
     <Content Update="Views\Responsavel\EditarAnimal.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Responsavel\EditarAnimalFotoPerfil.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Views\Responsavel\FichaAnimal.cshtml">

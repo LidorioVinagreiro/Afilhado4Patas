@@ -59,23 +59,11 @@
                 <td id="info_conteudo">@Html.DisplayFor(model => model.RacaAnimal.NomeRaca)</td>
             </tr>
         </table>
-        @if (User.IsInRole("Responsavel"))
-        {
-            <div id="edit_options">
-                <a asp-controller="Responsavel" asp-action="Animais">
-                    <img id="icon" src="~/images/voltar.png" />
-                    <span id="options_spans">Voltar</span>
-                </a>
-            </div>
-        }
-        else if (User.IsInRole("Funcionario"))
-        {
-            <div id="edit_options">
-                <a asp-controller="Funcionario" asp-action="Animais">
-                    <img id="icon" src="~/images/voltar.png" />
-                    <span id="options_spans">Voltar</span>
-                </a>
-            </div>
-        }
+        <div id="edit_options">
+            <a asp-controller="Responsavel" asp-action="Animais">
+                <img id="icon" src="~/images/voltar.png" />
+                <span id="options_spans">Voltar</span>
+            </a>
+        </div>
     </div>
 </div>

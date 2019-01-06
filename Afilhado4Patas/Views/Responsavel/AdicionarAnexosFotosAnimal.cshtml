@@ -1,0 +1,52 @@
+﻿@model Afilhado4Patas.Models.ViewModels.AnimalImageUploadViewModel
+
+@using Microsoft.AspNetCore.Identity
+@using Afilhado4Patas.Data;
+
+@inject SignInManager<Utilizadores> SignInManager
+@inject UserManager<Utilizadores> UserManager
+@inject ApplicationDbContext Context
+@{
+    ViewData["Title"] = "Adicionar Fotos Galeria Animal";
+}
+
+<h4>Adicionar Fotos Galeria do Animal</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        @{
+            if (Model.animal.Foto != null)
+            {
+                string src = "/Animais/" + Model.animal.Id + "/" + Model.animal.Foto;
+                <img id="imagem_perfil" src="@src" />
+            }
+            else
+            {
+                <img id="imagem_perfil" src="~/images/dog-profile.png" />
+            }
+        }
+        <br />
+        <br />
+        <form method="post" asp-action="AdicionarAnexosFotosAnimal" asp-controller="Responsavel" enctype="multipart/form-data">
+            <div class="form-group">
+                <label asp-for="File" class="control-label"></label>
+                <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
+                      title="Insira a imagem do animal.
+Deverá ter o formato JPG, JPEG, PNG."></span>
+                <input type="file" asp-for="File" class="form-control" />
+                <span asp-validation-for="File" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Confirmar" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-controller="Responsavel" asp-action="DetalhesAnimal" asp-route-id=@Model.animal.Id>Voltar Ficha Animal</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

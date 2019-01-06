@@ -61,7 +61,6 @@ namespace Afilhado4Patas
                 // log information about exception
             }
             services.AddMvc()
-                .AddJsonOptions(options=> options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);            
             services.AddSingleton<EmailSender>();
             services.AddScoped<RazorView>();
