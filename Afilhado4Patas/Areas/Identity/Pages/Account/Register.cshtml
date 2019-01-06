@@ -3,14 +3,9 @@
 @{
     ViewData["Title"] = "Register";
 }
-<br />
-<br />
-<br />
-<br />
-<br />
-<div class="row">
-    <h2>Registo</h2> 
-    <div class="col-md-4">
+<div id="page">
+    <div id="box">
+        <h2>Registo</h2>
         <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
             <h4>Crie a sua nova conta.</h4>
             <hr />
@@ -45,14 +40,14 @@
                 <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
                       title="Inserir data de nascimento no formato DD-MM-AAAA
                       Deverá ainda ter uma idade maior de 18 anos."></span>
-                <div class="input-group date" id="datepicker">
+                <div class="input-group date" id="datepicker_registo">
                     <input asp-for="Input.DataNascimento" type="text" class="form-control" />
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
                 </div>
                 <span asp-validation-for="Input.DataNascimento" class="text-danger"></span>
-            </div>            
+            </div>
             <div class="form-group">
                 <label asp-for="Input.Email"></label>
                 <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"

@@ -63,8 +63,6 @@
 /** Navigation carousel specific styles **/
 
 .connected-carousels .carousel-navigation {
-    height: 60px;
-    width: 240px;
     background: #fff;
     border: 10px solid #fff;
     -webkit-border-radius: 5px;
@@ -169,8 +167,8 @@
 }
 
 .connected-carousels .prev-navigation {
-    left: -15px;
-    top: 22px;
+    left: -15px !important;
+    top: 22px !important;
     text-indent: 6px;
 }
 

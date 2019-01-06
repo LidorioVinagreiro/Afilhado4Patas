@@ -26,7 +26,7 @@ namespace Afilhado4Patas.Models.ViewModels
 
         [Display(Name = "Data de Fim")]
         [Required(ErrorMessage = "Preencha este campo com a Data de Fim esperada para a Tarefa!")]
-        [DateGreaterThenStartDate("Inicio")]
+        [DateGreaterThenStartDateAttribute("Inicio")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime Fim { get; set; }
 

@@ -587,6 +587,10 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                         await _userManager.AddToRoleAsync(novoFuncionario, "Funcionario");
                     }
                 }
+                if(_context.Utilizadores.Where(u => u.Email == modelo.Email).Count() > 0)
+                {
+                    ModelState.AddModelError("", "O email inserido já encontra em utilização, insira outro!");
+                }
                 return View("ListaFuncionarios", ListaTotalFuncionarios());
             }
             return View(modelo);
@@ -682,7 +686,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                 CreateFolder(entradaAnimal.DirectoriaAnimal + "\\Anexos");
                 CreateFolder(entradaAnimal.DirectoriaAnimal + "\\Galeria");
                 _context.SaveChanges();
-                return View("RegistoCompleto");
+                return View("RegistoAnimalCompleto");
             }
 
             model.Categorias = _context.Categorias.Select(categ => new SelectListItem()

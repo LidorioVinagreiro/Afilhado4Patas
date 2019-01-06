@@ -10,24 +10,23 @@
     ViewData["Title"] = "Editar Perfil";
 }
 
-<h4>Editar Dados Pessoais </h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
+
+<div id="page">
+    <div id="box">
         @{Utilizadores user = Context.Utilizadores.Where(u => u.Email == UserManager.GetUserName(User)).FirstOrDefault();
             Perfil perfil = Context.PerfilTable.Where(p => p.Id == user.PerfilId).FirstOrDefault();
             if (perfil.Photo != null)
             {
                 string src = "/Utilizadores/" + user.Id + "/" + perfil.Photo;
-                <img src="@src" />
+                <img id="icon_centrado_arredondado" src="@src" />
             }
             else
             {
-                <img id="imagem_perfil" src="~/images/default.jpg" />
+                <img id="icon_centrado_arredondado" src="~/images/default.jpg" />
             }
         }
-        <br />
-        <br />
+        <h4>Editar Foto de Perfil </h4>
+        <hr />
         <form method="post" asp-action="PerfilEditarFotoPerfil" asp-controller="Utilizador" enctype="multipart/form-data">
             <div class="form-group">
                 <label asp-for="File" class="control-label"></label>

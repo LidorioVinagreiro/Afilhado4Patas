@@ -5,6 +5,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+
+<br />
+<br />
+<br />
+<br />
+<br />
 <h2>ListaAnimais</h2>
 
 <table class="table">
@@ -26,10 +32,13 @@
                 @Html.DisplayNameFor(model => model.Descricao)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Adoptado)
+                @Html.DisplayNameFor(model => model.RacaAnimal.CategoriaId)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.RacaAnimal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Adoptado)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Ativo)
@@ -57,18 +66,21 @@
                     @Html.DisplayFor(modelItem => item.Descricao)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Adoptado)
+                    @Html.DisplayFor(modelItem => item.RacaAnimal.CategoriaRaca.Nome)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.RacaAnimal.NomeRaca)
                 </td>
                 <td>
+                    @Html.DisplayFor(modelItem => item.Adoptado)
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.Ativo)
                 </td>
                 <td>
-                    <a asp-controller="Funcionario" asp-action="EditarAnimal" asp-route-id=@item.Id>Editar animal</a><span>|</span>
-                    <a asp-controller="Funcionario" asp-action="DetalhesAnimal" asp-route-id=@item.Id>Detalhes animal</a><span>|</span>
-                    <a asp-controller="Funcionario" asp-action="AtivarAnimal" asp-route-id=@item.Id>Ativar animal</a>
+                    <a asp-controller="Funcionario" asp-action="EditarAnimal" asp-route-id=@item.Id>Editar animal</a><span> | </span>
+                    <a asp-controller="Funcionario" asp-action="DetalhesAnimal" asp-route-id=@item.Id>Detalhes animal</a><span> | </span>
+                    <a asp-controller="Funcionario" asp-action="AtivarAnimal" asp-route-id=@item.Id>Ativar animal</a><span> | </span>
                     <a asp-controller="Funcionario" asp-action="ApagarAnimal" asp-route-id=@item.Id>Apagar animal</a>
                 </td>
             </tr>

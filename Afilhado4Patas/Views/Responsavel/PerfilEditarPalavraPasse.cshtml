@@ -7,24 +7,11 @@
 @inject UserManager<Utilizadores> UserManager
 @inject ApplicationDbContext Context
 
-<h4>Alterar Palavra-Passe</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        @{Utilizadores user = Context.Utilizadores.Where(u => u.Email == UserManager.GetUserName(User)).FirstOrDefault();
-            Perfil perfil = Context.PerfilTable.Where(p => p.Id == user.PerfilId).FirstOrDefault();
-            if (perfil.Photo != null)
-            {
-                string src = "/Utilizadores/" + user.Id + "/" + perfil.Photo;
-                <img src="@src" />
-            }
-            else
-            {
-                <img id="imagem_perfil" src="~/images/default.jpg" />
-            }
-        }
-        <br />
-        <br />
+<div id="page">
+    <div id="box">
+        <img id="icon_centrado" src="~/images/password.png" />
+        <h4>Alterar Palavra-Passe</h4>
+        <hr />
         <form asp-action="PerfilEditarPalavraPasse" asp-controller="Responsavel">
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">

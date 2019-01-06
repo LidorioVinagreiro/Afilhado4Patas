@@ -24,7 +24,7 @@ namespace Afilhado4Patas.Models.ViewModels
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         [Required(ErrorMessage = "É necessário preencher este campo")]
         [Display(Name = "Data Nascimento")]
-        [DateGreaterThanZeroLessThan100]
+        [DateGreaterThen0LessThen30]
         public DateTime DataNasc { get; set; }
 
         [Required(ErrorMessage = "É necessário preencher este campo")]

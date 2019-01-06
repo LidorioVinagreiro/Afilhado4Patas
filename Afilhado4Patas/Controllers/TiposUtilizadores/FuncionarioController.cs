@@ -473,7 +473,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                 CreateFolder(entradaAnimal.DirectoriaAnimal + "\\Anexos");
                 CreateFolder(entradaAnimal.DirectoriaAnimal + "\\Galeria");
                 _context.SaveChanges();
-                return View("RegistoCompleto");
+                return View("RegistoAnimalCompleto");
             }
 
             model.Categorias = _context.Categorias.Select(categ => new SelectListItem()

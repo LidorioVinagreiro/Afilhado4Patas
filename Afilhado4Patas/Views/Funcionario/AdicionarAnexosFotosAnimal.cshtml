@@ -10,23 +10,21 @@
     ViewData["Title"] = "Adicionar Fotos Galeria Animal";
 }
 
-<h4>Adicionar Fotos Galeria do Animal</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
+<div id="page">
+    <div id="box">
         @{
             if (Model.animal.Foto != null)
             {
                 string src = "/Animais/" + Model.animal.Id + "/" + Model.animal.Foto;
-                <img id="imagem_perfil" src="@src" />
+                <img id="icon_centrado_arredondado" src="@src" />
             }
             else
             {
-                <img id="imagem_perfil" src="~/images/dog-profile.png" />
+                <img id="icon_centrado_arredondado" src="~/images/dog-profile.png" />
             }
         }
-        <br />
-        <br />
+        <h4>Adicionar Fotos Galeria do Animal</h4>
+        <hr />
         <form method="post" asp-action="AdicionarAnexosFotosAnimal" asp-controller="Funcionario" enctype="multipart/form-data">
             <div class="form-group">
                 <label asp-for="File" class="control-label"></label>

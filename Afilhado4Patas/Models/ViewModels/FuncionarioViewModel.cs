@@ -28,7 +28,7 @@ namespace Afilhado4Patas.Models.ViewModels
         
         [Display(Name = "Data de Nascimento")]
         [Required(ErrorMessage = "Preencha este campo com a sua Data de Nascimento!")]
-        [DateGreatThen18]
+        [DateGreatThen18LessThen120]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime DataNascimento { get; set; }
 
