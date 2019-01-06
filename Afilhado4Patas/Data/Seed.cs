@@ -18,7 +18,7 @@ namespace Afilhado4Patas.Data
             //adding customs roles
             var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             var UserManager = serviceProvider.GetRequiredService<UserManager<Utilizadores>>();
-            hostingEnvironment = serviceProvider.GetRequiredService<IHostingEnvironment>();
+            //hostingEnvironment = serviceProvider.GetRequiredService<IHostingEnvironment>();
             string[] roleNames = { "Responsavel", "Funcionario", "Utilizador" };
             IdentityResult roleResult;
             foreach (var roleName in roleNames)
