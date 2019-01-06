@@ -9,7 +9,7 @@
 }
 <script type="text/javascript">
     $(document).ready(function () {
-        var items = "<option value='0'>Escolha primeiro uma categoria</option>";
+        var items = "<option value='undefined'>Escolha primeiro uma categoria</option>";
         $('#RacaId').html(items);
         $('#CategoriaID').change(function () {
             var url = '@Url.Content("~/")' + "Funcionario/RacasPorCategoria";
