@@ -125,13 +125,13 @@
                             }
                         </ul>
                     </div>
-                    <a href="#" class="prev prev-stage"><span>&lsaquo;</span></a>
-                    <a href="#" class="next next-stage"><span>&rsaquo;</span></a>
+                    <a href="#" class="prev prev-stage inactive" data-jcarouselcontrol="true"><span>‹</span></a>
+                    <a href="#" class="next next-stage" data-jcarouselcontrol="true"><span>›</span></a>
                 </div>
 
                 <div class="navigation">
-                    <a href="#" class="prev prev-navigation">&lsaquo;</a>
-                    <a href="#" class="next next-navigation">&rsaquo;</a>
+                    <a href="#" class="prev prev-navigation inactive" data-jcarouselcontrol="true">‹</a>
+                    <a href="#" class="next next-navigation" data-jcarouselcontrol="true">›</a>
                     <div class="carousel carousel-navigation">
                         <ul>
                             @foreach (var foto in Context.FotosAnimais.Where(i => i.AnimalId == Model.Id).ToList())
