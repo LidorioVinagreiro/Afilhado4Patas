@@ -41,7 +41,7 @@ namespace Afilhado4PatasTestesUnitarios.ControllersTestes
         {
             var controller = new ResponsavelController(context, _userManager, _emailSender, _razorView, _hostingEnvironment);
             var result = controller.Index();
-            var viewResult = Assert.IsType<ViewResult>(result);
+            //var viewResult = Assert.IsType<ViewResult>(result);
             Assert.IsType<ViewResult>(result);
         }
 
@@ -50,7 +50,7 @@ namespace Afilhado4PatasTestesUnitarios.ControllersTestes
         {
             var controller = new ResponsavelController(context, _userManager, _emailSender, _razorView, _hostingEnvironment);
             var result = controller.About();
-                var viewResult = Assert.IsType<ViewResult>(result);
+                //var viewResult = Assert.IsType<ViewResult>(result);
                 Assert.IsType<ViewResult>(result);
         }
 
@@ -59,7 +59,7 @@ namespace Afilhado4PatasTestesUnitarios.ControllersTestes
         {
             var controller = new ResponsavelController(context, _userManager, _emailSender, _razorView, _hostingEnvironment);
             var result = controller.Contact();
-                var viewResult = Assert.IsType<ViewResult>(result);
+                //var viewResult = Assert.IsType<ViewResult>(result);
                 Assert.IsType<ViewResult>(result);
         }
 
@@ -68,7 +68,7 @@ namespace Afilhado4PatasTestesUnitarios.ControllersTestes
         {
             var controller = new ResponsavelController(context, _userManager, _emailSender, _razorView, _hostingEnvironment);
             var result = controller.Adotar();
-                var viewResult = Assert.IsType<ViewResult>(result);
+                //var viewResult = Assert.IsType<ViewResult>(result);
                 Assert.IsType<ViewResult>(result);
         }
 
@@ -77,7 +77,7 @@ namespace Afilhado4PatasTestesUnitarios.ControllersTestes
         {
             var controller = new ResponsavelController(context, _userManager, _emailSender, _razorView, _hostingEnvironment);
             var result = controller.Doar();
-                var viewResult = Assert.IsType<ViewResult>(result);
+                //var viewResult = Assert.IsType<ViewResult>(result);
                 Assert.IsType<ViewResult>(result);
         }
 
@@ -88,8 +88,10 @@ namespace Afilhado4PatasTestesUnitarios.ControllersTestes
                 var tarefa = context.Tarefa.ToList().FirstOrDefault();
 
                 var result = controller.Tarefa(tarefa.Id);
+            //var viewResult = Assert.IsType<ViewResult>(result);
 
-                Assert.IsType<ViewResult>(result);
+            Assert.IsType<ViewResult>(result);
+            //Assert.Equal(viewResult, result);
         }
 
         [Fact]
@@ -103,6 +105,7 @@ namespace Afilhado4PatasTestesUnitarios.ControllersTestes
                 select users).Include(p => p.Perfil).ToList().FirstOrDefault();
 
             var result = controller.VisualizarFuncionario(funcionario.Id);
+            //var viewResult = Assert.IsType<ViewResult>(result);
 
             Assert.IsType<ViewResult>(result);
         }
