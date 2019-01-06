@@ -598,16 +598,17 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         {
             if (ModelState.IsValid)
             {
-                var novoFuncionario = new Utilizadores
-                {
-                    UserName = modelo.Email,
-                    Email = modelo.Email,
-                    EmailConfirmed = true,
-                    Active = true
-                };
-                var user = await _userManager.FindByEmailAsync(novoFuncionario.Email);
+                var user = await _userManager.FindByEmailAsync(modelo.Email);
                 if (user == null)
                 {
+                    var novoFuncionario = new Utilizadores
+                    {
+                        UserName = modelo.Email,
+                        Email = modelo.Email,
+                        EmailConfirmed = true,
+                        Active = true
+                    };
+
                     var createFuncionario = await _userManager.CreateAsync(novoFuncionario, modelo.Password);
                     Perfil perfilFuncionario = new Perfil
                     {
@@ -626,9 +627,10 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                         await _userManager.AddToRoleAsync(novoFuncionario, "Funcionario");
                     }
                 }
-                if(_context.Utilizadores.Where(u => u.Email == modelo.Email).Count() > 0)
+                if (_context.Utilizadores.Where(u => u.Email == modelo.Email).Count() > 0)
                 {
                     ModelState.AddModelError("", "O email inserido já encontra em utilização, insira outro!");
+                    return View(modelo);
                 }
                 return View("ListaFuncionarios", ListaTotalFuncionarios());
             }
@@ -788,7 +790,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             }
             return View("ListaAnimais", model);
         }
-        
+
         /// <summary>
         /// Ação que devolve a view de lista de animais apos ativacao de um animal que teria sido removido
         /// </summary>
@@ -810,7 +812,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             }
             return View("ListaAnimais", model);
         }
-        
+
         /// <summary>
         /// Ação que devolve a view de um perfil detalhado de um determinado animal
         /// </summary>
@@ -911,7 +913,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             }).ToList();
             return View(model);
         }
-        
+
         /// <summary>
         /// Ação que devolve a view de editar foto de perfil de um determinado animal
         /// </summary>

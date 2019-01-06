@@ -167,6 +167,7 @@ namespace Afilhado4Patas.Areas.Identity.Pages.Account
                 else
                 {
                     ModelState.AddModelError("", "O email inserido já encontra em utilização, insira outro!");
+                    return Page();
                 }
             }
             // If we got this far, something failed, redisplay form
