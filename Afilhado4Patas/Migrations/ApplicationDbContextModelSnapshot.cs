@@ -115,7 +115,7 @@ namespace Afilhado4Patas.Migrations
 
                     b.Property<int?>("PadrinhoId");
 
-                    b.Property<int>("Peso");
+                    b.Property<double>("Peso");
 
                     b.Property<int>("PorteId");
 

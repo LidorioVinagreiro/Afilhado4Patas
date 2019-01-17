@@ -17,12 +17,12 @@ namespace Afilhado4Patas.Models.ViewModels
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Preencha este campo com o seu Nome!")]
-        [RegularExpression(@"^[a-zA-Z ]+$", ErrorMessage = "Use apenas letras neste campo")]
+        [RegularExpression(@"^[a-zA-Zà-úÀ-Úâ-ûÂ-Ûã-õÃ-Õ ]+$", ErrorMessage = "Use apenas letras neste campo")]
         [StringLength(30, ErrorMessage = "O {0} deverá ter um maximo de {1} caracteres de comprimento.")]
         public string Nome { get; set; }
 
         [Required(ErrorMessage = "Preencha este campo com o(s) seu(s) Apelido(s)!")]
-        [RegularExpression(@"^[a-zA-Z ]+$", ErrorMessage = "Use apenas letras neste campo")]
+        [RegularExpression(@"^[a-zA-Zà-úÀ-Úâ-ûÂ-Ûã-õÃ-Õ ]+$", ErrorMessage = "Use apenas letras neste campo")]
         [StringLength(30, ErrorMessage = "O {0} deverá ter um maximo de {1} caracteres de comprimento.")]
         public string Apelido { get; set; }
         

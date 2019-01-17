@@ -71,6 +71,17 @@
                             </ul>
                         </li>
                         <li>
+                            <a>Adoçoes</a>
+                            <ul class="sub-menu clearfix">
+                                <li><a asp-controller="Responsavel">Pedidos de Adoção Total</a></li>
+                                <li><a asp-controller="Responsavel">Pedidos de Apadrinhamento</a></li>
+                                <li><a asp-controller="Responsavel">Pedidos X dias</a></li>
+                                <li><a asp-controller="Responsavel">Pedidos de Passeios</a></li>
+                                <li><a asp-controller="Responsavel">Convocar Reunião (Controlo Animal)</a></li>
+                                <li><a asp-controller="Responsavel">Pedidos Rejeitados</a></li>
+                            </ul>
+                        </li>
+                        <li>
                             <a>Funcionarios</a>
                             <ul class="sub-menu clearfix">
                                 <li><a asp-controller="Responsavel" asp-action="ListaFuncionarios">Lista de Funcionarios</a></li>
@@ -96,6 +107,17 @@
                             </ul>
                         </li>
                         <li>
+                            <a>Adoçoes</a>
+                            <ul class="sub-menu clearfix">
+                                <li><a asp-controller="Funcionario">Pedidos de Adoção Total</a></li>
+                                <li><a asp-controller="Funcionario">Pedidos de Apadrinhamento</a></li>
+                                <li><a asp-controller="Funcionario">Pedidos X dias</a></li>
+                                <li><a asp-controller="Funcionario">Pedidos de Passeios</a></li>
+                                <li><a asp-controller="Funcionario">Convocar Reunião (Controlo Animal)</a></li>
+                                <li><a asp-controller="Funcionario">Pedidos Rejeitados</a></li>
+                            </ul>
+                        </li>
+                        <li>
                             <a>Funcionarios</a>
                             <ul class="sub-menu clearfix">
                                 <li><a asp-controller="Funcionario" asp-action="MinhasTarefas" asp-route-id="@UserManager.GetUserName(User)">Minhas Tarefas</a></li>
@@ -114,6 +136,17 @@
                             <a>Animais</a>
                             <ul class="sub-menu clearfix">
                                 <li><a asp-controller="Utilizador" asp-action="Animais">Os nossos Animais</a></li>
+                                <li><a>Os meus animais</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a>Adoçoes</a>
+                            <ul class="sub-menu clearfix">
+                                <li><a asp-controller="Utilizador">Realizar Pedido de Adoção</a></li>
+                                <li><a asp-controller="Utilizador">Realizar Pedido de Apadrinhamento</a></li>
+                                <li><a asp-controller="Utilizador">Realizar Pedido X dias</a></li>
+                                <li><a asp-controller="Utilizador">Realizar Pedido de Passeios</a></li>
+                                <li><a asp-controller="Utilizador">Os meus pedidos de Adoções</a></li>
                             </ul>
                         </li>
                         <li><a asp-area="" asp-controller="Utilizador" asp-action="Contact">Contactos</a></li>

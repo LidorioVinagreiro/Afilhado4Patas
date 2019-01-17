@@ -12,7 +12,7 @@ namespace Afilhado4Patas.Models.ViewModels
         public string Street { get; set; }
 
         [Display(Name = "Cidade")]
-        [RegularExpression(@"^[a-zA-Z ]+$", ErrorMessage = "Use apenas letras neste campo")]
+        [RegularExpression(@"^[a-zA-Zà-úÀ-Úâ-ûÂ-Ûã-õÃ-Õ ]+$", ErrorMessage = "Use apenas letras neste campo")]
         [Required(ErrorMessage = "Preencha este campo com a sua Cidade!")]
         [StringLength(30, ErrorMessage = "A {0} deverá ter um maximo de {1} caracteres de comprimento.")]
         public string City { get; set; }

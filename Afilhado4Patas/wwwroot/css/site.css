@@ -655,7 +655,6 @@ li a {
 #limpar_filtros {
     font-size: 12px;
     color: #e41a15;
-    display: inline;
     float: right;
     margin-top: 0;
     text-decoration: none;
@@ -838,6 +837,19 @@ li a {
             .product-grid6 .social li a:hover:after, .product-grid6 .social li a:hover:before {
                 opacity: 1
             }
+
+.product-grid6 .product-discount-label {
+    display: block;
+    padding: 4px 15px 4px 30px;
+    color: #fff;
+    background-color: #0081c2;
+    position: absolute;
+    top: 10px;
+    right: 0;
+    -webkit-clip-path: polygon(34% 0,100% 0,100% 100%,0 100%);
+    clip-path: polygon(34% 0,100% 0,100% 100%,0 100%)
+}
+
 
 @media only screen and (max-width:990px) {
     .product-grid6 {

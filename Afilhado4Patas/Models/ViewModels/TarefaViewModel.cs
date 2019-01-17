@@ -32,7 +32,7 @@ namespace Afilhado4Patas.Models.ViewModels
 
         [Display(Name = "Descricao")]
         [Required(ErrorMessage = "Preencha este campo com a descrição da Tarefa!")]
-        [RegularExpression(@"^[a-zA-Z0-9!, ]+$", ErrorMessage = "A descricao da tarefa apenas deverá conter letras (aA) e numeros e não deverá ter caracteres que não letras ou numeros")]
+        [RegularExpression(@"^[a-zA-Zà-úÀ-Úâ-ûÂ-Ûã-õÃ-Õ! ]+$", ErrorMessage = "A descricao da tarefa apenas deverá conter letras (aA) e numeros e não deverá ter caracteres que não letras ou numeros")]
         [StringLength(100, ErrorMessage = "A {0} deverá ter pelo menos {2} e um maximo de {1} caracteres de comprimento.", MinimumLength = 10)]
         public string Descricao { get; set; }
 

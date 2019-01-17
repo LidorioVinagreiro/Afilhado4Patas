@@ -83,6 +83,9 @@
                                                 }
                                                 <li><a data-tip="Adotar"><i class="fa fa-heart"></i></a></li>
                                             </ul>
+                                            @if(lista_animais[contador].Adoptado){
+                                                <span class="product-discount-label">Adotado</span>    
+                                            }
                                         </div>
                                     </div>
                                     lista_animais.Remove(lista_animais[contador]);
