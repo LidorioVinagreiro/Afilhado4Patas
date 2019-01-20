@@ -6,8 +6,11 @@
 @inject ApplicationDbContext Context
 
 <h2>@ViewData["Title"]</h2>
-<p>
-    A sua palavra-passe foi alterada com sucesso!
-    <br />
-    <a asp-controller="Utilizador" asp-action="Perfil" asp-route-id="@UserManager.GetUserName(User)">Voltar ao Perfil</a>
-</p>
+<div id="page">
+    <div id="centrado">
+        <img id="sucesso" src="~/images/sucesso.png" />        
+        <p>A sua palavra-passe foi alterada com sucesso!</p>
+        <br />
+        <a asp-controller="Utilizador" asp-action="Perfil" asp-route-id="@UserManager.GetUserName(User)">Voltar ao Perfil</a>
+    </div>
+</div>

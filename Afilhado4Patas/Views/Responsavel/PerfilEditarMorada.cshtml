@@ -6,10 +6,11 @@
 @inject SignInManager<Utilizadores> SignInManager
 @inject UserManager<Utilizadores> UserManager
 
-<h4>Editar Morada </h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
+<div id="page">
+    <div id="box">
+        <img id="icon_centrado" src="~/images/map.png" />
+        <h4>Editar Morada </h4>
+        <hr />
         <form asp-action="PerfilEditarMorada" asp-controller="Responsavel">
             <div class="form-group">
                 <label asp-for="Street" class="control-label"></label>

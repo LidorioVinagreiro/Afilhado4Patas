@@ -73,11 +73,19 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View();
         }
 
+        /// <summary>
+        /// Ação que devolve a view dos animais
+        /// </summary>
+        /// <returns>View dos animais</returns>
         public IActionResult Animais()
         {
             return View();
         }
 
+        /// <summary>
+        /// Ação que devolve a view de ficha de um animal
+        /// </summary>
+        /// <returns>View da ficha de um animal</returns>
         public IActionResult FichaAnimal(int id)
         {
             Animal animal = _context.Animais.Where(a => a.Id == id).Include(b => b.RacaAnimal).ThenInclude(c => c.CategoriaRaca).FirstOrDefault();

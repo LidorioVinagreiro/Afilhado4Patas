@@ -44,9 +44,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="Views\Funcionario\FichaAnimal.cshtml">
-      <Pack>$(IncludeRazorContentInPack)</Pack>
-    </Content>
     <Content Update="Views\Funcionario\PalavraPasseEditada.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
@@ -65,6 +62,9 @@
     <Content Update="Views\Funcionario\PerfilEditarPalavraPasse.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Views\Funcionario\RegistoAnimalCompleto.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\Responsavel\AdicionarAnexosFicheirosAnimal.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
@@ -79,9 +79,6 @@
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Views\Responsavel\EditarAnimalFotoPerfil.cshtml">
-      <Pack>$(IncludeRazorContentInPack)</Pack>
-    </Content>
-    <Content Update="Views\Responsavel\FichaAnimal.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Views\Responsavel\ListaAnimais.cshtml">
@@ -108,7 +105,7 @@
     <Content Update="Views\Responsavel\RegistoAnimal.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Views\Responsavel\RegistoCompleto.cshtml">
+    <Content Update="Views\Responsavel\RegistoAnimalCompleto.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Views\Responsavel\Tarefa.cshtml">

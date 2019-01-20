@@ -9,6 +9,11 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<br />
+<br />
+<br />
+<br />
+<br />
 <h2>Lista de tarefas</h2>
 
 <table class="table">
@@ -32,26 +37,23 @@
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Descricao)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Inicio)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Fim)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Completada)
-            </td>
-            <td>
-                <a asp-controller="Funcionario" asp-action="Tarefa" asp-route-id="@item.Id">Ver</a>
-            </td>
-        </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descricao)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Inicio)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Fim)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Completada)
+                </td>
+                <td>
+                    <a asp-controller="Funcionario" asp-action="Tarefa" asp-route-id="@item.Id">Ver</a>
+                </td>
+            </tr>
         }
     </tbody>
 </table>
-<div>
-    <a asp-controller="Funcionario" asp-action="Perfil" asp-route-id="@UserManager.GetUserName(User)">Voltar ao Perfil</a>
-</div>

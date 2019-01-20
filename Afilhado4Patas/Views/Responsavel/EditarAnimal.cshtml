@@ -28,16 +28,17 @@
     });
 </script>
 
-<h2>RegistoAnimal</h2>
-
-<h4>Animal</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
+<div id="page">
+    <div id="box">
+        <img id="icon_centrado" src="~/images/edit.png" />
+        <h2>Editar Animal</h2>
+        <hr />
         <form asp-controller="Responsavel" asp-action="EditarAnimal">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="NomeAnimal" class="control-label"></label>
+                <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
+                      title="Insira o nome do Animal apenas contendo letras"></span>
                 <input asp-for="NomeAnimal" class="form-control" />
                 <span asp-validation-for="NomeAnimal" class="text-danger"></span>
             </div>
@@ -57,8 +58,8 @@
                 <label asp-for="DataNasc"></label>
                 <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
                       title="Inserir data de nascimento no formato DD-MM-AAAA
-                      Deverá ainda ter uma idade maior ou igual 0 anos e inferior a 100."></span>
-                <div class="input-group date" id="datepicker">
+Deverá ainda ter uma idade maior ou igual 0 anos e inferior a 30 anos."></span>
+                <div class="input-group date" id="datepicker_animal">
                     <input asp-for="DataNasc" type="text" class="form-control" />
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
@@ -67,6 +68,8 @@
             </div>
             <div class="form-group">
                 <label asp-for="PorteId" class="control-label"></label>
+                <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
+                      title="Selecione o porte do animal"></span>
                 <select id="PorteID" name="PorteID" asp-for="PorteId" class="form-control" asp-items="@Model.Portes">
                     <option>Selecione um porte</option>
                 </select>
@@ -74,16 +77,23 @@
             </div>
             <div class="form-group">
                 <label asp-for="Descricao" class="control-label"></label>
+                <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
+                      title="Insira uma descrição do animal apenas contendo letras"></span>
                 <input asp-for="Descricao" class="form-control" />
                 <span asp-validation-for="Descricao" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Peso" class="control-label"></label>
+                <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
+                      title="Insira o peso do animal em Kg,
+O peso deverá ser superior a 0 Kg e menor que 200 Kg"></span>
                 <input asp-for="Peso" class="form-control" />
                 <span asp-validation-for="Peso" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="CategoriaId" class="control-label"></label>
+                <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
+                      title="Selecione a categoria do Animal"></span>
                 <select id="CategoriaID" name="CategoriaID" asp-for="CategoriaId" class="form-control" asp-items="@Model.Categorias">
                     <option>Selecione uma categoria</option>
                 </select>
@@ -91,6 +101,8 @@
             </div>
             <div class="form-group">
                 <label asp-for="RacaId" class="control-label"></label>
+                <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
+                      title="Selecione a raça do Animal"></span>
                 <select id="RacaId" name="RacaId" asp-for="RacaId" class="form-control"
                         asp-items="@(new SelectList("","RacaId","NomeRaca"))"></select>
                 <span asp-validation-for="RacaId" class="text-danger"></span>

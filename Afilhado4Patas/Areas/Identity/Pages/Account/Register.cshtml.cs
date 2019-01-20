@@ -64,18 +64,18 @@ namespace Afilhado4Patas.Areas.Identity.Pages.Account
             public string Email { get; set; }
 
             [Required(ErrorMessage = "Preencha este campo com o seu Nome!")]
-            [RegularExpression(@"^[a-zA-Z ]+$", ErrorMessage = "Use apenas letras neste campo")]
+            [RegularExpression(@"^[a-zA-Zà-úÀ-Úâ-ûÂ-Ûã-õÃ-Õ ]+$", ErrorMessage = "Use apenas letras neste campo")]
             [StringLength(30, ErrorMessage = "O {0} deverá ter um maximo de {1} caracteres de comprimento.")]
             public string Nome { get; set; }
 
             [Required(ErrorMessage = "Preencha este campo com o(s) seu(s) Apelido(s)!")]
-            [RegularExpression(@"^[a-zA-Z ]+$", ErrorMessage = "Use apenas letras neste campo")]
+            [RegularExpression(@"^[a-zA-Zà-úÀ-Úâ-ûÂ-Ûã-õÃ-Õ ]+$", ErrorMessage = "Use apenas letras neste campo")]
             [StringLength(30, ErrorMessage = "O {0} deverá ter um maximo de {1} caracteres de comprimento.")]
             public string Apelido { get; set; }
 
             [Display(Name = "Data de Nascimento")]
             [Required(ErrorMessage = "Preencha este campo com a sua Data de Nascimento!")]
-            [DateGreatThen18]
+            [DateGreatThen18LessThen120]
             [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
             public DateTime DataNascimento { get; set; }
 
@@ -108,62 +108,74 @@ namespace Afilhado4Patas.Areas.Identity.Pages.Account
             returnUrl = returnUrl ?? Url.Content("~/");
             if (ModelState.IsValid)
             {
-                var user = new Utilizadores { UserName = Input.Email, Email = Input.Email, Active = true};
-                var result = await _userManager.CreateAsync(user, Input.Password);
-                if (result.Succeeded)
+
+                if (_userManager.FindByEmailAsync(Input.Email) != null)
                 {
-                    Perfil perfilUtilizador = new Perfil
+                    var user = new Utilizadores { UserName = Input.Email, Email = Input.Email, Active = true };
+                    var result = await _userManager.CreateAsync(user, Input.Password);
+                    if (result.Succeeded)
                     {
-                        UtilizadorId = user.Id,
-                        FirstName = Input.Nome,
-                        LastName = Input.Apelido,
-                        Genre = Input.Genero,
-                        Birthday = Input.DataNascimento
-                    };
-                    _contexto.PerfilTable.Add(perfilUtilizador);
-                    _contexto.SaveChanges();
-                    user.PerfilId = perfilUtilizador.Id;
-                    _contexto.SaveChanges();
+                        Perfil perfilUtilizador = new Perfil
+                        {
+                            UtilizadorId = user.Id,
+                            FirstName = Input.Nome,
+                            LastName = Input.Apelido,
+                            Genre = Input.Genero,
+                            Birthday = Input.DataNascimento
+                        };
+                        _contexto.PerfilTable.Add(perfilUtilizador);
+                        _contexto.SaveChanges();
+                        user.PerfilId = perfilUtilizador.Id;
+                        _contexto.SaveChanges();
 
-                    IdentityResult resultRole = await _userManager.AddToRoleAsync(user, "Utilizador");
-                    if (resultRole.Succeeded)
+                        IdentityResult resultRole = await _userManager.AddToRoleAsync(user, "Utilizador");
+                        if (resultRole.Succeeded)
+                        {
+                            _logger.LogInformation("Atribuido Role");
+                        }
+                        else
+                        {
+                            _logger.LogInformation("Falha no role");
+                        }
+                        _logger.LogInformation("User created a new account with password.");
+
+                        var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                        var callbackUrl = Url.Page(
+                            "/Account/ConfirmEmail",
+                            pageHandler: null,
+                            values: new { userId = user.Id, code = code },
+                            protocol: Request.Scheme);
+                        string link = callbackUrl.ToString();
+                        var confirmAccountModel = new EmailViewModel(link, Input.Nome);
+                        string body = await _razorView.RenderViewToStringAsync("/Views/Emails/ConfirmAccount/ConfirmAccount.cshtml", confirmAccountModel);
+                        await _emailSender.SendEmailAsync(Input.Email, "Confirme o seu email", body);
+
+                        if (!CreateFolder(user))
+                        {
+                            _logger.LogInformation("Falha ao criar a pasta do utilizador");
+                        }
+                        string directoriaUtilizador = _hostingEnvironment.WebRootPath + "\\Utilizadores\\" + user.Id;
+                        perfilUtilizador.Directoria = directoriaUtilizador;
+                        _contexto.SaveChanges();
+                        return RedirectToAction("RegistoCompleto", "Guest");
+                    }
+                    foreach (var error in result.Errors)
                     {
-                        _logger.LogInformation("Atribuido Role");
+                        ModelState.AddModelError(string.Empty, error.Description);
                     }
-                    else {
-                        _logger.LogInformation("Falha no role");
-                    }
-                    _logger.LogInformation("User created a new account with password.");
-
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    var callbackUrl = Url.Page(
-                        "/Account/ConfirmEmail",
-                        pageHandler: null,
-                        values: new { userId = user.Id, code = code },
-                        protocol: Request.Scheme);
-                    string link = callbackUrl.ToString();
-                    var confirmAccountModel = new EmailViewModel(link, Input.Nome);
-                    string body = await _razorView.RenderViewToStringAsync("/Views/Emails/ConfirmAccount/ConfirmAccount.cshtml", confirmAccountModel);
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirme o seu email", body);
-
-                    if (!CreateFolder(user)) {
-                        _logger.LogInformation("Falha ao criar a pasta do utilizador");
-                    }
-                    string directoriaUtilizador = _hostingEnvironment.WebRootPath + "\\Utilizadores\\" + user.Id;
-                    perfilUtilizador.Directoria = directoriaUtilizador;
-                    _contexto.SaveChanges();
-                    return RedirectToAction("RegistoCompleto", "Guest");
                 }
-                foreach (var error in result.Errors)
+                else
                 {
-                    ModelState.AddModelError(string.Empty, error.Description);
+                    ModelState.AddModelError("", "O email inserido já encontra em utilização, insira outro!");
+                    return Page();
                 }
             }
             // If we got this far, something failed, redisplay form
             return Page();
         }
 
-        private bool CreateFolder(Utilizadores user) {
+        private bool CreateFolder(Utilizadores user)
+        {
             string pathUtilizadores = _hostingEnvironment.WebRootPath + "\\Utilizadores";
             string pathUser = pathUtilizadores + "\\" + user.Id;
             if (Directory.Exists(pathUtilizadores) && !Directory.Exists(pathUser))
@@ -173,7 +185,7 @@ namespace Afilhado4Patas.Areas.Identity.Pages.Account
             }
             return Directory.Exists(pathUser);
         }
-        
-        }
+
     }
+}
 

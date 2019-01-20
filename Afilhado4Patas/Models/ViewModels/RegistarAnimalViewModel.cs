@@ -1,4 +1,5 @@
 ﻿using Afilhado4Patas.Data;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace Afilhado4Patas.Models.ViewModels
     public class RegistarAnimalViewModel
     {
         [Required(ErrorMessage ="É necessário preencher este campo")]
-        [RegularExpression(@"^[a-zA-Z ]+$",ErrorMessage ="Nome não é válido")]
+        [RegularExpression(@"^[a-zA-Zà-úÀ-Úâ-ûÂ-Ûã-õÃ-Õ ]+$", ErrorMessage ="Nome não é válido")]
         [Display(Name = "Nome do Animal")]
         public string NomeAnimal { get; set; }
 
@@ -22,7 +23,7 @@ namespace Afilhado4Patas.Models.ViewModels
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         [Required(ErrorMessage = "É necessário preencher este campo")]
         [Display(Name = "Data Nascimento")]
-        [DateGreaterThanZeroLessThan100]
+        [DateGreaterThen0LessThen30]
         public DateTime DataNasc { get; set; }
 
         [Required(ErrorMessage = "É necessário preencher este campo")]
@@ -33,8 +34,8 @@ namespace Afilhado4Patas.Models.ViewModels
 
         [Required(ErrorMessage = "É necessário preencher este campo")]
         [Display(Name ="Peso")]
-        [Range(1,200,ErrorMessage ="Peso deve estar compreendido entre 1 e 200")]
-        public int Peso { get; set; }
+        [Range(0.1,200,ErrorMessage = "Peso deve estar compreendido entre 0.1 Kilogramas e 200 Kilogramas")]
+        public double Peso { get; set; }
 
         [Display(Name = "Descrição")]
         [StringLength(50,ErrorMessage ="A descrição não deve ter mais de 50 caracters")]

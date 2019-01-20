@@ -27,7 +27,7 @@ namespace Afilhado4Patas.Models
         public virtual Porte PorteAnimal { get; set; }
 
         [Display(Name ="Peso")]
-        public int Peso { get; set; }
+        public double Peso { get; set; }
 
         [Display(Name = "Descrição")]
         public string Descricao { get; set; }

@@ -1,7 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Identity;
 @using Afilhado4Patas.Data;
 
-@model  IEnumerable<Afilhado4Patas.Models.ViewModels.TarefaViewModel>
+@model IEnumerable<Afilhado4Patas.Models.ViewModels.TarefaViewModel>
 
 @inject SignInManager<Utilizadores> SignInManager
 @inject UserManager<Utilizadores> UserManager
@@ -9,6 +9,11 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<br />
+<br />
+<br />
+<br />
+<br />
 <h2>Lista de tarefas</h2>
 
 <table class="table">
@@ -34,33 +39,30 @@
     </thead>
     <tbody>
         @foreach (var item in Model)
-        { 
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Utilizador.Perfil.FirstName) @Html.DisplayFor(modelItem => item.Utilizador.Perfil.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Descricao)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Inicio)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Fim)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Completada)
-            </td>
-            <td>
-                <a asp-controller="Responsavel" asp-action="EditarTarefa" asp-route-id="@item.Id">Editar</a> |
-                <a asp-controller="Responsavel" asp-action="Tarefa" asp-route-id="@item.Id">Ver</a> |
-                <a asp-controller="Responsavel" asp-action="ApagarTarefa" asp-route-id="@item.Id">Apagar</a>
-            </td>
-        </tr>
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Utilizador.Perfil.FirstName) @Html.DisplayFor(modelItem => item.Utilizador.Perfil.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descricao)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Inicio)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Fim)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Completada)
+                </td>
+                <td>
+                    <a asp-controller="Responsavel" asp-action="EditarTarefa" asp-route-id="@item.Id">Editar</a> |
+                    <a asp-controller="Responsavel" asp-action="Tarefa" asp-route-id="@item.Id">Ver</a> |
+                    <a asp-controller="Responsavel" asp-action="ApagarTarefa" asp-route-id="@item.Id">Apagar</a>
+                </td>
+            </tr>
         }
     </tbody>
 </table>
 <a asp-controller="Responsavel" asp-action="AdicionarTarefa">Adicionar Tarefa</a>
-<div>
-    <a asp-controller="Responsavel" asp-action="Perfil" asp-route-id="@UserManager.GetUserName(User)">Voltar ao Perfil</a>
-</div>

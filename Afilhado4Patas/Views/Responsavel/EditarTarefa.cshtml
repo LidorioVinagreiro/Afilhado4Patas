@@ -9,71 +9,75 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Editar Tarefa</h1>
-<br />
-<div id="checkboxes">
-    @using (@Html.BeginForm("EditarTarefa", "Responsavel", new { Tarefa = Model }, FormMethod.Post))
-    {
-    <div class="form-group">
-        <label asp-for="Descricao"></label>
-        <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
-              title="Insira uma descrição sumarizada da tarefa"></span>
-        <input asp-for="Descricao" type="text" class="form-control" />
-        <span asp-validation-for="Descricao" class="text-danger"></span>
-    </div>
-        <div class="form-group">
-            <label asp-for="Inicio"></label>
-            <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
-                  title="Insira uma data de inicio para a tarefa,
-                  esta deverá ser maior que a data atual"></span>
-            <div class="input-group date" id="datepicker_tarefas1">
-                @if (Model.Inicio > DateTime.Now)
-                {
-                    <input asp-for="Inicio" type='text' class="form-control" />
-                }
-                else
-                {
-                    <input asp-for="Inicio" type="text" class="form-control" disabled />
-                }
-                <span class="input-group-addon">
-                    <span class="glyphicon glyphicon-calendar"></span>
-                </span>
+
+<div id="page">
+    <div id="box">
+        <img id="icon_centrado" src="~/images/tasks.png" />
+        <h1>Editar Tarefa</h1>
+        <hr />
+        @using (@Html.BeginForm("EditarTarefa", "Responsavel", new { Tarefa = Model }, FormMethod.Post))
+        {
+            <div class="form-group">
+                <label asp-for="Descricao"></label>
+                <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
+                      title="Insira uma descrição sumarizada da tarefa"></span>
+                <input asp-for="Descricao" type="text" class="form-control" />
+                <span asp-validation-for="Descricao" class="text-danger"></span>
             </div>
-            <span asp-validation-for="Inicio" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Fim"></label>
-            <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
-                  title="Insira uma data de inicio para a tarefa,
-                  esta deverá ser maior que a data atual e ainda maior que a data de inicio"></span>
-            <div class="input-group date" id="datepicker_tarefas2">
-                <input asp-for="Fim" type="text" class="form-control" />
-                <span class="input-group-addon">
-                    <span class="glyphicon glyphicon-calendar"></span>
-                </span>
-            </div>
-            <span asp-validation-for="Fim" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="FuncionarioId"></label>
-            <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
-                  title="Selecione o Funcionario destinado á tarefa"></span>
-            <select asp-for="FuncionarioId" class="form-control">
-                @foreach (var funcionario in Model.ListaFuncionarios)
-                {
-                    if (Model.FuncionarioId == funcionario.Id)
+            <div class="form-group">
+                <label asp-for="Inicio"></label>
+                <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
+                      title="Insira uma data de inicio para a tarefa,
+esta deverá ser maior que a data atual"></span>
+                <div class="input-group date" id="datepicker_tarefas1">
+                    @if (Model.Inicio > DateTime.Now)
                     {
-                        <option value="@funcionario.Id" selected>@funcionario.Perfil.FirstName @funcionario.Perfil.LastName</option>
+                        <input asp-for="Inicio" type='text' class="form-control" />
                     }
                     else
                     {
-                        <option value="@funcionario.Id">@funcionario.Perfil.FirstName @funcionario.Perfil.LastName</option>
+                        <input asp-for="Inicio" type="text" class="form-control" disabled />
                     }
-                }
-            </select>
-        </div>
-        <button type="submit" class="btn btn-default">Editar Tarefa</button>
-    }
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+                <span asp-validation-for="Inicio" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Fim"></label>
+                <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
+                      title="Insira uma data de inicio para a tarefa,
+esta deverá ser maior que a data atual e ainda maior que a data de inicio"></span>
+                <div class="input-group date" id="datepicker_tarefas2">
+                    <input asp-for="Fim" type="text" class="form-control" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+                <span asp-validation-for="Fim" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FuncionarioId"></label>
+                <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
+                      title="Selecione o Funcionario destinado á tarefa"></span>
+                <select asp-for="FuncionarioId" class="form-control">
+                    @foreach (var funcionario in Model.ListaFuncionarios)
+                    {
+                        if (Model.FuncionarioId == funcionario.Id)
+                        {
+                            <option value="@funcionario.Id" selected>@funcionario.Perfil.FirstName @funcionario.Perfil.LastName</option>
+                        }
+                        else
+                        {
+                            <option value="@funcionario.Id">@funcionario.Perfil.FirstName @funcionario.Perfil.LastName</option>
+                        }
+                    }
+                </select>
+            </div>
+            <button type="submit" class="btn btn-default">Editar Tarefa</button>
+        }
+    </div>
 </div>
 <div>
     <a asp-controller="Responsavel" asp-action="ListaTarefas" asp-route-id="@UserManager.GetUserName(User)">Voltar á Lista de Tarefas</a>

@@ -93,9 +93,25 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View("../Guest/Doar");
         }
 
+        /// <summary>
+        /// Ação que devolve a view dos animais
+        /// </summary>
+        /// <returns>View dos animais</returns>
         public IActionResult Animais()
         {
             return View("../Guest/Animais");
+        }
+
+        /// <summary>
+        /// Ação que devolve a view de ficha de um animal
+        /// </summary>
+        /// <returns>View da ficha de um animal</returns>
+        public IActionResult FichaAnimal(int id)
+        {
+            Animal animal = _context.Animais.Where(a => a.Id == id).Include(b => b.RacaAnimal).ThenInclude(c => c.CategoriaRaca).FirstOrDefault();
+            animal.PorteAnimal = _context.Portes.Where(p => p.Id == animal.PorteId).FirstOrDefault();
+            animal.Padrinho = _context.PerfilTable.Where(r => r.Id == animal.PadrinhoId).FirstOrDefault();
+            return View("../Guest/FichaAnimal", animal);
         }
 
         /****************************************************************************************************/
@@ -254,6 +270,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View(editarPerfilViewModel);
         }
 
+        /// <summary>
+        /// Ação que devolve a view que edita a informação atual referente a foto de perfil do responsavel
+        /// </summary>
+        /// <param name="id">Id do reponsavel atual</param>
+        /// <returns>View de edição de foto de perfil</returns>
         public ActionResult PerfilEditarFotoPerfil(string id)
         {
             if (id == null)
@@ -263,6 +284,12 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View();
         }
 
+        /// <summary>
+        /// Ação que altera a informação referente a foto de perfil do responsavel
+        /// </summary>
+        /// <param name="id">Id do responsavel atual</param>
+        /// <param name="editarPerfilViewModel">Modelo da informação na view</param>
+        /// <returns>View do perfil do responsavel com a informação atualizada</returns>
         [HttpPost]
         public async Task<ActionResult> PerfilEditarFotoPerfil(string id, ImagemUploadViewModel model)
         {
@@ -288,6 +315,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View();
         }
 
+        /// <summary>
+        /// Ação que devolve a view que edita a informação atual referente a palavra passe do responsavel
+        /// </summary>
+        /// <param name="id">Id do utilizador atual</param>
+        /// <returns>View de edição de palavra passe</returns>
         public async Task<IActionResult> PerfilEditarPalavraPasse(string id)
         {
             if (id == null)
@@ -297,6 +329,13 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View();
         }
 
+
+        /// <summary>
+        /// Ação que altera a informação referente a palvra passe do responsavel
+        /// </summary>
+        /// <param name="id">Id do utilizador atual</param>
+        /// <param name="editarPerfilViewModel">Modelo da informação na view</param>
+        /// <returns>View do perfil do responsavel com a informação atualizada</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> PerfilEditarPalavraPasse(string id, PerfilEditarPalavraPasseViewModel model)
@@ -559,16 +598,17 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         {
             if (ModelState.IsValid)
             {
-                var novoFuncionario = new Utilizadores
-                {
-                    UserName = modelo.Email,
-                    Email = modelo.Email,
-                    EmailConfirmed = true,
-                    Active = true
-                };
-                var user = await _userManager.FindByEmailAsync(novoFuncionario.Email);
+                var user = await _userManager.FindByEmailAsync(modelo.Email);
                 if (user == null)
                 {
+                    var novoFuncionario = new Utilizadores
+                    {
+                        UserName = modelo.Email,
+                        Email = modelo.Email,
+                        EmailConfirmed = true,
+                        Active = true
+                    };
+
                     var createFuncionario = await _userManager.CreateAsync(novoFuncionario, modelo.Password);
                     Perfil perfilFuncionario = new Perfil
                     {
@@ -586,6 +626,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                     {
                         await _userManager.AddToRoleAsync(novoFuncionario, "Funcionario");
                     }
+                }
+                if (_context.Utilizadores.Where(u => u.Email == modelo.Email).Count() > 0)
+                {
+                    ModelState.AddModelError("", "O email inserido já encontra em utilização, insira outro!");
+                    return View(modelo);
                 }
                 return View("ListaFuncionarios", ListaTotalFuncionarios());
             }
@@ -640,7 +685,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         /****************************************************************************************************/
         /******************************************** Animais ******************************************/
         /****************************************************************************************************/
-        
+
+        /// <summary>
+        /// Ação que devolve a view de registo de um animall
+        /// </summary>
+        /// <returns>View de registo de um animal</returns>
         public ActionResult RegistoAnimal()
         {
             var model = new RegistarAnimalViewModel();
@@ -657,6 +706,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View(model);
         }
 
+        /// <summary>
+        /// Ação que regista um animal
+        /// </summary>
+        /// <param name="model">Modelo da informação na view</param>
+        /// <returns>View de confirmacao do registo do animal</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult RegistoAnimal([Bind] RegistarAnimalViewModel model)
@@ -682,7 +736,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                 CreateFolder(entradaAnimal.DirectoriaAnimal + "\\Anexos");
                 CreateFolder(entradaAnimal.DirectoriaAnimal + "\\Galeria");
                 _context.SaveChanges();
-                return View("RegistoCompleto");
+                return View("RegistoAnimalCompleto");
             }
 
             model.Categorias = _context.Categorias.Select(categ => new SelectListItem()
@@ -698,6 +752,10 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View(model);
         }
 
+        /// <summary>
+        /// Ação que devolve a view de lista de animais
+        /// </summary>
+        /// <returns>View da lista dos animais</returns>
         public ActionResult ListaAnimais()
         {
             List<Animal> model = new List<Animal>();
@@ -711,6 +769,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View(model);
         }
 
+        /// <summary>
+        /// Ação que devolve a view de lista de animais apos remover um determinado animal
+        /// </summary>
+        /// <param name="id">Id do animal a ser removido</param>
+        /// <returns>View da lista dos animais</returns>
         public ActionResult ApagarAnimal(int id)
         {
             Animal removerAnimal = _context.Animais.Where(animal => animal.Id == id).FirstOrDefault();
@@ -728,6 +791,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View("ListaAnimais", model);
         }
 
+        /// <summary>
+        /// Ação que devolve a view de lista de animais apos ativacao de um animal que teria sido removido
+        /// </summary>
+        /// <param name="id">Id do animal a ser ativado</param>
+        /// <returns>View da lista dos animais</returns>
         public ActionResult AtivarAnimal(int id)
         {
             Animal removerAnimal = _context.Animais.Where(animal => animal.Id == id).FirstOrDefault();
@@ -745,6 +813,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View("ListaAnimais", model);
         }
 
+        /// <summary>
+        /// Ação que devolve a view de um perfil detalhado de um determinado animal
+        /// </summary>
+        /// <param name="id">Id do animal</param>
+        /// <returns>View do perfil detalhado do animal</returns>
         public ActionResult DetalhesAnimal(int id)
         {
             Animal model = _context.Animais.Where(animal => animal.Id == id).FirstOrDefault();
@@ -754,6 +827,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View(model);
         }
 
+        /// <summary>
+        /// Ação que devolve a view de editar um determinado animal
+        /// </summary>
+        /// <param name="id">Id do animal</param>
+        /// <returns>View de editar animal</returns>
         public ActionResult EditarAnimal(int id)
         {
             Animal animal = _context.Animais.Where(a => a.Id == id).Include(raca => raca.RacaAnimal).ThenInclude(c => c.CategoriaRaca).FirstOrDefault();
@@ -793,6 +871,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View(modelo);
         }
 
+        /// <summary>
+        /// Ação que edita um animal
+        /// </summary>
+        /// <param name="model">Modelo da informação na view</param>
+        /// <returns>View de lista de animais apos edicao do mesmo</returns>
         [HttpPost]
         public ActionResult EditarAnimal(EditarAnimalViewModel model)
         {
@@ -831,14 +914,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View(model);
         }
 
-        public IActionResult FichaAnimal(int id)
-        {
-            Animal animal = _context.Animais.Where(a => a.Id == id).Include(b => b.RacaAnimal).ThenInclude(c => c.CategoriaRaca).FirstOrDefault();
-            animal.PorteAnimal = _context.Portes.Where(p => p.Id == animal.PorteId).FirstOrDefault();
-            animal.Padrinho = _context.PerfilTable.Where(r => r.Id == animal.PadrinhoId).FirstOrDefault();
-            return View("../Guest/FichaAnimal", animal);
-        }
-
+        /// <summary>
+        /// Ação que devolve a view de editar foto de perfil de um determinado animal
+        /// </summary>
+        /// <param name="id">Id do animal</param>
+        /// <returns>View de editar foto de perfil de um animal</returns>
         public ActionResult EditarAnimalFotoPerfil(int id)
         {
             if (id == 0)
@@ -852,6 +932,12 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View(model);
         }
 
+        /// <summary>
+        /// Ação que edita a foto de perfil de um determinado animal
+        /// </summary>
+        /// <param name="id">Id do animal</param>
+        /// <param name="model">Modelo da informação na view</param>
+        /// <returns>View de detalhes do animal apos edicao da foto</returns>
         [HttpPost]
         public async Task<ActionResult> EditarAnimalFotoPerfil(int id, AnimalImageUploadViewModel model)
         {
@@ -878,6 +964,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View(model);
         }
 
+        /// <summary>
+        /// Ação que devolve a view de anexar fotos a uma galeria de fotos de um determinado animal
+        /// </summary>
+        /// <param name="id">Id do animal</param>
+        /// <returns>View de anexar fotos a uma galeria de fotos do animal</returns>
         public ActionResult AdicionarAnexosFotosAnimal(int id)
         {
             if (id == 0)
@@ -891,6 +982,12 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View(model);
         }
 
+        /// <summary>
+        /// Ação que anexa uma foto á galeria de um animal
+        /// </summary>
+        /// <param name="id">Id do animal</param>
+        /// <param name="model">Modelo da informação na view</param>
+        /// <returns>View de detalhes do animal apos anexo de foto á galeria</returns>
         [HttpPost]
         public async Task<ActionResult> AdicionarAnexosFotosAnimal(int id, AnimalImageUploadViewModel model)
         {
@@ -921,6 +1018,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View(model);
         }
 
+        /// <summary>
+        /// Ação que devolve a view de anexar ficheiros a uma ficha um determinado animal
+        /// </summary>
+        /// <param name="id">Id do animal</param>
+        /// <returns>View de anexar ficheiros a uma ficha um determinado animal</returns>
         public ActionResult AdicionarAnexosFicheirosAnimal(int id)
         {
             if (id == 0)
@@ -934,6 +1036,12 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View(model);
         }
 
+        /// <summary>
+        /// Ação que anexa um ficheiro á ficha de um animal
+        /// </summary>
+        /// <param name="id">Id do animal</param>
+        /// <param name="model">Modelo da informação na view</param>
+        /// <returns>View de detalhes do animal apos anexo do ficheiro á ficha do animal</returns>
         [HttpPost]
         public async Task<ActionResult> AdicionarAnexosFicheirosAnimal(int id, AnimalFileUploadViewModel model)
         {

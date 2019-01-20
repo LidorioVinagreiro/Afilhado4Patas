@@ -11,7 +11,7 @@ namespace Afilhado4Patas.Models.ViewModels
     public class AnimalImageUploadViewModel
     {
         [DataType(DataType.Upload)]
-        [Display(Name = "Anexo")]
+        [Display(Name = "Foto de Galeria")]
         [Required(ErrorMessage = "Por favor escolha um ficheiro")]
         [ImageTypeValidation]
         public IFormFile File { get; set; }

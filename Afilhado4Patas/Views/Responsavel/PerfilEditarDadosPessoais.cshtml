@@ -9,10 +9,10 @@
     ViewData["Title"] = "Editar Perfil";
 }
 
-<h4>Editar Dados Pessoais </h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
+<div id="page">
+    <div id="box">
+        <img id="icon_centrado" src="~/images/edit.png" />
+        <h4>Editar Dados Pessoais </h4>
         <form asp-action="PerfilEditarDadosPessoais" asp-controller="Responsavel">
             <div class="form-group">
                 <label asp-for="FirstName" class="control-label"></label>
@@ -31,8 +31,7 @@
             <div class="form-group">
                 <label asp-for="NIF" class="control-label"></label>
                 <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
-                      title="Insira o seu Numero de Identificação Fiscal no seguinte formato,
-                      XXXXXXXXX"></span>
+                      title="Insira o seu Numero de Identificação Fiscal no seguinte formato XXXXXXXXX"></span>
                 <input asp-for="NIF" class="form-control" />
                 <span asp-validation-for="NIF" class="text-danger"></span>
             </div>
@@ -40,7 +39,7 @@
                 <label asp-for="Birthday" class="control-label"></label>
                 <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
                       title="Inserir data de nascimento no formato DD-MM-AAAA
-                      Deverá ainda ter uma idade maior de 18 anos."></span>
+Deverá ainda ter uma idade maior de 18 anos."></span>
                 <div class="input-group date" id="datepicker">
                     <input asp-for="Birthday" type="text" class="form-control" />
                     <span class="input-group-addon">

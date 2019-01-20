@@ -9,13 +9,13 @@ namespace Afilhado4Patas.Models.ViewModels
     {
         [Display(Name = "Primeiro Nome")]
         [Required(ErrorMessage = "Preencha este campo com o seu Nome!")]
-        [RegularExpression(@"^[a-zA-Z ]+$", ErrorMessage = "Use apenas letras neste campo")]
+        [RegularExpression(@"^[a-zA-Zà-úÀ-Úâ-ûÂ-Ûã-õÃ-Õ ]+$", ErrorMessage = "Use apenas letras neste campo")]
         [StringLength(30, ErrorMessage = "O {0} deverá ter um maximo de {1} caracteres de comprimento.")]
         public string FirstName { get; set; }
 
         [Display(Name = "Ultimo Nome")]
         [Required(ErrorMessage = "Preencha este campo com o(s) seu(s) Apelido(s)!")]
-        [RegularExpression(@"^[a-zA-Z ]+$", ErrorMessage = "Use apenas letras neste campo")]
+        [RegularExpression(@"^[a-zA-Zà-úÀ-Úâ-ûÂ-Ûã-õÃ-Õ ]+$", ErrorMessage = "Use apenas letras neste campo")]
         [StringLength(30, ErrorMessage = "O {0} deverá ter um maximo de {1} caracteres de comprimento.")]
         public string LastName { get; set; }
 
@@ -28,7 +28,7 @@ namespace Afilhado4Patas.Models.ViewModels
         public string Photo { get; set; }
 
         [Display(Name = "Data de Nascimento")]
-        [DateGreatThen18]
+        [DateGreatThen18LessThen120]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime Birthday { get; set; }
     }

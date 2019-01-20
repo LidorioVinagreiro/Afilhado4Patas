@@ -19,9 +19,10 @@
                 <div id="container" class="container">
                     <div id="row" class="row">
                         @{
-                            for (int contador = 0; contador < lista_animais.Count(); contador++)
+                            int auxiliar = 0;
+                            for (int contador = 0; contador < lista_animais.Count();)
                             {
-                                if (contador < 3)
+                                if (auxiliar < 3)
                                 {
                                     <div class="animal_item">
                                         <div class="product-grid6">
@@ -82,9 +83,13 @@
                                                 }
                                                 <li><a data-tip="Adotar"><i class="fa fa-heart"></i></a></li>
                                             </ul>
+                                            @if(lista_animais[contador].Adoptado){
+                                                <span class="product-discount-label">Adotado</span>    
+                                            }
                                         </div>
                                     </div>
                                     lista_animais.Remove(lista_animais[contador]);
+                                    auxiliar++;
                                 }
                                 else
                                 {

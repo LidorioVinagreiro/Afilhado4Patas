@@ -7,24 +7,12 @@
 @inject UserManager<Utilizadores> UserManager
 @inject ApplicationDbContext Context
 
-<h4>Alterar Palavra-Passe</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        @{Utilizadores user = Context.Utilizadores.Where(u => u.Email == UserManager.GetUserName(User)).FirstOrDefault();
-            Perfil perfil = Context.PerfilTable.Where(p => p.Id == user.PerfilId).FirstOrDefault();
-            if (perfil.Photo != null)
-            {
-                string src = "/Utilizadores/" + user.Id + "/" + perfil.Photo;
-                <img src="@src" />
-            }
-            else
-            {
-                <img id="imagem_perfil" src="~/images/default.jpg" />
-            }
-        }
-        <br />
-        <br />
+
+<div id="page">
+    <div id="box">
+        <img id="icon_centrado" src="~/images/password.png" />
+        <h4>Alterar Palavra-Passe</h4>
+        <hr />
         <form asp-action="PerfilEditarPalavraPasse" asp-controller="Utilizador">
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
@@ -37,10 +25,10 @@
             <div class="form-group">
                 <label asp-for="NewPassword"></label>
                 <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
-                      title="Inserir uma palavra-passe válida
-                            A password deverá conter pelo menos um caracter dos seguintes e ter um comprimento minimo de 8 caracteres:
-                            Letras: Aa-Zz
-                            Numeros: 0-9"></span>
+                      title="Inserir uma nova palavra-passe válida
+A password deverá conter pelo menos um caracter dos seguintes e ter um comprimento minimo de 8 caracteres:
+Letras: Aa-Zz
+Numeros: 0-9"></span>
                 <input asp-for="NewPassword" class="form-control" />
                 <span asp-validation-for="NewPassword" class="text-danger"></span>
             </div>

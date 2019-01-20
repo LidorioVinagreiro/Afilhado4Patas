@@ -151,7 +151,7 @@ footer {
 
 .sub-menu {
     background: #444;
-    height:auto !important;
+    height: auto !important;
 }
 
 .clearfix:after {
@@ -176,12 +176,12 @@ footer {
     height: 100%;
 }
 
-a:hover{
+a:hover {
     text-decoration: none !important;
 }
 
-li a{
-    height:100%;
+li a {
+    height: 100%;
 }
 
 .menu li {
@@ -221,7 +221,7 @@ li a{
 }
 
 .float-left {
-    padding-left:15%;
+    padding-left: 15%;
     float: left;
 }
 
@@ -453,6 +453,57 @@ li a{
     width: 100%;
 }
 
+#sucesso {
+    height: 30px;
+    width: 30px;
+    margin-bottom: 25px;
+}
+
+#icon_centrado {
+    height: 120px;
+    width: 120px;
+    margin-bottom: 25px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#icon_centrado_arredondado {
+    border-radius: 50%;
+    height: 120px;
+    width: 120px;
+    margin-bottom: 25px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#page {
+    width: 90%;
+    padding-top: 7%;
+    margin-right: auto;
+    margin-left: auto;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+#box {
+    padding: 2% 5% 2% 5%;
+    text-align: left;
+    width: 35%;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: white;
+    box-shadow: 0 0 5px hsla(0,0%,70%,.5);
+}
+
+#centrado {
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
 #perfil {
     width: 90%;
     height: 100%;
@@ -604,7 +655,6 @@ li a{
 #limpar_filtros {
     font-size: 12px;
     color: #e41a15;
-    display: inline;
     float: right;
     margin-top: 0;
     text-decoration: none;
@@ -787,6 +837,19 @@ li a{
             .product-grid6 .social li a:hover:after, .product-grid6 .social li a:hover:before {
                 opacity: 1
             }
+
+.product-grid6 .product-discount-label {
+    display: block;
+    padding: 4px 15px 4px 30px;
+    color: #fff;
+    background-color: #0081c2;
+    position: absolute;
+    top: 10px;
+    right: 0;
+    -webkit-clip-path: polygon(34% 0,100% 0,100% 100%,0 100%);
+    clip-path: polygon(34% 0,100% 0,100% 100%,0 100%)
+}
+
 
 @media only screen and (max-width:990px) {
     .product-grid6 {

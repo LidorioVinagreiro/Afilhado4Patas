@@ -10,30 +10,28 @@
     ViewData["Title"] = "Editar Perfil";
 }
 
-<h4>Editar Dados Pessoais </h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
+<div id="page">
+    <div id="box">
         @{Utilizadores user = Context.Utilizadores.Where(u => u.Email == UserManager.GetUserName(User)).FirstOrDefault();
             Perfil perfil = Context.PerfilTable.Where(p => p.Id == user.PerfilId).FirstOrDefault();
             if (perfil.Photo != null)
             {
                 string src = "/Utilizadores/" + user.Id + "/" + perfil.Photo;
-                <img src="@src" />
+                <img id="icon_centrado_arredondado" src="@src" />
             }
             else
             {
-                <img id="imagem_perfil" src="~/images/default.jpg" />
+                <img id="icon_centrado_arredondado" src="~/images/default.jpg" />
             }
         }
-        <br />
-        <br />
+        <h4>Editar Foto de Perfil </h4>
+        <hr />
         <form method="post" asp-action="PerfilEditarFotoPerfil" asp-controller="Funcionario" enctype="multipart/form-data">
             <div class="form-group">
                 <label asp-for="File" class="control-label"></label>
                 <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
                       title="Insira a sua foto de perfil.
-Deverá ter o formato JPG."></span>
+Deverá ter o formato JPG, JPEG, PNG."></span>
                 <input type="file" asp-for="File" class="form-control" />
                 <span asp-validation-for="File" class="text-danger"></span>
             </div>
