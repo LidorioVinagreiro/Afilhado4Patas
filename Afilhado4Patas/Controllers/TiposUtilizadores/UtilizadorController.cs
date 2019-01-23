@@ -395,5 +395,10 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View(padrinho);
         }
 
+        public IActionResult CalendarioUtilizador()
+        {
+            return View();
+        }
+
     }
 }

@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewData["Title"] = "CalendarioUtilizador";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>CalendarioUtilizador</h2>
+
+<script>
+    $(function() {
+
+        // page is now ready, initialize the calendar...
+        $(document).ready
+
+        $('#calendar').fullCalendar({
+            // put your options and callbacks here
+            weekends: false
+        })
+
+    });
+</script>
+<div id="calendar"></div>

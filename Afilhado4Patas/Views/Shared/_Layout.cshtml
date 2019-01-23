@@ -25,6 +25,12 @@
     <script src="~/js/jcarousel.connected-carousels.js"></script>
     <script src="~/js/jquery.jcarousel.min.js"></script>
     <script src="~/js/jquery.js"></script>
+    
+    <!-- Calendario -->
+    <link rel='stylesheet' href='fullcalendar/fullcalendar.css' />
+    <script src='fullcalendar/lib/jquery.min.js'></script>
+    <script src='fullcalendar/lib/moment.min.js'></script>
+    <script src='fullcalendar/fullcalendar.js'></script>
 
 </head>
 <body>
@@ -91,6 +97,9 @@
                             </ul>
                         </li>
                         <li><a asp-area="" asp-controller="Responsavel" asp-action="Contact">Contactos</a></li>
+
+
+                        <li><a asp-area="" asp-controller="Utilizador" asp-action="CalendarioUtilizador">Calendario</a></li>
                     }
                     else if (User.IsInRole("Funcionario"))
                     {
