@@ -25,11 +25,17 @@
             $.each(data, function (i, animal) {
                 items += "<option value='" + animal.value +
                     "' data-imagesrc='/Animais/" + animal.value + "/" + animal.Foto + "' data-description='Description with Foursquare'>"
-                    + animal.text + "</option>";                
+                    + animal.text + "</option>";
             });
             $('#demo-htmlselect').html(items);
         });
-        
+
+    });
+
+    $('#myDropdown').ddslick({
+        onSelected: function (selectedData) {
+            // ...
+        }
     });
 
     function showAnimals() {
@@ -183,7 +189,9 @@ Apadrinhamento: Adote um animal a tempo parcial, podendo levá-lo durante fins-d
                 <label asp-for="Animal" class="control-label"></label>
                 <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
                       title="Selecione o animal a adotar"></span>
-                <select id="demo-htmlselect" name="AnimalID" asp-for="Animal" class="form-control"></select>
+                <div id="myDropdown">
+                    <select id="demo-htmlselect" name="AnimalID" asp-for="Animal" class="form-control"></select>
+                </div>
                 <span asp-validation-for="Animal" class="text-danger"></span>
             </div>
             <br />
@@ -215,7 +223,13 @@ Apadrinhamento: Adote um animal a tempo parcial, podendo levá-lo durante fins-d
                     <small class="dd-selected-description dd-desc dd-selected-description-truncated">Description with Facebook</small>
                 </a><span class="dd-pointer dd-pointer-down"></span>
             </div>
-            <ul class="dd-options dd-click-off-close" style="width: 260px; display: none;"><li><a class="dd-option dd-option-selected"> <input class="dd-option-value" type="hidden" value="FB"> <img class="dd-option-image" src="http://i.imgur.com/XkuTj3B.png"> <label class="dd-option-text">Facebook</label> <small class="dd-option-description dd-desc">Description with Facebook</small></a></li><li><a class="dd-option"> <input class="dd-option-value" type="hidden" value="TWT"> <img class="dd-option-image" src="http://i.imgur.com/8ScLNnk.png"> <label class="dd-option-text">Twitter</label> <small class="dd-option-description dd-desc">Description with Twitter</small></a></li><li><a class="dd-option"> <input class="dd-option-value" type="hidden" value="LI"> <img class="dd-option-image" src="http://i.imgur.com/aDNdibj.png"> <label class="dd-option-text">LinkedIn</label> <small class="dd-option-description dd-desc">Description with LinkedIn</small></a></li><li><a class="dd-option"> <input class="dd-option-value" type="hidden" value="FSQ"> <img class="dd-option-image" src="http://i.imgur.com/kFAk2DX.png"> <label class="dd-option-text">Foursquare</label> <small class="dd-option-description dd-desc">Description with Foursquare</small></a></li></ul>
+            <ul class="dd-options dd-click-off-close" style="width: 260px; display: none;">
+            <li><a class="dd-option dd-option-selected"> 
+                <input class="dd-option-value" type="hidden" value="FB"> 
+                <img class="dd-option-image" src="http://i.imgur.com/XkuTj3B.png"> 
+                <label class="dd-option-text">Facebook</label> 
+                <small class="dd-option-description dd-desc">Description with Facebook</small></a>
+                </li><li><a class="dd-option"> <input class="dd-option-value" type="hidden" value="TWT"> <img class="dd-option-image" src="http://i.imgur.com/8ScLNnk.png"> <label class="dd-option-text">Twitter</label> <small class="dd-option-description dd-desc">Description with Twitter</small></a></li><li><a class="dd-option"> <input class="dd-option-value" type="hidden" value="LI"> <img class="dd-option-image" src="http://i.imgur.com/aDNdibj.png"> <label class="dd-option-text">LinkedIn</label> <small class="dd-option-description dd-desc">Description with LinkedIn</small></a></li><li><a class="dd-option"> <input class="dd-option-value" type="hidden" value="FSQ"> <img class="dd-option-image" src="http://i.imgur.com/kFAk2DX.png"> <label class="dd-option-text">Foursquare</label> <small class="dd-option-description dd-desc">Description with Foursquare</small></a></li></ul>
         </form>
     </div>
 </div>
