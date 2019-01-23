@@ -1,0 +1,148 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Afilhado4Patas.Data;
+
+@model Afilhado4Patas.Models.Animal
+
+@inject SignInManager<Utilizadores> SignInManager
+@inject UserManager<Utilizadores> UserManager
+@inject ApplicationDbContext Context
+@{
+    ViewData["Title"] = "Ficha de Animal";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="perfil">
+    <div>
+        <span> Ficha de animal : @Html.DisplayFor(model => model.NomeAnimal)</span>
+    </div>
+    <div id="perfil_container1">
+        @{Animal animal = Context.Animais.Where(u => u.Id == Model.Id).FirstOrDefault();
+            if (animal.Foto != null)
+            {
+                string src = "/Animais/" + animal.Id + "/" + animal.Foto;
+                <img id="imagem_perfil" src="@src" />
+            }
+            else
+            {
+                <img id="imagem_perfil" src="~/images/dog-profile.png" />
+            }
+        }
+        <table id="user_info_table">
+            <tr id="info_tr">
+                <td id="info_nome">@Html.DisplayNameFor(model => model.NomeAnimal)</td>
+                <td id="info_conteudo">@Html.DisplayFor(model => model.NomeAnimal)</td>
+            </tr>
+            <tr id="info_tr">
+                <td id="info_nome">@Html.DisplayNameFor(model => model.RacaAnimal.CategoriaId)</td>
+                <td id="info_conteudo">@Html.DisplayFor(model => model.RacaAnimal.CategoriaRaca.Nome)</td>
+            </tr>
+            <tr id="info_tr">
+                <td id="info_nome">@Html.DisplayNameFor(model => model.Descricao)</td>
+                <td id="info_conteudo">@Html.DisplayFor(model => model.Descricao)</td>
+            </tr>
+            <tr id="info_tr">
+                <td id="info_nome">@Html.DisplayNameFor(model => model.PorteId)</td>
+                <td id="info_conteudo">@Html.DisplayFor(model => model.PorteAnimal.TipoPorte)</td>
+            </tr>
+            <tr id="info_tr">
+                <td id="info_nome">@Html.DisplayNameFor(model => model.Peso)</td>
+                <td id="info_conteudo">@Html.DisplayFor(model => model.Peso) Kg</td>
+            </tr>
+            <tr id="info_tr">
+                <td id="info_nome">@Html.DisplayNameFor(model => model.Sexo)</td>
+                <td id="info_conteudo">@Html.DisplayFor(model => model.Sexo)</td>
+            </tr>
+            <tr id="info_tr">
+                <td id="info_nome">@Html.DisplayNameFor(model => model.DataNasc)</td>
+                <td id="info_conteudo">@Model.DataNasc.ToString("dd/MM/yyyy")</td>
+            </tr>
+            <tr id="info_tr">
+                <td id="info_nome">@Html.DisplayNameFor(model => model.RacaId)</td>
+                <td id="info_conteudo">@Html.DisplayFor(model => model.RacaAnimal.NomeRaca)</td>
+            </tr>
+        </table>
+        @if (User.IsInRole("Responsavel"))
+        {
+            <div id="edit_options">
+                <a asp-controller="Responsavel" asp-action="Animais">
+                    <img id="icon" src="~/images/voltar.png" />
+                    <span id="options_spans">Voltar</span>
+                </a>
+            </div>
+        }
+        else if (User.IsInRole("Funcionario"))
+        {
+            <div id="edit_options">
+                <a asp-controller="Funcionario" asp-action="Animais">
+                    <img id="icon" src="~/images/voltar.png" />
+                    <span id="options_spans">Voltar</span>
+                </a>
+            </div>
+        }
+        else if (User.IsInRole("Utilizador"))
+        {
+            <div id="edit_options">
+                <a>
+                    <img id="icon" src="~/images/adotar_icon.png" />
+                    <span id="options_spans">Adotar</span>
+                </a>
+            </div>
+            <div id="edit_options">
+                <a asp-controller="Utilizador" asp-action="Animais">
+                    <img id="icon" src="~/images/voltar.png" />
+                    <span id="options_spans">Voltar</span>
+                </a>
+            </div>
+        }
+        else
+        {
+
+            <div id="edit_options">
+                <a>
+                    <img id="icon" src="~/images/adotar_icon.png" />
+                    <span id="options_spans">Adotar</span>
+                </a>
+            </div>
+            <div id="edit_options">
+                <a asp-controller="Guest" asp-action="Animais">
+                    <img id="icon" src="~/images/voltar.png" />
+                    <span id="options_spans">Voltar</span>
+                </a>
+            </div>
+        }
+    </div>
+    <div id="perfil_container2">
+        @if (Context.FotosAnimais.Where(i => i.AnimalId == Model.Id).Count() > 0)
+        {
+            <div class="connected-carousels">
+                <div class="stage">
+                    <div class="carousel carousel-stage">
+                        <ul>
+                            @foreach (var foto in Context.FotosAnimais.Where(i => i.AnimalId == Model.Id).ToList())
+                            {
+                                string src = "/Animais/" + foto.AnimalId + "/Galeria/" + foto.FicheiroNome;
+                                <li><img src="@src" width="600" height="400" alt=""></li>
+                            }
+                        </ul>
+                    </div>
+                    <a href="#" class="prev prev-stage inactive" data-jcarouselcontrol="true"><span>‹</span></a>
+                    <a href="#" class="next next-stage" data-jcarouselcontrol="true"><span>›</span></a>
+                </div>
+
+                <div class="navigation">
+                    <a href="#" class="prev prev-navigation inactive" data-jcarouselcontrol="true">‹</a>
+                    <a href="#" class="next next-navigation" data-jcarouselcontrol="true">›</a>
+                    <div class="carousel carousel-navigation">
+                        <ul>
+                            @foreach (var foto in Context.FotosAnimais.Where(i => i.AnimalId == Model.Id).ToList())
+                            {
+                                string src = "/Animais/" + foto.AnimalId + "/Galeria/" + foto.FicheiroNome;
+                                <li><img src="@src" width="50" height="50" alt=""></li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

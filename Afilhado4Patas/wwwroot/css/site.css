@@ -8,6 +8,9 @@ body, html {
     background-color: #f6f6f6 !important;
 }
 
+.block{
+    display: block;
+}
 footer {
     padding-left: 10px;
 }
@@ -398,6 +401,7 @@ li a {
     transform: translateY(-50%);
     width: 55%;
     text-align: left;
+    padding-top: 3%;
 }
 
 #paragrafo_white {
@@ -838,17 +842,15 @@ li a {
                 opacity: 1
             }
 
-.product-grid6 .product-discount-label {
-    display: block;
-    padding: 4px 15px 4px 30px;
-    color: #fff;
-    background-color: #0081c2;
-    position: absolute;
-    top: 10px;
-    right: 0;
-    -webkit-clip-path: polygon(34% 0,100% 0,100% 100%,0 100%);
-    clip-path: polygon(34% 0,100% 0,100% 100%,0 100%)
-}
+    .product-grid6 .product-discount-label {
+        display: block;
+        padding: 4px 15px 4px 30px;
+        color: #fff;
+        position: absolute;
+        top: 10px;
+        right: 0;
+        clip-path: polygon(34% 0,100% 0,100% 100%,0 100%)
+    }
 
 
 @media only screen and (max-width:990px) {
@@ -871,6 +873,70 @@ li a {
     display: flex;
 }
 
-
 /*///////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+.efeito {
+    text-align: center;
+    display: inline-block;
+    position: relative;
+    text-decoration: none;
+    text-transform: capitalize;
+    padding: 20px 0px;
+    width: 150px;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+    .efeito.efeito_botao {
+        transition: all 0.2s linear 0s;
+    }
+
+        .efeito.efeito_botao:before {
+            content: "\f178";
+            font-family: FontAwesome;
+            font-size: 15px;
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            right: 0;
+            top: 0;
+            opacity: 0;
+            height: 100%;
+            width: 40px;
+            transition: all 0.2s linear 0s;
+        }
+
+        .efeito.efeito_botao:hover {
+            text-indent: -20px;
+        }
+
+            .efeito.efeito_botao:hover:before {
+                opacity: 1;
+                text-indent: 0px;
+            }
+
+#button_red {
+    border-radius: 6px;
+    background-color: indianred;
+    padding: 10px 10px 10px 10px;
+    margin-top: 15px;
+    text-decoration: none;
+    font-family: NimbusSan;
+    font-size: 18px;
+    font-weight: 200;
+    color: white;
+}
+
+#button_white {
+    border-radius: 6px;
+    background-color: white;
+    padding: 10px 10px 10px 10px;
+    margin-top: 15px;
+    text-decoration: none;
+    font-family: NimbusSan;
+    font-size: 18px;
+    font-weight: 200;
+    color: indianred;
+}
 

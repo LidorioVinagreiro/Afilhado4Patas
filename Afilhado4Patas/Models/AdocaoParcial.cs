@@ -7,15 +7,15 @@ using System.Threading.Tasks;
 
 namespace Afilhado4Patas.Models
 {
-    public class AdocaoParcial
+    public class Marcacao
     {
         [Key]
         public int Id { get; set; }
 
         [ForeignKey("PedidoAdocao")]
-        public int PedidoAdocaoParcial { get; set; }
+        public int PedidoMarcacaoId { get; set; }
 
-        public virtual PedidoAdocaoParcial Pedido { get; set; }        
+        public virtual PedidoMarcacao Pedido { get; set; }        
            
     }
 }

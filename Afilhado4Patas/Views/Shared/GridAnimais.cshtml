@@ -1,0 +1,99 @@
+﻿@model List<Animal>
+@using Afilhado4Patas.Data
+
+@inject ApplicationDbContext Context
+
+@do
+{
+    <div id="container" class="container">
+        <div id="row" class="row">
+            @{
+                for (int contador = 0; contador < Model.Count(); contador++)
+                {
+                    if (contador < 3)
+                    {
+                        <div class="animal_item">
+                            <div class="product-grid6">
+                                <div class="product-image6">
+                                    @{
+                                        if (Model[contador].Foto != null)
+                                        {
+                                            string src = "/Animais/" + Model[contador].Id + "/" + Model[contador].Foto;
+                                            <img class="pic-1" src="@src" />
+                                        }
+                                        else
+                                        {
+                                            <img class="pic-1" src="~/images/dog-profile.png" />
+                                        }
+                                    }
+                                </div>
+                                <div class="product-content">
+                                    <h3 class="title">@Model[contador].NomeAnimal</h3>
+                                    <div>
+                                        @Model[contador].Peso Kg
+                                        <span>@Model[contador].PorteAnimal.TipoPorte</span>
+                                        @Model[contador].Sexo
+                                    </div>
+                                </div>
+                                <ul class="social">
+                                    @if (User.IsInRole("Responsavel"))
+                                    {
+                                        <li>
+                                            <a asp-controller="Responsavel" asp-action="FichaAnimal" data-tip="Ver Animal" asp-route-id=@Model[contador].Id>
+                                                <i class="fa fa-paw"></i>
+                                            </a>
+                                        </li>
+                                    }
+                                    else if (User.IsInRole("Funcionario"))
+                                    {
+                                        <li>
+                                            <a asp-controller="Funcionario" asp-action="FichaAnimal" data-tip="Ver Animal" asp-route-id=@Model[contador].Id>
+                                                <i class="fa fa-paw"></i>
+                                            </a>
+                                        </li>
+                                    }
+                                    else if (User.IsInRole("Utilizador"))
+                                    {
+                                        <li>
+                                            <a asp-controller="Utilizador" asp-action="FichaAnimal" data-tip="Ver Animal" asp-route-id=@Model[contador].Id>
+                                                <i class="fa fa-paw"></i>
+                                            </a>
+
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li>
+                                            <a asp-controller="Guest" asp-action="FichaAnimal" data-tip="Ver Animal" asp-route-id=@Model[contador].Id>
+                                                <i class="fa fa-paw"></i>
+                                            </a>
+                                        </li>
+                                    }
+                                    <li><a data-tip="Adotar"><i class="fa fa-heart"></i></a></li>
+                                </ul>
+                                @if (Model[contador].Adoptado)
+                                {
+                                    PedidoAdocao adocao = Context.PedidosAdocao.Where(a => a.Aprovacao == true && a.AnimalId == Model[contador].Id).FirstOrDefault();
+                                    //Verificar Adotado ou Apadrinhado
+                                    if (adocao.TipoAdocao == "Total")
+                                    {
+                                        <span class="product-discount-label" style="background-color: #c54b46">Adotado</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="product-discount-label" style="background-color: #2a9c3c">Apadrinhado</span>
+                                    }
+                                }
+                            </div>
+                        </div>
+                        Model.Remove(Model[contador]);
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+        </div>
+    </div>
+} while (Model.Count() > 0);

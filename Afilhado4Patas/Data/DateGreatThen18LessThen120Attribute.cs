@@ -10,11 +10,15 @@ namespace Afilhado4Patas.Data
     {
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            if (CalculateAge(Convert.ToDateTime(value)) < 18 || CalculateAge(Convert.ToDateTime(value)) >= 120)
+            if (value != null)
             {
-                return new ValidationResult("Para utilizar o nosso sistema deverá ter +18 anos e -120anos. Por favor insira uma data valida!");
+                if (CalculateAge(Convert.ToDateTime(value)) < 18 || CalculateAge(Convert.ToDateTime(value)) >= 120)
+                {
+                    return new ValidationResult("Para utilizar o nosso sistema deverá ter +18 anos e -120anos. Por favor insira uma data valida!");
+                }
+                else return ValidationResult.Success;
             }
-            else return ValidationResult.Success;
+            else return new ValidationResult("Insira uma data");
         }
 
         public static int CalculateAge(DateTime birthDay)

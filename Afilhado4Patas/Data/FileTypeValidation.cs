@@ -11,10 +11,14 @@ namespace Afilhado4Patas.Data
     {
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            IFormFile file = (IFormFile)value;
-            if (file.FileName.EndsWith(".pdf") || file.FileName.EndsWith(".PDF"))
+            if (value != null)
             {
-                return ValidationResult.Success;
+                IFormFile file = (IFormFile)value;
+                if (file.FileName.EndsWith(".pdf") || file.FileName.EndsWith(".PDF"))
+                {
+                    return ValidationResult.Success;
+                }
+                else return new ValidationResult("Insira um ficheiro no formato PDF.");
             }
             else return new ValidationResult("Insira um ficheiro no formato PDF.");
         }

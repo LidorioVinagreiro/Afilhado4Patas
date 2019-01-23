@@ -26,6 +26,9 @@
     <script src="~/js/jquery.jcarousel.min.js"></script>
     <script src="~/js/jquery.js"></script>
 
+    <!-- DropDown -->
+    <script type="text/javascript" src="https://cdn.rawgit.com/prashantchaudhary/ddslick/master/jquery.ddslick.min.js"></script>
+
 </head>
 <body>
     @if (User.IsInRole("Responsavel"))
@@ -60,7 +63,7 @@
                     {
                         <li><a asp-area="" asp-controller="Responsavel" asp-action="Index">Inicio</a></li>
                         <li><a asp-area="" asp-controller="Responsavel" asp-action="About">Sobre nós</a></li>
-                        <li><a asp-area="" asp-controller="Responsavel" asp-action="Adotar">Adotar</a></li>
+                        <li><a asp-area="" asp-controller="Responsavel" asp-action="Adotar">Adoções</a></li>
                         <li><a asp-area="" asp-controller="Responsavel" asp-action="Doar">Doar</a></li>
                         <li>
                             <a>Animais</a>
@@ -96,7 +99,7 @@
                     {
                         <li><a asp-area="" asp-controller="Funcionario" asp-action="Index">Inicio</a></li>
                         <li><a asp-area="" asp-controller="Funcionario" asp-action="About">Sobre nós</a></li>
-                        <li><a asp-area="" asp-controller="Funcionario" asp-action="Adotar">Adotar</a></li>
+                        <li><a asp-area="" asp-controller="Funcionario" asp-action="Adotar">Adoções</a></li>
                         <li><a asp-area="" asp-controller="Funcionario" asp-action="Doar">Doar</a></li>
                         <li>
                             <a asp-controller="Funcionario" asp-action="Animais">Animais</a>
@@ -130,7 +133,7 @@
                     {
                         <li><a asp-area="" asp-controller="Utilizador" asp-action="Index">Inicio</a></li>
                         <li><a asp-area="" asp-controller="Utilizador" asp-action="About">Sobre nós</a></li>
-                        <li><a asp-area="" asp-controller="Utilizador" asp-action="Adotar">Adotar</a></li>
+                        <li><a asp-area="" asp-controller="Utilizador" asp-action="Adotar">Adoções</a></li>
                         <li><a asp-area="" asp-controller="Utilizador" asp-action="Doar">Doar</a></li>
                         <li>
                             <a>Animais</a>
@@ -142,11 +145,12 @@
                         <li>
                             <a>Adoçoes</a>
                             <ul class="sub-menu clearfix">
-                                <li><a asp-controller="Utilizador">Realizar Pedido de Adoção</a></li>
+                                <li><a asp-controller="Utilizador" asp-action="PedidoAdocao">Realizar Pedido de Adoção</a></li>
                                 <li><a asp-controller="Utilizador">Realizar Pedido de Apadrinhamento</a></li>
-                                <li><a asp-controller="Utilizador">Realizar Pedido X dias</a></li>
-                                <li><a asp-controller="Utilizador">Realizar Pedido de Passeios</a></li>
+                                <li><a asp-controller="Utilizador">Marcacao X dias</a></li>
+                                <li><a asp-controller="Utilizador">Marcacao de Passeios</a></li>
                                 <li><a asp-controller="Utilizador">Os meus pedidos de Adoções</a></li>
+                                <li><a asp-controller="Utilizador">As minhas Marcações</a></li>
                             </ul>
                         </li>
                         <li><a asp-area="" asp-controller="Utilizador" asp-action="Contact">Contactos</a></li>
@@ -155,7 +159,7 @@
                     {
                         <li><a asp-area="" asp-controller="Guest" asp-action="Index">Inicio</a></li>
                         <li><a asp-area="" asp-controller="Guest" asp-action="About">Sobre nós</a></li>
-                        <li><a asp-area="" asp-controller="Guest" asp-action="Adotar">Adotar</a></li>
+                        <li><a asp-area="" asp-controller="Guest" asp-action="Adotar">Adoções</a></li>
                         <li><a asp-area="" asp-controller="Guest" asp-action="Doar">Doar</a></li>
                         <li>
                             <a>Animais</a>
