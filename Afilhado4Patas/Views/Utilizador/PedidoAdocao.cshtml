@@ -3,8 +3,10 @@
 
 @inject ApplicationDbContext Context
 
+
 <script type="text/javascript">
     $(document).ready(function () {
+        //Opcoes Iniciais
         $('#PorteID').html("<option value='undefined'>Escolha primeiro uma Categoria e um Sexo</option>");
         $('#PorteID').prop('disabled', true);
         $('#RacaID').html("<option value='undefined'>Escolha primeiro um Porte</option>");
@@ -21,43 +23,50 @@
         var urlAnimais = '@Url.Content("~/")' + "Utilizador/TodosAnimais";
         $.getJSON(urlAnimais, function (data) {
             var items = "<option value='undefined' selected>Escolha um Animal</option>";
-            $('#demo-htmlselect').empty();
+            $('#AnimalID').empty();
             $.each(data, function (i, animal) {
-                items += "<option value='" + animal.value +
-                    "' data-imagesrc='/Animais/" + animal.value + "/" + animal.Foto + "' data-description='Description with Foursquare'>"
-                    + animal.text + "</option>";
+                items += "<option value='" + animal.value + "'>" + animal.text + "</option>";
             });
-            $('#demo-htmlselect').html(items);
+            $('#AnimalID').html(items);
         });
 
-    });
-
-    $('#myDropdown').ddslick({
-        onSelected: function (selectedData) {
-            // ...
-        }
-    });
-
-    function showAnimals() {
-
-    }
-
-    function sexoClick(sexo) {
+        //Alteracao Categoria
         $('#CategoriaID').change(function () {
-            var url = '@Url.Content("~/")' + "Funcionario/Categorias";
-            var id = '#CategoriaID';
-            $.getJSON(url, { CategoriaID: $(id).val() }, function (data) {
-                var items = '';
-                $('#RacaId').empty();
-                $.each(data, function (i, raca) {
-                    items += "<option value='" + raca.value + "'>" + raca.text + "</option>";
-                });
-                $('#RacaId').html(items);
+            $('#PorteID').html("<option value='undefined'>Escolha primeiro uma Categoria e um Sexo</option>");
+            $('#PorteID').prop('disabled', true);
+            $('#RacaID').html("<option value='undefined'>Escolha primeiro um Porte</option>");
+            $('#RacaID').prop('disabled', true);
+            //Carregar opcoes
+            var sexo = "nenhum";
+            if ($('#sexoF').prop("checked")) {
+                sexo = $('#sexoF').val();
+            } else if ($('#sexoM').prop("checked")) {
+                sexo = $('#sexoM').val();
+            }
+            var categoria = null;
+            if ($('#CategoriaID').val() != undefined) {
+                categoria = $('#CategoriaID').val();
+            }
+            var url = '@Url.Content("~/")' + "Utilizador/AnimaisCategoriaSexo";
+            $.getJSON(url, { CategoriaID: categoria, Sexo: sexo }, function (data) {
+                var items = "";
+                if (jQuery.isEmptyObject(data)) {
+                    items = "<option value='undefined' selected>Nenhum Animal Encontrado</option>";
+                } else {
+                    items = "<option value='undefined' selected>Escolha um Animal</option>";
+                    $('#AnimalID').empty();
+                    $.each(data, function (i, animal) {
+                        items += "<option value='" + animal.value + "'>" + animal.text + "</option>";
+                    });                
+                }
+                $('#AnimalID').html(items);
             });
         });
-    }
+
+    });
 
 </script>
+
 
 <div id="page">
     <div id="box">
@@ -161,11 +170,11 @@ Apadrinhamento: Adote um animal a tempo parcial, podendo levá-lo durante fins-d
                       title="Selecione o sexo do Animal"></span>
                 <div>
                     <span>
-                        <input asp-for="Sexo" type="radio" value="Macho" />
+                        <input asp-for="Sexo" type="radio" value="Macho" id="sexoM"/>
                         Macho
                     </span>
                     <span>
-                        <input asp-for="Sexo" type="radio" value="Femea" />
+                        <input asp-for="Sexo" type="radio" value="Femea" id="sexoF"/>
                         Femea
                     </span>
                 </div>
@@ -189,9 +198,7 @@ Apadrinhamento: Adote um animal a tempo parcial, podendo levá-lo durante fins-d
                 <label asp-for="Animal" class="control-label"></label>
                 <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
                       title="Selecione o animal a adotar"></span>
-                <div id="myDropdown">
-                    <select id="demo-htmlselect" name="AnimalID" asp-for="Animal" class="form-control"></select>
-                </div>
+                <select id="AnimalID" name="AnimalID" asp-for="Animal" class="form-control"></select>
                 <span asp-validation-for="Animal" class="text-danger"></span>
             </div>
             <br />
@@ -214,22 +221,6 @@ Apadrinhamento: Adote um animal a tempo parcial, podendo levá-lo durante fins-d
             <div class="form-group">
                 <input type="submit" value="Registar Pedido de Adoção" class="btn btn-default" />
             </div>
-
-            <div class="dd-select" style="width: 260px; background: rgb(238, 238, 238);">
-                <input class="dd-selected-value" type="hidden" value="FB">
-                <a class="dd-selected">
-                    <img class="dd-selected-image" src="http://i.imgur.com/XkuTj3B.png">
-                    <label class="dd-selected-text">Facebook</label>
-                    <small class="dd-selected-description dd-desc dd-selected-description-truncated">Description with Facebook</small>
-                </a><span class="dd-pointer dd-pointer-down"></span>
-            </div>
-            <ul class="dd-options dd-click-off-close" style="width: 260px; display: none;">
-            <li><a class="dd-option dd-option-selected"> 
-                <input class="dd-option-value" type="hidden" value="FB"> 
-                <img class="dd-option-image" src="http://i.imgur.com/XkuTj3B.png"> 
-                <label class="dd-option-text">Facebook</label> 
-                <small class="dd-option-description dd-desc">Description with Facebook</small></a>
-                </li><li><a class="dd-option"> <input class="dd-option-value" type="hidden" value="TWT"> <img class="dd-option-image" src="http://i.imgur.com/8ScLNnk.png"> <label class="dd-option-text">Twitter</label> <small class="dd-option-description dd-desc">Description with Twitter</small></a></li><li><a class="dd-option"> <input class="dd-option-value" type="hidden" value="LI"> <img class="dd-option-image" src="http://i.imgur.com/aDNdibj.png"> <label class="dd-option-text">LinkedIn</label> <small class="dd-option-description dd-desc">Description with LinkedIn</small></a></li><li><a class="dd-option"> <input class="dd-option-value" type="hidden" value="FSQ"> <img class="dd-option-image" src="http://i.imgur.com/kFAk2DX.png"> <label class="dd-option-text">Foursquare</label> <small class="dd-option-description dd-desc">Description with Foursquare</small></a></li></ul>
         </form>
     </div>
 </div>

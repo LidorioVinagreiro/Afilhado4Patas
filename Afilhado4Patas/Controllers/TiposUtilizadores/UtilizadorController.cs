@@ -413,6 +413,62 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return Json(new SelectList(animais, "Id", "NomeAnimal"));
         }
 
+        [HttpGet]
+        public JsonResult AnimaisSexo(string Sexo)
+        {
+            var animais = (from animal in _context.Animais
+                           where animal.Sexo.Equals(Sexo)
+                           orderby animal.NomeAnimal
+                           select new Animal { Id = animal.Id, NomeAnimal = animal.NomeAnimal, Foto = animal.Foto }).Distinct().ToList();
+            return Json(new SelectList(animais, "Id", "NomeAnimal"));
+        }
+
+        [HttpGet]
+        public JsonResult AnimaisCategoriaSexo(int CategoriaID, string Sexo)
+        {
+            JsonResult retorno = null;
+            //Categoria selecionada
+            if(CategoriaID > 0)
+            {   
+                //Sexo Selecionado
+                if(!Sexo.Equals("nenhum"))
+                {
+                    var animais = (from animal in _context.Animais
+                                   join a in _context.Racas on animal.RacaId equals a.Id
+                                   join b in _context.Categorias on a.CategoriaId equals b.Id
+                                   where CategoriaID.Equals(b.Id) && animal.Sexo.Equals(Sexo)
+                                   orderby animal.NomeAnimal
+                                   select new Animal { Id = animal.Id, NomeAnimal = animal.NomeAnimal, Foto = animal.Foto }).Distinct().ToList();
+                    retorno = Json(new SelectList(animais, "Id", "NomeAnimal"));
+                }
+                //Sexo nao selecionado
+                else
+                {
+                    var animais = (from animal in _context.Animais
+                                   join a in _context.Racas on animal.RacaId equals a.Id
+                                   join b in _context.Categorias on a.CategoriaId equals b.Id
+                                   where CategoriaID.Equals(b.Id)
+                                   orderby animal.NomeAnimal
+                                   select new Animal { Id = animal.Id, NomeAnimal = animal.NomeAnimal, Foto = animal.Foto }).Distinct().ToList();
+                    retorno = Json(new SelectList(animais, "Id", "NomeAnimal"));
+                }                
+            }
+            else
+            {
+                //Sexo Selecionado
+                if (!Sexo.Equals("nenhum"))
+                {
+                    retorno = AnimaisSexo(Sexo);
+                }
+                //Sexo nao selecionado
+                else
+                {
+                    retorno = TodosAnimais();
+                }
+            }
+            return retorno;
+        }
+
 
 
 
