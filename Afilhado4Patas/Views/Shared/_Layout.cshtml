@@ -138,10 +138,11 @@
                         <li>
                             <a>Adoçoes</a>
                             <ul class="sub-menu clearfix">
-                                <li><a asp-controller="Utilizador" asp-action="PedidoAdocao">Realizar Pedido de Adoção</a></li>
+                                <li><a asp-controller="Utilizador" asp-action="PedidoAdocao" asp-route-id="@UserManager.GetUserId(User)">Realizar Pedido de Adoção</a></li>
                                 <li><a asp-controller="Utilizador">Marcacao X dias</a></li>
                                 <li><a asp-controller="Utilizador">Marcacao de Passeios</a></li>
                                 <li><a asp-controller="Utilizador">Os meus pedidos de Adoções</a></li>
+                                <li><a asp-controller="Utilizador">As minhas Adoções</a></li>
                                 <li><a asp-controller="Utilizador">As minhas Marcações</a></li>
                             </ul>
                         </li>

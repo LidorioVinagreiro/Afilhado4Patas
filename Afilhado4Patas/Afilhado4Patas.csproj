@@ -117,6 +117,9 @@
     <Content Update="Views\Utilizador\PerfilEditarMorada.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Views\Utilizador\PedidoAdocaoRegistado.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>

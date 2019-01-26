@@ -21,6 +21,14 @@ namespace Afilhado4Patas.Models
         public int AnimalId { get; set; }
         public virtual Animal Animal { get; set; }
 
+        public string Morada { get; set; }
+
+        public string Motivo { get; set; }
+
+        public string OutrosAnimais { get; set; }
+
+        public string DiretoriaPedido { get; set; }
+
         public DateTime DataPedido { get; set; }
 
         public DateTime DataAprovacao { get; set; }

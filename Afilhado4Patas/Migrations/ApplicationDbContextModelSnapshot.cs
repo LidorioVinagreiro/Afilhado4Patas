@@ -233,6 +233,14 @@ namespace Afilhado4Patas.Migrations
 
                     b.Property<DateTime>("DataPedido");
 
+                    b.Property<string>("DiretoriaPedido");
+
+                    b.Property<string>("Morada");
+
+                    b.Property<string>("Motivo");
+
+                    b.Property<string>("OutrosAnimais");
+
                     b.Property<string>("TipoAdocao");
 
                     b.HasKey("Id");

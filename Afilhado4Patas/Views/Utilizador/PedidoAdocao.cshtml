@@ -5,9 +5,10 @@
 
 <div id="page">
     <div id="box">
+        <img id="icon_centrado" src="~/images/adocao.png" />
         <h2>Pedido de Adocão</h2>
         <hr />
-        <form asp-controller="Responsavel" asp-action="RegistoAnimal">
+        <form asp-controller="Utilizador" asp-action="PedidoAdocao">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <br />
             <p>Tipo de Adoção</p>
@@ -101,7 +102,6 @@ Apadrinhamento: Adote um animal a tempo parcial, podendo levá-lo durante fins-d
                       title="Insira a sua foto de perfil.
 Deverá ter o formato JPG, JPEG, PNG ou PDF"></span>
                 <i class="fa fa-asterisk required" title="Campo Obrigatório"></i>
-                <img src="~/images/cc_exemplo.jpg" />
                 <input type="file" asp-for="File" class="form-control" />
                 <span asp-validation-for="File" class="text-danger"></span>
             </div>

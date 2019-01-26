@@ -104,9 +104,9 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             if (animal.Adoptado)
             {
                 animal.Adotantes = new List<Utilizadores>();
-                foreach (var adotantes in _context.Adotantes.Where(a => a.AnimalId == animal.Id).ToList())
+                foreach (var adotantes in _context.Adotantes.Where(a => a.AnimalId == animal.Id).Include(u => u.Adotante_User).ThenInclude(p => p.Perfil).ToList())
                 {
-                    animal.Adotantes.Add(_context.Utilizadores.Where(u => u.Id == adotantes.AdotanteId).FirstOrDefault());
+                    animal.Adotantes.Add(adotantes.Adotante_User);
                 }
             }
             return View("../Shared/FichaAnimal", animal);
@@ -388,9 +388,63 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         /******************************************** Adocoes ***********************************************/
         /****************************************************************************************************/
 
-        public ActionResult PedidoAdocao()
+        public ActionResult PedidoAdocao(string id)
         {
-            return View();
+            if (id != null)
+            {
+                Utilizadores utilizador = _context.Utilizadores.Where(u => u.Id == id).Include(p => p.Perfil).FirstOrDefault();
+                PedidoAdocaoViewModel pedido = new PedidoAdocaoViewModel
+                {
+                    NomeAdotante = utilizador.Perfil.FirstName,
+                    Email = utilizador.Email
+                };
+                return View(pedido);
+            }         
+            return NotFound();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> PedidoAdocao(string id, PedidoAdocaoViewModel PedidoAdocao)
+        {
+            Utilizadores utilizador = null;
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    utilizador = _context.Utilizadores.Where(u => u.Id == id).Include(p => p.Perfil).FirstOrDefault();
+                    PedidoAdocao novoPedido = new PedidoAdocao
+                    {
+                        TipoAdocao = PedidoAdocao.TipoAdocao,
+                        AdotanteId = utilizador.Perfil.Id,
+                        AnimalId = PedidoAdocao.Animal,
+                        DataPedido = DateTime.Now,
+                        Morada = PedidoAdocao.Morada,
+                        Motivo = PedidoAdocao.Motivacao,
+                        OutrosAnimais = PedidoAdocao.OutrosAnimais
+                    };
+                    _context.PedidosAdocao.Add(novoPedido);
+                    _context.SaveChanges();
+                    novoPedido.DiretoriaPedido = _hostingEnvironment.WebRootPath + "\\PedidosAdocao\\" + novoPedido.Id;
+                    CreateFolder(novoPedido.DiretoriaPedido);
+                    _context.SaveChanges();
+                    var filePath = novoPedido.DiretoriaPedido + "\\" + PedidoAdocao.File.FileName;
+                    var fileStream = new FileStream(filePath, FileMode.Create);
+                    await PedidoAdocao.File.CopyToAsync(fileStream);
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    return NotFound();
+                }
+                return View("PedidoAdocaoRegistado");
+            }
+            PedidoAdocao.NomeAdotante = (_context.Utilizadores.Where(u => u.Id == id).Include(p => p.Perfil).FirstOrDefault()).Perfil.FirstName;
+            return View(PedidoAdocao);
         }
 
         [HttpGet]
@@ -944,10 +998,15 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         }
 
 
-
-
-
-
+        private bool CreateFolder(string path)
+        {
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+                return Directory.Exists(path);
+            }
+            return Directory.Exists(path);
+        }
 
         /// <summary>
         /// Ação que devolve a view de erro, caso ocorra um erro esta view e devolvida com a informação do erro
