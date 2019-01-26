@@ -17,20 +17,19 @@
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker3.css" rel="stylesheet" id="bootstrap-css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>-->
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
 
     <!-- Galeria de Fotos -->
     <link href="~/css/jcarousel.connected-carousels.css" rel="stylesheet" />
     <script src="~/js/jcarousel.connected-carousels.js"></script>
     <script src="~/js/jquery.jcarousel.min.js"></script>
-    <script src="~/js/jquery.js"></script>
-    
+    <!--<script src="~/js/jquery.js"></script>-->
     <!-- Calendario -->
-    <link rel='stylesheet' href='fullcalendar/fullcalendar.css' />
-    <script src='fullcalendar/lib/jquery.min.js'></script>
-    <script src='fullcalendar/lib/moment.min.js'></script>
-    <script src='fullcalendar/fullcalendar.js'></script>
+    <link rel='stylesheet' href='~/fullcalendar/fullcalendar.css' />
+    <script type="text/javascript" src='~/fullcalendar/lib/moment.min.js'></script>
+    <script type="text/javascript" src='~/fullcalendar/lib/jquery.min.js'></script>
+    <script type="text/javascript" src='~/fullcalendar/fullcalendar.js'></script>
 
 </head>
 <body>
@@ -99,7 +98,7 @@
                         <li><a asp-area="" asp-controller="Responsavel" asp-action="Contact">Contactos</a></li>
 
 
-                        <li><a asp-area="" asp-controller="Utilizador" asp-action="CalendarioUtilizador">Calendario</a></li>
+                        <li><a asp-area="" asp-controller="Responsavel" asp-action="CalendarioUtilizador">Calendario</a></li>
                     }
                     else if (User.IsInRole("Funcionario"))
                     {
@@ -191,16 +190,19 @@
         </footer>
     </div>
 
-    <script src="~/lib/jquery/dist/jquery.js"></script>
+
+
+
+    <!--<script src="~/lib/jquery/dist/jquery.js"></script>-->
     <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
-    <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <!--<script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
             asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
             asp-fallback-test="window.jQuery"
             crossorigin="anonymous"
             integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
-    </script>
+    </script>-->
     <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
             asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
             asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
