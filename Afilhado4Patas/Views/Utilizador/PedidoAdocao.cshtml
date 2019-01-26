@@ -3,71 +3,6 @@
 
 @inject ApplicationDbContext Context
 
-
-<script type="text/javascript">
-    $(document).ready(function () {
-        //Opcoes Iniciais
-        $('#PorteID').html("<option value='undefined'>Escolha primeiro uma Categoria e um Sexo</option>");
-        $('#PorteID').prop('disabled', true);
-        $('#RacaID').html("<option value='undefined'>Escolha primeiro um Porte</option>");
-        $('#RacaID').prop('disabled', true);
-        var urlCategorias = '@Url.Content("~/")' + "Utilizador/Categorias";
-        $.getJSON(urlCategorias, function (data) {
-            var items = "<option value='undefined' selected>Escolha uma Categoria</option>";
-            $('#CategoriaID').empty();
-            $.each(data, function (i, categoria) {
-                items += "<option value='" + categoria.value + "'>" + categoria.text + "</option>";
-            });
-            $('#CategoriaID').html(items);
-        });
-        var urlAnimais = '@Url.Content("~/")' + "Utilizador/TodosAnimais";
-        $.getJSON(urlAnimais, function (data) {
-            var items = "<option value='undefined' selected>Escolha um Animal</option>";
-            $('#AnimalID').empty();
-            $.each(data, function (i, animal) {
-                items += "<option value='" + animal.value + "'>" + animal.text + "</option>";
-            });
-            $('#AnimalID').html(items);
-        });
-
-        //Alteracao Categoria
-        $('#CategoriaID').change(function () {
-            $('#PorteID').html("<option value='undefined'>Escolha primeiro uma Categoria e um Sexo</option>");
-            $('#PorteID').prop('disabled', true);
-            $('#RacaID').html("<option value='undefined'>Escolha primeiro um Porte</option>");
-            $('#RacaID').prop('disabled', true);
-            //Carregar opcoes
-            var sexo = "nenhum";
-            if ($('#sexoF').prop("checked")) {
-                sexo = $('#sexoF').val();
-            } else if ($('#sexoM').prop("checked")) {
-                sexo = $('#sexoM').val();
-            }
-            var categoria = null;
-            if ($('#CategoriaID').val() != undefined) {
-                categoria = $('#CategoriaID').val();
-            }
-            var url = '@Url.Content("~/")' + "Utilizador/AnimaisCategoriaSexo";
-            $.getJSON(url, { CategoriaID: categoria, Sexo: sexo }, function (data) {
-                var items = "";
-                if (jQuery.isEmptyObject(data)) {
-                    items = "<option value='undefined' selected>Nenhum Animal Encontrado</option>";
-                } else {
-                    items = "<option value='undefined' selected>Escolha um Animal</option>";
-                    $('#AnimalID').empty();
-                    $.each(data, function (i, animal) {
-                        items += "<option value='" + animal.value + "'>" + animal.text + "</option>";
-                    });                
-                }
-                $('#AnimalID').html(items);
-            });
-        });
-
-    });
-
-</script>
-
-
 <div id="page">
     <div id="box">
         <h2>Pedido de Adocão</h2>
@@ -82,6 +17,7 @@
                       title="Selecione o tipo de adoção que pretende
 Adoção Total: Adote um animal a tempo inteiro e leve-o para casa
 Apadrinhamento: Adote um animal a tempo parcial, podendo levá-lo durante fins-de-semanas e também para passeios"></span>
+                <i class="fa fa-asterisk required" title="Campo Obrigatório"></i>
                 <div>
                     <span>
                         <input asp-for="TipoAdocao" type="radio" value="Total" />
@@ -100,6 +36,7 @@ Apadrinhamento: Adote um animal a tempo parcial, podendo levá-lo durante fins-d
                 <label asp-for="NomeAdotante" class="control-label"></label>
                 <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
                       title="Nome do Adotante"></span>
+                <i class="fa fa-asterisk required" title="Campo Obrigatório"></i>
                 <input asp-for="NomeAdotante" class="form-control" disabled />
                 <span asp-validation-for="NomeAdotante" class="text-danger"></span>
             </div>
@@ -107,6 +44,7 @@ Apadrinhamento: Adote um animal a tempo parcial, podendo levá-lo durante fins-d
                 <label asp-for="Morada" class="control-label"></label>
                 <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
                       title="Selecione o tipo de habitação onde vive"></span>
+                <i class="fa fa-asterisk required" title="Campo Obrigatório"></i>
                 <div>
                     <span class="block">
                         <input asp-for="Morada" type="radio" value="Apartamento" />
@@ -131,6 +69,7 @@ Apadrinhamento: Adote um animal a tempo parcial, podendo levá-lo durante fins-d
                 <label asp-for="Email" class="control-label"></label>
                 <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
                       title="Insira um email para contacto com o seguinte formato ex: exemplo@exemplo.com"></span>
+                <i class="fa fa-asterisk required" title="Campo Obrigatório"></i>
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
@@ -145,6 +84,7 @@ Apadrinhamento: Adote um animal a tempo parcial, podendo levá-lo durante fins-d
                 <label asp-for="Telefone" class="control-label"></label>
                 <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
                       title="Insira um telemovel para contacto com o seguinte formato ex: 917548698"></span>
+                <i class="fa fa-asterisk required" title="Campo Obrigatório"></i>
                 <input asp-for="Telefone" class="form-control" />
                 <span asp-validation-for="Telefone" class="text-danger"></span>
             </div>
@@ -155,13 +95,23 @@ Apadrinhamento: Adote um animal a tempo parcial, podendo levá-lo durante fins-d
                 <input asp-for="TelefoneSecundario" class="form-control" />
                 <span asp-validation-for="TelefoneSecundario" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label asp-for="File" class="control-label"></label>
+                <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
+                      title="Insira a sua foto de perfil.
+Deverá ter o formato JPG, JPEG, PNG ou PDF"></span>
+                <i class="fa fa-asterisk required" title="Campo Obrigatório"></i>
+                <img src="~/images/cc_exemplo.jpg" />
+                <input type="file" asp-for="File" class="form-control" />
+                <span asp-validation-for="File" class="text-danger"></span>
+            </div>
             <br />
             <p>Preencha os campos referentes ao animal a adotar</p>
             <div class="form-group">
                 <label asp-for="Categoria" class="control-label"></label>
                 <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
                       title="Selecione a Especie do animal"></span>
-                <select id="CategoriaID" name="CategoriaID" asp-for="Categoria" class="form-control"></select>
+                <select id="CategoriaID" name="CategoriaID" asp-for="Categoria" class="form-control" onchange="AlteracaoCategoria()"></select>
                 <span asp-validation-for="Categoria" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -170,12 +120,16 @@ Apadrinhamento: Adote um animal a tempo parcial, podendo levá-lo durante fins-d
                       title="Selecione o sexo do Animal"></span>
                 <div>
                     <span>
-                        <input asp-for="Sexo" type="radio" value="Macho" id="sexoM"/>
+                        <input asp-for="Sexo" type="radio" value="Macho" id="sexoM" onclick="AlteracaoSexo(this.value)" />
                         Macho
                     </span>
                     <span>
-                        <input asp-for="Sexo" type="radio" value="Femea" id="sexoF"/>
+                        <input asp-for="Sexo" type="radio" value="Femea" id="sexoF" onclick="AlteracaoSexo(this.value)" />
                         Femea
+                    </span>
+                    <span>
+                        <input asp-for="Sexo" type="radio" value="Ambos" id="Ambos" checked onclick="AlteracaoSexo(this.value)" />
+                        Ambos
                     </span>
                 </div>
                 <span asp-validation-for="Sexo" class="text-danger"></span>
@@ -184,20 +138,21 @@ Apadrinhamento: Adote um animal a tempo parcial, podendo levá-lo durante fins-d
                 <label asp-for="Porte" class="control-label"></label>
                 <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
                       title="Selecione o porte do animal"></span>
-                <select id="PorteID" name="PorteID" asp-for="Porte" class="form-control" disabled></select>
+                <select id="PorteID" name="PorteID" asp-for="Porte" class="form-control" disabled onchange="AlteracaoPorte()"></select>
                 <span asp-validation-for="Porte" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Raca" class="control-label"></label>
                 <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
                       title="Selecione a Raça do animal"></span>
-                <select id="RacaID" name="RacaID" asp-for="Raca" class="form-control" disabled></select>
+                <select id="RacaID" name="RacaID" asp-for="Raca" class="form-control" disabled onchange="AlteracaoRaca()"></select>
                 <span asp-validation-for="Raca" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Animal" class="control-label"></label>
                 <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
                       title="Selecione o animal a adotar"></span>
+                <i class="fa fa-asterisk required" title="Campo Obrigatório"></i>
                 <select id="AnimalID" name="AnimalID" asp-for="Animal" class="form-control"></select>
                 <span asp-validation-for="Animal" class="text-danger"></span>
             </div>
@@ -207,6 +162,7 @@ Apadrinhamento: Adote um animal a tempo parcial, podendo levá-lo durante fins-d
                 <label asp-for="Motivacao" class="control-label"></label>
                 <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
                       title="Insira a baixo a motivação porque quer adotar um animal"></span>
+                <i class="fa fa-asterisk required" title="Campo Obrigatório"></i>
                 <textarea asp-for="Motivacao" class="form-control"></textarea>
                 <span asp-validation-for="Motivacao" class="text-danger"></span>
             </div>
@@ -214,6 +170,7 @@ Apadrinhamento: Adote um animal a tempo parcial, podendo levá-lo durante fins-d
                 <label asp-for="OutrosAnimais" class="control-label"></label>
                 <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
                       title="Caso existam outros animais em casa mencione a baixo"></span>
+                <i class="fa fa-asterisk required" title="Campo Obrigatório"></i>
                 <textarea asp-for="OutrosAnimais" class="form-control"></textarea>
                 <span asp-validation-for="OutrosAnimais" class="text-danger"></span>
             </div>
@@ -224,3 +181,200 @@ Apadrinhamento: Adote um animal a tempo parcial, podendo levá-lo durante fins-d
         </form>
     </div>
 </div>
+
+<script type="text/javascript">
+    //*******************   Carregamento Inicial   *************************
+    $(document).ready(function () {
+        //Inicializar Categorias
+        inicializarCategorias();
+        //Opcoes Iniciais
+        inicializarPorte();
+        inicializarRaca();
+        //Atualizar Animais
+        carregarTodosAnimais();
+    });    
+    
+    function inicializarPorte() {
+        $('#PorteID').html("<option value='undefined'>Escolha primeiro uma Categoria</option>");
+        $('#PorteID').prop('disabled', true);
+    }
+
+    function inicializarRaca() {
+        $('#RacaID').html("<option value='undefined'>Escolha primeiro um Porte</option>");
+        $('#RacaID').prop('disabled', true);
+    }
+
+    function inicializarCategorias() {
+        var urlCategorias = '@Url.Content("~/")' + "Utilizador/Categorias";
+        $.getJSON(urlCategorias, function (data) {
+            var items = "<option value='undefined' selected>Escolha uma Categoria</option>";
+            $('#CategoriaID').empty();
+            $.each(data, function (i, categoria) {
+                items += "<option value='" + categoria.value + "'>" + categoria.text + "</option>";
+            });
+            $('#CategoriaID').html(items);
+        });
+    }
+
+        function receberSexoSelecionado() {
+            var sexo = null;
+            if ($('#sexoF').prop("checked")) {
+                sexo = $('#sexoF').val();
+            } else if ($('#sexoM').prop("checked")) {
+                sexo = $('#sexoM').val();
+            } else sexo = $('#Ambos').val();
+            return sexo;
+        }
+
+        function receberCategoriaSelecionada() {
+            var categoria = null;
+            if ($('#CategoriaID').val() != undefined) {
+                categoria = $('#CategoriaID').val();
+            }
+            return categoria;
+    }   
+
+    function receberPorteSelecionado() {
+        var porte = null;
+        if ($('#PorteID').val() != undefined) {
+            porte = $('#PorteID').val();
+        }
+        return porte;
+    }   
+
+    function receberRacaSelecionada() {
+        var raca = null;
+        if ($('#RacaID').val() != undefined) {
+            raca = $('#RacaID').val();
+        }
+        return raca;
+    }   
+
+        function carregarTodosAnimais() {
+            var urlAnimais = '@Url.Content("~/")' + "Utilizador/TodosAnimais";
+            $.getJSON(urlAnimais, function (data) {
+                $('#AnimalID').empty();
+                var items = "";
+                if (jQuery.isEmptyObject(data)) {
+                    items = "<option value='undefined' selected>Nenhum Animal Encontrado</option>";
+                } else {
+                    items = "<option value='undefined' selected>Escolha um Animal</option>";
+                    $.each(data, function (i, animal) {
+                        items += "<option value='" + animal.value + "'>" + animal.text + "</option>";
+                    });
+                }
+                $('#AnimalID').html(items);
+            });
+        }
+
+    function carregarAnimaisPorCategoriaSexo(categoria, sexo) {
+            var url = '@Url.Content("~/")' + "Utilizador/AnimaisCategoriaSexo";
+        $.getJSON(url, { Categoria: categoria, Sexo: sexo }, function (data) {
+            $('#AnimalID').empty();
+                var items = "";
+                if (jQuery.isEmptyObject(data)) {
+                    items = "<option value='undefined' selected>Nenhum Animal Encontrado</option>";
+                } else {
+                    items = "<option value='undefined' selected>Escolha um Animal</option>";
+                    $.each(data, function (i, animal) {
+                        items += "<option value='" + animal.value + "'>" + animal.text + "</option>";
+                    });
+                }
+                $('#AnimalID').html(items);
+            });
+    }
+
+    function carregarAnimaisPorCategoriaSexoPorte(categoria, sexo, porte) {
+            var url = '@Url.Content("~/")' + "Utilizador/AnimaisCategoriaSexoPorte";
+        $.getJSON(url, { Categoria: categoria, Sexo: sexo, Porte: porte}, function (data) {
+            $('#AnimalID').empty();
+                var items = "";
+                if (jQuery.isEmptyObject(data)) {
+                    items = "<option value='undefined' selected>Nenhum Animal Encontrado</option>";
+                } else {
+                    items = "<option value='undefined' selected>Escolha um Animal</option>";
+                    $.each(data, function (i, animal) {
+                        items += "<option value='" + animal.value + "'>" + animal.text + "</option>";
+                    });
+                }
+                $('#AnimalID').html(items);
+            });
+    }
+
+    function carregarAnimaisPorCategoriaSexoPorteRaca(categoria, sexo, porte, raca) {
+            var url = '@Url.Content("~/")' + "Utilizador/AnimaisCategoriaSexoPorteRaca";
+        $.getJSON(url, { Categoria: categoria, Sexo: sexo, Porte: porte, Raca: raca}, function (data) {
+            $('#AnimalID').empty();
+                var items = "";
+                if (jQuery.isEmptyObject(data)) {
+                    items = "<option value='undefined' selected>Nenhum Animal Encontrado</option>";
+                } else {
+                    items = "<option value='undefined' selected>Escolha um Animal</option>";
+                    $.each(data, function (i, animal) {
+                        items += "<option value='" + animal.value + "'>" + animal.text + "</option>";
+                    });
+                }
+                $('#AnimalID').html(items);
+            });
+    }
+
+    function carregarPorte(categoria, sexo) {
+        $('#PorteID').prop('disabled', false);
+        var url = '@Url.Content("~/")' + "Utilizador/PorteCategoriaSexo";
+        $.getJSON(url, { Categoria: categoria, Sexo: sexo }, function (data) {
+            $('#PorteID').empty();
+                var items = "";
+                if (jQuery.isEmptyObject(data)) {
+                    items = "<option value='undefined' selected>Nenhum Porte Encontrado</option>";
+                } else {
+                    items = "<option value='undefined' selected>Escolha um Porte</option>";
+                    $.each(data, function (i, porte) {
+                    items += "<option value='" + porte.value + "'>" + porte.text + "</option>";
+                    });
+                }
+                $('#PorteID').html(items);
+            });
+    }
+
+    function carregarRaca(categoria, sexo, porte) {
+        $('#RacaID').prop('disabled', false);
+        var url = '@Url.Content("~/")' + "Utilizador/RacaCategoriaSexoPorte";
+        $.getJSON(url, { Categoria: categoria, Sexo: sexo , Porte: porte}, function (data) {
+            $('#RacaID').empty();
+                var items = "";
+                if (jQuery.isEmptyObject(data)) {
+                    items = "<option value='undefined' selected>Nenhuma Raça Encontrada</option>";
+                } else {
+                    items = "<option value='undefined' selected>Escolha uma Raça</option>";
+                    $.each(data, function (i, raca) {
+                    items += "<option value='" + raca.value + "'>" + raca.text + "</option>";
+                    });
+                }
+            $('#RacaID').html(items);
+            });
+    }
+
+    function AlteracaoCategoria() {
+        inicializarRaca();
+        //Atualizar Animais
+        carregarPorte(receberCategoriaSelecionada(), receberSexoSelecionado());
+        carregarAnimaisPorCategoriaSexo(receberCategoriaSelecionada(), receberSexoSelecionado());
+    }
+
+    function AlteracaoSexo(sexo) {
+        inicializarRaca();
+        //Atualizar Animais
+        carregarPorte(receberCategoriaSelecionada(), sexo);
+        carregarAnimaisPorCategoriaSexo(receberCategoriaSelecionada(), sexo);
+    }
+
+    function AlteracaoPorte() {
+        //Atualizar Animais
+        carregarRaca(receberCategoriaSelecionada(), receberSexoSelecionado(), receberPorteSelecionado());
+        carregarAnimaisPorCategoriaSexoPorte(receberCategoriaSelecionada(), receberSexoSelecionado(), receberPorteSelecionado());
+    }
+
+    function AlteracaoRaca() {
+        carregarAnimaisPorCategoriaSexoPorteRaca(receberCategoriaSelecionada(), receberSexoSelecionado(), receberPorteSelecionado(), receberRacaSelecionada());
+    }
+</script>

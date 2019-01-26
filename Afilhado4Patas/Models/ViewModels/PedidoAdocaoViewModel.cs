@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -44,6 +45,9 @@ namespace Afilhado4Patas.Models.ViewModels
 
         [Display(Name = "Email Alternativo")]
         public string EmailSecundario { get; set; }
+
+        [Display(Name = "Identificação Pessoal")]
+        public IFormFile File { get; set; }
 
         [Display(Name = "Por que você quer adotar?")]
         public string Motivacao { get; set; }
