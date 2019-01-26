@@ -10,10 +10,14 @@ namespace Afilhado4Patas.Data
     {
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            if(value.ToString().Any(char.IsLetter) && value.ToString().Any(char.IsNumber)) { 
-                return ValidationResult.Success;
-            }
-            else return new ValidationResult("Palavra Passe deverá conter pelo menos 1 numero e 1 letra");
+            if(value != null)
+            {
+                if (value.ToString().Any(char.IsLetter) && value.ToString().Any(char.IsNumber))
+                {
+                    return ValidationResult.Success;
+                }
+                else return new ValidationResult("Palavra Passe deverá conter pelo menos 1 numero e 1 letra");
+            }else return new ValidationResult("Palavra Passe deverá conter pelo menos 1 numero e 1 letra");
         }
     }
 }

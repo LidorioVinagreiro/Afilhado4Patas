@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Afilhado4Patas.Data;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -40,12 +41,7 @@ namespace Afilhado4Patas.Models
 
         [Display(Name ="Adoptado")]
         public Boolean Adoptado { get; set; }
-
-        [ForeignKey("Perfil")]
-        [Display(Name ="Padrinho")]
-        public int? PadrinhoId { get; set; }
-        public virtual Perfil Padrinho { get; set; }
-
+        
         [ForeignKey("Raca")]
         [Display(Name ="Raca")]
         public int? RacaId { get; set; }
@@ -53,5 +49,7 @@ namespace Afilhado4Patas.Models
 
         [Display(Name ="Ativo")]
         public Boolean Ativo { get; set; }
+
+        public virtual List<Utilizadores> Adotantes { get; set; }
     }
 }
