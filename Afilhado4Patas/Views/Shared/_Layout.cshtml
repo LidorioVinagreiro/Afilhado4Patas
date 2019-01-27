@@ -9,15 +9,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Afilhado4Patas</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="~/css/site.css" />
-    <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
-          asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
-          asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker3.css" rel="stylesheet" id="bootstrap-css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
 
     <!-- Galeria de Fotos -->
@@ -25,9 +21,6 @@
     <script src="~/js/jcarousel.connected-carousels.js"></script>
     <script src="~/js/jquery.jcarousel.min.js"></script>
     <script src="~/js/jquery.js"></script>
-
-    <!-- DropDown -->
-    <script type="text/javascript" src="https://cdn.rawgit.com/prashantchaudhary/ddslick/master/jquery.ddslick.min.js"></script>
 
 </head>
 <body>
@@ -145,11 +138,11 @@
                         <li>
                             <a>Adoçoes</a>
                             <ul class="sub-menu clearfix">
-                                <li><a asp-controller="Utilizador" asp-action="PedidoAdocao">Realizar Pedido de Adoção</a></li>
-                                <li><a asp-controller="Utilizador">Realizar Pedido de Apadrinhamento</a></li>
+                                <li><a asp-controller="Utilizador" asp-action="PedidoAdocao" asp-route-id="@UserManager.GetUserId(User)">Realizar Pedido de Adoção</a></li>
                                 <li><a asp-controller="Utilizador">Marcacao X dias</a></li>
                                 <li><a asp-controller="Utilizador">Marcacao de Passeios</a></li>
                                 <li><a asp-controller="Utilizador">Os meus pedidos de Adoções</a></li>
+                                <li><a asp-controller="Utilizador">As minhas Adoções</a></li>
                                 <li><a asp-controller="Utilizador">As minhas Marcações</a></li>
                             </ul>
                         </li>
@@ -188,14 +181,15 @@
 
     <div class="body-content">
         @RenderBody()
+
+        <!--
         <hr />
         <footer>
             <p>&copy; 2018 - Afilhado4Patas</p>
         </footer>
+            -->
     </div>
 
-    <script src="~/lib/jquery/dist/jquery.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
     <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
@@ -212,6 +206,7 @@
     </script>
     <script src="~/js/site.min.js" asp-append-version="true"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
+    <script src="~/js/datepicker-pt.js"></script>
     <script>
         var nowDate = new Date();
         var today = new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate(), 0, 0, 0, 0);
@@ -221,14 +216,29 @@
                 startDate: new Date(1900, 1, 1),
                 endDate: '+1d',
                 datesDisabled: '+1d',
-                autoclose: true,
                 todayHighlight: true,
                 showOtherMonths: true,
                 selectOtherMonths: true,
                 autoclose: true,
-                changeMonth: true,
-                changeYear: true,
-                orientation: "button"
+                closeText: "Fechar",
+                prevText: "Anterior",
+                nextText: "Seguinte",
+                currentText: "Hoje",
+                monthNames: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+                    "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"],
+                monthNamesShort: ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun",
+                    "Jul", "Ago", "Set", "Out", "Nov", "Dez"],
+                dayNames: [
+                    "Domingo",
+                    "Segunda-feira",
+                    "Terça-feira",
+                    "Quarta-feira",
+                    "Quinta-feira",
+                    "Sexta-feira",
+                    "Sábado"
+                ],
+                dayNamesShort: ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"],
+                dayNamesMin: ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"],
             });
             $('#datepicker_tarefas1').datepicker({
                 format: "dd/MM/yyyy",
@@ -240,7 +250,7 @@
                 autoclose: true,
                 changeMonth: true,
                 changeYear: true,
-                orientation: "button",
+                orientation: "button"
             });
             $('#datepicker_tarefas2').datepicker({
                 format: "dd/MM/yyyy",

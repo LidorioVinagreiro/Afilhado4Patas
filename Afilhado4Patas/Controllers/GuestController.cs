@@ -93,9 +93,9 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             if (animal.Adoptado)
             {
                 animal.Adotantes = new List<Utilizadores>();
-                foreach(var adotantes in _context.Adotantes.Where(a => a.AnimalId == animal.Id).ToList())
+                foreach(var adotantes in _context.Adotantes.Where(a => a.AnimalId == animal.Id).Include(u => u.Adotante_User).ThenInclude(p => p.Perfil).ToList())
                 {
-                    animal.Adotantes.Add(_context.Utilizadores.Where(u => u.Id == adotantes.AdotanteId).FirstOrDefault());
+                    animal.Adotantes.Add(adotantes.Adotante_User);
                 }
             }
             return View("../Shared/FichaAnimal", animal);

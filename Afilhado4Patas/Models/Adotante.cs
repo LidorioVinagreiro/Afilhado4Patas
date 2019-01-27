@@ -14,7 +14,7 @@ namespace Afilhado4Patas.Models
         public int Id { get; set; }
 
         [ForeignKey("Utilizadores")]
-        public string AdotanteId { get; set; }
+        public int AdotanteId { get; set; }
 
         public virtual Utilizadores Adotante_User { get; set; }
 

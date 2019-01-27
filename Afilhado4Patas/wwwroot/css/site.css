@@ -8,6 +8,10 @@ body, html {
     background-color: #f6f6f6 !important;
 }
 
+.required{
+    color: indianred
+}
+
 .block{
     display: block;
 }
@@ -939,4 +943,5 @@ li a {
     font-weight: 200;
     color: indianred;
 }
+
 
