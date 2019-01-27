@@ -54,16 +54,16 @@
                 <ul class="menu clearfix float-left">
                     @if (User.IsInRole("Responsavel"))
                     {
-                        <li><a asp-area="" asp-controller="Responsavel" asp-action="Index">Inicio</a></li>
-                        <li><a asp-area="" asp-controller="Responsavel" asp-action="About">Sobre nós</a></li>
-                        <li><a asp-area="" asp-controller="Responsavel" asp-action="Adotar">Adoções</a></li>
-                        <li><a asp-area="" asp-controller="Responsavel" asp-action="Doar">Doar</a></li>
+                        <li><a asp-controller="Responsavel" asp-action="Index">Inicio</a></li>
+                        <li><a asp-controller="Responsavel" asp-action="About">Sobre nós</a></li>
+                        <li><a asp-controller="Responsavel" asp-action="Adotar">Adoções</a></li>
+                        <li><a asp-controller="Responsavel" asp-action="Doar">Doar</a></li>
                         <li>
                             <a>Animais</a>
                             <ul class="sub-menu clearfix">
                                 <li><a asp-controller="Responsavel" asp-action="Animais">Os nossos Animais</a></li>
-                                <li><a asp-area="" asp-controller="Responsavel" asp-action="RegistoAnimal">Registo Animal</a></li>
-                                <li><a asp-area="" asp-controller="Responsavel" asp-action="ListaAnimais">Lista Animais (Detalhada)</a></li>
+                                <li><a asp-controller="Responsavel" asp-action="RegistoAnimal">Registo Animal</a></li>
+                                <li><a asp-controller="Responsavel" asp-action="ListaAnimais">Lista Animais (Detalhada)</a></li>
                             </ul>
                         </li>
                         <li>
@@ -86,27 +86,26 @@
                                 <li><a asp-controller="Responsavel" asp-action="AdicionarTarefa">Adicionar Tarefa</a></li>
                             </ul>
                         </li>
-                        <li><a asp-area="" asp-controller="Responsavel" asp-action="Contact">Contactos</a></li>
+                        <li><a asp-controller="Responsavel" asp-action="Contact">Contactos</a></li>
                     }
                     else if (User.IsInRole("Funcionario"))
                     {
-                        <li><a asp-area="" asp-controller="Funcionario" asp-action="Index">Inicio</a></li>
-                        <li><a asp-area="" asp-controller="Funcionario" asp-action="About">Sobre nós</a></li>
-                        <li><a asp-area="" asp-controller="Funcionario" asp-action="Adotar">Adoções</a></li>
-                        <li><a asp-area="" asp-controller="Funcionario" asp-action="Doar">Doar</a></li>
+                        <li><a asp-controller="Funcionario" asp-action="Index">Inicio</a></li>
+                        <li><a asp-controller="Funcionario" asp-action="About">Sobre nós</a></li>
+                        <li><a asp-controller="Funcionario" asp-action="Adotar">Adoções</a></li>
+                        <li><a asp-controller="Funcionario" asp-action="Doar">Doar</a></li>
                         <li>
                             <a asp-controller="Funcionario" asp-action="Animais">Animais</a>
                             <ul class="sub-menu clearfix">
                                 <li><a asp-controller="Funcionario" asp-action="Animais">Os nossos Animais</a></li>
-                                <li><a asp-area="" asp-controller="Funcionario" asp-action="RegistoAnimal">Registo Animal</a></li>
-                                <li><a asp-area="" asp-controller="Funcionario" asp-action="ListaAnimais">Lista Animais (Detalhada)</a></li>
+                                <li><a asp-controller="Funcionario" asp-action="RegistoAnimal">Registo Animal</a></li>
+                                <li><a asp-controller="Funcionario" asp-action="ListaAnimais">Lista Animais (Detalhada)</a></li>
                             </ul>
                         </li>
                         <li>
                             <a>Adoçoes</a>
                             <ul class="sub-menu clearfix">
-                                <li><a asp-controller="Funcionario">Pedidos de Adoção Total</a></li>
-                                <li><a asp-controller="Funcionario">Pedidos de Apadrinhamento</a></li>
+                                <li><a asp-controller="Funcionario" asp-action="PedidosAdocao">Pedidos de Adoção</a></li>
                                 <li><a asp-controller="Funcionario">Pedidos X dias</a></li>
                                 <li><a asp-controller="Funcionario">Pedidos de Passeios</a></li>
                                 <li><a asp-controller="Funcionario">Convocar Reunião (Controlo Animal)</a></li>
@@ -119,20 +118,20 @@
                                 <li><a asp-controller="Funcionario" asp-action="MinhasTarefas" asp-route-id="@UserManager.GetUserName(User)">Minhas Tarefas</a></li>
                             </ul>
                         </li>
-                        <li><a asp-area="" asp-controller="Funcionario" asp-action="Contact">Contactos</a></li>
+                        <li><a asp-controller="Funcionario" asp-action="Contact">Contactos</a></li>
 
                     }
                     else if (User.IsInRole("Utilizador"))
                     {
-                        <li><a asp-area="" asp-controller="Utilizador" asp-action="Index">Inicio</a></li>
-                        <li><a asp-area="" asp-controller="Utilizador" asp-action="About">Sobre nós</a></li>
-                        <li><a asp-area="" asp-controller="Utilizador" asp-action="Adotar">Adoções</a></li>
-                        <li><a asp-area="" asp-controller="Utilizador" asp-action="Doar">Doar</a></li>
+                        <li><a asp-controller="Utilizador" asp-action="Index">Inicio</a></li>
+                        <li><a asp-controller="Utilizador" asp-action="About">Sobre nós</a></li>
+                        <li><a asp-controller="Utilizador" asp-action="Adotar">Adoções</a></li>
+                        <li><a asp-controller="Utilizador" asp-action="Doar">Doar</a></li>
                         <li>
                             <a>Animais</a>
                             <ul class="sub-menu clearfix">
                                 <li><a asp-controller="Utilizador" asp-action="Animais">Os nossos Animais</a></li>
-                                <li><a>Os meus animais</a></li>
+                                <li><a asp-controller="Utilizador" asp-action="MeusAnimais" asp-route-id="@UserManager.GetUserId(User)">Os meus animais</a></li>
                             </ul>
                         </li>
                         <li>
@@ -141,34 +140,25 @@
                                 <li><a asp-controller="Utilizador" asp-action="PedidoAdocao" asp-route-id="@UserManager.GetUserId(User)">Realizar Pedido de Adoção</a></li>
                                 <li><a asp-controller="Utilizador">Marcacao X dias</a></li>
                                 <li><a asp-controller="Utilizador">Marcacao de Passeios</a></li>
-                                <li><a asp-controller="Utilizador">Os meus pedidos de Adoções</a></li>
-                                <li><a asp-controller="Utilizador">As minhas Adoções</a></li>
+                                <li><a asp-controller="Utilizador" asp-action="MeusPedidos" asp-route-id="@UserManager.GetUserId(User)">Os meus pedidos de Adoções</a></li>
                                 <li><a asp-controller="Utilizador">As minhas Marcações</a></li>
                             </ul>
                         </li>
-                        <li><a asp-area="" asp-controller="Utilizador" asp-action="Contact">Contactos</a></li>
-                        <li>
-                            <a>Amizades</a>
-                            <ul class="sub-menu clearfix">
-                                <li><a asp-controller="Utilizador" asp-action="pedirAmizade">Fazer pedido de amizade</a></li>
-                                <li><a asp-controller="Utilizador" asp-action="pedidosAmizade">Lista de pedidos de amizade</a></li>
-                                <li><a asp-controller="Utilizador" asp-action="listaAmizades">Lista de amigos</a></li>
-                            </ul>
-                        </li>
+                        <li><a asp-controller="Utilizador" asp-action="Contact">Contactos</a></li>
                     }
                     else
                     {
-                        <li><a asp-area="" asp-controller="Guest" asp-action="Index">Inicio</a></li>
-                        <li><a asp-area="" asp-controller="Guest" asp-action="About">Sobre nós</a></li>
-                        <li><a asp-area="" asp-controller="Guest" asp-action="Adotar">Adoções</a></li>
-                        <li><a asp-area="" asp-controller="Guest" asp-action="Doar">Doar</a></li>
+                        <li><a asp-controller="Guest" asp-action="Index">Inicio</a></li>
+                        <li><a asp-controller="Guest" asp-action="About">Sobre nós</a></li>
+                        <li><a asp-controller="Guest" asp-action="Adotar">Adoções</a></li>
+                        <li><a asp-controller="Guest" asp-action="Doar">Doar</a></li>
                         <li>
                             <a>Animais</a>
                             <ul class="sub-menu clearfix">
                                 <li><a asp-controller="Guest" asp-action="Animais">Os nossos Animais</a></li>
                             </ul>
                         </li>
-                        <li><a asp-area="" asp-controller="Guest" asp-action="Contact">Contactos</a></li>
+                        <li><a asp-controller="Guest" asp-action="Contact">Contactos</a></li>
                     }
                 </ul>
                 <partial name="_LoginPartial" />

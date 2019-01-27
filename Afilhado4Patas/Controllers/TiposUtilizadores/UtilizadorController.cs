@@ -389,6 +389,22 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         /******************************************** Adocoes ***********************************************/
         /****************************************************************************************************/
 
+        public ActionResult MeusAnimais(string id)
+        {
+            Utilizadores utilizador = _context.Utilizadores.Where(u => u.Id == id).FirstOrDefault();
+            List<Adotante> adotantes = _context.Adotantes.Where(a => a.AdotanteId == utilizador.PerfilId).ToList();
+            List<Animal> lista_animais = new List<Animal>();
+            foreach (var adotante in adotantes)
+            {
+                lista_animais.Add(_context.Animais.Where(a => a.Id == adotante.AnimalId).FirstOrDefault());
+            }
+            return View(lista_animais);
+        }
+
+        /****************************************************************************************************/
+        /******************************************** Adocoes ***********************************************/
+        /****************************************************************************************************/
+
         public ActionResult PedidoAdocao(string id)
         {
             if (id != null)
@@ -423,7 +439,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                     {
                         TipoAdocao = PedidoAdocao.TipoAdocao,
                         AdotanteId = utilizador.Perfil.Id,
-                        AnimalId = PedidoAdocao.Animal,
+                        AnimalId = PedidoAdocao.AnimalId,
                         DataPedido = DateTime.Now,
                         Morada = PedidoAdocao.Morada,
                         Motivo = PedidoAdocao.Motivacao,
@@ -431,12 +447,12 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                     };
                     _context.PedidosAdocao.Add(novoPedido);
                     _context.SaveChanges();
-                    novoPedido.DiretoriaPedido = _hostingEnvironment.WebRootPath + "\\PedidosAdocao\\" + novoPedido.Id;
+                    /*novoPedido.DiretoriaPedido = _hostingEnvironment.WebRootPath + "\\PedidosAdocao\\" + novoPedido.Id;
                     CreateFolder(novoPedido.DiretoriaPedido);
                     _context.SaveChanges();
                     var filePath = novoPedido.DiretoriaPedido + "\\" + PedidoAdocao.File.FileName;
                     var fileStream = new FileStream(filePath, FileMode.Create);
-                    await PedidoAdocao.File.CopyToAsync(fileStream);
+                    await PedidoAdocao.File.CopyToAsync(fileStream);*/
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -446,6 +462,13 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             }
             PedidoAdocao.NomeAdotante = (_context.Utilizadores.Where(u => u.Id == id).Include(p => p.Perfil).FirstOrDefault()).Perfil.FirstName;
             return View(PedidoAdocao);
+        }
+
+        public ActionResult MeusPedidos(string id)
+        {
+            Utilizadores utilizador = _context.Utilizadores.Where(u => u.Id == id).Include(p => p.Perfil).FirstOrDefault();
+            List<PedidoAdocao> pedidosAdocao = _context.PedidosAdocao.Where(p => p.AdotanteId == utilizador.PerfilId).Include(a => a.Animal).ToList();
+            return View(pedidosAdocao);
         }
 
         [HttpGet]

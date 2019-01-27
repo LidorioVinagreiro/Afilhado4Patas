@@ -16,7 +16,6 @@ namespace Afilhado4Patas.Models.ViewModels
         public string TipoAdocao { get; set; }
 
         [Display(Name = "Nome do Adotante")]
-        [Required(ErrorMessage = "Insira o seu nome")]
         [RegularExpression(@"^[a-zA-Zà-úÀ-Úâ-ûÂ-Ûã-õÃ-Õ ]+$", ErrorMessage = "Use apenas letras neste campo")]
         [StringLength(30, ErrorMessage = "O {0} deverá ter um maximo de {1} caracteres de comprimento.")]
         public string NomeAdotante { get; set; }
@@ -40,7 +39,8 @@ namespace Afilhado4Patas.Models.ViewModels
         public string Raca { get; set; }
 
         [Display(Name = "Animal")]
-        public int Animal { get; set; }
+        [Required(ErrorMessage = "Selecione este campo")]
+        public int AnimalId { get; set; }
 
         [Display(Name = "Telefone")]
         [Required(ErrorMessage = "Insira um numero telefonico")]
