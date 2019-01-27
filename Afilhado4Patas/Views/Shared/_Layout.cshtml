@@ -154,6 +154,14 @@
                             </ul>
                         </li>
                         <li><a asp-area="" asp-controller="Utilizador" asp-action="Contact">Contactos</a></li>
+                        <li>
+                            <a>Amizades</a>
+                            <ul class="sub-menu clearfix">
+                                <li><a asp-controller="Utilizador" asp-action="pedirAmizade">Fazer pedido de amizade</a></li>
+                                <li><a asp-controller="Utilizador" asp-action="pedidosAmizade">Lista de pedidos de amizade</a></li>
+                                <li><a asp-controller="Utilizador" asp-action="listaAmizades">Lista de amigos</a></li>
+                            </ul>
+                        </li>
                     }
                     else
                     {

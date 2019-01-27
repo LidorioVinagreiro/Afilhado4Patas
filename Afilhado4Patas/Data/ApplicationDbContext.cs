@@ -32,5 +32,6 @@ namespace Afilhado4Patas.Data
         public DbSet<PedidoAdocao> PedidosAdocao { get; set; }
         public DbSet<PedidoMarcacao> PedidosMarcacoes { get; set; }
         public DbSet<Adotante> Adotantes { get; set; }
+        public DbSet<Amizades> Amizades { get; set; }
     }
 }

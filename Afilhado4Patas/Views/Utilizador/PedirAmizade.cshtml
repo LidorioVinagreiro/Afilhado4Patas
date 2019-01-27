@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Afilhado4Patas.Models.Amizades>
+@{
+    ViewData["Title"] = "PedirAmizade";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>PedirAmizade</h2>
+
+<p>
+    <a asp-route="">Amizades</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Selecionar
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PossivelAmigo.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AnimalComumAosDois.NomeAnimal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExistePedido)
+            </th>
+
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <input type="checkbox" value="@item.PossivelAmigo.Id" name="padrinhoId">
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PossivelAmigo.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AnimalComumAosDois.NomeAnimal)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ExistePedido)
+                </td>
+                <td>
+                    <a asp-action="perdirAmizade">pedir amizade</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

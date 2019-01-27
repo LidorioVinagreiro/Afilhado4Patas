@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Net.Http.Headers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Security.Claims;
 
 namespace Afilhado4Patas.Controllers.TiposUtilizadores
 {
@@ -414,9 +415,119 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         }
 
 
+        /*******************************************Amizades*****************************/
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<ActionResult> pedirAmizade() {
+            Utilizadores idUser = await _userManager.GetUserAsync(this.User);
+
+            Perfil utilizadorPerfil = _context.PerfilTable
+                .Where(a => a.UtilizadorId == idUser.Id)
+                .FirstOrDefault();
+
+            var listaAnimaisDoUser = _context.Adotantes
+           .Where(utilizador => utilizador.AdotanteId == idUser.Id)
+           .Include(pessoa => pessoa.Adotante_User)
+           .Include(animal => animal.Animal);
+
+            var listaPessoas = (from adotantes in _context.Adotantes
+                               join adotante in listaAnimaisDoUser
+                               on adotantes.AnimalId equals adotante.AnimalId
+                               where adotantes.AdotanteId != adotante.AdotanteId
+                               select new Amizades {
+                                   IdPerfilPediu = utilizadorPerfil.Id,
+                                   IdPerfilAceitar = (from p in _context.PerfilTable where p.UtilizadorId == adotantes.AdotanteId select p.Id).FirstOrDefault(),
+                                   IdAnimalEmComum = adotantes.AnimalId,
+                                   ExistePedido = false,
+                                   Amigos = false
+                               }).Include(animal => animal.AnimalComumAosDois).Include(possivelAmigo => possivelAmigo.PossivelAmigo);
+
+            var listaPedidosEAmigos = from amizades in _context.Amizades
+                               where amizades.IdPerfilPediu == utilizadorPerfil.Id && 
+                               (
+                               (amizades.Amigos == false && amizades.ExistePedido == true) ||
+                               (amizades.Amigos == true)
+                               )
+                               select amizades;
+
+            var listaPadrinhosSemPedido = from listaP in listaPessoas
+                                          where !(from listaAeP in listaPedidosEAmigos select listaAeP.IdPerfilAceitar)
+                                          .Contains(listaP.IdPerfilAceitar)
+                                          select listaP;
 
 
+            List<Amizades> model = listaPadrinhosSemPedido.ToList(); 
 
+
+            return View("pedirAmizade",model);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult perdirAmizade(Amizades model) {
+            return View();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public async Task<ActionResult> pedidosAmizade()
+        {
+            Utilizadores idUser = await _userManager.GetUserAsync(this.User);
+
+            Perfil utilizadorPerfil = _context.PerfilTable
+                .Where(a => a.UtilizadorId == idUser.Id)
+                .FirstOrDefault();
+
+            var listaPedidos = from amigos in _context.Amizades
+                              where amigos.IdPerfilAceitar == utilizadorPerfil.Id 
+                              && amigos.Amigos == false 
+                              && amigos.ExistePedido == true
+                              select amigos;
+
+            List<Amizades> todosAmigos = listaPedidos.ToList();
+
+            return View("pedidosAmizade",listaPedidos);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult perdidosAmizade(Amizades model)
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public async Task<ActionResult> listaAmizades()
+        {
+            Utilizadores idUser = await _userManager.GetUserAsync(this.User);
+
+            Perfil utilizadorPerfil = _context.PerfilTable
+                .Where(a => a.UtilizadorId == idUser.Id)
+                .FirstOrDefault();
+
+            var listaAmigos = from amigos in _context.Amizades
+                              where (amigos.IdPerfilAceitar == utilizadorPerfil.Id ||
+                              amigos.IdPerfilPediu == utilizadorPerfil.Id)
+                              && amigos.Amigos == true
+                              select amigos;
+
+            List<Amizades> todosAmigos = listaAmigos.ToList();
+            return View("listaAmizades",todosAmigos);
+        }
 
 
         /// <summary>
