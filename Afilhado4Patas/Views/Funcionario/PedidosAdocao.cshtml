@@ -1,0 +1,58 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@using Afilhado4Patas.Data;
+
+@model IEnumerable<Afilhado4Patas.Models.PedidoAdocao>
+
+@inject SignInManager<Utilizadores> SignInManager
+@inject UserManager<Utilizadores> UserManager
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br />
+<br />
+<br />
+<br />
+<br />
+<h2>Pedidos de Adocao</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Animal.NomeAnimal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DataPedido)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TipoAdocao)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Aprovacao)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Animal.NomeAnimal)
+            </td>
+            <td>
+                @item.DataPedido.ToString("dd/MM/yyyy")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TipoAdocao)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Aprovacao)
+            </td>
+            <td>
+                <a asp-controller="Funcionario" asp-action="AceitarPedidoAdocao" asp-route-id="@item.Id">Aceitar</a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

@@ -906,6 +906,39 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View(model);
         }
 
+
+        /****************************************************************************************************/
+        /******************************************** Adocoes ***********************************************/
+        /****************************************************************************************************/
+
+
+        public ActionResult PedidosAdocao()
+        {
+            List<PedidoAdocao> pedidos = _context.PedidosAdocao.Where(p => p.Aprovacao == false).Include(a => a.Animal).ToList();
+            return View(pedidos);
+        }
+
+        public ActionResult AceitarPedidoAdocao(int id)
+        {
+            PedidoAdocao pedido = _context.PedidosAdocao.Where(p => p.Id == id).FirstOrDefault();
+            pedido.Aprovacao = true;
+            pedido.DataAprovacao = DateTime.Now;
+            Adocao novaAdocao = new Adocao
+            {
+                PedidoAdocao = pedido.Id
+            };
+            _context.Adocoes.Add(novaAdocao);
+            Adotante novoAdotante = new Adotante
+            {
+                AnimalId = pedido.AnimalId,
+                AdotanteId = pedido.AdotanteId
+            };
+            _context.Adotantes.Add(novoAdotante);
+            _context.SaveChanges();
+            List<PedidoAdocao> pedidos = _context.PedidosAdocao.Where(p => p.Aprovacao == false).Include(a => a.Animal).ToList();
+            return View("PedidosAdocao", pedidos);
+        }
+        
         private bool CreateFolder(string path)
         {
             if (!Directory.Exists(path))

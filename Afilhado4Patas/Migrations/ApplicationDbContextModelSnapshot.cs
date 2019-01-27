@@ -105,7 +105,7 @@ namespace Afilhado4Patas.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("AdotanteId");
+                    b.Property<int>("AdotanteId");
 
                     b.Property<string>("Adotante_UserId");
 
