@@ -28,8 +28,9 @@ namespace Afilhado4Patas.Data
         public DbSet<Anexo> FicheirosAnimais { get; set; }
         public DbSet<Galeria> FotosAnimais { get; set; }
         public DbSet<Adocao> Adocoes { get; set; }
-        public DbSet<AdocaoParcial> AdocoesParciais { get; set; }
+        public DbSet<Marcacao> Marcacoes { get; set; }
         public DbSet<PedidoAdocao> PedidosAdocao { get; set; }
-        public DbSet<PedidoAdocaoParcial> PedidosAdocaoParcial { get; set; }
+        public DbSet<PedidoMarcacao> PedidosMarcacoes { get; set; }
+        public DbSet<Adotante> Adotantes { get; set; }
     }
 }

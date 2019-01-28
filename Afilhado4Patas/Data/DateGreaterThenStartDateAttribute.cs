@@ -19,13 +19,19 @@ namespace Afilhado4Patas.Data
         {
             var propertyInfo = validationContext.ObjectType.GetProperty(_startDatePropertyName);
             var propertyValue = propertyInfo.GetValue(validationContext.ObjectInstance, null);
-            if (Convert.ToDateTime(value) <= Convert.ToDateTime(propertyValue))
+            if (value != null)
             {
-                return new ValidationResult("Data de Fim inserida terá de ser maior que a Data de Inicio da Tarefa!");
+                if (Convert.ToDateTime(value) <= Convert.ToDateTime(propertyValue))
+                {
+                    return new ValidationResult("Data de Fim inserida terá de ser maior que a Data de Inicio da Tarefa!");
+                }
+                else if (Convert.ToDateTime(value) < DateTime.Now)
+                {
+                    return new ValidationResult("Data de Fim inserida terá de ser maior que a data de hoje");
+                }
+                else return ValidationResult.Success;
             }
-            else if (Convert.ToDateTime(value) < DateTime.Now) {
-                return new ValidationResult("Data de Fim inserida terá de ser maior que a data de hoje");
-            } else return ValidationResult.Success;
+            else return new ValidationResult("Insira uma data");
         }
     }
 }
