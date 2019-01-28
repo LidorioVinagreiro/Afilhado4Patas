@@ -432,10 +432,9 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
 
         public IActionResult PadrinhosAnimal(int id)
         {
-            var animal = _context.Animais.Where(a => a.Id == id).Include(a => a.Padrinho).FirstOrDefault();
-            var padrinho = animal.Padrinho;
+            var padrinhos = _context.Animais.Where(a => a.Id == id).Include(a => a.Adotantes).ToList();
 
-            return View(padrinho);
+            return View(padrinhos);
         }
 
         public IActionResult CalendarioUtilizador()
