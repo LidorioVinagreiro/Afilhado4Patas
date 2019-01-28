@@ -8,17 +8,34 @@
     <div id="container" class="container">
         <div id="row" class="row">
             @{
-                for (int contador = 0; contador < Model.Count(); contador++)
+                var contador = 0;
+                foreach (var animal in Model)
                 {
                     if (contador < 3)
                     {
+                        contador++;
+                        Adocao adocaoAnimal = null;
+                        //Verificar Animal Adotado
+                        @if (animal.Adoptado)
+                        {
+                            List<Adocao> adocoes = Context.Adocoes.ToList();
+                            foreach (var adocao in adocoes)
+                            {
+                                adocao.Pedido = Context.PedidosAdocao.Where(p => p.Id == adocao.PedidoAdocaoId).FirstOrDefault();
+                                if (adocao.Pedido.AnimalId == animal.Id)
+                                {
+                                    adocaoAnimal = adocao;
+                                    break;
+                                }
+                            }
+                        }
                         <div class="animal_item">
                             <div class="product-grid6">
                                 <div class="product-image6">
                                     @{
-                                        if (Model[contador].Foto != null)
+                                        if (animal.Foto != null)
                                         {
-                                            string src = "/Animais/" + Model[contador].Id + "/" + Model[contador].Foto;
+                                            string src = "/Animais/" + animal.Id + "/" + animal.Foto;
                                             <img class="pic-1" src="@src" />
                                         }
                                         else
@@ -28,18 +45,18 @@
                                     }
                                 </div>
                                 <div class="product-content">
-                                    <h3 class="title">@Model[contador].NomeAnimal</h3>
+                                    <h3 class="title">@animal.NomeAnimal</h3>
                                     <div>
-                                        @Model[contador].Peso Kg
-                                        <span>@Model[contador].PorteAnimal.TipoPorte</span>
-                                        @Model[contador].Sexo
+                                        @animal.Peso Kg
+                                        <span>@animal.PorteAnimal.TipoPorte</span>
+                                        @animal.Sexo
                                     </div>
                                 </div>
                                 <ul class="social">
                                     @if (User.IsInRole("Responsavel"))
                                     {
                                         <li>
-                                            <a asp-controller="Responsavel" asp-action="FichaAnimal" data-tip="Ver Animal" asp-route-id=@Model[contador].Id>
+                                            <a asp-controller="Responsavel" asp-action="FichaAnimal" data-tip="Ver Animal" asp-route-id=@animal.Id>
                                                 <i class="fa fa-paw"></i>
                                             </a>
                                         </li>
@@ -47,7 +64,7 @@
                                     else if (User.IsInRole("Funcionario"))
                                     {
                                         <li>
-                                            <a asp-controller="Funcionario" asp-action="FichaAnimal" data-tip="Ver Animal" asp-route-id=@Model[contador].Id>
+                                            <a asp-controller="Funcionario" asp-action="FichaAnimal" data-tip="Ver Animal" asp-route-id=@animal.Id>
                                                 <i class="fa fa-paw"></i>
                                             </a>
                                         </li>
@@ -55,43 +72,86 @@
                                     else if (User.IsInRole("Utilizador"))
                                     {
                                         <li>
-                                            <a asp-controller="Utilizador" asp-action="FichaAnimal" data-tip="Ver Animal" asp-route-id=@Model[contador].Id>
+                                            <a asp-controller="Utilizador" asp-action="FichaAnimal" data-tip="Ver Animal" asp-route-id=@animal.Id>
                                                 <i class="fa fa-paw"></i>
                                             </a>
-
                                         </li>
+                                        //Verificar Animal Adotado
+                                        @if (animal.Adoptado)
+                                        {
+                                            //Verificar Adotado ou Apadrinhado
+                                            if (adocaoAnimal.Pedido.TipoAdocao == "Parcial")
+                                            {
+                                                <li>
+                                                    <a asp-controller="Utilizador" asp-action="PedidoAdocaoEspecifico" data-tip="Adotar" asp-route-id="@animal.Id">
+                                                        <i class="fa fa-heart"></i>
+                                                    </a>
+                                                </li>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <li>
+                                                <a asp-controller="Utilizador" asp-action="PedidoAdocaoEspecifico" data-tip="Adotar" asp-route-id="@animal.Id">
+                                                    <i class="fa fa-heart"></i>
+                                                </a>
+                                            </li>
+                                        }
                                     }
                                     else
                                     {
                                         <li>
-                                            <a asp-controller="Guest" asp-action="FichaAnimal" data-tip="Ver Animal" asp-route-id=@Model[contador].Id>
+                                            <a asp-controller="Guest" asp-action="FichaAnimal" data-tip="Ver Animal" asp-route-id=@animal.Id>
                                                 <i class="fa fa-paw"></i>
                                             </a>
                                         </li>
+                                        //Verificar Animal Adotado
+                                        @if (animal.Adoptado)
+                                        {
+                                            //Verificar Adotado ou Apadrinhado
+                                            if (adocaoAnimal.Pedido.TipoAdocao == "Parcial")
+                                            {
+                                                <li>
+                                                    <a asp-controller="Guest" asp-action="RealizarLogin" data-tip="Adotar">
+                                                        <i class="fa fa-heart"></i>
+                                                    </a>
+                                                </li>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <li>
+                                                <a asp-controller="Guest" asp-action="RealizarLogin" data-tip="Adotar">
+                                                    <i class="fa fa-heart"></i>
+                                                </a>
+                                            </li>
+                                        }
                                     }
-                                    <li><a data-tip="Adotar"><i class="fa fa-heart"></i></a></li>
                                 </ul>
-                                @if (Model[contador].Adoptado)
+                                @if (adocaoAnimal != null)
                                 {
-                                    PedidoAdocao adocao = Context.PedidosAdocao.Where(a => a.Aprovacao == true && a.AnimalId == Model[contador].Id).FirstOrDefault();
                                     //Verificar Adotado ou Apadrinhado
-                                    if (adocao.TipoAdocao == "Total")
+                                    if (adocaoAnimal.Pedido.TipoAdocao == "Total")
                                     {
                                         <span class="product-discount-label" style="background-color: #c54b46">Adotado</span>
                                     }
                                     else
                                     {
-                                        <span class="product-discount-label" style="background-color: #2a9c3c">Apadrinhado</span>
+                                        <span class="product-discount-label" style="background-color: #0081c2">Apadrinhado</span>
                                     }
                                 }
                             </div>
                         </div>
-                        Model.Remove(Model[contador]);
                     }
                     else
                     {
                         break;
                     }
+                }
+                //Remover animais adicionados ao grid
+                for (int i = 0; i < contador; i++)
+                {
+                    Model.Remove(Model[0]);
                 }
             }
         </div>

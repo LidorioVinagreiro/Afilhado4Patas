@@ -81,3 +81,33 @@ Numeros: 0-9"></span>
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
+
+<script>
+    $('#datepicker_registo').datepicker({
+        format: "dd/MM/yyyy",
+        dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'
+        ],
+        dayNamesMin: [
+            'D', 'S', 'T', 'Q', 'Q', 'S', 'S', 'D'
+        ],
+        dayNamesShort: [
+            'Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'
+        ],
+        monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro',
+            'Outubro', 'Novembro', 'Dezembro'
+        ],
+        monthNamesShort: [
+            'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set',
+            'Out', 'Nov', 'Dez'
+        ],
+        nextText: 'Próximo',
+        prevText: 'Anterior',
+        startDate: new Date(1900, 1, 1),
+        endDate: '+1d',
+        datesDisabled: '+1d',
+        todayHighlight: true,
+        showOtherMonths: true,
+        selectOtherMonths: true,
+        autoclose: true
+    });
+</script>

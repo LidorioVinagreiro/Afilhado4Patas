@@ -9,18 +9,25 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Afilhado4Patas</title>
+    <!-- Site files -->
     <link rel="stylesheet" href="~/css/site.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker3.css" rel="stylesheet" id="bootstrap-css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
-
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
     <!-- Galeria de Fotos -->
     <link href="~/css/jcarousel.connected-carousels.css" rel="stylesheet" />
     <script src="~/js/jcarousel.connected-carousels.js"></script>
     <script src="~/js/jquery.jcarousel.min.js"></script>
     <script src="~/js/jquery.js"></script>
+    <!-- ClockPicker -->
+    <link href="~/css/clockpicker.css" rel="stylesheet" />
+    <script src="~/js/clockpicker.js"></script>
+    <!-- DatePicker -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.css" rel="stylesheet">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.js"></script>
 
 </head>
 <body>
@@ -138,10 +145,8 @@
                             <a>Adoçoes</a>
                             <ul class="sub-menu clearfix">
                                 <li><a asp-controller="Utilizador" asp-action="PedidoAdocao" asp-route-id="@UserManager.GetUserId(User)">Realizar Pedido de Adoção</a></li>
-                                <li><a asp-controller="Utilizador">Marcacao X dias</a></li>
-                                <li><a asp-controller="Utilizador">Marcacao de Passeios</a></li>
                                 <li><a asp-controller="Utilizador" asp-action="MeusPedidos" asp-route-id="@UserManager.GetUserId(User)">Os meus pedidos de Adoções</a></li>
-                                <li><a asp-controller="Utilizador">As minhas Marcações</a></li>
+                                <li><a asp-controller="Utilizador" asp-action="MinhasMarcacoes" asp-route-id="@UserManager.GetUserId(User)">As minhas Marcações</a></li>
                             </ul>
                         </li>
                         <li><a asp-controller="Utilizador" asp-action="Contact">Contactos</a></li>
@@ -171,107 +176,13 @@
 
     <div class="body-content">
         @RenderBody()
-
         <!--
         <hr />
         <footer>
             <p>&copy; 2018 - Afilhado4Patas</p>
         </footer>
             -->
-    </div>
-
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
-    <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
-            asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-            asp-fallback-test="window.jQuery"
-            crossorigin="anonymous"
-            integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
-    </script>
-    <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
-            asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
-            asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
-            crossorigin="anonymous"
-            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
-    </script>
-    <script src="~/js/site.min.js" asp-append-version="true"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
-    <script src="~/js/datepicker-pt.js"></script>
-    <script>
-        var nowDate = new Date();
-        var today = new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate(), 0, 0, 0, 0);
-        $(function () {
-            $('#datepicker_registo').datepicker({
-                format: "dd/MM/yyyy",
-                startDate: new Date(1900, 1, 1),
-                endDate: '+1d',
-                datesDisabled: '+1d',
-                todayHighlight: true,
-                showOtherMonths: true,
-                selectOtherMonths: true,
-                autoclose: true,
-                closeText: "Fechar",
-                prevText: "Anterior",
-                nextText: "Seguinte",
-                currentText: "Hoje",
-                monthNames: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
-                    "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"],
-                monthNamesShort: ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun",
-                    "Jul", "Ago", "Set", "Out", "Nov", "Dez"],
-                dayNames: [
-                    "Domingo",
-                    "Segunda-feira",
-                    "Terça-feira",
-                    "Quarta-feira",
-                    "Quinta-feira",
-                    "Sexta-feira",
-                    "Sábado"
-                ],
-                dayNamesShort: ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"],
-                dayNamesMin: ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"],
-            });
-            $('#datepicker_tarefas1').datepicker({
-                format: "dd/MM/yyyy",
-                startDate: today,
-                autoclose: true,
-                todayHighlight: true,
-                showOtherMonths: true,
-                selectOtherMonths: true,
-                autoclose: true,
-                changeMonth: true,
-                changeYear: true,
-                orientation: "button"
-            });
-            $('#datepicker_tarefas2').datepicker({
-                format: "dd/MM/yyyy",
-                startDate: today,
-                autoclose: true,
-                todayHighlight: true,
-                showOtherMonths: true,
-                selectOtherMonths: true,
-                autoclose: true,
-                changeMonth: true,
-                changeYear: true,
-                orientation: "button"
-            });
-            $('#datepicker_animal').datepicker({
-                format: "dd/MM/yyyy",
-                startDate: new Date(1990, 1, 1),
-                endDate: '+1d',
-                datesDisabled: '+1d',
-                autoclose: true,
-                todayHighlight: true,
-                showOtherMonths: true,
-                selectOtherMonths: true,
-                autoclose: true,
-                changeMonth: true,
-                changeYear: true,
-                orientation: "button"
-            });
-        });
-    </script>
-
-
+    </div>   
     @RenderSection("Scripts", required: false)
 </body>
 </html>

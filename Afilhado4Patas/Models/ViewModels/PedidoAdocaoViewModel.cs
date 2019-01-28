@@ -26,7 +26,6 @@ namespace Afilhado4Patas.Models.ViewModels
         public string Morada { get; set; }
 
         [Display(Name = "Sexo do Animal")]
-        [Required(ErrorMessage = "Selecione um dos campos Macho ou Fêmea ou Ambos")]
         public string Sexo { get; set; }
 
         [Display(Name = "Especie do Animal")]

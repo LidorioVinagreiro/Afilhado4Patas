@@ -51,7 +51,7 @@ namespace Afilhado4Patas
             .AddDefaultTokenProviders();
             
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("LocalConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             // Automatically perform database migration
             try
             {
@@ -81,6 +81,13 @@ namespace Afilhado4Patas
             if (!Directory.Exists(pathAnimais))
             {
                 Directory.CreateDirectory(pathAnimais);
+            }
+
+            string pedidosAdocao = "\\PedidosAdocao";
+            string pathPedidosAdocao = env.WebRootPath + pedidosAdocao;
+            if (!Directory.Exists(pathPedidosAdocao))
+            {
+                Directory.CreateDirectory(pathPedidosAdocao);
             }
 
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));

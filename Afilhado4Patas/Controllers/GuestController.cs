@@ -110,6 +110,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View("../Shared/RegistoCompleto");
         }
 
+        public IActionResult RealizarLogin()
+        {
+            return View();
+        }
+
         /// <summary>
         /// Ação que devolve a view de erro, caso ocorra um erro esta view e devolvida com a informação do erro
         /// </summary>

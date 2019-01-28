@@ -462,8 +462,8 @@ li a {
 }
 
 #sucesso {
-    height: 30px;
-    width: 30px;
+    height: 80px;
+    width: 80px;
     margin-bottom: 25px;
 }
 
@@ -638,6 +638,16 @@ li a {
     background-color: #fff;
     padding-top: 2%;
     padding-bottom: 2%;
+}
+
+#container_center {
+    width: 70%;
+    box-shadow: 0 0 5px hsla(0,0%,70%,.5);
+    background-color: #fff;
+    padding-top: 2%;
+    padding-bottom: 2%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 #container_right {
@@ -875,6 +885,10 @@ li a {
     margin-right: auto !important;
     padding: 0 !important;
     display: flex;
+}
+
+.hand{
+    cursor: pointer
 }
 
 /*///////////////////////////////////////////////////////////////////////////////////////////////////*/

@@ -914,18 +914,21 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
 
         public ActionResult PedidosAdocao()
         {
-            List<PedidoAdocao> pedidos = _context.PedidosAdocao.Where(p => p.Aprovacao == false).Include(a => a.Animal).ToList();
+            List<PedidoAdocao> pedidos = _context.PedidosAdocao.Where(p => p.Aprovacao.Equals("Em espera")).Include(a => a.Animal).ToList();
             return View(pedidos);
         }
 
         public ActionResult AceitarPedidoAdocao(int id)
         {
+
             PedidoAdocao pedido = _context.PedidosAdocao.Where(p => p.Id == id).FirstOrDefault();
-            pedido.Aprovacao = true;
+            pedido.Aprovacao = "Aprovado";
             pedido.DataAprovacao = DateTime.Now;
+            Animal animal = _context.Animais.Where(a => a.Id == pedido.AnimalId).FirstOrDefault();
+            animal.Adoptado = true;
             Adocao novaAdocao = new Adocao
             {
-                PedidoAdocao = pedido.Id
+                PedidoAdocaoId = pedido.Id
             };
             _context.Adocoes.Add(novaAdocao);
             Adotante novoAdotante = new Adotante
@@ -935,7 +938,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             };
             _context.Adotantes.Add(novoAdotante);
             _context.SaveChanges();
-            List<PedidoAdocao> pedidos = _context.PedidosAdocao.Where(p => p.Aprovacao == false).Include(a => a.Animal).ToList();
+            List<PedidoAdocao> pedidos = _context.PedidosAdocao.Where(p => p.Aprovacao.Equals("Em espera")).Include(a => a.Animal).ToList();
             return View("PedidosAdocao", pedidos);
         }
         

@@ -27,10 +27,12 @@ namespace Afilhado4Patas.Data
         public DbSet<Porte> Portes { get; set; }
         public DbSet<Anexo> FicheirosAnimais { get; set; }
         public DbSet<Galeria> FotosAnimais { get; set; }
-        public DbSet<Adocao> Adocoes { get; set; }
-        public DbSet<Marcacao> Marcacoes { get; set; }
         public DbSet<PedidoAdocao> PedidosAdocao { get; set; }
-        public DbSet<PedidoMarcacao> PedidosMarcacoes { get; set; }
+        public DbSet<PedidoFimSemana> PedidosFimSemana { get; set; }
+        public DbSet<PedidoPasseio> PedidosPasseio { get; set; }
+        public DbSet<Adocao> Adocoes { get; set; }
+        public DbSet<FimSemana> FinsSemanas { get; set; }
+        public DbSet<Passeio> Passeios { get; set; }
         public DbSet<Adotante> Adotantes { get; set; }
         public DbSet<Amizades> Amizades { get; set; }
     }

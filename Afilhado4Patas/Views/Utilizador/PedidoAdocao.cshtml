@@ -21,11 +21,11 @@ Apadrinhamento: Adote um animal a tempo parcial, podendo levá-lo durante fins-d
                 <i class="fa fa-asterisk required" title="Campo Obrigatório"></i>
                 <div>
                     <span>
-                        <input asp-for="TipoAdocao" type="radio" value="Total" />
+                        <input asp-for="TipoAdocao" type="radio" value="Total" id="tipoTotal" onclick="AlteracaoAdocao(this.value)"/>
                         Adoção Total
                     </span>
                     <span>
-                        <input asp-for="TipoAdocao" type="radio" value="Parcial" />
+                        <input asp-for="TipoAdocao" type="radio" value="Parcial" id="tipoParcial" onclick="AlteracaoAdocao(this.value)"/>
                         Apadrinhamento
                     </span>
                 </div>
@@ -176,7 +176,7 @@ Deverá ter o formato JPG, JPEG, PNG ou PDF"></span>
             </div>
             <br />
             <div class="form-group">
-                <input type="submit" value="Registar Pedido de Adoção" class="btn btn-default" />
+                <input type="submit" value="Finalizar Pedido de Adoção" class="btn btn-default" />
             </div>
         </form>
     </div>
@@ -185,35 +185,35 @@ Deverá ter o formato JPG, JPEG, PNG ou PDF"></span>
 <script type="text/javascript">
     //*******************   Carregamento Inicial   *************************
     $(document).ready(function () {
-        //Inicializar Categorias
-        inicializarCategorias();
-        //Opcoes Iniciais
+        inicializarCategoria();
         inicializarPorte();
         inicializarRaca();
-        //Atualizar Animais
-        carregarTodosAnimais();
-    });    
-    
+        inicializarAnimal();
+    });
+
     function inicializarPorte() {
+        $('#PorteID').empty();
         $('#PorteID').html("<option value='undefined'>Escolha primeiro uma Categoria</option>");
         $('#PorteID').prop('disabled', true);
     }
 
     function inicializarRaca() {
+        $('#RacaID').empty();
         $('#RacaID').html("<option value='undefined'>Escolha primeiro um Porte</option>");
         $('#RacaID').prop('disabled', true);
     }
 
-    function inicializarCategorias() {
-        var urlCategorias = '@Url.Content("~/")' + "Utilizador/Categorias";
-        $.getJSON(urlCategorias, function (data) {
-            var items = "<option value='undefined' selected>Escolha uma Categoria</option>";
-            $('#CategoriaID').empty();
-            $.each(data, function (i, categoria) {
-                items += "<option value='" + categoria.value + "'>" + categoria.text + "</option>";
-            });
-            $('#CategoriaID').html(items);
-        });
+    function inicializarAnimal() {
+        $('#AnimalID').empty();
+        $('#AnimalID').html("<option value='undefined'>Escolha primeiro um Tipo de Adoção</option>");
+        $('#AnimalID').prop('disabled', true);
+    }
+
+
+    function inicializarCategoria() {
+        $('#CategoriaID').empty();
+        $('#CategoriaID').html("<option value='undefined'>Escolha primeiro um Tipo de Adoção</option>");
+        $('#CategoriaID').prop('disabled', true);
     }
 
         function receberSexoSelecionado() {
@@ -224,7 +224,17 @@ Deverá ter o formato JPG, JPEG, PNG ou PDF"></span>
                 sexo = $('#sexoM').val();
             } else sexo = $('#Ambos').val();
             return sexo;
+    }
+
+    function receberTipoAdocao() {
+        var tipoAdocao = null;
+        if ($('#tipoTotal').prop("checked")) {
+            tipoAdocao = $('#tipoTotal').val();
+        } else if ($('#tipoParcial').prop("checked")) {
+            tipoAdocao = $('#tipoParcial').val();
         }
+        return tipoAdocao;
+    }
 
         function receberCategoriaSelecionada() {
             var categoria = null;
@@ -232,7 +242,7 @@ Deverá ter o formato JPG, JPEG, PNG ou PDF"></span>
                 categoria = $('#CategoriaID').val();
             }
             return categoria;
-    }   
+    }
 
     function receberPorteSelecionado() {
         var porte = null;
@@ -240,7 +250,7 @@ Deverá ter o formato JPG, JPEG, PNG ou PDF"></span>
             porte = $('#PorteID').val();
         }
         return porte;
-    }   
+    }
 
     function receberRacaSelecionada() {
         var raca = null;
@@ -248,11 +258,30 @@ Deverá ter o formato JPG, JPEG, PNG ou PDF"></span>
             raca = $('#RacaID').val();
         }
         return raca;
-    }   
+    }
 
-        function carregarTodosAnimais() {
-            var urlAnimais = '@Url.Content("~/")' + "Utilizador/TodosAnimais";
-            $.getJSON(urlAnimais, function (data) {
+    function carregarCategorias(tipoAdocao, sexo) {
+        $('#CategoriaID').prop('disabled', false);
+        var urlCategorias = '@Url.Content("~/")' + "Utilizador/Categorias";
+        $.getJSON(urlCategorias, { TipoAdocao: tipoAdocao, Sexo: sexo }, function (data) {
+            $('#CategoriaID').empty();
+            var items = "";
+            if (jQuery.isEmptyObject(data)) {
+                items = "<option value='undefined' selected>Nenhuma Categoria Encontrada</option>";
+            } else {
+                items = "<option value='undefined' selected>Escolha uma Categoria</option>";
+                $.each(data, function (i, categoria) {
+                    items += "<option value='" + categoria.value + "'>" + categoria.text + "</option>";
+                });
+            }
+            $('#CategoriaID').html(items);            
+        });
+    }
+
+    function carregarAnimaisTipoAdocaoSexo(tipoAdocao, sexo) {
+        $('#AnimalID').prop('disabled', false);
+            var urlAnimais = '@Url.Content("~/")' + "Utilizador/AnimaisTipoAdocaoSexo";
+            $.getJSON(urlAnimais, { TipoAdocao: tipoAdocao, Sexo: sexo }, function (data) {
                 $('#AnimalID').empty();
                 var items = "";
                 if (jQuery.isEmptyObject(data)) {
@@ -267,9 +296,10 @@ Deverá ter o formato JPG, JPEG, PNG ou PDF"></span>
             });
         }
 
-    function carregarAnimaisPorCategoriaSexo(categoria, sexo) {
+    function carregarAnimaisPorCategoriaSexo(tipoAdocao, categoria, sexo) {
+        $('#AnimalID').prop('disabled', false);
             var url = '@Url.Content("~/")' + "Utilizador/AnimaisCategoriaSexo";
-        $.getJSON(url, { Categoria: categoria, Sexo: sexo }, function (data) {
+        $.getJSON(url, { TipoAdocao: tipoAdocao, Categoria: categoria, Sexo: sexo }, function (data) {
             $('#AnimalID').empty();
                 var items = "";
                 if (jQuery.isEmptyObject(data)) {
@@ -284,9 +314,10 @@ Deverá ter o formato JPG, JPEG, PNG ou PDF"></span>
             });
     }
 
-    function carregarAnimaisPorCategoriaSexoPorte(categoria, sexo, porte) {
+    function carregarAnimaisPorCategoriaSexoPorte(tipoAdocao, categoria, sexo, porte) {
+        $('#AnimalID').prop('disabled', false);
             var url = '@Url.Content("~/")' + "Utilizador/AnimaisCategoriaSexoPorte";
-        $.getJSON(url, { Categoria: categoria, Sexo: sexo, Porte: porte}, function (data) {
+        $.getJSON(url, { TipoAdocao: tipoAdocao, Categoria: categoria, Sexo: sexo, Porte: porte}, function (data) {
             $('#AnimalID').empty();
                 var items = "";
                 if (jQuery.isEmptyObject(data)) {
@@ -301,9 +332,10 @@ Deverá ter o formato JPG, JPEG, PNG ou PDF"></span>
             });
     }
 
-    function carregarAnimaisPorCategoriaSexoPorteRaca(categoria, sexo, porte, raca) {
+    function carregarAnimaisPorCategoriaSexoPorteRaca(tipoAdocao, categoria, sexo, porte, raca) {
+        $('#AnimalID').prop('disabled', false);
             var url = '@Url.Content("~/")' + "Utilizador/AnimaisCategoriaSexoPorteRaca";
-        $.getJSON(url, { Categoria: categoria, Sexo: sexo, Porte: porte, Raca: raca}, function (data) {
+        $.getJSON(url, { TipoAdocao: tipoAdocao, Categoria: categoria, Sexo: sexo, Porte: porte, Raca: raca}, function (data) {
             $('#AnimalID').empty();
                 var items = "";
                 if (jQuery.isEmptyObject(data)) {
@@ -318,10 +350,10 @@ Deverá ter o formato JPG, JPEG, PNG ou PDF"></span>
             });
     }
 
-    function carregarPorte(categoria, sexo) {
+    function carregarPorte(tipoAdocao, categoria, sexo) {
         $('#PorteID').prop('disabled', false);
         var url = '@Url.Content("~/")' + "Utilizador/PorteCategoriaSexo";
-        $.getJSON(url, { Categoria: categoria, Sexo: sexo }, function (data) {
+        $.getJSON(url, { TipoAdocao: tipoAdocao, Categoria: categoria, Sexo: sexo }, function (data) {
             $('#PorteID').empty();
                 var items = "";
                 if (jQuery.isEmptyObject(data)) {
@@ -336,10 +368,10 @@ Deverá ter o formato JPG, JPEG, PNG ou PDF"></span>
             });
     }
 
-    function carregarRaca(categoria, sexo, porte) {
+    function carregarRaca(tipoAdocao, categoria, sexo, porte) {
         $('#RacaID').prop('disabled', false);
         var url = '@Url.Content("~/")' + "Utilizador/RacaCategoriaSexoPorte";
-        $.getJSON(url, { Categoria: categoria, Sexo: sexo , Porte: porte}, function (data) {
+        $.getJSON(url, { TipoAdocao: tipoAdocao, Categoria: categoria, Sexo: sexo , Porte: porte}, function (data) {
             $('#RacaID').empty();
                 var items = "";
                 if (jQuery.isEmptyObject(data)) {
@@ -354,27 +386,36 @@ Deverá ter o formato JPG, JPEG, PNG ou PDF"></span>
             });
     }
 
+    function AlteracaoAdocao(tipoAdocao) {
+        inicializarPorte
+        inicializarRaca();
+        //Atualizar Animais
+        carregarCategorias(tipoAdocao, receberSexoSelecionado());
+        carregarAnimaisTipoAdocaoSexo(tipoAdocao, receberSexoSelecionado());
+    }
+
     function AlteracaoCategoria() {
         inicializarRaca();
         //Atualizar Animais
-        carregarPorte(receberCategoriaSelecionada(), receberSexoSelecionado());
-        carregarAnimaisPorCategoriaSexo(receberCategoriaSelecionada(), receberSexoSelecionado());
+        carregarPorte(receberTipoAdocao(), receberCategoriaSelecionada(), receberSexoSelecionado());
+        carregarAnimaisPorCategoriaSexo(receberTipoAdocao(), receberCategoriaSelecionada(), receberSexoSelecionado());
     }
 
     function AlteracaoSexo(sexo) {
         inicializarRaca();
         //Atualizar Animais
-        carregarPorte(receberCategoriaSelecionada(), sexo);
-        carregarAnimaisPorCategoriaSexo(receberCategoriaSelecionada(), sexo);
+        carregarCategorias(receberTipoAdocao(), sexo);
+        carregarPorte(receberTipoAdocao(), receberCategoriaSelecionada(), sexo);
+        carregarAnimaisPorCategoriaSexo(receberTipoAdocao(), receberCategoriaSelecionada(), sexo);
     }
 
     function AlteracaoPorte() {
         //Atualizar Animais
-        carregarRaca(receberCategoriaSelecionada(), receberSexoSelecionado(), receberPorteSelecionado());
-        carregarAnimaisPorCategoriaSexoPorte(receberCategoriaSelecionada(), receberSexoSelecionado(), receberPorteSelecionado());
+        carregarRaca(receberTipoAdocao(), receberCategoriaSelecionada(), receberSexoSelecionado(), receberPorteSelecionado());
+        carregarAnimaisPorCategoriaSexoPorte(receberTipoAdocao(), receberCategoriaSelecionada(), receberSexoSelecionado(), receberPorteSelecionado());
     }
 
     function AlteracaoRaca() {
-        carregarAnimaisPorCategoriaSexoPorteRaca(receberCategoriaSelecionada(), receberSexoSelecionado(), receberPorteSelecionado(), receberRacaSelecionada());
+        carregarAnimaisPorCategoriaSexoPorteRaca(receberTipoAdocao(), receberCategoriaSelecionada(), receberSexoSelecionado(), receberPorteSelecionado(), receberRacaSelecionada());
     }
 </script>

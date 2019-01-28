@@ -88,13 +88,11 @@ namespace Afilhado4Patas.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("PedidoAdocao");
-
-                    b.Property<int?>("PedidoId");
+                    b.Property<int>("PedidoAdocaoId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PedidoId");
+                    b.HasIndex("PedidoAdocaoId");
 
                     b.ToTable("Adocoes");
                 });
@@ -118,6 +116,35 @@ namespace Afilhado4Patas.Migrations
                     b.HasIndex("AnimalId");
 
                     b.ToTable("Adotantes");
+                });
+
+            modelBuilder.Entity("Afilhado4Patas.Models.Amizades", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("Amigos");
+
+                    b.Property<int?>("AnimalComumAosDoisId");
+
+                    b.Property<bool?>("ExistePedido");
+
+                    b.Property<int>("IdAnimalEmComum");
+
+                    b.Property<int>("IdPerfilAceitar");
+
+                    b.Property<int>("IdPerfilPediu");
+
+                    b.Property<int?>("PossivelAmigoId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AnimalComumAosDoisId");
+
+                    b.HasIndex("PossivelAmigoId");
+
+                    b.ToTable("Amizades");
                 });
 
             modelBuilder.Entity("Afilhado4Patas.Models.Anexo", b =>
@@ -185,6 +212,21 @@ namespace Afilhado4Patas.Migrations
                     b.ToTable("Categorias");
                 });
 
+            modelBuilder.Entity("Afilhado4Patas.Models.FimSemana", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("PedidoFimSemanaId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PedidoFimSemanaId");
+
+                    b.ToTable("FinsSemanas");
+                });
+
             modelBuilder.Entity("Afilhado4Patas.Models.Galeria", b =>
                 {
                     b.Property<int>("Id")
@@ -200,19 +242,19 @@ namespace Afilhado4Patas.Migrations
                     b.ToTable("FotosAnimais");
                 });
 
-            modelBuilder.Entity("Afilhado4Patas.Models.Marcacao", b =>
+            modelBuilder.Entity("Afilhado4Patas.Models.Passeio", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("PedidoMarcacaoId");
+                    b.Property<int>("PedidoPasseioId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PedidoMarcacaoId");
+                    b.HasIndex("PedidoPasseioId");
 
-                    b.ToTable("Marcacoes");
+                    b.ToTable("Passeios");
                 });
 
             modelBuilder.Entity("Afilhado4Patas.Models.PedidoAdocao", b =>
@@ -227,7 +269,7 @@ namespace Afilhado4Patas.Migrations
 
                     b.Property<int>("AnimalId");
 
-                    b.Property<bool>("Aprovacao");
+                    b.Property<string>("Aprovacao");
 
                     b.Property<DateTime>("DataAprovacao");
 
@@ -252,7 +294,7 @@ namespace Afilhado4Patas.Migrations
                     b.ToTable("PedidosAdocao");
                 });
 
-            modelBuilder.Entity("Afilhado4Patas.Models.PedidoMarcacao", b =>
+            modelBuilder.Entity("Afilhado4Patas.Models.PedidoFimSemana", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -263,6 +305,8 @@ namespace Afilhado4Patas.Migrations
                     b.Property<string>("AdotanteId1");
 
                     b.Property<int>("AnimalId");
+
+                    b.Property<string>("Aprovacao");
 
                     b.Property<DateTime>("DataAprovacao");
 
@@ -278,7 +322,38 @@ namespace Afilhado4Patas.Migrations
 
                     b.HasIndex("AnimalId");
 
-                    b.ToTable("PedidosMarcacoes");
+                    b.ToTable("PedidosFimSemana");
+                });
+
+            modelBuilder.Entity("Afilhado4Patas.Models.PedidoPasseio", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AdotanteId");
+
+                    b.Property<string>("AdotanteId1");
+
+                    b.Property<int>("AnimalId");
+
+                    b.Property<string>("Aprovacao");
+
+                    b.Property<DateTime>("DataAprovacao");
+
+                    b.Property<DateTime>("DataPasseio");
+
+                    b.Property<DateTime>("DataPedido");
+
+                    b.Property<string>("HoraPasseio");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AdotanteId1");
+
+                    b.HasIndex("AnimalId");
+
+                    b.ToTable("PedidosPasseio");
                 });
 
             modelBuilder.Entity("Afilhado4Patas.Models.Perfil", b =>
@@ -301,6 +376,8 @@ namespace Afilhado4Patas.Migrations
 
                     b.Property<string>("NIF");
 
+                    b.Property<int?>("PerfilId");
+
                     b.Property<string>("Photo");
 
                     b.Property<string>("Postalcode");
@@ -310,6 +387,8 @@ namespace Afilhado4Patas.Migrations
                     b.Property<string>("UtilizadorId");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PerfilId");
 
                     b.ToTable("PerfilTable");
                 });
@@ -494,7 +573,8 @@ namespace Afilhado4Patas.Migrations
                 {
                     b.HasOne("Afilhado4Patas.Models.PedidoAdocao", "Pedido")
                         .WithMany()
-                        .HasForeignKey("PedidoId");
+                        .HasForeignKey("PedidoAdocaoId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Afilhado4Patas.Models.Adotante", b =>
@@ -509,6 +589,17 @@ namespace Afilhado4Patas.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("Afilhado4Patas.Models.Amizades", b =>
+                {
+                    b.HasOne("Afilhado4Patas.Models.Animal", "AnimalComumAosDois")
+                        .WithMany()
+                        .HasForeignKey("AnimalComumAosDoisId");
+
+                    b.HasOne("Afilhado4Patas.Models.Perfil", "PossivelAmigo")
+                        .WithMany()
+                        .HasForeignKey("PossivelAmigoId");
+                });
+
             modelBuilder.Entity("Afilhado4Patas.Models.Animal", b =>
                 {
                     b.HasOne("Afilhado4Patas.Models.Porte", "PorteAnimal")
@@ -521,11 +612,19 @@ namespace Afilhado4Patas.Migrations
                         .HasForeignKey("RacaId");
                 });
 
-            modelBuilder.Entity("Afilhado4Patas.Models.Marcacao", b =>
+            modelBuilder.Entity("Afilhado4Patas.Models.FimSemana", b =>
                 {
-                    b.HasOne("Afilhado4Patas.Models.PedidoMarcacao", "Pedido")
+                    b.HasOne("Afilhado4Patas.Models.PedidoFimSemana", "Pedido")
                         .WithMany()
-                        .HasForeignKey("PedidoMarcacaoId")
+                        .HasForeignKey("PedidoFimSemanaId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Afilhado4Patas.Models.Passeio", b =>
+                {
+                    b.HasOne("Afilhado4Patas.Models.PedidoPasseio", "Pedido")
+                        .WithMany()
+                        .HasForeignKey("PedidoPasseioId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -541,7 +640,7 @@ namespace Afilhado4Patas.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Afilhado4Patas.Models.PedidoMarcacao", b =>
+            modelBuilder.Entity("Afilhado4Patas.Models.PedidoFimSemana", b =>
                 {
                     b.HasOne("Afilhado4Patas.Data.Utilizadores", "Adotante")
                         .WithMany()
@@ -551,6 +650,25 @@ namespace Afilhado4Patas.Migrations
                         .WithMany()
                         .HasForeignKey("AnimalId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Afilhado4Patas.Models.PedidoPasseio", b =>
+                {
+                    b.HasOne("Afilhado4Patas.Data.Utilizadores", "Adotante")
+                        .WithMany()
+                        .HasForeignKey("AdotanteId1");
+
+                    b.HasOne("Afilhado4Patas.Models.Animal", "Animal")
+                        .WithMany()
+                        .HasForeignKey("AnimalId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Afilhado4Patas.Models.Perfil", b =>
+                {
+                    b.HasOne("Afilhado4Patas.Models.Perfil")
+                        .WithMany("Amigos")
+                        .HasForeignKey("PerfilId");
                 });
 
             modelBuilder.Entity("Afilhado4Patas.Models.Raca", b =>

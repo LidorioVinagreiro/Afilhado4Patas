@@ -35,6 +35,6 @@ namespace Afilhado4Patas.Models
         
         public string TipoAdocao { get; set; }
 
-        public bool Aprovacao { get; set; }        
+        public string Aprovacao { get; set; }
     }
 }

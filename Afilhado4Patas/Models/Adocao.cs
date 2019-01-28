@@ -13,7 +13,7 @@ namespace Afilhado4Patas.Models
         public int Id { get; set; }
 
         [ForeignKey("PedidoAdocao")]
-        public int PedidoAdocao { get; set; }
+        public int PedidoAdocaoId { get; set; }
 
         public virtual PedidoAdocao Pedido { get; set; }        
            

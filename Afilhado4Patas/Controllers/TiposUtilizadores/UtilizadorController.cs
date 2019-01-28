@@ -396,7 +396,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             List<Animal> lista_animais = new List<Animal>();
             foreach (var adotante in adotantes)
             {
-                lista_animais.Add(_context.Animais.Where(a => a.Id == adotante.AnimalId).FirstOrDefault());
+                lista_animais.Add(_context.Animais.Where(a => a.Id == adotante.AnimalId).Include(p => p.PorteAnimal).FirstOrDefault());
             }
             return View(lista_animais);
         }
@@ -416,16 +416,60 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                     Email = utilizador.Email
                 };
                 return View(pedido);
-            }         
+            }
+            return NotFound();
+        }
+
+        public ActionResult PedidoAdocaoEspecifico(int id)
+        {
+            if (id > 0)
+            {
+                Utilizadores utilizador = _context.Utilizadores.Where(u => u.Id == _userManager.GetUserId(User)).Include(p => p.Perfil).FirstOrDefault();
+                Animal animal = _context.Animais.Where(a => a.Id == id).FirstOrDefault();
+                PedidoAdocaoViewModel pedido = new PedidoAdocaoViewModel
+                {
+                    NomeAdotante = utilizador.Perfil.FirstName,
+                    Email = utilizador.Email,
+                    AnimalId = animal.Id                    
+                };
+                return View(pedido);
+            }
+            return NotFound();
+        }
+
+        public ActionResult PedidoFimSemana(int id)
+        {
+            if (id > 0)
+            {
+                PedidoFimSemanaViewModel pedido = new PedidoFimSemanaViewModel
+                {
+                    AnimalId = id         
+                };
+                return View(pedido);
+            }
+            return NotFound();
+        }
+
+        public ActionResult PedidoPasseio(int id)
+        {
+            if (id > 0)
+            {
+                PedidoPasseioViewModel pedido = new PedidoPasseioViewModel
+                {
+                    AnimalId = id
+                };
+                return View(pedido);
+            }
             return NotFound();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> PedidoAdocao(string id, PedidoAdocaoViewModel PedidoAdocao)
+        public async Task<IActionResult> PedidoAdocao(PedidoAdocaoViewModel PedidoAdocao)
         {
-            Utilizadores utilizador = null;
-            if (id == null)
+            Utilizadores utilizador = _context.Utilizadores.Where(u => u.Id == _userManager.GetUserId(User)).Include(p => p.Perfil).FirstOrDefault();
+
+            if (utilizador == null)
             {
                 return NotFound();
             }
@@ -434,7 +478,6 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             {
                 try
                 {
-                    utilizador = _context.Utilizadores.Where(u => u.Id == id).Include(p => p.Perfil).FirstOrDefault();
                     PedidoAdocao novoPedido = new PedidoAdocao
                     {
                         TipoAdocao = PedidoAdocao.TipoAdocao,
@@ -443,24 +486,70 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                         DataPedido = DateTime.Now,
                         Morada = PedidoAdocao.Morada,
                         Motivo = PedidoAdocao.Motivacao,
-                        OutrosAnimais = PedidoAdocao.OutrosAnimais
+                        OutrosAnimais = PedidoAdocao.OutrosAnimais,
+                        Aprovacao = "Em espera"
                     };
                     _context.PedidosAdocao.Add(novoPedido);
                     _context.SaveChanges();
-                    /*novoPedido.DiretoriaPedido = _hostingEnvironment.WebRootPath + "\\PedidosAdocao\\" + novoPedido.Id;
+                    novoPedido.DiretoriaPedido = _hostingEnvironment.WebRootPath + "\\PedidosAdocao\\" + novoPedido.Id;
                     CreateFolder(novoPedido.DiretoriaPedido);
                     _context.SaveChanges();
                     var filePath = novoPedido.DiretoriaPedido + "\\" + PedidoAdocao.File.FileName;
                     var fileStream = new FileStream(filePath, FileMode.Create);
-                    await PedidoAdocao.File.CopyToAsync(fileStream);*/
+                    await PedidoAdocao.File.CopyToAsync(fileStream);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
                     return NotFound();
                 }
-                return View("PedidoAdocaoRegistado");
+                return View("PedidoRegistado", "O seu pedido de adoção foi realizado com sucesso!");
             }
-            PedidoAdocao.NomeAdotante = (_context.Utilizadores.Where(u => u.Id == id).Include(p => p.Perfil).FirstOrDefault()).Perfil.FirstName;
+            PedidoAdocao.NomeAdotante = (_context.Utilizadores.Where(u => u.Id == _userManager.GetUserId(User)).Include(p => p.Perfil).FirstOrDefault()).Perfil.FirstName;
+            return View(PedidoAdocao);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> PedidoAdocaoEspecifico(PedidoAdocaoViewModel PedidoAdocao)
+        {
+            Utilizadores utilizador =_context.Utilizadores.Where(u => u.Id == _userManager.GetUserId(User)).Include(p => p.Perfil).FirstOrDefault();
+
+            if (utilizador == null)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    PedidoAdocao novoPedido = new PedidoAdocao
+                    {
+                        TipoAdocao = PedidoAdocao.TipoAdocao,
+                        AdotanteId = utilizador.Perfil.Id,
+                        AnimalId = PedidoAdocao.AnimalId,
+                        DataPedido = DateTime.Now,
+                        Morada = PedidoAdocao.Morada,
+                        Motivo = PedidoAdocao.Motivacao,
+                        OutrosAnimais = PedidoAdocao.OutrosAnimais,
+                        Aprovacao = "Em espera"
+                    };
+                    _context.PedidosAdocao.Add(novoPedido);
+                    _context.SaveChanges();
+                    novoPedido.DiretoriaPedido = _hostingEnvironment.WebRootPath + "\\PedidosAdocao\\" + novoPedido.Id;
+                    CreateFolder(novoPedido.DiretoriaPedido);
+                    _context.SaveChanges();
+                    var filePath = novoPedido.DiretoriaPedido + "\\" + PedidoAdocao.File.FileName;
+                    var fileStream = new FileStream(filePath, FileMode.Create);
+                    await PedidoAdocao.File.CopyToAsync(fileStream);
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    return NotFound();
+                }
+                return View("PedidoRegistado", "O seu pedido de adoção foi realizado com sucesso!");
+            }
+            PedidoAdocao.NomeAdotante = (_context.Utilizadores.Where(u => u.Id == _userManager.GetUserId(User)).Include(p => p.Perfil).FirstOrDefault()).Perfil.FirstName;
             return View(PedidoAdocao);
         }
 
@@ -469,210 +558,282 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             Utilizadores utilizador = _context.Utilizadores.Where(u => u.Id == id).Include(p => p.Perfil).FirstOrDefault();
             List<PedidoAdocao> pedidosAdocao = _context.PedidosAdocao.Where(p => p.AdotanteId == utilizador.PerfilId).Include(a => a.Animal).ToList();
             return View(pedidosAdocao);
-        }
-
-        [HttpGet]
-        public JsonResult Categorias()
-        {
-            var categorias = (from categoriaAux in _context.Categorias
-                              join a in _context.Racas on categoriaAux.Id equals a.CategoriaId
-                              join b in _context.Animais on a.Id equals b.RacaId
-                              orderby categoriaAux.Nome
-                              select new Categoria { Id = categoriaAux.Id, Nome = categoriaAux.Nome }).Distinct().ToList();
-            return Json(new SelectList(categorias, "Id", "Nome"));
-        }
-
-        [HttpGet]
-        public JsonResult PorteCategoriaSexo(int Categoria, string Sexo)
-        {
-            JsonResult retorno = null;
-            if (Categoria > 0)
-            {
-                if (!Sexo.Equals("Ambos"))
-                {
-                    var categorias = (from porteAux in _context.Portes
-                                      join a in _context.Animais on porteAux.Id equals a.PorteId
-                                      join b in _context.Racas on a.RacaId equals b.Id
-                                      join c in _context.Categorias on b.CategoriaId equals c.Id
-                                      where a.Sexo.Equals(Sexo) && c.Id.Equals(Categoria)
-                                      orderby porteAux.TipoPorte
-                                      select new Porte { Id = porteAux.Id, TipoPorte = porteAux.TipoPorte }).Distinct().ToList();
-                    retorno = Json(new SelectList(categorias, "Id", "TipoPorte"));
-                }
-                else
-                {
-                    var categorias = (from porteAux in _context.Portes
-                                      join a in _context.Animais on porteAux.Id equals a.PorteId
-                                      join b in _context.Racas on a.RacaId equals b.Id
-                                      join c in _context.Categorias on b.CategoriaId equals c.Id
-                                      where c.Id.Equals(Categoria)
-                                      orderby porteAux.TipoPorte
-                                      select new Porte { Id = porteAux.Id, TipoPorte = porteAux.TipoPorte }).Distinct().ToList();
-                    retorno = Json(new SelectList(categorias, "Id", "TipoPorte"));
-                }
-            }
-            else
-            {
-                if (!Sexo.Equals("Ambos"))
-                {
-                    var categorias = (from porteAux in _context.Portes
-                                      join a in _context.Animais on porteAux.Id equals a.PorteId
-                                      join b in _context.Racas on a.RacaId equals b.Id
-                                      join c in _context.Categorias on b.CategoriaId equals c.Id
-                                      where a.Sexo.Equals(Sexo)
-                                      orderby porteAux.TipoPorte
-                                      select new Porte { Id = porteAux.Id, TipoPorte = porteAux.TipoPorte }).Distinct().ToList();
-                    retorno = Json(new SelectList(categorias, "Id", "TipoPorte"));
-                }
-                else
-                {
-                    var categorias = (from porteAux in _context.Portes
-                                      join a in _context.Animais on porteAux.Id equals a.PorteId
-                                      join b in _context.Racas on a.RacaId equals b.Id
-                                      join c in _context.Categorias on b.CategoriaId equals c.Id
-                                      orderby porteAux.TipoPorte
-                                      select new Porte { Id = porteAux.Id, TipoPorte = porteAux.TipoPorte }).Distinct().ToList();
-                    retorno = Json(new SelectList(categorias, "Id", "TipoPorte"));
-                }
-            }
-            return retorno;
-        }
-
-        [HttpGet]
-        public JsonResult RacaCategoriaSexoPorte(int Categoria, string Sexo, int Porte)
-        {
-            JsonResult retorno = null;
-            if (Categoria > 0)
-            {
-                if (!Sexo.Equals("Ambos"))
-                { 
-                    if(Porte > 0)
-                    {
-                        var racas = (from racaAux in _context.Racas
-                                     join a in _context.Categorias on racaAux.CategoriaId equals a.Id
-                                     join b in _context.Animais on racaAux.Id equals b.RacaId
-                                     join c in _context.Portes on b.PorteId equals c.Id
-                                     where b.Sexo.Equals(Sexo) && b.PorteId.Equals(Porte) && racaAux.CategoriaId.Equals(Categoria)
-                                     orderby racaAux.NomeRaca
-                                     select new Raca { Id = racaAux.Id, NomeRaca = racaAux.NomeRaca }).Distinct().ToList();
-                        retorno = Json(new SelectList(racas, "Id", "NomeRaca"));
-                    }
-                    else
-                    {
-                        var racas = (from racaAux in _context.Racas
-                                     join a in _context.Categorias on racaAux.CategoriaId equals a.Id
-                                     join b in _context.Animais on racaAux.Id equals b.RacaId
-                                     join c in _context.Portes on b.PorteId equals c.Id
-                                     where b.Sexo.Equals(Sexo) && racaAux.CategoriaId.Equals(Categoria)
-                                     orderby racaAux.NomeRaca
-                                     select new Raca { Id = racaAux.Id, NomeRaca = racaAux.NomeRaca }).Distinct().ToList();
-                        retorno = Json(new SelectList(racas, "Id", "NomeRaca"));
-                    }
-                    
-                }
-                else
-                {
-                    if (Porte > 0)
-                    {
-                        var racas = (from racaAux in _context.Racas
-                                     join a in _context.Categorias on racaAux.CategoriaId equals a.Id
-                                     join b in _context.Animais on racaAux.Id equals b.RacaId
-                                     join c in _context.Portes on b.PorteId equals c.Id
-                                     where b.PorteId.Equals(Porte) && racaAux.CategoriaId.Equals(Categoria)
-                                     orderby racaAux.NomeRaca
-                                     select new Raca { Id = racaAux.Id, NomeRaca = racaAux.NomeRaca }).Distinct().ToList();
-                        retorno = Json(new SelectList(racas, "Id", "NomeRaca"));
-                    }
-                    else
-                    {
-                        var racas = (from racaAux in _context.Racas
-                                     join a in _context.Categorias on racaAux.CategoriaId equals a.Id
-                                     join b in _context.Animais on racaAux.Id equals b.RacaId
-                                     join c in _context.Portes on b.PorteId equals c.Id
-                                     where racaAux.CategoriaId.Equals(Categoria)
-                                     orderby racaAux.NomeRaca
-                                     select new Raca { Id = racaAux.Id, NomeRaca = racaAux.NomeRaca }).Distinct().ToList();
-                        retorno = Json(new SelectList(racas, "Id", "NomeRaca"));
-                    }
-                }
-            }
-            else
-            {
-                if (!Sexo.Equals("Ambos"))
-                {
-                    if (Porte > 0)
-                    {
-                        var racas = (from racaAux in _context.Racas
-                                     join a in _context.Categorias on racaAux.CategoriaId equals a.Id
-                                     join b in _context.Animais on racaAux.Id equals b.RacaId
-                                     join c in _context.Portes on b.PorteId equals c.Id
-                                     where b.Sexo.Equals(Sexo)  && b.PorteId.Equals(Porte)
-                                     orderby racaAux.NomeRaca
-                                     select new Raca { Id = racaAux.Id, NomeRaca = racaAux.NomeRaca }).Distinct().ToList();
-                        retorno = Json(new SelectList(racas, "Id", "NomeRaca"));
-                    }
-                    else
-                    {
-                        var racas = (from racaAux in _context.Racas
-                                     join a in _context.Categorias on racaAux.CategoriaId equals a.Id
-                                     join b in _context.Animais on racaAux.Id equals b.RacaId
-                                     join c in _context.Portes on b.PorteId equals c.Id
-                                     where b.Sexo.Equals(Sexo)
-                                     orderby racaAux.NomeRaca
-                                     select new Raca { Id = racaAux.Id, NomeRaca = racaAux.NomeRaca }).Distinct().ToList();
-                        retorno = Json(new SelectList(racas, "Id", "NomeRaca"));
-                    }
-                }
-                else
-                {
-                    if (Porte > 0)
-                    {
-                        var racas = (from racaAux in _context.Racas
-                                     join a in _context.Categorias on racaAux.CategoriaId equals a.Id
-                                     join b in _context.Animais on racaAux.Id equals b.RacaId
-                                     join c in _context.Portes on b.PorteId equals c.Id
-                                     where b.PorteId.Equals(Porte)
-                                     orderby racaAux.NomeRaca
-                                     select new Raca { Id = racaAux.Id, NomeRaca = racaAux.NomeRaca }).Distinct().ToList();
-                        retorno = Json(new SelectList(racas, "Id", "NomeRaca"));
-                    }
-                    else
-                    {
-                        var racas = (from racaAux in _context.Racas
-                                     join a in _context.Categorias on racaAux.CategoriaId equals a.Id
-                                     join b in _context.Animais on racaAux.Id equals b.RacaId
-                                     join c in _context.Portes on b.PorteId equals c.Id
-                                     orderby racaAux.NomeRaca
-                                     select new Raca { Id = racaAux.Id, NomeRaca = racaAux.NomeRaca }).Distinct().ToList();
-                        retorno = Json(new SelectList(racas, "Id", "NomeRaca"));
-                    }
-                }
-            }
-            return retorno;
         }        
+        
+
+        /****************************************************************************************************/
+        /***************************************** CONSULTAS SQL ********************************************/
+        /****************************************************************************************************/
+
 
         [HttpGet]
-        public JsonResult TodosAnimais()
+        public JsonResult AnimaisTipoAdocao(string TipoAdocao)
         {
             var animais = (from animal in _context.Animais
+                           where AnimaisNaoMostrar(TipoAdocao).Contains(animal.Id).Equals(false)
                            orderby animal.NomeAnimal
                            select new Animal { Id = animal.Id, NomeAnimal = animal.NomeAnimal, Foto = animal.Foto }).Distinct().ToList();
             return Json(new SelectList(animais, "Id", "NomeAnimal"));
         }
 
+        [HttpGet]
+        public JsonResult Categorias(string TipoAdocao, string Sexo)
+        {
+            JsonResult retorno = null;
+            if (!Sexo.Equals("Ambos"))
+            {
+                var categorias = (from categoriaAux in _context.Categorias
+                                  join a in _context.Racas on categoriaAux.Id equals a.CategoriaId
+                                  join b in _context.Animais on a.Id equals b.RacaId
+                                  where AnimaisNaoMostrar(TipoAdocao).Contains(b.Id).Equals(false) && b.Sexo.Equals(Sexo)
+                                  orderby categoriaAux.Nome
+                                  select new Categoria { Id = categoriaAux.Id, Nome = categoriaAux.Nome }).Distinct().ToList();
+                retorno = Json(new SelectList(categorias, "Id", "Nome"));
+            }
+            else
+            {
+                var categorias = (from categoriaAux in _context.Categorias
+                                  join a in _context.Racas on categoriaAux.Id equals a.CategoriaId
+                                  join b in _context.Animais on a.Id equals b.RacaId
+                                  where AnimaisNaoMostrar(TipoAdocao).Contains(b.Id).Equals(false)
+                                  orderby categoriaAux.Nome
+                                  select new Categoria { Id = categoriaAux.Id, Nome = categoriaAux.Nome }).Distinct().ToList();
+                retorno = Json(new SelectList(categorias, "Id", "Nome"));
+            }
+            return retorno;
+        }
 
         [HttpGet]
-        public JsonResult AnimaisSexo(string Sexo)
+        public JsonResult AnimaisTipoAdocaoSexo(string TipoAdocao, string Sexo)
+        {
+            JsonResult retorno = null;
+            if (!Sexo.Equals("Ambos"))
+            {
+                var animais = (from animal in _context.Animais
+                               orderby animal.NomeAnimal
+                               where AnimaisNaoMostrar(TipoAdocao).Contains(animal.Id).Equals(false) && animal.Sexo.Equals(Sexo)
+                               select new Animal { Id = animal.Id, NomeAnimal = animal.NomeAnimal, Foto = animal.Foto }).Distinct().ToList();
+                retorno = Json(new SelectList(animais, "Id", "NomeAnimal"));
+            }
+            else
+            {
+                var animais = (from animal in _context.Animais
+                               orderby animal.NomeAnimal
+                               where AnimaisNaoMostrar(TipoAdocao).Contains(animal.Id).Equals(false)
+                               select new Animal { Id = animal.Id, NomeAnimal = animal.NomeAnimal, Foto = animal.Foto }).Distinct().ToList();
+                retorno = Json(new SelectList(animais, "Id", "NomeAnimal"));
+            }
+            return retorno;
+        }
+
+        public List<int> AnimaisNaoMostrar(string TipoAdocao)
+        {
+            List<int> animaisAdotados = new List<int>();
+            if (TipoAdocao.Equals("Total"))
+            {
+                var adocoes = _context.Adocoes.ToList();
+                foreach(var adocao in adocoes)
+                {
+                    animaisAdotados.Add(_context.PedidosAdocao.Where(p => p.Id == adocao.PedidoAdocaoId).FirstOrDefault().AnimalId);
+                }
+            }
+            else
+            {
+                var adocoes = _context.Adocoes.ToList();
+                foreach (var adocao in adocoes)
+                {
+                    if(_context.PedidosAdocao.Where(p => p.Id == adocao.PedidoAdocaoId).FirstOrDefault().TipoAdocao.Equals("Total"))
+                    {
+                        animaisAdotados.Add(_context.PedidosAdocao.Where(p => p.Id == adocao.PedidoAdocaoId).FirstOrDefault().AnimalId);
+                    }
+                }
+            }
+            return animaisAdotados;
+        }
+
+        [HttpGet]
+        public JsonResult AnimaisSexo(string TipoAdocao, string Sexo)
         {
             var animais = (from animal in _context.Animais
-                           where animal.Sexo.Equals(Sexo)
+                           where animal.Sexo.Equals(Sexo) && AnimaisNaoMostrar(TipoAdocao).Contains(animal.Id).Equals(false)
                            orderby animal.NomeAnimal
                            select new Animal { Id = animal.Id, NomeAnimal = animal.NomeAnimal, Foto = animal.Foto }).Distinct().ToList();
             return Json(new SelectList(animais, "Id", "NomeAnimal"));
         }
 
         [HttpGet]
-        public JsonResult AnimaisCategoriaSexo(int Categoria, string Sexo)
+        public JsonResult PorteCategoriaSexo(string TipoAdocao, int Categoria, string Sexo)
+        {
+            JsonResult retorno = null;
+            if (Categoria > 0)
+            {
+                if (!Sexo.Equals("Ambos"))
+                {
+                    var categorias = (from porteAux in _context.Portes
+                                      join a in _context.Animais on porteAux.Id equals a.PorteId
+                                      join b in _context.Racas on a.RacaId equals b.Id
+                                      join c in _context.Categorias on b.CategoriaId equals c.Id
+                                      where a.Sexo.Equals(Sexo) && c.Id.Equals(Categoria) && AnimaisNaoMostrar(TipoAdocao).Contains(a.Id).Equals(false)
+                                      orderby porteAux.TipoPorte
+                                      select new Porte { Id = porteAux.Id, TipoPorte = porteAux.TipoPorte }).Distinct().ToList();
+                    retorno = Json(new SelectList(categorias, "Id", "TipoPorte"));
+                }
+                else
+                {
+                    var categorias = (from porteAux in _context.Portes
+                                      join a in _context.Animais on porteAux.Id equals a.PorteId
+                                      join b in _context.Racas on a.RacaId equals b.Id
+                                      join c in _context.Categorias on b.CategoriaId equals c.Id
+                                      where c.Id.Equals(Categoria) && AnimaisNaoMostrar(TipoAdocao).Contains(a.Id).Equals(false)
+                                      orderby porteAux.TipoPorte
+                                      select new Porte { Id = porteAux.Id, TipoPorte = porteAux.TipoPorte }).Distinct().ToList();
+                    retorno = Json(new SelectList(categorias, "Id", "TipoPorte"));
+                }
+            }
+            else
+            {
+                if (!Sexo.Equals("Ambos"))
+                {
+                    var categorias = (from porteAux in _context.Portes
+                                      join a in _context.Animais on porteAux.Id equals a.PorteId
+                                      join b in _context.Racas on a.RacaId equals b.Id
+                                      join c in _context.Categorias on b.CategoriaId equals c.Id
+                                      where a.Sexo.Equals(Sexo) && AnimaisNaoMostrar(TipoAdocao).Contains(a.Id).Equals(false)
+                                      orderby porteAux.TipoPorte
+                                      select new Porte { Id = porteAux.Id, TipoPorte = porteAux.TipoPorte }).Distinct().ToList();
+                    retorno = Json(new SelectList(categorias, "Id", "TipoPorte"));
+                }
+                else
+                {
+                    var categorias = (from porteAux in _context.Portes
+                                      join a in _context.Animais on porteAux.Id equals a.PorteId
+                                      join b in _context.Racas on a.RacaId equals b.Id
+                                      join c in _context.Categorias on b.CategoriaId equals c.Id
+                                      where AnimaisNaoMostrar(TipoAdocao).Contains(a.Id).Equals(false)
+                                      orderby porteAux.TipoPorte
+                                      select new Porte { Id = porteAux.Id, TipoPorte = porteAux.TipoPorte }).Distinct().ToList();
+                    retorno = Json(new SelectList(categorias, "Id", "TipoPorte"));
+                }
+            }
+            return retorno;
+        }
+
+        [HttpGet]
+        public JsonResult RacaCategoriaSexoPorte(string TipoAdocao, int Categoria, string Sexo, int Porte)
+        {
+            JsonResult retorno = null;
+            if (Categoria > 0)
+            {
+                if (!Sexo.Equals("Ambos"))
+                {
+                    if (Porte > 0)
+                    {
+                        var racas = (from racaAux in _context.Racas
+                                     join a in _context.Categorias on racaAux.CategoriaId equals a.Id
+                                     join b in _context.Animais on racaAux.Id equals b.RacaId
+                                     join c in _context.Portes on b.PorteId equals c.Id
+                                     where b.Sexo.Equals(Sexo) && b.PorteId.Equals(Porte) && racaAux.CategoriaId.Equals(Categoria) && AnimaisNaoMostrar(TipoAdocao).Contains(b.Id).Equals(false)
+                                     orderby racaAux.NomeRaca
+                                     select new Raca { Id = racaAux.Id, NomeRaca = racaAux.NomeRaca }).Distinct().ToList();
+                        retorno = Json(new SelectList(racas, "Id", "NomeRaca"));
+                    }
+                    else
+                    {
+                        var racas = (from racaAux in _context.Racas
+                                     join a in _context.Categorias on racaAux.CategoriaId equals a.Id
+                                     join b in _context.Animais on racaAux.Id equals b.RacaId
+                                     join c in _context.Portes on b.PorteId equals c.Id
+                                     where b.Sexo.Equals(Sexo) && racaAux.CategoriaId.Equals(Categoria) && AnimaisNaoMostrar(TipoAdocao).Contains(b.Id).Equals(false)
+                                     orderby racaAux.NomeRaca
+                                     select new Raca { Id = racaAux.Id, NomeRaca = racaAux.NomeRaca }).Distinct().ToList();
+                        retorno = Json(new SelectList(racas, "Id", "NomeRaca"));
+                    }
+
+                }
+                else
+                {
+                    if (Porte > 0)
+                    {
+                        var racas = (from racaAux in _context.Racas
+                                     join a in _context.Categorias on racaAux.CategoriaId equals a.Id
+                                     join b in _context.Animais on racaAux.Id equals b.RacaId
+                                     join c in _context.Portes on b.PorteId equals c.Id
+                                     where b.PorteId.Equals(Porte) && racaAux.CategoriaId.Equals(Categoria) && AnimaisNaoMostrar(TipoAdocao).Contains(b.Id).Equals(false)
+                                     orderby racaAux.NomeRaca
+                                     select new Raca { Id = racaAux.Id, NomeRaca = racaAux.NomeRaca }).Distinct().ToList();
+                        retorno = Json(new SelectList(racas, "Id", "NomeRaca"));
+                    }
+                    else
+                    {
+                        var racas = (from racaAux in _context.Racas
+                                     join a in _context.Categorias on racaAux.CategoriaId equals a.Id
+                                     join b in _context.Animais on racaAux.Id equals b.RacaId
+                                     join c in _context.Portes on b.PorteId equals c.Id
+                                     where racaAux.CategoriaId.Equals(Categoria) && AnimaisNaoMostrar(TipoAdocao).Contains(b.Id).Equals(false)
+                                     orderby racaAux.NomeRaca
+                                     select new Raca { Id = racaAux.Id, NomeRaca = racaAux.NomeRaca }).Distinct().ToList();
+                        retorno = Json(new SelectList(racas, "Id", "NomeRaca"));
+                    }
+                }
+            }
+            else
+            {
+                if (!Sexo.Equals("Ambos"))
+                {
+                    if (Porte > 0)
+                    {
+                        var racas = (from racaAux in _context.Racas
+                                     join a in _context.Categorias on racaAux.CategoriaId equals a.Id
+                                     join b in _context.Animais on racaAux.Id equals b.RacaId
+                                     join c in _context.Portes on b.PorteId equals c.Id
+                                     where b.Sexo.Equals(Sexo) && b.PorteId.Equals(Porte) && AnimaisNaoMostrar(TipoAdocao).Contains(b.Id).Equals(false)
+                                     orderby racaAux.NomeRaca
+                                     select new Raca { Id = racaAux.Id, NomeRaca = racaAux.NomeRaca }).Distinct().ToList();
+                        retorno = Json(new SelectList(racas, "Id", "NomeRaca"));
+                    }
+                    else
+                    {
+                        var racas = (from racaAux in _context.Racas
+                                     join a in _context.Categorias on racaAux.CategoriaId equals a.Id
+                                     join b in _context.Animais on racaAux.Id equals b.RacaId
+                                     join c in _context.Portes on b.PorteId equals c.Id
+                                     where b.Sexo.Equals(Sexo) && AnimaisNaoMostrar(TipoAdocao).Contains(b.Id).Equals(false)
+                                     orderby racaAux.NomeRaca
+                                     select new Raca { Id = racaAux.Id, NomeRaca = racaAux.NomeRaca }).Distinct().ToList();
+                        retorno = Json(new SelectList(racas, "Id", "NomeRaca"));
+                    }
+                }
+                else
+                {
+                    if (Porte > 0)
+                    {
+                        var racas = (from racaAux in _context.Racas
+                                     join a in _context.Categorias on racaAux.CategoriaId equals a.Id
+                                     join b in _context.Animais on racaAux.Id equals b.RacaId
+                                     join c in _context.Portes on b.PorteId equals c.Id
+                                     where b.PorteId.Equals(Porte) && AnimaisNaoMostrar(TipoAdocao).Contains(b.Id).Equals(false)
+                                     orderby racaAux.NomeRaca
+                                     select new Raca { Id = racaAux.Id, NomeRaca = racaAux.NomeRaca }).Distinct().ToList();
+                        retorno = Json(new SelectList(racas, "Id", "NomeRaca"));
+                    }
+                    else
+                    {
+                        var racas = (from racaAux in _context.Racas
+                                     join a in _context.Categorias on racaAux.CategoriaId equals a.Id
+                                     join b in _context.Animais on racaAux.Id equals b.RacaId
+                                     join c in _context.Portes on b.PorteId equals c.Id
+                                     where AnimaisNaoMostrar(TipoAdocao).Contains(b.Id).Equals(false)
+                                     orderby racaAux.NomeRaca
+                                     select new Raca { Id = racaAux.Id, NomeRaca = racaAux.NomeRaca }).Distinct().ToList();
+                        retorno = Json(new SelectList(racas, "Id", "NomeRaca"));
+                    }
+                }
+            }
+            return retorno;
+        }
+
+        [HttpGet]
+        public JsonResult AnimaisCategoriaSexo(string TipoAdocao, int Categoria, string Sexo)
         {
             JsonResult retorno = null;
             //Categoria selecionada
@@ -684,7 +845,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                     var animais = (from animal in _context.Animais
                                    join a in _context.Racas on animal.RacaId equals a.Id
                                    join b in _context.Categorias on a.CategoriaId equals b.Id
-                                   where Categoria.Equals(b.Id) && animal.Sexo.Equals(Sexo)
+                                   where Categoria.Equals(b.Id) && animal.Sexo.Equals(Sexo) && AnimaisNaoMostrar(TipoAdocao).Contains(animal.Id).Equals(false)
                                    orderby animal.NomeAnimal
                                    select new Animal { Id = animal.Id, NomeAnimal = animal.NomeAnimal, Foto = animal.Foto }).Distinct().ToList();
                     retorno = Json(new SelectList(animais, "Id", "NomeAnimal"));
@@ -695,7 +856,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                     var animais = (from animal in _context.Animais
                                    join a in _context.Racas on animal.RacaId equals a.Id
                                    join b in _context.Categorias on a.CategoriaId equals b.Id
-                                   where Categoria.Equals(b.Id)
+                                   where Categoria.Equals(b.Id) && AnimaisNaoMostrar(TipoAdocao).Contains(animal.Id).Equals(false)
                                    orderby animal.NomeAnimal
                                    select new Animal { Id = animal.Id, NomeAnimal = animal.NomeAnimal, Foto = animal.Foto }).Distinct().ToList();
                     retorno = Json(new SelectList(animais, "Id", "NomeAnimal"));
@@ -706,19 +867,19 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                 //Sexo Selecionado
                 if (!Sexo.Equals("Ambos"))
                 {
-                    retorno = AnimaisSexo(Sexo);
+                    retorno = AnimaisSexo(TipoAdocao, Sexo);
                 }
                 //Sexo nao selecionado
                 else
                 {
-                    retorno = TodosAnimais();
+                    retorno = AnimaisTipoAdocao(TipoAdocao);
                 }
             }
             return retorno;
         }
 
         [HttpGet]
-        public JsonResult AnimaisCategoriaSexoPorte(int Categoria, string Sexo, int Porte)
+        public JsonResult AnimaisCategoriaSexoPorte(string TipoAdocao, int Categoria, string Sexo, int Porte)
         {
             JsonResult retorno = null;
             //Categoria selecionada
@@ -732,7 +893,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                         var animais = (from animal in _context.Animais
                                        join a in _context.Racas on animal.RacaId equals a.Id
                                        join b in _context.Categorias on a.CategoriaId equals b.Id
-                                       where Categoria.Equals(b.Id) && animal.Sexo.Equals(Sexo) && animal.PorteId.Equals(Porte)
+                                       where Categoria.Equals(b.Id) && animal.Sexo.Equals(Sexo) && animal.PorteId.Equals(Porte) && AnimaisNaoMostrar(TipoAdocao).Contains(animal.Id).Equals(false)
                                        orderby animal.NomeAnimal
                                        select new Animal { Id = animal.Id, NomeAnimal = animal.NomeAnimal, Foto = animal.Foto }).Distinct().ToList();
                         retorno = Json(new SelectList(animais, "Id", "NomeAnimal"));
@@ -742,22 +903,22 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                         var animais = (from animal in _context.Animais
                                        join a in _context.Racas on animal.RacaId equals a.Id
                                        join b in _context.Categorias on a.CategoriaId equals b.Id
-                                       where Categoria.Equals(b.Id) && animal.Sexo.Equals(Sexo)
+                                       where Categoria.Equals(b.Id) && animal.Sexo.Equals(Sexo) && AnimaisNaoMostrar(TipoAdocao).Contains(animal.Id).Equals(false)
                                        orderby animal.NomeAnimal
                                        select new Animal { Id = animal.Id, NomeAnimal = animal.NomeAnimal, Foto = animal.Foto }).Distinct().ToList();
                         retorno = Json(new SelectList(animais, "Id", "NomeAnimal"));
                     }
-                    
+
                 }
                 //Sexo nao selecionado
                 else
                 {
-                    if(Porte > 0)
+                    if (Porte > 0)
                     {
                         var animais = (from animal in _context.Animais
                                        join a in _context.Racas on animal.RacaId equals a.Id
                                        join b in _context.Categorias on a.CategoriaId equals b.Id
-                                       where Categoria.Equals(b.Id) && animal.PorteId.Equals(Porte)
+                                       where Categoria.Equals(b.Id) && animal.PorteId.Equals(Porte) && AnimaisNaoMostrar(TipoAdocao).Contains(animal.Id).Equals(false)
                                        orderby animal.NomeAnimal
                                        select new Animal { Id = animal.Id, NomeAnimal = animal.NomeAnimal, Foto = animal.Foto }).Distinct().ToList();
                         retorno = Json(new SelectList(animais, "Id", "NomeAnimal"));
@@ -767,12 +928,12 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                         var animais = (from animal in _context.Animais
                                        join a in _context.Racas on animal.RacaId equals a.Id
                                        join b in _context.Categorias on a.CategoriaId equals b.Id
-                                       where Categoria.Equals(b.Id)
+                                       where Categoria.Equals(b.Id) && AnimaisNaoMostrar(TipoAdocao).Contains(animal.Id).Equals(false)
                                        orderby animal.NomeAnimal
                                        select new Animal { Id = animal.Id, NomeAnimal = animal.NomeAnimal, Foto = animal.Foto }).Distinct().ToList();
                         retorno = Json(new SelectList(animais, "Id", "NomeAnimal"));
                     }
-                    
+
                 }
             }
             else
@@ -785,14 +946,14 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                         var animais = (from animal in _context.Animais
                                        join a in _context.Racas on animal.RacaId equals a.Id
                                        join b in _context.Categorias on a.CategoriaId equals b.Id
-                                       where animal.Sexo.Equals(Sexo) && animal.PorteId.Equals(Porte)
+                                       where animal.Sexo.Equals(Sexo) && animal.PorteId.Equals(Porte) && AnimaisNaoMostrar(TipoAdocao).Contains(animal.Id).Equals(false)
                                        orderby animal.NomeAnimal
                                        select new Animal { Id = animal.Id, NomeAnimal = animal.NomeAnimal, Foto = animal.Foto }).Distinct().ToList();
                         retorno = Json(new SelectList(animais, "Id", "NomeAnimal"));
                     }
                     else
                     {
-                        retorno = AnimaisSexo(Sexo);
+                        retorno = AnimaisSexo(TipoAdocao, Sexo);
                     }
 
                 }
@@ -804,21 +965,21 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                         var animais = (from animal in _context.Animais
                                        join a in _context.Racas on animal.RacaId equals a.Id
                                        join b in _context.Categorias on a.CategoriaId equals b.Id
-                                       where animal.PorteId.Equals(Porte)
+                                       where animal.PorteId.Equals(Porte) && AnimaisNaoMostrar(TipoAdocao).Contains(animal.Id).Equals(false)
                                        orderby animal.NomeAnimal
                                        select new Animal { Id = animal.Id, NomeAnimal = animal.NomeAnimal, Foto = animal.Foto }).Distinct().ToList();
                         retorno = Json(new SelectList(animais, "Id", "NomeAnimal"));
                     }
                     else
                     {
-                        retorno = TodosAnimais();
+                        retorno = AnimaisTipoAdocao(TipoAdocao);
                     }
                 }
             }
             return retorno;
         }
         [HttpGet]
-        public JsonResult AnimaisCategoriaSexoPorteRaca(int Categoria, string Sexo, int Porte, int Raca)
+        public JsonResult AnimaisCategoriaSexoPorteRaca(string TipoAdocao, int Categoria, string Sexo, int Porte, int Raca)
         {
             JsonResult retorno = null;
             //Categoria selecionada
@@ -834,7 +995,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                             var animais = (from animal in _context.Animais
                                            join a in _context.Racas on animal.RacaId equals a.Id
                                            join b in _context.Categorias on a.CategoriaId equals b.Id
-                                           where Categoria.Equals(b.Id) && animal.Sexo.Equals(Sexo) && animal.PorteId.Equals(Porte) && animal.RacaId.Equals(Raca)
+                                           where Categoria.Equals(b.Id) && animal.Sexo.Equals(Sexo) && animal.PorteId.Equals(Porte) && animal.RacaId.Equals(Raca) && AnimaisNaoMostrar(TipoAdocao).Contains(animal.Id).Equals(false)
                                            orderby animal.NomeAnimal
                                            select new Animal { Id = animal.Id, NomeAnimal = animal.NomeAnimal, Foto = animal.Foto }).Distinct().ToList();
                             retorno = Json(new SelectList(animais, "Id", "NomeAnimal"));
@@ -844,7 +1005,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                             var animais = (from animal in _context.Animais
                                            join a in _context.Racas on animal.RacaId equals a.Id
                                            join b in _context.Categorias on a.CategoriaId equals b.Id
-                                           where Categoria.Equals(b.Id) && animal.Sexo.Equals(Sexo) && animal.PorteId.Equals(Porte)
+                                           where Categoria.Equals(b.Id) && animal.Sexo.Equals(Sexo) && animal.PorteId.Equals(Porte) && AnimaisNaoMostrar(TipoAdocao).Contains(animal.Id).Equals(false)
                                            orderby animal.NomeAnimal
                                            select new Animal { Id = animal.Id, NomeAnimal = animal.NomeAnimal, Foto = animal.Foto }).Distinct().ToList();
                             retorno = Json(new SelectList(animais, "Id", "NomeAnimal"));
@@ -858,7 +1019,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                             var animais = (from animal in _context.Animais
                                            join a in _context.Racas on animal.RacaId equals a.Id
                                            join b in _context.Categorias on a.CategoriaId equals b.Id
-                                           where Categoria.Equals(b.Id) && animal.Sexo.Equals(Sexo) && animal.RacaId.Equals(Raca)
+                                           where Categoria.Equals(b.Id) && animal.Sexo.Equals(Sexo) && animal.RacaId.Equals(Raca) && AnimaisNaoMostrar(TipoAdocao).Contains(animal.Id).Equals(false)
                                            orderby animal.NomeAnimal
                                            select new Animal { Id = animal.Id, NomeAnimal = animal.NomeAnimal, Foto = animal.Foto }).Distinct().ToList();
                             retorno = Json(new SelectList(animais, "Id", "NomeAnimal"));
@@ -868,7 +1029,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                             var animais = (from animal in _context.Animais
                                            join a in _context.Racas on animal.RacaId equals a.Id
                                            join b in _context.Categorias on a.CategoriaId equals b.Id
-                                           where Categoria.Equals(b.Id) && animal.Sexo.Equals(Sexo)
+                                           where Categoria.Equals(b.Id) && animal.Sexo.Equals(Sexo) && AnimaisNaoMostrar(TipoAdocao).Contains(animal.Id).Equals(false)
                                            orderby animal.NomeAnimal
                                            select new Animal { Id = animal.Id, NomeAnimal = animal.NomeAnimal, Foto = animal.Foto }).Distinct().ToList();
                             retorno = Json(new SelectList(animais, "Id", "NomeAnimal"));
@@ -886,7 +1047,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                             var animais = (from animal in _context.Animais
                                            join a in _context.Racas on animal.RacaId equals a.Id
                                            join b in _context.Categorias on a.CategoriaId equals b.Id
-                                           where Categoria.Equals(b.Id) && animal.PorteId.Equals(Porte) && animal.RacaId.Equals(Raca)
+                                           where Categoria.Equals(b.Id) && animal.PorteId.Equals(Porte) && animal.RacaId.Equals(Raca) && AnimaisNaoMostrar(TipoAdocao).Contains(animal.Id).Equals(false)
                                            orderby animal.NomeAnimal
                                            select new Animal { Id = animal.Id, NomeAnimal = animal.NomeAnimal, Foto = animal.Foto }).Distinct().ToList();
                             retorno = Json(new SelectList(animais, "Id", "NomeAnimal"));
@@ -896,7 +1057,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                             var animais = (from animal in _context.Animais
                                            join a in _context.Racas on animal.RacaId equals a.Id
                                            join b in _context.Categorias on a.CategoriaId equals b.Id
-                                           where Categoria.Equals(b.Id) && animal.PorteId.Equals(Porte)
+                                           where Categoria.Equals(b.Id) && animal.PorteId.Equals(Porte) && AnimaisNaoMostrar(TipoAdocao).Contains(animal.Id).Equals(false)
                                            orderby animal.NomeAnimal
                                            select new Animal { Id = animal.Id, NomeAnimal = animal.NomeAnimal, Foto = animal.Foto }).Distinct().ToList();
                             retorno = Json(new SelectList(animais, "Id", "NomeAnimal"));
@@ -909,7 +1070,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                             var animais = (from animal in _context.Animais
                                            join a in _context.Racas on animal.RacaId equals a.Id
                                            join b in _context.Categorias on a.CategoriaId equals b.Id
-                                           where Categoria.Equals(b.Id) && animal.RacaId.Equals(Raca)
+                                           where Categoria.Equals(b.Id) && animal.RacaId.Equals(Raca) && AnimaisNaoMostrar(TipoAdocao).Contains(animal.Id).Equals(false)
                                            orderby animal.NomeAnimal
                                            select new Animal { Id = animal.Id, NomeAnimal = animal.NomeAnimal, Foto = animal.Foto }).Distinct().ToList();
                             retorno = Json(new SelectList(animais, "Id", "NomeAnimal"));
@@ -919,7 +1080,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                             var animais = (from animal in _context.Animais
                                            join a in _context.Racas on animal.RacaId equals a.Id
                                            join b in _context.Categorias on a.CategoriaId equals b.Id
-                                           where Categoria.Equals(b.Id)
+                                           where Categoria.Equals(b.Id) && AnimaisNaoMostrar(TipoAdocao).Contains(animal.Id).Equals(false)
                                            orderby animal.NomeAnimal
                                            select new Animal { Id = animal.Id, NomeAnimal = animal.NomeAnimal, Foto = animal.Foto }).Distinct().ToList();
                             retorno = Json(new SelectList(animais, "Id", "NomeAnimal"));
@@ -939,7 +1100,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                             var animais = (from animal in _context.Animais
                                            join a in _context.Racas on animal.RacaId equals a.Id
                                            join b in _context.Categorias on a.CategoriaId equals b.Id
-                                           where animal.Sexo.Equals(Sexo) && animal.PorteId.Equals(Porte) && animal.RacaId.Equals(Raca)
+                                           where animal.Sexo.Equals(Sexo) && animal.PorteId.Equals(Porte) && animal.RacaId.Equals(Raca) && AnimaisNaoMostrar(TipoAdocao).Contains(animal.Id).Equals(false)
                                            orderby animal.NomeAnimal
                                            select new Animal { Id = animal.Id, NomeAnimal = animal.NomeAnimal, Foto = animal.Foto }).Distinct().ToList();
                             retorno = Json(new SelectList(animais, "Id", "NomeAnimal"));
@@ -949,7 +1110,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                             var animais = (from animal in _context.Animais
                                            join a in _context.Racas on animal.RacaId equals a.Id
                                            join b in _context.Categorias on a.CategoriaId equals b.Id
-                                           where animal.Sexo.Equals(Sexo) && animal.PorteId.Equals(Porte)
+                                           where animal.Sexo.Equals(Sexo) && animal.PorteId.Equals(Porte) && AnimaisNaoMostrar(TipoAdocao).Contains(animal.Id).Equals(false)
                                            orderby animal.NomeAnimal
                                            select new Animal { Id = animal.Id, NomeAnimal = animal.NomeAnimal, Foto = animal.Foto }).Distinct().ToList();
                             retorno = Json(new SelectList(animais, "Id", "NomeAnimal"));
@@ -962,14 +1123,14 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                             var animais = (from animal in _context.Animais
                                            join a in _context.Racas on animal.RacaId equals a.Id
                                            join b in _context.Categorias on a.CategoriaId equals b.Id
-                                           where animal.Sexo.Equals(Sexo) && animal.RacaId.Equals(Raca)
+                                           where animal.Sexo.Equals(Sexo) && animal.RacaId.Equals(Raca) && AnimaisNaoMostrar(TipoAdocao).Contains(animal.Id).Equals(false)
                                            orderby animal.NomeAnimal
                                            select new Animal { Id = animal.Id, NomeAnimal = animal.NomeAnimal, Foto = animal.Foto }).Distinct().ToList();
                             retorno = Json(new SelectList(animais, "Id", "NomeAnimal"));
                         }
                         else
                         {
-                            retorno = AnimaisSexo(Sexo);
+                            retorno = AnimaisSexo(TipoAdocao, Sexo);
                         }
                     }
                 }
@@ -983,7 +1144,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                             var animais = (from animal in _context.Animais
                                            join a in _context.Racas on animal.RacaId equals a.Id
                                            join b in _context.Categorias on a.CategoriaId equals b.Id
-                                           where animal.PorteId.Equals(Porte) && animal.RacaId.Equals(Raca)
+                                           where animal.PorteId.Equals(Porte) && animal.RacaId.Equals(Raca) && AnimaisNaoMostrar(TipoAdocao).Contains(animal.Id).Equals(false)
                                            orderby animal.NomeAnimal
                                            select new Animal { Id = animal.Id, NomeAnimal = animal.NomeAnimal, Foto = animal.Foto }).Distinct().ToList();
                             retorno = Json(new SelectList(animais, "Id", "NomeAnimal"));
@@ -993,7 +1154,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                             var animais = (from animal in _context.Animais
                                            join a in _context.Racas on animal.RacaId equals a.Id
                                            join b in _context.Categorias on a.CategoriaId equals b.Id
-                                           where animal.PorteId.Equals(Porte)
+                                           where animal.PorteId.Equals(Porte) && AnimaisNaoMostrar(TipoAdocao).Contains(animal.Id).Equals(false)
                                            orderby animal.NomeAnimal
                                            select new Animal { Id = animal.Id, NomeAnimal = animal.NomeAnimal, Foto = animal.Foto }).Distinct().ToList();
                             retorno = Json(new SelectList(animais, "Id", "NomeAnimal"));
@@ -1006,14 +1167,14 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                             var animais = (from animal in _context.Animais
                                            join a in _context.Racas on animal.RacaId equals a.Id
                                            join b in _context.Categorias on a.CategoriaId equals b.Id
-                                           where animal.RacaId.Equals(Raca)
+                                           where animal.RacaId.Equals(Raca) && AnimaisNaoMostrar(TipoAdocao).Contains(animal.Id).Equals(false)
                                            orderby animal.NomeAnimal
                                            select new Animal { Id = animal.Id, NomeAnimal = animal.NomeAnimal, Foto = animal.Foto }).Distinct().ToList();
                             retorno = Json(new SelectList(animais, "Id", "NomeAnimal"));
                         }
                         else
                         {
-                            retorno = TodosAnimais();
+                            retorno = AnimaisTipoAdocao(TipoAdocao);
                         }
                     }
                 }
@@ -1078,7 +1239,8 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult perdirAmizade(Amizades model) {
+        public ActionResult perdirAmizade(Amizades model)
+        {
             return View();
         }
 
@@ -1095,14 +1257,14 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                 .FirstOrDefault();
 
             var listaPedidos = from amigos in _context.Amizades
-                              where amigos.IdPerfilAceitar == utilizadorPerfil.Id 
-                              && amigos.Amigos == false 
-                              && amigos.ExistePedido == true
-                              select amigos;
+                               where amigos.IdPerfilAceitar == utilizadorPerfil.Id
+                               && amigos.Amigos == false
+                               && amigos.ExistePedido == true
+                               select amigos;
 
             List<Amizades> todosAmigos = listaPedidos.ToList();
 
-            return View("pedidosAmizade",listaPedidos);
+            return View("pedidosAmizade", listaPedidos);
         }
         /// <summary>
         /// 
@@ -1134,9 +1296,9 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                               select amigos;
 
             List<Amizades> todosAmigos = listaAmigos.ToList();
-            return View("listaAmizades",todosAmigos);
+            return View("listaAmizades", todosAmigos);
         }
-      
+
 
 
         private bool CreateFolder(string path)
