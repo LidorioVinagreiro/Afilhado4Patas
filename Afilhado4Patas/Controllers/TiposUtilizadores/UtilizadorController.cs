@@ -1113,20 +1113,25 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> pedirAmizade(AmizadeViewModel model) {
-            Utilizadores user = await _userManager.GetUserAsync(this.User);
-            Perfil idPerfilUser = _context.PerfilTable.Where(u => u.UtilizadorId == user.Id).FirstOrDefault();
-            Amizades amizade = new Amizades
+            if (ModelState.IsValid)
             {
-                IdPerfilAceitar = model.idPerfilPossivelAmizade,
-                IdPerfilPediu = idPerfilUser.Id,
-                IdAnimalEmComum = model.idAnimalComum,
-                ExistePedido = true,
-                Amigos = false
-            };
-            _context.Amizades.Add(amizade);
-            await _context.SaveChangesAsync();
-            return RedirectToAction("pedirAmizade");
+                Utilizadores user = await _userManager.GetUserAsync(this.User);
+                Perfil idPerfilUser = _context.PerfilTable.Where(u => u.UtilizadorId == user.Id).FirstOrDefault();
+                Amizades amizade = new Amizades
+                {
+                    IdPerfilAceitar = model.idPerfilPossivelAmizade,
+                    IdPerfilPediu = idPerfilUser.Id,
+                    IdAnimalEmComum = model.idAnimalComum,
+                    ExistePedido = true,
+                    Amigos = false
+                };
+                _context.Amizades.Add(amizade);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("pedirAmizade");
+            }
+            return NotFound();
         }
 
         /// <summary>
@@ -1176,16 +1181,18 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> pedidosAmizadeAceitar(AmizadePedidoViewModel model)
         {
-            Utilizadores user = await _userManager.GetUserAsync(this.User);
-            user.Perfil = _context.PerfilTable.Where(p => p.UtilizadorId == user.Id).FirstOrDefault();
-                    _context.Amizades.Where(a => a.Id == model.id).FirstOrDefault().Amigos = true;
-                    _context.SaveChanges();
-
-            
-
-            return RedirectToAction("pedidosAmizade");
+            if (ModelState.IsValid)
+            {
+                Utilizadores user = await _userManager.GetUserAsync(this.User);
+                user.Perfil = _context.PerfilTable.Where(p => p.UtilizadorId == user.Id).FirstOrDefault();
+                _context.Amizades.Where(a => a.Id == model.id).FirstOrDefault().Amigos = true;
+                _context.SaveChanges();
+                return RedirectToAction("pedidosAmizade");
+            }
+            return NotFound();
         }
         /// <summary>
         /// Esta ação recusa o pedido de amizade de outro utilizador
@@ -1193,17 +1200,19 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> pedidosAmizadeRecusar(AmizadePedidoViewModel model)
         {
-            Utilizadores user = await _userManager.GetUserAsync(this.User);
-            user.Perfil = _context.PerfilTable.Where(p => p.UtilizadorId == user.Id).FirstOrDefault();
-
-                    Amizades amigos = _context.Amizades.Where(a => a.Id == model.id).FirstOrDefault();
-                    _context.Amizades.Remove(amigos);
-                    _context.SaveChanges();
-
-
-            return RedirectToAction("pedidosAmizade");
+            if (ModelState.IsValid)
+            {
+                Utilizadores user = await _userManager.GetUserAsync(this.User);
+                user.Perfil = _context.PerfilTable.Where(p => p.UtilizadorId == user.Id).FirstOrDefault();
+                Amizades amigos = _context.Amizades.Where(a => a.Id == model.id).FirstOrDefault();
+                _context.Amizades.Remove(amigos);
+                _context.SaveChanges();
+                return RedirectToAction("pedidosAmizade");
+            }
+            return NotFound();
         }
 
         /// <summary>
@@ -1242,6 +1251,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         /// </summary>
         /// <returns></returns>
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> listaAmizades(AmizadeListaViewModel model)
         {
             _context.Amizades.Remove(_context.Amizades.Where(a => a.Id == model.Id).FirstOrDefault());
@@ -1301,6 +1311,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         /// <param name="path"></param>
         /// <returns></returns>
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> listaPedidos(AmizadePedidoViewModel model)
         {
             Utilizadores user = await _userManager.GetUserAsync(this.User);

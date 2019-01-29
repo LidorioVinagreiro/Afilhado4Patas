@@ -18,11 +18,10 @@ namespace Afilhado4Patas.Models
         public int IdPerfilAceitar { get; set; }
         [ForeignKey("Animal")]
         public int IdAnimalEmComum { get; set; }
-
         public bool Amigos { get; set; }
         public bool? ExistePedido { get; set; }
+
         public virtual Animal AnimalComumAosDois { get; set; }
-        //o valor de amigos tem que ser preenchido?
         public virtual Perfil PossivelAmigo { get; set; }
 
         public Amizades()

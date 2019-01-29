@@ -1,7 +1,7 @@
 ﻿@model Afilhado4Patas.Models.ViewModels.AmizadeViewModel
 
 
-<form asp-action="pedirAmizade" style="margin-left:10px">
+<form asp-action="pedirAmizade" style="margin-left:10px;width:31.3% !important">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <input type="hidden" asp-for="idAnimalComum" />
     <input type="hidden" asp-for="idPerfilPossivelAmizade" />
@@ -38,67 +38,5 @@
             </ul>
         </div>
     </div>
+    @Html.AntiForgeryToken()
 </form>
-
-@*<div class="container" style="background-color : #FFFFFF">
-    <div class="row">
-        <div class="col-sm-5">
-            <div class="panel panel-primary">
-                <div class="panel-heading">Animal</div>
-                <div class="panel-body">
-                    @if (Model.AnimalEmComum.Foto != "")
-                    {
-                        if (!(Model.AnimalEmComum.Foto is null))
-                        {
-                            string src = "/Animais/" + @Model.AnimalEmComum.Id + "/" + @Model.AnimalEmComum.Foto;
-                            <img src="src" alt="Dog Image" class="img-responsive" style="width:100%" />
-                        }
-                        else
-                        {
-                            <img src="~/images/dog-profile.png" alt="Dog Image" class="img-responsive" style="width:100%" />
-                        }
-                    }
-                    else
-                    {
-                        <img src="~/images/dog-profile.png" alt="Dog Image" class="img-responsive" style="width:100%" />
-                    }
-                </div>
-                <div class="panel-footer">
-                    <label asp-for="@Model.AnimalEmComum.NomeAnimal" class="control-label"></label>
-                    <span>@Model.AnimalEmComum.NomeAnimal</span>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-5">
-            <div class="panel panel-primary">
-                <div class="panel-heading">Padrinho</div>
-                @if (Model.PerfilPossivelAmizade.Photo != "")
-                {
-                    if (!(Model.PerfilPossivelAmizade.Photo is null))
-                    {
-                        <img src="@Model.PerfilPossivelAmizade.Photo" alt="User Image" class="img-responsive" style="width:100%" />
-                    }
-                    else
-                    {
-                        <img src="~/images/default.jpg" alt="User Image" class="img-responsive" style="width:100%" />
-                    }
-                }
-                else
-                {
-                    <img src="~/images/default.jpg" alt="user Image" class="img-responsive" style="width:100%" />
-                }
-                <div class="panel-footer">
-                    <label asp-for="Nome" class="control-label"></label>
-                    <span>@Model.Nome</span>
-                </div>
-            </div>
-        </div>
-
-    </div>
-    <row>
-        <div class="col-sm-offset-1">
-            <input type="submit" value="Enviar pedido amizade" class="btn btn-default btn-block" />
-        </div>
-    </row>
-</div>
-    </div>*@

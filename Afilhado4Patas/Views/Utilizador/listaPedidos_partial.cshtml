@@ -1,6 +1,6 @@
 ﻿@model Afilhado4Patas.Models.ViewModels.AmizadePedidoViewModel
 
-<form asp-action="listaPedidos">
+<form asp-action="listaPedidos" style="margin-left:10px;width:31.3% !important">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <input type="hidden" asp-for="idAnimalComum" />
     <input type="hidden" asp-for="idPerfilPediuAmizade" />
@@ -38,6 +38,7 @@
             </ul>
         </div>
     </div>
+    @Html.AntiForgeryToken()
 </form>
 
 
