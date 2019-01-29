@@ -1423,9 +1423,41 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         {
             var listCalendario = new List<object>();
 
-            //var select = _context.
+            var resSelect = new List<object>();
 
-            return Json();
+            var selectPasseios = (from passeio in _context.PedidosPasseio
+                                    where passeio.Aprovacao == "Aprovado"
+                                    select passeio).Include(u => u.Adotante).ThenInclude(u => u.Perfil);
+            var selectFinsDeSemana = (from fimDeSemana in _context.PedidosFimSemana
+                                        where fimDeSemana.Aprovacao == "Aprovado"
+                                        select fimDeSemana).Include(u => u.Adotante).ThenInclude(u => u.Perfil);
+            resSelect.Union(selectPasseios).Union(selectFinsDeSemana);
+
+            foreach (var item in selectFinsDeSemana)
+            {
+                listCalendario.Add(
+                        new
+                        {
+                            title = item.Adotante.Perfil.FirstName,
+                            start = item.DataInicio,
+                            end = item.DataFim
+                        }
+                    );
+            }
+
+            foreach (var item in selectPasseios)
+            {
+                listCalendario.Add(
+                    new
+                    {
+                        title = item.Adotante.Perfil.FirstName,
+                        start = item.DataPasseio,
+                        end = ""
+                    }
+                );
+            }
+
+            return Json(listCalendario);
         }
 
     }
