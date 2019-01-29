@@ -83,6 +83,13 @@ namespace Afilhado4Patas
                 Directory.CreateDirectory(pathAnimais);
             }
 
+            string pedidosAdocao = "\\PedidosAdocao";
+            string pathPedidosAdocao = env.WebRootPath + pedidosAdocao;
+            if (!Directory.Exists(pathPedidosAdocao))
+            {
+                Directory.CreateDirectory(pathPedidosAdocao);
+            }
+
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 

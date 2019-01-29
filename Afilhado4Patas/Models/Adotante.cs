@@ -13,14 +13,13 @@ namespace Afilhado4Patas.Models
         [Key]
         public int Id { get; set; }
 
-        [ForeignKey("Utilizadores")]
-        public string AdotanteId { get; set; }
-
-        public virtual Utilizadores Adotante_User { get; set; }
+        [ForeignKey("Perfil")]
+        public int AdotanteId { get; set; }
 
         [ForeignKey("Animal")]
         public int AnimalId { get; set; }
 
+        public virtual Perfil Adotante_User { get; set; }
         public virtual Animal Animal { get; set; }
     }
 }

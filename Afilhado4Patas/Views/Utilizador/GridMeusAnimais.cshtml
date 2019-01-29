@@ -1,0 +1,96 @@
+﻿@model List<Animal>
+@using Afilhado4Patas.Data
+
+@inject ApplicationDbContext Context
+
+@do
+{
+    <div id="container" class="container">
+        <div id="row" class="row">
+            @{
+                var contador = 0;
+                foreach (var animal in Model)
+                {
+                    if (contador < 3)
+                    {
+                        contador++;
+                        Adocao adocaoAnimal = null;
+                        List<Adocao> adocoes = Context.Adocoes.ToList();
+                        foreach (var adocao in adocoes)
+                        {
+                            adocao.Pedido = Context.PedidosAdocao.Where(p => p.Id == adocao.PedidoAdocaoId).FirstOrDefault();
+                            if (adocao.Pedido.AnimalId == animal.Id)
+                            {
+                                adocaoAnimal = adocao;
+                                break;
+                            }
+                        }
+                        <div class="animal_item">
+                            <div class="product-grid6">
+                                <div class="product-image6">
+                                    @{
+                                        if (animal.Foto != null)
+                                        {
+                                            string src = "/Animais/" + animal.Id + "/" + animal.Foto;
+                                            <img class="pic-1" src="@src" />
+                                        }
+                                        else
+                                        {
+                                            <img class="pic-1" src="~/images/dog-profile.png" />
+                                        }
+                                    }
+                                </div>
+                                <div class="product-content">
+                                    <h3 class="title">@animal.NomeAnimal</h3>
+                                    <div>
+                                        @animal.Peso Kg
+                                        <span>@animal.PorteAnimal.TipoPorte</span>
+                                        @animal.Sexo
+                                    </div>
+                                </div>
+                                <ul class="social">
+                                    <li>
+                                        <a asp-controller="Utilizador" asp-action="FichaAnimal" data-tip="Ver Animal" asp-route-id=@animal.Id>
+                                            <i class="fa fa-paw"></i>
+                                        </a>
+
+                                    </li>
+                                    @if (adocaoAnimal.Pedido.TipoAdocao == "Parcial")
+                                    {
+                                        <li>
+                                            <a asp-controller="Utilizador" asp-action="PedidoFimSemana" data-tip="Marcar Fim de Semana" asp-route-id=@animal.Id>
+                                                <i class="fa fa-home"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a asp-controller="Utilizador" asp-action="PedidoPasseio" data-tip="Marcar Passeio" asp-route-id=@animal.Id>
+                                                <i class="fa fa-walking"></i>
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                                @if (adocaoAnimal.Pedido.TipoAdocao == "Total")
+                                {
+                                    <span class="product-discount-label" style="background-color: #c54b46">Adotado</span>
+                                }
+                                else
+                                {
+                                    <span class="product-discount-label" style="background-color: #0081c2">Apadrinhado</span>
+                                }
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                //Remover animais adicionados ao grid
+                for (int i = 0; i < contador; i++)
+                {
+                    Model.Remove(Model[0]);
+                }
+            }
+        </div>
+    </div>
+} while (Model.Count() > 0);

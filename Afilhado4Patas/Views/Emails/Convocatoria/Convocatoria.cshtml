@@ -1,0 +1,20 @@
+﻿@using Afilhado4Patas.Models.ViewModels
+@model EmailConvocatoriaViewModel
+
+@{
+    ViewData["EmailTitle"] = "Convocatória";
+}
+
+<p>
+    Caro @Model.Nome,
+</p>
+<p>
+    Gostariamos de o convocar caso tenha disponibilidade que venha ao nosso canil para que possamos reavaliar o(a) @Model.NomeAnimal,
+</p>
+<p>
+    Notas: @Model.Descricao
+</p>
+<br />
+<p>
+    Equipa de Suporte Afilhados4Patas
+</p>

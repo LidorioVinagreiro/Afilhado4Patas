@@ -93,9 +93,10 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             if (animal.Adoptado)
             {
                 animal.Adotantes = new List<Utilizadores>();
-                foreach(var adotantes in _context.Adotantes.Where(a => a.AnimalId == animal.Id).ToList())
+                foreach(var adotantes in _context.Adotantes.Where(a => a.AnimalId == animal.Id).Include(u => u.Adotante_User).ToList())
                 {
-                    animal.Adotantes.Add(_context.Utilizadores.Where(u => u.Id == adotantes.AdotanteId).FirstOrDefault());
+                    Utilizadores user = _context.Utilizadores.Where(x => x.PerfilId == adotantes.Adotante_User.Id).FirstOrDefault(); 
+                    animal.Adotantes.Add(user);
                 }
             }
             return View("../Shared/FichaAnimal", animal);
@@ -108,6 +109,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         public IActionResult RegistoCompleto()
         {
             return View("../Shared/RegistoCompleto");
+        }
+
+        public IActionResult RealizarLogin()
+        {
+            return View();
         }
 
         /// <summary>

@@ -119,3 +119,25 @@ O peso deverá ser superior a 0 Kg e menor que 200 Kg"></span>
         <span id="options_spans">Voltar</span>
     </a>
 </div>
+
+<script>
+    var nowDate = new Date();
+    var today = new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate(), 0, 0, 0, 0);
+    var tomorrow = new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate() + 1, 0, 0, 0, 0);
+    $(document).ready(function () {
+        $('#datepicker_animal').datepicker({
+            format: "dd/MM/yyyy",
+            startDate: new Date(1990, 1, 1),
+            endDate: '+1d',
+            datesDisabled: '+1d',
+            autoclose: true,
+            todayHighlight: true,
+            showOtherMonths: true,
+            selectOtherMonths: true,
+            autoclose: true,
+            changeMonth: true,
+            changeYear: true,
+            orientation: "button"
+        });
+    });
+</script>

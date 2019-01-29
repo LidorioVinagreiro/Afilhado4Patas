@@ -1,0 +1,45 @@
+﻿@model Afilhado4Patas.Models.ViewModels.AmizadeListaViewModel
+
+
+<form asp-action="listaAmizades" style="margin-left:10px;width:31.3% !important">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="AmigoId" />
+    <div class="amizade_item">
+        <div class="product-grid6">
+            <div class="product-image6">
+                @{
+                    if (Model.Amigo.Photo != null)
+                    {
+                        string src = "/Utilizadores/" + Model.Amigo.Utilizador.Id + "/" + Model.Amigo.Photo;
+                        <img class="pic-1" src="@src" />
+                    }
+                    else
+                    {
+                        <img class="pic-1" src="~/images/default.jpg" />
+                    }
+                }
+            </div>
+            <div class="product-content">
+                <h3 class="title">@Model.Amigo.FirstName</h3>
+                <div>
+                    @*@adocao.Pedido.Animal.Peso Kg
+                        <span>@adocao.Pedido.Animal.PorteAnimal.TipoPorte</span>
+                        @adocao.Pedido.Animal.Sexo
+                            METER ANIMAIS EM COMUM
+                    *@
+                </div>
+            </div>
+            <ul class="social">
+                <li>
+                    <input type="submit" value="Apagar Amigo" class="btn btn-default" />
+                </li>
+
+            </ul>
+        </div>
+    </div>
+    @Html.AntiForgeryToken()
+</form>   
+
+
+

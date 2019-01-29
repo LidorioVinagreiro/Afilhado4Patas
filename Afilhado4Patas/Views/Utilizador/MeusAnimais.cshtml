@@ -1,0 +1,21 @@
+﻿@using Afilhado4Patas.Data
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<Utilizadores> SignInManager
+@inject UserManager<Utilizadores> UserManager
+@inject ApplicationDbContext Context
+
+@model List<Afilhado4Patas.Models.Animal>
+
+@{
+    ViewData["Title"] = "MeusAnimais";
+}
+
+<div id="page">
+    <h2>Os Meus Animais</h2>
+    <div id="container_center">
+        @{
+            @Html.Partial("GridMeusAnimais", Model)
+        }
+    </div>
+</div>
+

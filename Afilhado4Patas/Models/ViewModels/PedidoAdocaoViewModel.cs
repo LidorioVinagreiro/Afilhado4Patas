@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Afilhado4Patas.Data;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -10,12 +12,17 @@ namespace Afilhado4Patas.Models.ViewModels
     public class PedidoAdocaoViewModel
     {
         [Display(Name = "Selecione o tipo de adoção que pretende")]
+        [Required(ErrorMessage = "Selecione um dos campos Adoção Total ou Apadrinhamento")]
         public string TipoAdocao { get; set; }
 
         [Display(Name = "Nome do Adotante")]
+        [RegularExpression(@"^[a-zA-Zà-úÀ-Úâ-ûÂ-Ûã-õÃ-Õ ]+$", ErrorMessage = "Use apenas letras neste campo")]
+        [StringLength(30, ErrorMessage = "O {0} deverá ter um maximo de {1} caracteres de comprimento.")]
         public string NomeAdotante { get; set; }
 
         [Display(Name = "Mora em")]
+        [Required(ErrorMessage = "Preencha este campo com a sua Morada!")]
+        [StringLength(30, ErrorMessage = "A {0} deverá ter um maximo de {1} caracteres de comprimento.")]
         public string Morada { get; set; }
 
         [Display(Name = "Sexo do Animal")]
@@ -31,26 +38,47 @@ namespace Afilhado4Patas.Models.ViewModels
         public string Raca { get; set; }
 
         [Display(Name = "Animal")]
-        public int Animal { get; set; }
+        [Required(ErrorMessage = "Selecione este campo")]
+        public int AnimalId { get; set; }
 
         [Display(Name = "Telefone")]
+        [Required(ErrorMessage = "Insira um numero telefonico")]
+        [RegularExpression(@"\d{9}", ErrorMessage = "Insira um Numero de Telefone com apenas numeros e exatamente 9 digitos")]
+        [StringLength(9, ErrorMessage = "O {0} deverá ter exatamente 9 digitos", MinimumLength = 9)]
         public string Telefone { get; set; }
 
         [Display(Name = "Telefone Alternativo")]
+        [RegularExpression(@"\d{9}", ErrorMessage = "Insira um Numero de Telefone com apenas numeros e exatamente 9 digitos")]
+        [StringLength(9, ErrorMessage = "O {0} deverá ter exatamente 9 digitos", MinimumLength = 9)]
         public string TelefoneSecundario { get; set; }
 
         [Display(Name = "Email")]
+        [Required(ErrorMessage = "Preencha este campo com o seu Email!")]
+        [EmailAddress(ErrorMessage = "Insira um email no formato exemplo@exemplo.com")]
+        [StringLength(50, ErrorMessage = "O {0} deverá ter um maximo de {1} caracteres de comprimento.")]
         public string Email { get; set; }
 
         [Display(Name = "Email Alternativo")]
+        [EmailAddress(ErrorMessage = "Insira um email no formato exemplo@exemplo.com")]
+        [StringLength(50, ErrorMessage = "O {0} deverá ter um maximo de {1} caracteres de comprimento.")]
         public string EmailSecundario { get; set; }
 
+        [Display(Name = "Identificação Pessoal")]
+        [DataType(DataType.Upload)]
+        [Required(ErrorMessage = "Por favor escolha um ficheiro")]
+        [IDTypeValidation]
+        public IFormFile File { get; set; }
+
         [Display(Name = "Por que você quer adotar?")]
+        [Required(ErrorMessage = "Preencha este campo com a Motivacao para a adoçao!")]
+        [RegularExpression(@"^[a-zA-Zà-úÀ-Úâ-ûÂ-Ûã-õÃ-Õ! ]+$", ErrorMessage = "Este campo apenas nao deverá conter numeros")]
+        [StringLength(50, ErrorMessage = "A {0} deverá ter um maximo de {1} caracteres de comprimento.")]
         public string Motivacao { get; set; }
 
         [Display(Name = "Há outros animais na casa? ")]
-        public string OutrosAnimais { get; set; }
-                
-        public List<Animal> animais;
+        [Required(ErrorMessage = "Preencha este campo com a informação de outros animais em sua casa!")]
+        [RegularExpression(@"^[a-zA-Zà-úÀ-Úâ-ûÂ-Ûã-õÃ-Õ! ]+$", ErrorMessage = "Este campo apenas nao deverá conter numeros")]
+        [StringLength(50, ErrorMessage = "A {0} deverá ter um maximo de {1} caracteres de comprimento.")]
+        public string OutrosAnimais { get; set; }                
     }
 }
