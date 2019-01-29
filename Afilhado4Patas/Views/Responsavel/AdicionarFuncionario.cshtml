@@ -49,7 +49,7 @@
                       title="Insira a data de nascimento no formato DD-MM-AAAA
 Deverá ainda ter uma idade maior de 18 anos."></span>
                 <div class="input-group date" id="datepicker_registo">
-                    <input asp-for="DataNascimento" type="text" class="form-control" />
+                    <input asp-for="DataNascimento" type="text" value="" class="form-control" />
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
@@ -86,6 +86,7 @@ Numeros: 0-9"></span>
 <script src="~/js/bootstrap-datepicker.pt-BR.js"></script>
 <script>
     $('#datepicker_registo').datepicker({
+        format: "dd/mm/yyyy",
         startDate: new Date(1900, 1, 1),
         endDate: '+1d',
         datesDisabled: '+1d',
