@@ -13,7 +13,7 @@ namespace Afilhado4Patas.Models.ViewModels
         [Required(ErrorMessage = "Selecione este campo")]
         public int AnimalId { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:dd/mm/yyyy}", ApplyFormatInEditMode = true)]
         [Required(ErrorMessage = "É necessário preencher este campo")]
         [Display(Name = "Data do Passeio")]
         [Date3DaysFromNow]

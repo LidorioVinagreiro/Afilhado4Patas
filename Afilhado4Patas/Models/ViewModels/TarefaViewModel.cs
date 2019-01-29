@@ -21,13 +21,13 @@ namespace Afilhado4Patas.Models.ViewModels
         [Display(Name = "Data de Inicio")]
         [Required(ErrorMessage = "Preencha este campo com a Data de Inicio da Tarefa!")]
         [DateEqualOrGreaterThenToday]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:dd/mm/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime Inicio { get; set; }
 
         [Display(Name = "Data de Fim")]
         [Required(ErrorMessage = "Preencha este campo com a Data de Fim esperada para a Tarefa!")]
         [DateGreaterThenStartDate("Inicio")]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:dd/mm/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime Fim { get; set; }
 
         [Display(Name = "Descricao")]

@@ -32,11 +32,11 @@ esta deverá ser maior que a data atual"></span>
                 <div class="input-group date" id="datepicker_tarefas1">
                     @if (Model.Inicio > DateTime.Now)
                     {
-                        <input asp-for="Inicio" type='text' class="form-control" />
+                        <input asp-for="Inicio" type='text' value="" class="form-control" />
                     }
                     else
                     {
-                        <input type="text" class="form-control" disabled />
+                        <input type="text" value=@Model.Inicio class="form-control" disabled />
                         <input asp-for="Inicio" type="text" class="form-control" style="display:none" />
                     }
                     <span class="input-group-addon">
@@ -91,7 +91,7 @@ esta deverá ser maior que a data atual e ainda maior que a data de inicio"></sp
     var tomorrow = new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate() + 1, 0, 0, 0, 0);
     $(document).ready(function () {
         $('#datepicker_tarefas1').datepicker({
-            format: "dd/MM/yyyy",
+            format: "dd/mm/yyyy",
             startDate: today,
             autoclose: true,
             todayHighlight: true,
@@ -104,7 +104,7 @@ esta deverá ser maior que a data atual e ainda maior que a data de inicio"></sp
             language: 'pt-BR'
         });
         $('#datepicker_tarefas2').datepicker({
-            format: "dd/MM/yyyy",
+            format: "dd/mm/yyyy",
             startDate: today,
             autoclose: true,
             todayHighlight: true,
