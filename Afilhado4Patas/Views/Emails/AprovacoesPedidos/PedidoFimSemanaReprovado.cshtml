@@ -1,0 +1,26 @@
+﻿@using Afilhado4Patas.Models.ViewModels
+@model EmailFimSemanaViewModel
+
+@{
+    ViewData["EmailTitle"] = "Pedido Fim Semana Reprovado";
+}
+
+<p>
+    Caro @Model.Nome,
+</p>
+<p>
+    Gostariamos de o informar que após um processo de avaliação do seu pedido de fim de semana em relação ao animal @Model.NomeAnimal, o mesmo terá sido <bold>reprovado.</bold>
+</p>
+<p>
+    Em baixo terá algumas informações importantes do fim de semana em questão
+</p>
+<p>
+    Data de Inicio: @Model.Inicio.ToString("dd/MM/yyyy")
+</p>
+<p>
+    Data de Fim: @Model.Fim.ToString("dd/MM/yyyy")
+</p>
+<br />
+<p>
+    Equipa de Suporte Afilhados4Patas
+</p>

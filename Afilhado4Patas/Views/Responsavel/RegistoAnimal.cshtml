@@ -62,6 +62,7 @@ Deverá ainda ter uma idade maior ou igual 0 anos e inferior a 30 anos."></span>
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
                 </div>
+                <span asp-validation-for="DataNasc" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="PorteId" class="control-label"></label>
@@ -110,3 +111,26 @@ O peso deverá ser superior a 0 Kg e menor que 200 Kg"></span>
         </form>
     </div>
 </div>
+
+<script src="~/js/bootstrap-datepicker.pt-BR.js"></script>
+<script>
+    var nowDate = new Date();
+    var today = new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate(), 0, 0, 0, 0);
+    $(document).ready(function () {
+        $('#datepicker_animal').datepicker({
+            format: "dd/MM/yyyy",
+            startDate: new Date(1990, 1, 1),
+            endDate: '+1d',
+            datesDisabled: '+1d',
+            autoclose: true,
+            todayHighlight: true,
+            showOtherMonths: true,
+            selectOtherMonths: true,
+            autoclose: true,
+            changeMonth: true,
+            changeYear: true,
+            orientation: "button",
+            language: 'pt-BR'
+        });
+    });
+</script>

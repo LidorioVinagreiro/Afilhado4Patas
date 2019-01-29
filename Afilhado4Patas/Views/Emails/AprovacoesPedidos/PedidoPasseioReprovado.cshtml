@@ -1,0 +1,27 @@
+﻿@using Afilhado4Patas.Models.ViewModels
+@model EmailPasseioViewModel
+
+@{
+    ViewData["EmailTitle"] = "Pedido Passeio Reprovado";
+}
+
+<p>
+    Caro @Model.Nome,
+</p>
+<p>
+    Gostariamos de o informar que após um processo de avaliação do seu pedido de passeio em relação ao animal @Model.NomeAnimal, o mesmo terá sido <bold>reprovado.</bold>
+</p>
+<p>
+    Em baixo terá algumas informações importantes sobre o passeio em questão
+</p>
+<p>
+    Data: @Model.Dia.ToString("dd/MM/yyyy")
+</p>
+<p>
+    Horas: @Model.Horas
+</p>
+<br />
+<p>
+    Equipa de Suporte Afilhados4Patas
+</p>
+

@@ -36,7 +36,8 @@ esta deverá ser maior que a data atual"></span>
                     }
                     else
                     {
-                        <input asp-for="Inicio" type="text" class="form-control" disabled />
+                        <input type="text" class="form-control" disabled />
+                        <input asp-for="Inicio" type="text" class="form-control" style="display:none" />
                     }
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
@@ -83,3 +84,37 @@ esta deverá ser maior que a data atual e ainda maior que a data de inicio"></sp
     <a asp-controller="Responsavel" asp-action="ListaTarefas" asp-route-id="@UserManager.GetUserName(User)">Voltar á Lista de Tarefas</a>
 </div>
 
+<script src="~/js/bootstrap-datepicker.pt-BR.js"></script>
+<script>
+    var nowDate = new Date();
+    var today = new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate(), 0, 0, 0, 0);
+    var tomorrow = new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate() + 1, 0, 0, 0, 0);
+    $(document).ready(function () {
+        $('#datepicker_tarefas1').datepicker({
+            format: "dd/MM/yyyy",
+            startDate: today,
+            autoclose: true,
+            todayHighlight: true,
+            showOtherMonths: true,
+            selectOtherMonths: true,
+            autoclose: true,
+            changeMonth: true,
+            changeYear: true,
+            orientation: "button",
+            language: 'pt-BR'
+        });
+        $('#datepicker_tarefas2').datepicker({
+            format: "dd/MM/yyyy",
+            startDate: today,
+            autoclose: true,
+            todayHighlight: true,
+            showOtherMonths: true,
+            selectOtherMonths: true,
+            autoclose: true,
+            changeMonth: true,
+            changeYear: true,
+            orientation: "button",
+            language: 'pt-BR'
+        });
+    });
+</script>

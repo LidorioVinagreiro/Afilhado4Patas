@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Afilhado4Patas.Models
 {
-    public class PedidoMarcacao
+    public class PedidoFimSemana
     {
         [Key]
         public int Id { get; set; }
@@ -28,5 +28,7 @@ namespace Afilhado4Patas.Models
         public DateTime DataInicio { get; set; }
 
         public DateTime DataFim { get; set; }
+
+        public string Aprovacao { get; set; }
     }
 }

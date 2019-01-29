@@ -1,0 +1,45 @@
+﻿@model Animal
+
+@if (@Model.Foto != null)
+{
+    string src = "/Animais/" + @Model.Id + "/" + @Model.Foto;
+    <img id="icon_centrado_arredondado" src="@src" />
+}
+else
+{
+    <img id="icon_centrado_arredondado" src="~/images/dog-profile.png" />
+}
+<table id="user_info_table">
+    <tr id="info_tr">
+        <td id="info_nome">@Html.DisplayNameFor(model => model.NomeAnimal)</td>
+        <td id="info_conteudo">@Html.DisplayFor(model => model.NomeAnimal)</td>
+    </tr>
+    <tr id="info_tr">
+        <td id="info_nome">@Html.DisplayNameFor(model => model.RacaAnimal.CategoriaId)</td>
+        <td id="info_conteudo">@Html.DisplayFor(model => model.RacaAnimal.CategoriaRaca.Nome)</td>
+    </tr>
+    <tr id="info_tr">
+        <td id="info_nome">@Html.DisplayNameFor(model => model.Descricao)</td>
+        <td id="info_conteudo">@Html.DisplayFor(model => model.Descricao)</td>
+    </tr>
+    <tr id="info_tr">
+        <td id="info_nome">@Html.DisplayNameFor(model => model.PorteId)</td>
+        <td id="info_conteudo">@Html.DisplayFor(model => model.PorteAnimal.TipoPorte)</td>
+    </tr>
+    <tr id="info_tr">
+        <td id="info_nome">@Html.DisplayNameFor(model => model.Peso)</td>
+        <td id="info_conteudo">@Html.DisplayFor(model => model.Peso) Kg</td>
+    </tr>
+    <tr id="info_tr">
+        <td id="info_nome">@Html.DisplayNameFor(model => model.Sexo)</td>
+        <td id="info_conteudo">@Html.DisplayFor(model => model.Sexo)</td>
+    </tr>
+    <tr id="info_tr">
+        <td id="info_nome">@Html.DisplayNameFor(model => model.DataNasc)</td>
+        <td id="info_conteudo">@Model.DataNasc.ToString("dd/MM/yyyy")</td>
+    </tr>
+    <tr id="info_tr">
+        <td id="info_nome">@Html.DisplayNameFor(model => model.RacaId)</td>
+        <td id="info_conteudo">@Html.DisplayFor(model => model.RacaAnimal.NomeRaca)</td>
+    </tr>
+</table>

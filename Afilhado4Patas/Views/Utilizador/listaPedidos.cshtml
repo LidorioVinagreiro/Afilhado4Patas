@@ -1,0 +1,41 @@
+﻿@model List<Afilhado4Patas.Models.ViewModels.AmizadePedidoViewModel>
+
+@{
+    ViewData["Title"] = "PedirAmizade";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="page">
+    <h2>Lista dos seus pedidos</h2>
+    <div id="container_center">
+        @do
+        {
+
+            <div id="container" class="container">
+                <div id="row" class="row">
+                    @{
+                        var contador = 0;
+                        foreach (var amizades in Model)
+                        {
+                            if (contador < 3)
+                            {
+                                contador++;
+                                @await Html.PartialAsync("listaPedidos_partial", amizades)
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                        for (int i = 0; i < contador; i++)
+                        {
+                            Model.Remove(Model[0]);
+                        }
+                    }
+                </div>
+            </div>
+        } while (Model.Count() > 0);
+
+
+    </div>
+</div>

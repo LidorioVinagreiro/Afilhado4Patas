@@ -8,11 +8,10 @@
 <div id="pagina_pesquisa">
     <div id="container_left">
         @{
-            List<Animal> lista_animais = new List<Animal>();
-            foreach (var animal in Context.Animais.Where(a => a.Ativo == true).ToList())
+            List<Animal> lista_animais = Context.Animais.Where(a => a.Ativo == true).ToList();
+            foreach (var animal in lista_animais)
             {
                 animal.PorteAnimal = Context.Portes.Where(p => p.Id == animal.PorteId).FirstOrDefault();
-                lista_animais.Add(animal);
             }
             @Html.Partial("GridAnimais", lista_animais)
         }

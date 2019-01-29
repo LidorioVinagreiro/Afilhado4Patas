@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Afilhado4Patas.Data;
@@ -44,5 +45,9 @@ namespace Afilhado4Patas.Models
 
         [Display(Name = "Género")]
         public string Genre { get; set; }
+
+        //esta lista vai servir para ser enchida através da tabela Amizades
+        public List<Perfil> Amigos { get; set; } = new List<Perfil>();
+
     }
 }
