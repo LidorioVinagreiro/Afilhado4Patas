@@ -14,6 +14,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
+using Afilhado4Patas.Areas.Identity.Services;
 
 namespace Afilhado4PatasTest.ControllersTest
 {
@@ -26,8 +27,10 @@ namespace Afilhado4PatasTest.ControllersTest
         public IHostingEnvironment hostingEnvironment;
         public ILogger<Utilizadores> logger;
         public UserManager<Utilizadores> userManager;
+        public RazorView razor;
+        public EmailSender emailSender;
 
-        public FuncionarioControllerTest(IServiceProvider serviceProvider, IHostingEnvironment hosting, ILogger<Utilizadores> Ilogger)
+        public FuncionarioControllerTest(IServiceProvider serviceProvider, IHostingEnvironment hosting, ILogger<Utilizadores> Ilogger, RazorView razorView, EmailSender email)
         {
             connection = new SqliteConnection(connectionString);
             connection.Open();
@@ -37,6 +40,8 @@ namespace Afilhado4PatasTest.ControllersTest
             userManager = serviceProvider.GetRequiredService<UserManager<Utilizadores>>();
             hostingEnvironment = hosting;
             logger = Ilogger;
+            razor = razorView;
+            emailSender = email;
         }
 
         [Fact]
@@ -44,7 +49,7 @@ namespace Afilhado4PatasTest.ControllersTest
         {
             using (var context = new ApplicationDbContext(options))
             {
-                var controller = new FuncionarioController(context, hostingEnvironment, logger, userManager);
+                var controller = new FuncionarioController(context, hostingEnvironment, logger, userManager, razor, emailSender);
                 var result = controller.Index();
                 var viewResult = Assert.IsType<ViewResult>(result);
                 Assert.IsType<ViewResult>(result);
@@ -56,7 +61,7 @@ namespace Afilhado4PatasTest.ControllersTest
         {
             using (var context = new ApplicationDbContext(options))
             {
-                var controller = new FuncionarioController(context, hostingEnvironment, logger, userManager);
+                var controller = new FuncionarioController(context, hostingEnvironment, logger, userManager, razor, emailSender);
                 var result = controller.About();
                 var viewResult = Assert.IsType<ViewResult>(result);
                 Assert.IsType<ViewResult>(result);
@@ -68,7 +73,7 @@ namespace Afilhado4PatasTest.ControllersTest
         {
             using (var context = new ApplicationDbContext(options))
             {
-                var controller = new FuncionarioController(context, hostingEnvironment, logger, userManager);
+                var controller = new FuncionarioController(context, hostingEnvironment, logger, userManager, razor, emailSender);
                 var result = controller.Contact();
                 var viewResult = Assert.IsType<ViewResult>(result);
                 Assert.IsType<ViewResult>(result);
@@ -80,7 +85,7 @@ namespace Afilhado4PatasTest.ControllersTest
         {
             using (var context = new ApplicationDbContext(options))
             {
-                var controller = new FuncionarioController(context, hostingEnvironment, logger, userManager);
+                var controller = new FuncionarioController(context, hostingEnvironment, logger, userManager, razor, emailSender);
                 var result = controller.Adotar();
                 var viewResult = Assert.IsType<ViewResult>(result);
                 Assert.IsType<ViewResult>(result);
@@ -92,7 +97,7 @@ namespace Afilhado4PatasTest.ControllersTest
         {
             using (var context = new ApplicationDbContext(options))
             {
-                var controller = new FuncionarioController(context, hostingEnvironment, logger, userManager);
+                var controller = new FuncionarioController(context, hostingEnvironment, logger, userManager, razor, emailSender);
                 var result = controller.Doar();
                 var viewResult = Assert.IsType<ViewResult>(result);
                 Assert.IsType<ViewResult>(result);
