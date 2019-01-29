@@ -1,0 +1,81 @@
+﻿@model List<Adocao>
+@using Afilhado4Patas.Data
+
+@inject ApplicationDbContext Context
+
+@do
+{
+    <div id="container" class="container">
+        <div id="row" class="row">
+            @{
+                var contador = 0;
+                foreach (var adocao in Model)
+                {
+                    if (contador < 3)
+                    {
+                        contador++;
+                        <div class="animal_item">
+                            <div class="product-grid6">
+                                <div class="product-image6">
+                                    @{
+                                        if (adocao.Pedido.Animal.Foto != null)
+                                        {
+                                            string src = "/Animais/" + adocao.Pedido.Animal.Id + "/" + adocao.Pedido.Animal.Foto;
+                                            <img class="pic-1" src="@src" />
+                                        }
+                                        else
+                                        {
+                                            <img class="pic-1" src="~/images/dog-profile.png" />
+                                        }
+                                    }
+                                </div>
+                                <div class="product-content">
+                                    <h3 class="title">@adocao.Pedido.Animal.NomeAnimal</h3>
+                                    <div>
+                                        @adocao.Pedido.Animal.Peso Kg
+                                        <span>@adocao.Pedido.Animal.PorteAnimal.TipoPorte</span>
+                                        @adocao.Pedido.Animal.Sexo
+                                    </div>
+                                </div>
+                                <ul class="social">
+                                    @if (User.IsInRole("Responsavel"))
+                                    {
+                                        Dictionary<string, string> d = new Dictionary<string, string>();
+                                        d.Add(adocao.Pedido.Adotante.Id, adocao.Pedido.Animal.NomeAnimal);
+                                        <li>
+                                            <a asp-controller="Responsavel" asp-action="ConvocarReuniaoEspecifica" data-tip="Convocar Reunião" asp-all-route-data="d">
+                                                <i class="fa fa-phone"></i>
+                                            </a>
+                                        </li>
+                                    }
+                                    else if (User.IsInRole("Funcionario"))
+                                    {
+                                        Dictionary<string, string> d = new Dictionary<string, string>();
+                                        d.Add(adocao.Pedido.Adotante.Id, adocao.Pedido.Animal.NomeAnimal);
+                                        <li>
+                                            <a asp-controller="Funcionario" asp-action="ConvocarReuniaoEspecifica" data-tip="Convocar Reunião" asp-all-route-data="d">
+                                                <i class="fa fa-phone"></i>
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                                <span class="product-discount-label" style="background-color: #c54b46">Adotado</span>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                //Remover animais adicionados ao grid
+                for (int i = 0; i < contador; i++)
+                {
+                    Model.Remove(Model[0]);
+                }
+            }
+        </div>
+    </div>
+} while (Model.Count() > 0);
+
+

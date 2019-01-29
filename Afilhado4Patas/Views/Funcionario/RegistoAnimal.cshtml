@@ -110,6 +110,8 @@ O peso deverá ser superior a 0 Kg e menor que 200 Kg"></span>
         </form>
     </div>
 </div>
+
+<script src="~/js/bootstrap-datepicker.pt-BR.js"></script>
 <script>
     var nowDate = new Date();
     var today = new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate(), 0, 0, 0, 0);
@@ -127,7 +129,8 @@ O peso deverá ser superior a 0 Kg e menor que 200 Kg"></span>
             autoclose: true,
             changeMonth: true,
             changeYear: true,
-            orientation: "button"
+            orientation: "button",
+            language: 'pt-BR'
         });
     });
 </script>

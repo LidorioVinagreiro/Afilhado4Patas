@@ -19,6 +19,9 @@ footer {
     padding-left: 10px;
 }
 
+.centrado{
+    text-align:center
+}
 /* Wrapping element */
 /* Set some basic padding to keep content from hitting the edges */
 .body-content {
@@ -966,4 +969,67 @@ li a {
     color: indianred;
 }
 
+/* Date Picker Datas*/
 
+.Highlighted {
+    background-color: #b2d8b2 !important;
+    background-image: none !important;
+    color: white !important;
+}
+
+.active {
+    background-color: #0081c2 !important;
+    background-image: none !important;
+    color: white !important;
+}
+
+#icon_mini{
+    height: 25px;
+    width: 25px;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+
+/* SEARCH BAR */
+
+.search {
+    width: 100%;
+    position: relative
+}
+
+.searchTerm {
+    float: left;
+    width: 100%;
+    border: 3px solid #CD5C5C;
+    padding: 5px;
+    height: 30px;
+    border-radius: 5px;
+    outline: none;
+    color: #9DBFAF
+}
+
+    .searchTerm:focus {
+        color: #CD5C5C;
+    }
+
+.searchButton {
+    position: absolute;
+    right: -50px;
+    width: 40px;
+    height: 36px;
+    border: 1px solid #CD5C5C;
+    background: #CD5C5C;
+    text-align: center;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+/*Resize the wrap to see the search bar change!*/
+.wrap {
+    width: 30%;
+    height: 50px;
+    margin-left: auto;
+    margin-right: auto
+}

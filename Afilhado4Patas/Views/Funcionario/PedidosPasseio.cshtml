@@ -1,0 +1,88 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@using Afilhado4Patas.Data;
+
+@model IEnumerable<Afilhado4Patas.Models.PedidoPasseio>
+
+@inject SignInManager<Utilizadores> SignInManager
+@inject UserManager<Utilizadores> UserManager
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br />
+<br />
+<br />
+<br />
+<br />
+<h2>Pedidos de Passeios</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Animal.NomeAnimal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DataPedido)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DataPasseio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HoraPasseio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Aprovacao)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DataAprovacao)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @if (item.Animal.Foto != null)
+                {
+                    string src = "/Animais/" + item.Animal.Id + "/" + item.Animal.Foto;
+                    <img id="icon_mini" src="@src" />
+                }
+                else
+                {
+                    <img id="icon_mini" src="~/images/dog-profile.png" />
+                }
+                @Html.DisplayFor(modelItem => item.Animal.NomeAnimal)
+            </td>
+            <td>
+                @item.DataPedido.ToString("dd/MM/yyyy")
+            </td>
+            <td>
+                @item.DataPasseio.ToString("dd/MM/yyyy")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HoraPasseio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Aprovacao)
+            </td>
+            <td>
+                @if (!(item.DataAprovacao.ToString("dd/MM/yyyy").Equals("01/01/0001")))
+                {
+                    item.DataAprovacao.ToString("dd/MM/yyyy");
+                }
+                else
+                {
+                    @Html.Raw("Sem data");
+                }
+            </td>
+            <td>
+                <a asp-controller="Funcionario" asp-action="AceitarPedidoPasseio" asp-route-id="@item.Id">Aceitar</a> |
+                <a asp-controller="Funcionario" asp-action="RejeitarPedidoPasseio" asp-route-id="@item.Id">Rejeitar</a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+

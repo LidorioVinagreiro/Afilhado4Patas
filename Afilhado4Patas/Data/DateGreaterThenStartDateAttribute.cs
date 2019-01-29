@@ -23,7 +23,7 @@ namespace Afilhado4Patas.Data
             {
                 if (Convert.ToDateTime(value) <= Convert.ToDateTime(propertyValue))
                 {
-                    return new ValidationResult("Data de Fim inserida terá de ser maior que a Data de Inicio da Tarefa!");
+                    return new ValidationResult("Data de Fim inserida terá de ser maior que a Data de Inicio!");
                 }
                 else if (Convert.ToDateTime(value) < DateTime.Now)
                 {

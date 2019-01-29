@@ -401,11 +401,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             }
             return View(lista_animais);
         }
-
-        /****************************************************************************************************/
-        /******************************************** Adocoes ***********************************************/
-        /****************************************************************************************************/
-
+        
         public ActionResult PedidoAdocao(string id)
         {
             if (id != null)
@@ -554,13 +550,99 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View(PedidoAdocao);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> PedidoFimSemana(PedidoFimSemanaViewModel PedidoFimSemana)
+        {
+            Utilizadores utilizador = _context.Utilizadores.Where(u => u.Id == _userManager.GetUserId(User)).Include(p => p.Perfil).FirstOrDefault();
+
+            if (utilizador == null)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    PedidoFimSemana novoPedido = new PedidoFimSemana
+                    {                        
+                        AdotanteId = utilizador.Perfil.Id,
+                        AnimalId = PedidoFimSemana.AnimalId,
+                        DataPedido = DateTime.Now,
+                        DataInicio = PedidoFimSemana.DataInicio,
+                        DataFim = PedidoFimSemana.DataFim,
+                        Aprovacao = "Em espera"
+                    };
+                    _context.PedidosFimSemana.Add(novoPedido);
+                    _context.SaveChanges();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    return NotFound();
+                }
+                return View("PedidoRegistado", "O seu pedido de Fim de Semana foi realizado com sucesso!");
+            }
+            return View(PedidoFimSemana);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> PedidoPasseio(PedidoPasseioViewModel PedidoPasseio)
+        {
+            Utilizadores utilizador = _context.Utilizadores.Where(u => u.Id == _userManager.GetUserId(User)).Include(p => p.Perfil).FirstOrDefault();
+
+            if (utilizador == null)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    PedidoPasseio novoPedido = new PedidoPasseio
+                    {
+                        AdotanteId = utilizador.Perfil.Id,
+                        AnimalId = PedidoPasseio.AnimalId,
+                        DataPedido = DateTime.Now,
+                        DataPasseio = PedidoPasseio.DataPasseio,
+                        HoraPasseio = PedidoPasseio.HoraPasseio,
+                        Aprovacao = "Em espera"
+                    };
+                    _context.PedidosPasseio.Add(novoPedido);
+                    _context.SaveChanges();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    return NotFound();
+                }
+                return View("PedidoRegistado", "O seu pedido de Passeio foi realizado com sucesso!");
+            }
+            return View(PedidoPasseio);
+        }
+
         public ActionResult MeusPedidos(string id)
         {
             Utilizadores utilizador = _context.Utilizadores.Where(u => u.Id == id).Include(p => p.Perfil).FirstOrDefault();
             List<PedidoAdocao> pedidosAdocao = _context.PedidosAdocao.Where(p => p.AdotanteId == utilizador.PerfilId).Include(a => a.Animal).ToList();
             return View(pedidosAdocao);
-        }        
-        
+        }
+
+        public ActionResult MeusPedidosFimSemana(string id)
+        {
+            Utilizadores utilizador = _context.Utilizadores.Where(u => u.Id == id).Include(p => p.Perfil).FirstOrDefault();
+            List<PedidoFimSemana> pedidosFimSemana = _context.PedidosFimSemana.Where(p => p.AdotanteId == utilizador.PerfilId).Include(a => a.Animal).ToList();
+            return View(pedidosFimSemana);
+        }
+
+        public ActionResult MeusPedidosPasseio(string id)
+        {
+            Utilizadores utilizador = _context.Utilizadores.Where(u => u.Id == id).Include(p => p.Perfil).FirstOrDefault();
+            List<PedidoPasseio> pedidosPasseio = _context.PedidosPasseio.Where(p => p.AdotanteId == utilizador.PerfilId).Include(a => a.Animal).ToList();
+            return View(pedidosPasseio);
+        }
+
 
         /****************************************************************************************************/
         /***************************************** CONSULTAS SQL ********************************************/

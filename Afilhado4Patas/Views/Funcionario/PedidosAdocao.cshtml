@@ -50,7 +50,8 @@
                 @Html.DisplayFor(modelItem => item.Aprovacao)
             </td>
             <td>
-                <a asp-controller="Funcionario" asp-action="AceitarPedidoAdocao" asp-route-id="@item.Id">Aceitar</a>
+                <a asp-controller="Funcionario" asp-action="AceitarPedidoAdocao" asp-route-id="@item.Id">Aceitar</a> |
+                <a asp-controller="Funcionario" asp-action="RejeitarPedidoAdocao" asp-route-id="@item.Id">Rejeitar</a>
             </td>
         </tr>
         }
