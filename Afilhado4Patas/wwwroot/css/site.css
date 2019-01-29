@@ -710,6 +710,14 @@ li a {
     margin-left: 1%;
 }
 
+.amizade_item {
+    width: 100% !important;
+    float: left;
+    margin-right: 1%;
+    margin-left: 1%;
+}
+
+
 .product-grid6, .product-grid6 .product-image6 {
     overflow: hidden
 }

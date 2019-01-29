@@ -149,6 +149,15 @@
                                 <li><a asp-controller="Utilizador" asp-action="MinhasMarcacoes" asp-route-id="@UserManager.GetUserId(User)">As minhas Marcações</a></li>
                             </ul>
                         </li>
+                        <li>
+                            <a>Amizades</a>
+                            <ul class="sub-menu clearfix">
+                                <li><a asp-controller="Utilizador" asp-action="pedirAmizade">Pedir amizades</a></li>
+                                <li><a asp-controller="Utilizador" asp-action="pedidosAmizade">Pedidos amizades</a></li>
+                                <li><a asp-controller="Utilizador" asp-action="listaPedidos">Os teus pedidos</a></li>
+                                <li><a asp-controller="Utilizador" asp-action="listaAmizades">Lista amigos</a></li>
+                            </ul>
+                        </li>
                         <li><a asp-controller="Utilizador" asp-action="Contact">Contactos</a></li>
                     }
                     else

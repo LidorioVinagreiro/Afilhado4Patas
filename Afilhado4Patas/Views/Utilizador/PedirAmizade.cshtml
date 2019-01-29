@@ -1,53 +1,45 @@
-﻿@model IEnumerable<Afilhado4Patas.Models.Amizades>
+﻿@model List<Afilhado4Patas.Models.ViewModels.AmizadeViewModel>
+
 @{
     ViewData["Title"] = "PedirAmizade";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>PedirAmizade</h2>
 
-<p>
-    <a asp-route="">Amizades</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Selecionar
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PossivelAmigo.FirstName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AnimalComumAosDois.NomeAnimal)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ExistePedido)
-            </th>
-
-
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
+<div id="page">
+    <h2>Possiveis amigos</h2>
+    <div id="container_center">
+        @do
         {
-            <tr>
-                <td>
-                    <input type="checkbox" value="@item.PossivelAmigo.Id" name="padrinhoId">
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PossivelAmigo.FirstName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.AnimalComumAosDois.NomeAnimal)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ExistePedido)
-                </td>
-                <td>
-                    <a asp-action="perdirAmizade">pedir amizade</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+
+            <div id="container" class="container">
+                <div id="row" class="row">
+                    @{
+                        var contador = 0;
+                        foreach (var amizades in Model)
+                        {
+                            if (contador < 3)
+                            {
+                                contador++;
+                                @await Html.PartialAsync("pedirAmizade_partial", amizades)
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                        //Remover animais adicionados ao grid
+                        for (int i = 0; i < contador; i++)
+                        {
+                            Model.Remove(Model[0]);
+                        }
+                    }
+                </div>
+            </div>
+        } while (Model.Count() > 0);
+
+
+    </div>
+</div>
+
+

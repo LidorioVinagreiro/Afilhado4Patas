@@ -105,9 +105,10 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             if (animal.Adoptado)
             {
                 animal.Adotantes = new List<Utilizadores>();
-                foreach (var adotantes in _context.Adotantes.Where(a => a.AnimalId == animal.Id).Include(u => u.Adotante_User).ThenInclude(p => p.Perfil).ToList())
+                foreach (var adotantes in _context.Adotantes.Where(a => a.AnimalId == animal.Id).Include(u => u.Adotante_User).ToList())
                 {
-                    animal.Adotantes.Add(adotantes.Adotante_User);
+                    Utilizadores user = _context.Utilizadores.Where(x => x.PerfilId == adotantes.AdotanteId).FirstOrDefault();
+                    animal.Adotantes.Add(user);
                 }
             }
             return View("../Shared/FichaAnimal", animal);
@@ -1186,7 +1187,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
          * ****************************************** Amizades ***********************************************
          ******************************************************************************************************/
         /// <summary>
-        /// 
+        /// Esta ação devolve todos os utilizadores que partilhem o mesmo animal (padrinhos) do actual utilizador
+        /// Os utilizadores devolvidos são utilizadores que :
+        /// -não são amigos
+        /// -são padrinhos do mesmo animal
+        /// -não existe um pedido de amizade por uma as partes (pedido feito pelo utilizador ou feito por um dos padrinhos do animal)
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -1200,52 +1205,98 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
 
             var listaAnimaisDoUser = _context.Adotantes
            .Where(utilizador => utilizador.AdotanteId == utilizadorPerfil.Id)
-           .Include(pessoa => pessoa.Adotante_User)
+           .Include(pessoa => pessoa.Adotante_User) 
            .Include(animal => animal.Animal);
 
+            //o adotante_user está a null nao sei pq... |||||ATENCAO|||||
+            foreach (Adotante item in listaAnimaisDoUser) {
+                item.Adotante_User = _context.PerfilTable.Where(p => p.Id == item.AdotanteId).FirstOrDefault();
+            }
+            
             var listaPessoas = (from adotantes in _context.Adotantes
                                 join adotante in listaAnimaisDoUser
                                 on adotantes.AnimalId equals adotante.AnimalId
-                                where adotantes.AdotanteId != adotante.AdotanteId
+                                where adotantes.AdotanteId != utilizadorPerfil.Id
                                 select new Amizades
                                 {
                                     IdPerfilPediu = utilizadorPerfil.Id,
                                     IdPerfilAceitar = adotantes.AdotanteId,
                                     IdAnimalEmComum = adotantes.AnimalId,
+                                    AnimalComumAosDois = adotante.Animal,
                                     ExistePedido = false,
-                                    Amigos = false
-                                }).Include(animal => animal.AnimalComumAosDois).Include(possivelAmigo => possivelAmigo.PossivelAmigo);
+                                    Amigos = false 
+                                }).Distinct().Include(possivelAmigo => possivelAmigo.PossivelAmigo).AsEnumerable<Amizades>();
 
-            var listaPedidosEAmigos = from amizades in _context.Amizades
-                                      where amizades.IdPerfilPediu == utilizadorPerfil.Id &&
+            var listaPedidosEAmigos = (from amizades in _context.Amizades
+                                      where (amizades.IdPerfilPediu == utilizadorPerfil.Id || amizades.IdPerfilAceitar == utilizadorPerfil.Id) &&
                                       (
                                       (amizades.Amigos == false && amizades.ExistePedido == true) ||
                                       (amizades.Amigos == true)
                                       )
-                                      select amizades;
+                                      select amizades).AsEnumerable<Amizades>();
 
-            var listaPadrinhosSemPedido = from listaP in listaPessoas
-                                          where !(from listaAeP in listaPedidosEAmigos select listaAeP.IdPerfilAceitar)
-                                          .Contains(listaP.IdPerfilAceitar)
-                                          select listaP;
+            List<Amizades> model;
+            if (listaPedidosEAmigos.Count() > 0)
+            {
+                IEnumerable<Amizades> listaPadrinhosSemPedido = listaPessoas.Except(listaPedidosEAmigos,new Amizades.AmizadesComparer());
+                model = listaPadrinhosSemPedido.ToList();
+                foreach (Amizades item in model)
+                {
+                    item.PossivelAmigo = _context.PerfilTable.Where(x => x.Id == item.IdPerfilAceitar).FirstOrDefault();
+                }
+            }
+            else {
+                model = listaPessoas.ToList();
+                foreach (Amizades item in model) {
+                    item.PossivelAmigo = _context.PerfilTable.Where(x => x.Id == item.IdPerfilAceitar).FirstOrDefault();
+                }
+            }
 
-            List<Amizades> model = listaPadrinhosSemPedido.ToList();
+            List<AmizadeViewModel> modeloView = new List<AmizadeViewModel>();
+            foreach (Amizades item in model)
+            {
+                modeloView.Add(new AmizadeViewModel
+                {
+                    idAnimalComum = item.IdAnimalEmComum,
+                    idPerfilPossivelAmizade = item.IdPerfilAceitar,
+                    Nome = item.PossivelAmigo.FirstName,
+                    NomeAnimal = item.AnimalComumAosDois.NomeAnimal,
+                    AnimalEmComum = _context.Animais.Where(a => a.Id == item.IdAnimalEmComum).FirstOrDefault(),
+                    PerfilPossivelAmizade = _context.PerfilTable.Where(p => p.Id == item.IdPerfilAceitar).Include(u => u.Utilizador).FirstOrDefault()
+                });
+            }
 
-            return View("pedirAmizade", model);
+            return View("pedirAmizade", modeloView);
         }
         /// <summary>
-        /// 
+        /// Esta ação permite ao utilizador fazer um pedido de amizade a um determinado utilizador
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult perdirAmizade(Amizades model)
-        {
-            return View();
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> pedirAmizade(AmizadeViewModel model) {
+            if (ModelState.IsValid)
+            {
+                Utilizadores user = await _userManager.GetUserAsync(this.User);
+                Perfil idPerfilUser = _context.PerfilTable.Where(u => u.UtilizadorId == user.Id).FirstOrDefault();
+                Amizades amizade = new Amizades
+                {
+                    IdPerfilAceitar = model.idPerfilPossivelAmizade,
+                    IdPerfilPediu = idPerfilUser.Id,
+                    IdAnimalEmComum = model.idAnimalComum,
+                    ExistePedido = true,
+                    Amigos = false
+                };
+                _context.Amizades.Add(amizade);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("pedirAmizade");
+            }
+            return NotFound();
         }
 
         /// <summary>
-        /// 
+        /// Esta ação retorna todos os pedidos de amizade feitos por outros utilizadores
         /// </summary>
         /// <returns></returns>
         public async Task<ActionResult> pedidosAmizade()
@@ -1256,29 +1307,77 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                 .Where(a => a.UtilizadorId == idUser.Id)
                 .FirstOrDefault();
 
-            var listaPedidos = from amigos in _context.Amizades
-                               where amigos.IdPerfilAceitar == utilizadorPerfil.Id
-                               && amigos.Amigos == false
-                               && amigos.ExistePedido == true
-                               select amigos;
 
-            List<Amizades> todosAmigos = listaPedidos.ToList();
 
-            return View("pedidosAmizade", listaPedidos);
+            var listaPedidos = _context.Amizades
+                .Where(x => x.IdPerfilAceitar == utilizadorPerfil.Id && x.Amigos == false && x.ExistePedido == true);
+                
+            foreach(var item in listaPedidos) {
+                item.AnimalComumAosDois = _context.Animais.Where(a => a.Id == item.IdAnimalEmComum).FirstOrDefault();
+                }
+ 
+            List<AmizadePedidoViewModel> model = new List<AmizadePedidoViewModel>();
+            foreach (Amizades item in listaPedidos) {
+                model.Add(new AmizadePedidoViewModel
+                {
+                    id = item.Id,
+                    idPerfilPediuAmizade = item.IdPerfilPediu,
+                    idAnimalComum = item.AnimalComumAosDois.Id,
+                    Aceitar = item.Amigos,
+                    Nome=_context.PerfilTable.Where( a => a.Id == item.IdPerfilPediu).FirstOrDefault().FirstName,
+                    NomeAnimal = item.AnimalComumAosDois.NomeAnimal
+                });
+            }
+
+            foreach (var item in model) {
+                item.PerfilPediuAmizade = _context.PerfilTable.Where(p => p.Id == item.idPerfilPediuAmizade).Include(u => u.Utilizador).FirstOrDefault();
+                item.AnimalComum = _context.Animais.Where(a => a.Id == item.idAnimalComum).FirstOrDefault();
+            }
+
+            return View("pedidosAmizade",model);
         }
         /// <summary>
-        /// 
+        /// Esta ação aceita o pedido de amizade de um utilizador
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult perdidosAmizade(Amizades model)
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> pedidosAmizadeAceitar(AmizadePedidoViewModel model)
         {
-            return View();
+            if (ModelState.IsValid)
+            {
+                Utilizadores user = await _userManager.GetUserAsync(this.User);
+                user.Perfil = _context.PerfilTable.Where(p => p.UtilizadorId == user.Id).FirstOrDefault();
+                _context.Amizades.Where(a => a.Id == model.id).FirstOrDefault().Amigos = true;
+                _context.SaveChanges();
+                return RedirectToAction("pedidosAmizade");
+            }
+            return NotFound();
+        }
+        /// <summary>
+        /// Esta ação recusa o pedido de amizade de outro utilizador
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> pedidosAmizadeRecusar(AmizadePedidoViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                Utilizadores user = await _userManager.GetUserAsync(this.User);
+                user.Perfil = _context.PerfilTable.Where(p => p.UtilizadorId == user.Id).FirstOrDefault();
+                Amizades amigos = _context.Amizades.Where(a => a.Id == model.id).FirstOrDefault();
+                _context.Amizades.Remove(amigos);
+                _context.SaveChanges();
+                return RedirectToAction("pedidosAmizade");
+            }
+            return NotFound();
         }
 
         /// <summary>
-        /// 
+        /// Esta ação devolve todos os utilizadores que são amigos
         /// </summary>
         /// <returns></returns>
         public async Task<ActionResult> listaAmizades()
@@ -1289,17 +1388,102 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                 .Where(a => a.UtilizadorId == idUser.Id)
                 .FirstOrDefault();
 
-            var listaAmigos = from amigos in _context.Amizades
-                              where (amigos.IdPerfilAceitar == utilizadorPerfil.Id ||
-                              amigos.IdPerfilPediu == utilizadorPerfil.Id)
-                              && amigos.Amigos == true
-                              select amigos;
+            var listaAmigos = (from amigos in _context.Amizades
+                               where (amigos.IdPerfilAceitar == utilizadorPerfil.Id ||
+                               amigos.IdPerfilPediu == utilizadorPerfil.Id)
+                               && amigos.Amigos == true
+                               select new AmizadeListaViewModel
+                               {
+                                   Id = amigos.Id,
+                                   AmigoId = (amigos.IdPerfilAceitar != utilizadorPerfil.Id) ? amigos.IdPerfilAceitar : amigos.IdPerfilPediu,
+                                   Amigos = amigos.Amigos
+                               });
 
-            List<Amizades> todosAmigos = listaAmigos.ToList();
-            return View("listaAmizades", todosAmigos);
+            List<AmizadeListaViewModel> model = new List<AmizadeListaViewModel>();
+            foreach (var item in listaAmigos) {
+                item.Amigo = _context.PerfilTable.Where(p => p.Id == item.AmigoId).FirstOrDefault();
+                model.Add(item);
+            }
+            return View("listaAmizades",model);
         }
 
+        /// <summary>
+        /// Esta ação apaga um utilizador da lista de amizades
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> listaAmizades(AmizadeListaViewModel model)
+        {
+            _context.Amizades.Remove(_context.Amizades.Where(a => a.Id == model.Id).FirstOrDefault());
+            await _context.SaveChangesAsync();
+            return RedirectToAction("listaAmizades");
+        }
+        /// <summary>
+        /// Esta ação devolve todos os pedidos feitos pelo utilizador
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<ActionResult> listaPedidos()
+        {
+            Utilizadores idUser = await _userManager.GetUserAsync(this.User);
 
+            Perfil utilizadorPerfil = _context.PerfilTable
+                .Where(a => a.UtilizadorId == idUser.Id)
+                .FirstOrDefault();
+
+
+
+            var listaPedidos = _context.Amizades
+                .Where(x => x.IdPerfilPediu == utilizadorPerfil.Id && x.Amigos == false && x.ExistePedido == true);
+
+            foreach (var item in listaPedidos)
+            {
+                item.AnimalComumAosDois = _context.Animais.Where(a => a.Id == item.IdAnimalEmComum).FirstOrDefault();
+            }
+
+            List<AmizadePedidoViewModel> model = new List<AmizadePedidoViewModel>();
+            foreach (Amizades item in listaPedidos)
+            {
+                model.Add(new AmizadePedidoViewModel
+                {
+                    id = item.Id,
+                    idPerfilPediuAmizade = item.IdPerfilAceitar,
+                    idAnimalComum = item.AnimalComumAosDois.Id,
+                    Aceitar = item.Amigos,
+                    Nome = _context.PerfilTable.Where(a => a.Id == item.IdPerfilAceitar).FirstOrDefault().FirstName,
+                    NomeAnimal = item.AnimalComumAosDois.NomeAnimal
+                });
+            }
+
+            foreach (var item in model) {
+                item.PerfilPediuAmizade = _context.PerfilTable.Where(p => p.Id == item.idPerfilPediuAmizade).Include(u => u.Utilizador ).FirstOrDefault();
+                item.AnimalComum = _context.Animais.Where(a => a.Id == item.idAnimalComum).FirstOrDefault();    
+            }
+
+            return View("listaPedidos", model);
+
+        }
+
+        /// <summary>
+        /// Este ação serve para apagar um pedido de amizade feito pelo utilizador
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> listaPedidos(AmizadePedidoViewModel model)
+        {
+            Utilizadores user = await _userManager.GetUserAsync(this.User);
+            user.Perfil = _context.PerfilTable.Where(p => p.UtilizadorId == user.Id).FirstOrDefault();
+            Perfil amigoPerdido = _context.PerfilTable.Where(p => p.Id == model.idPerfilPediuAmizade).FirstOrDefault();
+
+            _context.Amizades.Remove(_context.Amizades.Where(a=> a.Id == model.id).FirstOrDefault());
+            _context.SaveChanges();
+            return RedirectToAction("listaPedidos");
+
+        }
 
         private bool CreateFolder(string path)
         {

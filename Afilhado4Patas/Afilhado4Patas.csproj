@@ -31,7 +31,6 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="jQuery.UI.Combined" Version="1.10.1" />
     <PackageReference Include="microsoft.aspnetcore.all" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
@@ -115,10 +114,22 @@
     <Content Update="Views\Responsavel\Tarefa.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Views\Utilizador\GridMeusAnimais.cshtml">
+    <Content Update="Views\Utilizador\listaAmizades.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Views\Utilizador\PedidoAdocaoEspecifico.cshtml">
+    <Content Update="Views\Utilizador\listaPedidos.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Utilizador\pedidosAmizade.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Utilizador\listaAmizades_partial.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Utilizador\listaPedidos_partial.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Utilizador\pedidosAmizade_partial.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Views\Utilizador\PerfilEditarFotoPerfil.cshtml">
@@ -127,9 +138,13 @@
     <Content Update="Views\Utilizador\PerfilEditarMorada.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Views\Utilizador\PedidoRegistado.cshtml">
+    <Content Update="Views\Utilizador\PedidoAdocaoRegistado.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Views\Guest\" />
   </ItemGroup>
 
 </Project>
