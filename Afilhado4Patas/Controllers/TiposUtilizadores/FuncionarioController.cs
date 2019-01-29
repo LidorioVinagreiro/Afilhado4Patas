@@ -109,9 +109,10 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             if (animal.Adoptado)
             {
                 animal.Adotantes = new List<Utilizadores>();
-                foreach (var adotantes in _context.Adotantes.Where(a => a.AnimalId == animal.Id).Include(u => u.Adotante_User).ThenInclude(p => p.Perfil).ToList())
+                foreach (var adotantes in _context.Adotantes.Where(a => a.AnimalId == animal.Id).Include(u => u.Adotante_User).ToList())
                 {
-                    animal.Adotantes.Add(adotantes.Adotante_User);
+                    Utilizadores user = _context.Utilizadores.Where(x => x.PerfilId == adotantes.AdotanteId).FirstOrDefault();
+                    animal.Adotantes.Add(user);
                 }
             }
             return View("../Shared/FichaAnimal", animal);
@@ -558,9 +559,10 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                 if (animal.Adoptado)
                 {
                     animal.Adotantes = new List<Utilizadores>();
-                    foreach (var adotantes in _context.Adotantes.Where(a => a.AnimalId == animal.Id).Include(u => u.Adotante_User).ThenInclude(p => p.Perfil).ToList())
+                    foreach (var adotantes in _context.Adotantes.Where(a => a.AnimalId == animal.Id).Include(u => u.Adotante_User).ToList())
                     {
-                        animal.Adotantes.Add(adotantes.Adotante_User);
+                        Utilizadores user = _context.Utilizadores.Where(x => x.PerfilId == adotantes.AdotanteId).FirstOrDefault();
+                        animal.Adotantes.Add(user);
                     }
                 }
                 model.Add(animal);
@@ -587,9 +589,10 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                 if (animal.Adoptado)
                 {
                     animal.Adotantes = new List<Utilizadores>();
-                    foreach (var adotantes in _context.Adotantes.Where(a => a.AnimalId == animal.Id).Include(u => u.Adotante_User).ThenInclude(p => p.Perfil).ToList())
+                    foreach (var adotantes in _context.Adotantes.Where(a => a.AnimalId == animal.Id).Include(u => u.Adotante_User).ToList())
                     {
-                        animal.Adotantes.Add(adotantes.Adotante_User);
+                        Utilizadores user = _context.Utilizadores.Where(x => x.PerfilId == adotantes.AdotanteId).FirstOrDefault();
+                        animal.Adotantes.Add(user);
                     }
                 }
                 model.Add(animal);
@@ -616,9 +619,10 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                 if (animal.Adoptado)
                 {
                     animal.Adotantes = new List<Utilizadores>();
-                    foreach (var adotantes in _context.Adotantes.Where(a => a.AnimalId == animal.Id).Include(u => u.Adotante_User).ThenInclude(p => p.Perfil).ToList())
+                    foreach (var adotantes in _context.Adotantes.Where(a => a.AnimalId == animal.Id).Include(u => u.Adotante_User).ToList())
                     {
-                        animal.Adotantes.Add(adotantes.Adotante_User);
+                        Utilizadores user = _context.Utilizadores.Where(x => x.PerfilId == adotantes.AdotanteId).FirstOrDefault();
+                        animal.Adotantes.Add(user);
                     }
                 }
                 model.Add(animal);
@@ -639,9 +643,10 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             if (model.Adoptado)
             {
                 model.Adotantes = new List<Utilizadores>();
-                foreach (var adotantes in _context.Adotantes.Where(a => a.AnimalId == model.Id).Include(u => u.Adotante_User).ThenInclude(p => p.Perfil).ToList())
+                foreach (var adotantes in _context.Adotantes.Where(a => a.AnimalId == model.Id).Include(u => u.Adotante_User).ToList())
                 {
-                    model.Adotantes.Add(adotantes.Adotante_User);
+                    Utilizadores user = _context.Utilizadores.Where(x => x.PerfilId == adotantes.AdotanteId).FirstOrDefault();
+                    model.Adotantes.Add(user);
                 }
             }
             return View(model);
@@ -659,9 +664,10 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             if (animal.Adoptado)
             {
                 animal.Adotantes = new List<Utilizadores>();
-                foreach (var adotantes in _context.Adotantes.Where(a => a.AnimalId == animal.Id).Include(u => u.Adotante_User).ThenInclude(p => p.Perfil).ToList())
+                foreach (var adotantes in _context.Adotantes.Where(a => a.AnimalId == animal.Id).Include(u => u.Adotante_User).ToList())
                 {
-                    animal.Adotantes.Add(adotantes.Adotante_User);
+                    Utilizadores user = _context.Utilizadores.Where(x => x.PerfilId == adotantes.AdotanteId).FirstOrDefault();
+                    animal.Adotantes.Add(user);
                 }
             }
             EditarAnimalViewModel modelo = new EditarAnimalViewModel
@@ -725,9 +731,10 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                     if (auxiliar.Adoptado)
                     {
                         auxiliar.Adotantes = new List<Utilizadores>();
-                        foreach (var adotantes in _context.Adotantes.Where(a => a.AnimalId == auxiliar.Id).Include(u => u.Adotante_User).ThenInclude(p => p.Perfil).ToList())
+                        foreach (var adotantes in _context.Adotantes.Where(a => a.AnimalId == auxiliar.Id).Include(u => u.Adotante_User).ToList())
                         {
-                            auxiliar.Adotantes.Add(adotantes.Adotante_User);
+                            Utilizadores user = _context.Utilizadores.Where(x => x.PerfilId == adotantes.AdotanteId).FirstOrDefault();
+                            auxiliar.Adotantes.Add(user);
                         }
                     }
                     lista.Add(auxiliar);

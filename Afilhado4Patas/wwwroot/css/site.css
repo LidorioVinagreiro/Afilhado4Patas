@@ -640,6 +640,16 @@ li a {
     padding-bottom: 2%;
 }
 
+#container_center {
+    width: 70%;
+    box-shadow: 0 0 5px hsla(0,0%,70%,.5);
+    background-color: #fff;
+    padding-top: 2%;
+    padding-bottom: 2%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 #container_right {
     float: right;
     width: 25%;
@@ -699,6 +709,14 @@ li a {
     margin-right: 1%;
     margin-left: 1%;
 }
+
+.amizade_item {
+    width: 31.3% !important;
+    float: left;
+    margin-right: 1%;
+    margin-left: 1%;
+}
+
 
 .product-grid6, .product-grid6 .product-image6 {
     overflow: hidden

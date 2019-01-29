@@ -114,6 +114,24 @@
     <Content Update="Views\Responsavel\Tarefa.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Views\Utilizador\listaAmizades.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Utilizador\listaPedidos.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Utilizador\pedidosAmizade.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Utilizador\listaAmizades_partial.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Utilizador\listaPedidos_partial.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Utilizador\pedidosAmizade_partial.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\Utilizador\PerfilEditarFotoPerfil.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

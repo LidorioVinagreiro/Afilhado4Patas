@@ -1,0 +1,104 @@
+﻿@model Afilhado4Patas.Models.ViewModels.AmizadeViewModel
+
+
+<form asp-action="pedirAmizade" style="margin-left:10px">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="idAnimalComum" />
+    <input type="hidden" asp-for="idPerfilPossivelAmizade" />
+    <div class="amizade_item">
+        <div class="product-grid6">
+            <div class="product-image6">
+                @{
+                    if (Model.PerfilPossivelAmizade.Photo != null)
+                    {
+                        string src = "/Utilizadores/" + Model.PerfilPossivelAmizade.Utilizador.Id + "/" + Model.PerfilPossivelAmizade.Photo;
+                        <img class="pic-1" src="@src" />
+                    }
+                    else
+                    {
+                        <img class="pic-1" src="~/images/default.jpg" />
+                    }
+                }
+            </div>
+            <div class="product-content">
+                <h3 class="title">@Model.PerfilPossivelAmizade.FirstName</h3>
+                <div>
+                    @*@adocao.Pedido.Animal.Peso Kg
+                        <span>@adocao.Pedido.Animal.PorteAnimal.TipoPorte</span>
+                        @adocao.Pedido.Animal.Sexo
+                            METER ANIMAIS EM COMUM
+                    *@
+                </div>
+            </div>
+            <ul class="social">
+                <li>
+                    <input type="submit" value="Enviar pedido amizade" class="btn btn-default" />
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</form>
+
+@*<div class="container" style="background-color : #FFFFFF">
+    <div class="row">
+        <div class="col-sm-5">
+            <div class="panel panel-primary">
+                <div class="panel-heading">Animal</div>
+                <div class="panel-body">
+                    @if (Model.AnimalEmComum.Foto != "")
+                    {
+                        if (!(Model.AnimalEmComum.Foto is null))
+                        {
+                            string src = "/Animais/" + @Model.AnimalEmComum.Id + "/" + @Model.AnimalEmComum.Foto;
+                            <img src="src" alt="Dog Image" class="img-responsive" style="width:100%" />
+                        }
+                        else
+                        {
+                            <img src="~/images/dog-profile.png" alt="Dog Image" class="img-responsive" style="width:100%" />
+                        }
+                    }
+                    else
+                    {
+                        <img src="~/images/dog-profile.png" alt="Dog Image" class="img-responsive" style="width:100%" />
+                    }
+                </div>
+                <div class="panel-footer">
+                    <label asp-for="@Model.AnimalEmComum.NomeAnimal" class="control-label"></label>
+                    <span>@Model.AnimalEmComum.NomeAnimal</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-5">
+            <div class="panel panel-primary">
+                <div class="panel-heading">Padrinho</div>
+                @if (Model.PerfilPossivelAmizade.Photo != "")
+                {
+                    if (!(Model.PerfilPossivelAmizade.Photo is null))
+                    {
+                        <img src="@Model.PerfilPossivelAmizade.Photo" alt="User Image" class="img-responsive" style="width:100%" />
+                    }
+                    else
+                    {
+                        <img src="~/images/default.jpg" alt="User Image" class="img-responsive" style="width:100%" />
+                    }
+                }
+                else
+                {
+                    <img src="~/images/default.jpg" alt="user Image" class="img-responsive" style="width:100%" />
+                }
+                <div class="panel-footer">
+                    <label asp-for="Nome" class="control-label"></label>
+                    <span>@Model.Nome</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <row>
+        <div class="col-sm-offset-1">
+            <input type="submit" value="Enviar pedido amizade" class="btn btn-default btn-block" />
+        </div>
+    </row>
+</div>
+    </div>*@
