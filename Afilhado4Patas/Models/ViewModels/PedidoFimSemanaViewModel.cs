@@ -13,13 +13,13 @@ namespace Afilhado4Patas.Models.ViewModels
         [Required(ErrorMessage = "Selecione este campo")]
         public int AnimalId { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:dd/mm/yyyy}", ApplyFormatInEditMode = true)]
         [Required(ErrorMessage = "É necessário preencher este campo")]
         [Display(Name = "Data Inicio do Pedido")]
         [Date3DaysFromNow]
         public DateTime DataInicio { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:dd/mm/yyyy}", ApplyFormatInEditMode = true)]
         [Required(ErrorMessage = "É necessário preencher este campo")]
         [Display(Name = "Data Fim do Pedido")]
         [DateGreater1DayThenStartDate("DataInicio")]
