@@ -1,0 +1,36 @@
+﻿
+@{
+    ViewData["Title"] = "PedidoAdocaoRejeitado";
+}
+
+@model Afilhado4Patas.Models.ViewModels.AprovacaoViewModel
+
+<div id="page">
+    <div id="box">
+        <img id="icon_centrado" src="~/images/rejeitado.png" />
+        <h4>Adocao Rejeitada  </h4>
+        <p>Escreva em baixo notas dos motivos que o levaram a esta decisão</p>
+        <hr />
+        <br />
+        <form asp-controller="Funcionario" asp-action="RejeitarPedidoAdocao">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Notas" class="control-label"></label>
+                <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
+                      title="Caso existam outros animais em casa mencione a baixo"></span>
+                <i class="fa fa-asterisk required" title="Campo Obrigatório"></i>
+                <textarea asp-for="Notas" class="form-control"></textarea>
+                <span asp-validation-for="Notas" class="text-danger"></span>
+            </div>
+            <div class="form-group" style="display: none">
+                <label asp-for="PedidoId" class="control-label"></label>
+                <input asp-for="PedidoId" class="form-control" />
+                <span asp-validation-for="PedidoId" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="form-group">
+                <input type="submit" value="Rejeitar Adocao" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>

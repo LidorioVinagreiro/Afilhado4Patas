@@ -1121,6 +1121,207 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View(model);
         }
 
+        /****************************************************************************************************/
+        /******************************************** Adocoes ***********************************************/
+        /****************************************************************************************************/
+
+
+        public ActionResult PedidosAdocao()
+        {
+            List<PedidoAdocao> pedidos = _context.PedidosAdocao.Where(p => p.Aprovacao.Equals("Em espera")).Include(a => a.Animal).ToList();
+            return View(pedidos);
+        }
+
+        public ActionResult PedidosFimSemana()
+        {
+            List<PedidoFimSemana> pedidos = _context.PedidosFimSemana.Where(p => p.Aprovacao.Equals("Em espera")).Include(a => a.Animal).ToList();
+            return View(pedidos);
+        }
+
+        public ActionResult PedidosPasseio()
+        {
+            List<PedidoPasseio> pedidos = _context.PedidosPasseio.Where(p => p.Aprovacao.Equals("Em espera")).Include(a => a.Animal).ToList();
+            return View(pedidos);
+        }
+
+        public ActionResult AceitarPedidoAdocao(int id)
+        {
+            PedidoAdocao pedido = _context.PedidosAdocao.Where(p => p.Id == id).Include(a => a.Animal).FirstOrDefault();
+            ConvocatoriaViewModel convocatoria = new ConvocatoriaViewModel
+            {
+                AnimalNome = pedido.Animal.NomeAnimal,
+                UtilizadorId = _context.Utilizadores.Where(u => u.PerfilId == pedido.AdotanteId).FirstOrDefault().Id
+            };
+            return View("PedidoAdocaoAceite");
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> AceitarPedidoAdocao(AprovacaoViewModel aprovacao)
+        {
+            if (ModelState.IsValid)
+            {
+                PedidoAdocao pedido = _context.PedidosAdocao.Where(p => p.Id == aprovacao.PedidoId).FirstOrDefault();
+                pedido.Adotante = _context.Utilizadores.Where(u => u.PerfilId == pedido.AdotanteId).Include(p => p.Perfil).FirstOrDefault();
+                pedido.Aprovacao = "Aprovado";
+                pedido.DataAprovacao = DateTime.Now;
+                Animal animal = _context.Animais.Where(a => a.Id == pedido.AnimalId).FirstOrDefault();
+                animal.Adoptado = true;
+                Adocao novaAdocao = new Adocao
+                {
+                    PedidoAdocaoId = pedido.Id
+                };
+                _context.Adocoes.Add(novaAdocao);
+                Adotante novoAdotante = new Adotante
+                {
+                    AnimalId = pedido.AnimalId,
+                    AdotanteId = pedido.AdotanteId
+                };
+                _context.Adotantes.Add(novoAdotante);
+                _context.SaveChanges();
+
+                //Envio de Email
+                EmailAdocaoViewModel emailAprovacaoModel = new EmailAdocaoViewModel(aprovacao.Notas, pedido.Adotante.Perfil.FirstName, animal.NomeAnimal);
+                string body = await _razorView.RenderViewToStringAsync("/Views/Emails/AprovacoesPedidos/PedidoAdocaoAprovado.cshtml", emailAprovacaoModel);
+                await _emailSender.SendEmailAsync(pedido.Adotante.Email, "Pedido de Adocao de " + animal.NomeAnimal + " Aprovado", body);
+                return View("AdocaoAceite");
+            }
+            return View("PedidoAdocaoAceite", aprovacao);
+        }
+
+        public async Task<ActionResult> AceitarPedidoFimSemana(int id)
+        {
+            PedidoFimSemana pedido = _context.PedidosFimSemana.Where(p => p.Id == id).FirstOrDefault();
+            pedido.Adotante = _context.Utilizadores.Where(u => u.PerfilId == pedido.AdotanteId).Include(p => p.Perfil).FirstOrDefault();
+            pedido.Aprovacao = "Aprovado";
+            pedido.DataAprovacao = DateTime.Now;
+            Animal animal = _context.Animais.Where(a => a.Id == pedido.AnimalId).FirstOrDefault();
+            _context.SaveChanges();
+
+            //Envio de Email
+            EmailFimSemanaViewModel emailFimSemanaModel = new EmailFimSemanaViewModel("", pedido.Adotante.Perfil.FirstName, animal.NomeAnimal, pedido.DataInicio, pedido.DataFim);
+            string body = await _razorView.RenderViewToStringAsync("/Views/Emails/AprovacoesPedidos/PedidoFimSemanaAprovado.cshtml", emailFimSemanaModel);
+            await _emailSender.SendEmailAsync(pedido.Adotante.Email, "Pedido de Fim de Semana de " + animal.NomeAnimal + " Aprovado", body);
+
+            List<PedidoFimSemana> pedidos = _context.PedidosFimSemana.Where(p => p.Aprovacao.Equals("Em espera")).Include(a => a.Animal).ToList();
+            return View("PedidosFimSemana", pedidos);
+        }
+
+        public async Task<ActionResult> AceitarPedidoPasseio(int id)
+        {
+            PedidoPasseio pedido = _context.PedidosPasseio.Where(p => p.Id == id).FirstOrDefault();
+            pedido.Adotante = _context.Utilizadores.Where(u => u.PerfilId == pedido.AdotanteId).Include(p => p.Perfil).FirstOrDefault();
+            pedido.Aprovacao = "Aprovado";
+            pedido.DataAprovacao = DateTime.Now;
+            Animal animal = _context.Animais.Where(a => a.Id == pedido.AnimalId).FirstOrDefault();
+            _context.SaveChanges();
+
+            //Envio de Email
+            EmailPasseioViewModel emailPasseioModel = new EmailPasseioViewModel("", pedido.Adotante.Perfil.FirstName, animal.NomeAnimal, pedido.DataPasseio, pedido.HoraPasseio);
+            string body = await _razorView.RenderViewToStringAsync("/Views/Emails/AprovacoesPedidos/PedidoPasseioAprovado.cshtml", emailPasseioModel);
+            await _emailSender.SendEmailAsync(pedido.Adotante.Email, "Pedido de Passeio de " + animal.NomeAnimal + " Aprovado", body);
+
+            List<PedidoPasseio> pedidos = _context.PedidosPasseio.Where(p => p.Aprovacao.Equals("Em espera")).Include(a => a.Animal).ToList();
+            return View("PedidosPasseio", pedidos);
+        }
+
+        public async Task<ActionResult> RejeitarPedidoPasseio(int id)
+        {
+            PedidoPasseio pedido = _context.PedidosPasseio.Where(p => p.Id == id).FirstOrDefault();
+            pedido.Adotante = _context.Utilizadores.Where(u => u.PerfilId == pedido.AdotanteId).Include(p => p.Perfil).FirstOrDefault();
+            pedido.Aprovacao = "Reprovado";
+            pedido.DataAprovacao = DateTime.Now;
+            Animal animal = _context.Animais.Where(a => a.Id == pedido.AnimalId).FirstOrDefault();
+            _context.SaveChanges();
+
+            //Envio de Email
+            EmailPasseioViewModel emailPasseioModel = new EmailPasseioViewModel("", pedido.Adotante.Perfil.FirstName, animal.NomeAnimal, pedido.DataPasseio, pedido.HoraPasseio);
+            string body = await _razorView.RenderViewToStringAsync("/Views/Emails/AprovacoesPedidos/PedidoPasseioReprovado.cshtml", emailPasseioModel);
+            await _emailSender.SendEmailAsync(pedido.Adotante.Email, "Pedido de Passeio de " + animal.NomeAnimal + " Reprovado", body);
+
+            List<PedidoPasseio> pedidos = _context.PedidosPasseio.Where(p => p.Aprovacao.Equals("Em espera")).Include(a => a.Animal).ToList();
+            return View("PedidosPasseio", pedidos);
+        }
+
+        public async Task<ActionResult> RejeitarPedidoFimSemana(int id)
+        {
+            PedidoFimSemana pedido = _context.PedidosFimSemana.Where(p => p.Id == id).FirstOrDefault();
+            pedido.Adotante = _context.Utilizadores.Where(u => u.PerfilId == pedido.AdotanteId).Include(p => p.Perfil).FirstOrDefault();
+            pedido.Aprovacao = "Reprovado";
+            pedido.DataAprovacao = DateTime.Now;
+            Animal animal = _context.Animais.Where(a => a.Id == pedido.AnimalId).FirstOrDefault();
+            _context.SaveChanges();
+
+            //Envio de Email
+            EmailFimSemanaViewModel emailFimSemanaModel = new EmailFimSemanaViewModel("", pedido.Adotante.Perfil.FirstName, animal.NomeAnimal, pedido.DataInicio, pedido.DataFim);
+            string body = await _razorView.RenderViewToStringAsync("/Views/Emails/AprovacoesPedidos/PedidoFimSemanaReprovado.cshtml", emailFimSemanaModel);
+            await _emailSender.SendEmailAsync(pedido.Adotante.Email, "Pedido de Fim de Semana de " + animal.NomeAnimal + " Reprovado", body);
+
+            List<PedidoFimSemana> pedidos = _context.PedidosFimSemana.Where(p => p.Aprovacao.Equals("Em espera")).Include(a => a.Animal).ToList();
+            return View("PedidosFimSemana", pedidos);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> RejeitarPedidoAdocao(AprovacaoViewModel aprovacao)
+        {
+            if (ModelState.IsValid)
+            {
+                PedidoAdocao pedido = _context.PedidosAdocao.Where(p => p.Id == aprovacao.PedidoId).FirstOrDefault();
+                pedido.Adotante = _context.Utilizadores.Where(u => u.PerfilId == pedido.AdotanteId).Include(p => p.Perfil).FirstOrDefault();
+                pedido.Aprovacao = "Reprovado";
+                pedido.DataAprovacao = DateTime.Now;
+                Animal animal = _context.Animais.Where(a => a.Id == pedido.AnimalId).FirstOrDefault();
+                _context.SaveChanges();
+
+                //Envio de Email
+                EmailAdocaoViewModel emailAprovacaoModel = new EmailAdocaoViewModel(aprovacao.Notas, pedido.Adotante.Perfil.FirstName, animal.NomeAnimal);
+                string body = await _razorView.RenderViewToStringAsync("/Views/Emails/AprovacoesPedidos/PedidoAdocaoReprovado.cshtml", emailAprovacaoModel);
+                await _emailSender.SendEmailAsync(pedido.Adotante.Email, "Pedido de Adocao de " + animal.NomeAnimal + " Reprovado", body);
+                return View("AdocaoRejeitada");
+            }
+            return View("PedidoAdocaoRejeitado", aprovacao);
+        }
+
+        // *************************** CONVOCATORIA
+
+
+        public ActionResult ConvocarReuniao()
+        {
+            List<Adocao> adocoes = _context.Adocoes.Include(p => p.Pedido).Where(a => a.Pedido.TipoAdocao == "Total").ToList();
+            foreach (var adocao in adocoes)
+            {
+                adocao.Pedido.Adotante = _context.Utilizadores.Where(u => u.PerfilId == adocao.Pedido.AdotanteId).Include(p => p.Perfil).FirstOrDefault();
+                adocao.Pedido.Animal = _context.Animais.Where(a => a.Id == adocao.Pedido.AnimalId).Include(p => p.PorteAnimal).FirstOrDefault();
+            }
+            return View(adocoes);
+        }
+
+        public ActionResult ConvocarReuniaoEspecifica(Dictionary<string, string> dicionario)
+        {
+            ConvocatoriaViewModel convocatoria = new ConvocatoriaViewModel
+            {
+                UtilizadorId = dicionario.First().Key,
+                AnimalNome = dicionario.First().Value
+            };
+            return View(convocatoria);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ConvocarReuniaoEspecifica(ConvocatoriaViewModel convocatoria)
+        {
+            if (ModelState.IsValid)
+            {
+                Utilizadores utilizador = _context.Utilizadores.Where(u => u.Id == convocatoria.UtilizadorId).Include(p => p.Perfil).FirstOrDefault();
+                //Envio de Email
+                EmailConvocatoriaViewModel emailConvocatoriaModel = new EmailConvocatoriaViewModel(convocatoria.Notas, utilizador.Perfil.FirstName, convocatoria.AnimalNome);
+                string body = await _razorView.RenderViewToStringAsync("/Views/Emails/Convocatoria/Convocatoria.cshtml", emailConvocatoriaModel);
+                await _emailSender.SendEmailAsync(utilizador.Email, "Convocatoria para o(a) " + convocatoria.AnimalNome, body);
+                return View("ConvocatoriaRegistada");
+            }
+            return View(convocatoria);
+        }
+
+
+
 
         private bool CreateFolder(string path)
         {

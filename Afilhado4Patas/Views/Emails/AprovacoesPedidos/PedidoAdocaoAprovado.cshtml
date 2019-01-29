@@ -1,0 +1,23 @@
+﻿@using Afilhado4Patas.Models.ViewModels
+@model EmailAdocaoViewModel
+
+@{
+    ViewData["EmailTitle"] = "Pedido Adocao Aprovada";
+}
+
+<p>
+    Caro @Model.Nome,
+</p>
+<p>
+    Gostariamos de o informar que após um processo de avaliação do seu pedido de adoção em relação ao animal @Model.NomeAnimal, o mesmo terá sido <bold>aprovado.</bold>
+</p>
+<p>
+    Em baixo irá ter algumas notas que levaram á aceitação do seu pedido
+</p>
+<p>
+    Notas: @Model.Descricao
+</p>
+<br />
+<p>
+    Equipa de Suporte Afilhados4Patas
+</p>

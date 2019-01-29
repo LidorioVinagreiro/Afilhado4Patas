@@ -1,0 +1,31 @@
+﻿@using Afilhado4Patas.Data
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<Utilizadores> SignInManager
+@inject UserManager<Utilizadores> UserManager
+@inject ApplicationDbContext Context
+
+@model List<Afilhado4Patas.Models.Adocao>
+
+@{
+    ViewData["Title"] = "Convocar Reuniao";
+}
+
+<div id="page">
+    <h2 class="centrado">Convocar Reuniao</h2>
+    <br />
+    <div class="wrap">
+        <div class="search">
+            <input type="text" class="searchTerm" placeholder="Qual o animal que procura ?">
+            <button type="submit" class="searchButton">
+                <i class="fa fa-search"></i>
+            </button>
+        </div>
+    </div>
+    <br />
+    <div id="container_center">
+        @{
+            @Html.Partial("GridAnimaisAdotados", Model)
+        }
+    </div>
+</div>
+

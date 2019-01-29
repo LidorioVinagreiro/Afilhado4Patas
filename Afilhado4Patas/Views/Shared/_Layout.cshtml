@@ -28,6 +28,7 @@
     <!-- DatePicker -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.css" rel="stylesheet">
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.js"></script>
+    
 
 </head>
 <body>
@@ -76,12 +77,10 @@
                         <li>
                             <a>Adoçoes</a>
                             <ul class="sub-menu clearfix">
-                                <li><a asp-controller="Responsavel">Pedidos de Adoção Total</a></li>
-                                <li><a asp-controller="Responsavel">Pedidos de Apadrinhamento</a></li>
-                                <li><a asp-controller="Responsavel">Pedidos X dias</a></li>
-                                <li><a asp-controller="Responsavel">Pedidos de Passeios</a></li>
-                                <li><a asp-controller="Responsavel">Convocar Reunião (Controlo Animal)</a></li>
-                                <li><a asp-controller="Responsavel">Pedidos Rejeitados</a></li>
+                                <li><a asp-controller="Responsavel" asp-action="PedidosAdocao">Pedidos de Adoção</a></li>
+                                <li><a asp-controller="Responsavel" asp-action="PedidosFimSemana">Pedidos Fins de Semana</a></li>
+                                <li><a asp-controller="Responsavel" asp-action="PedidosPasseio">Pedidos de Passeios</a></li>
+                                <li><a asp-controller="Responsavel" asp-action="ConvocarReuniao">Convocar Reunião (Controlo Animal)</a></li>
                             </ul>
                         </li>
                         <li>
@@ -113,10 +112,9 @@
                             <a>Adoçoes</a>
                             <ul class="sub-menu clearfix">
                                 <li><a asp-controller="Funcionario" asp-action="PedidosAdocao">Pedidos de Adoção</a></li>
-                                <li><a asp-controller="Funcionario">Pedidos X dias</a></li>
-                                <li><a asp-controller="Funcionario">Pedidos de Passeios</a></li>
-                                <li><a asp-controller="Funcionario">Convocar Reunião (Controlo Animal)</a></li>
-                                <li><a asp-controller="Funcionario">Pedidos Rejeitados</a></li>
+                                <li><a asp-controller="Funcionario" asp-action="PedidosFimSemana">Pedidos Fins de Semana</a></li>
+                                <li><a asp-controller="Funcionario" asp-action="PedidosPasseio">Pedidos de Passeios</a></li>
+                                <li><a asp-controller="Funcionario" asp-action="ConvocarReuniao">Convocar Reunião (Controlo Animal)</a></li>
                             </ul>
                         </li>
                         <li>
@@ -126,7 +124,6 @@
                             </ul>
                         </li>
                         <li><a asp-controller="Funcionario" asp-action="Contact">Contactos</a></li>
-
                     }
                     else if (User.IsInRole("Utilizador"))
                     {
@@ -145,8 +142,9 @@
                             <a>Adoçoes</a>
                             <ul class="sub-menu clearfix">
                                 <li><a asp-controller="Utilizador" asp-action="PedidoAdocao" asp-route-id="@UserManager.GetUserId(User)">Realizar Pedido de Adoção</a></li>
-                                <li><a asp-controller="Utilizador" asp-action="MeusPedidos" asp-route-id="@UserManager.GetUserId(User)">Os meus pedidos de Adoções</a></li>
-                                <li><a asp-controller="Utilizador" asp-action="MinhasMarcacoes" asp-route-id="@UserManager.GetUserId(User)">As minhas Marcações</a></li>
+                                <li><a asp-controller="Utilizador" asp-action="MeusPedidos" asp-route-id="@UserManager.GetUserId(User)">As minhas de Adoções</a></li>
+                                <li><a asp-controller="Utilizador" asp-action="MeusPedidosFimSemana" asp-route-id="@UserManager.GetUserId(User)">Os meus Fins de Semanas</a></li>
+                                <li><a asp-controller="Utilizador" asp-action="MeusPedidosPasseio" asp-route-id="@UserManager.GetUserId(User)">Os meus Passeios</a></li>
                             </ul>
                         </li>
                         <li><a asp-controller="Utilizador" asp-action="Contact">Contactos</a></li>

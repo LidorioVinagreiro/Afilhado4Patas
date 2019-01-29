@@ -16,7 +16,7 @@
                       title="Insira o dia de inicio pretendido para o Fim de Semana com o seu animal.
  Qualquer marcação de Fim de Semana apenas poderá ser marcada com 3 dias de antecedência"></span>
                 <div class="input-group date" id="datepicker_marcacaoFimSemana1">
-                    <input asp-for="DataInicio" type="text" class="form-control" />
+                    <input asp-for="DataInicio" type="text" value="" class="form-control" />
                     <span class="input-group-addon hand">
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
@@ -29,7 +29,7 @@
                       title="Insira o dia de fim pretendido para o Fim de Semana com o seu animal.
  Qualquer marcação de Fim de Semana apenas poderá ser marcada com 3 dias de antecedência"></span>
                 <div class="input-group date" id="datepicker_marcacaoFimSemana2">
-                    <input asp-for="DataFim" type="text" class="form-control" />
+                    <input asp-for="DataFim" type="text" value="" class="form-control" />
                     <span class="input-group-addon hand">
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
@@ -51,33 +51,54 @@
     </div>
 </div>
 
+<script src="~/js/bootstrap-datepicker.pt-BR.js"></script>
 <script>
-        $(document).ready(function () {
-            $('#datepicker_marcacaoFimSemana1').datepicker({
-                format: "dd/MM/yyyy",
-                startDate: '+3d',
-                autoclose: true,
-                todayHighlight: true,
-                showOtherMonths: true,
-                selectOtherMonths: true,
-                autoclose: true,
-                changeMonth: true,
-                changeYear: true,
-                orientation: "top",
-                beforeShowDay: function(dt){ return [dt.getDay() == 0 || dt.getDay() == 6, ""];}
-            });
-            $('#datepicker_marcacaoFimSemana2').datepicker({
-                format: "dd/MM/yyyy",
-                startDate: '+3d',
-                autoclose: true,
-                todayHighlight: true,
-                showOtherMonths: true,
-                selectOtherMonths: true,
-                autoclose: true,
-                changeMonth: true,
-                changeYear: true,
-                orientation: "top",
-                beforeShowDay: function (dt) { return [dt.getDay() == 0 || dt.getDay() == 6, ""]; }
-            });
+    $(document).ready(function () {
+        $('#datepicker_marcacaoFimSemana1').datepicker({
+            firstday: 1,
+            beforeShowDay: function (date) {
+                var day = date.getDay() == 0 || date.getDay() == 6;
+                var nowDate = new Date();
+                if (day && nowDate <= date) {
+                    return { classes: "Highlighted" };
+                }
+            },
+            format: "dd/MM/yyyy",
+            startDate: '+3d',
+            autoclose: true,
+            todayHighlight: true,
+            showOtherMonths: true,
+            selectOtherMonths: true,
+            autoclose: true,
+            changeMonth: true,
+            changeYear: true,
+            orientation: "top",
+            daysOfWeekDisabled: [1, 2, 3, 4, 5],
+            language: 'pt-BR'
+
         });
+        $('#datepicker_marcacaoFimSemana2').datepicker({
+            beforeShowDay: function (date) {
+                var day = date.getDay() == 0 || date.getDay() == 6;
+                var nowDate = new Date();
+                if (day && nowDate <= date) {
+                    return { classes: "Highlighted" };
+                }
+            },
+            format: "dd/MM/yyyy",
+            startDate: '+3d',
+            autoclose: true,
+            todayHighlight: true,
+            showOtherMonths: true,
+            selectOtherMonths: true,
+            autoclose: true,
+            changeMonth: true,
+            changeYear: true,
+            orientation: "top",
+            daysOfWeekDisabled: [1, 2, 3, 4, 5],
+            language: 'pt-BR'
+        });
+
+
+    });
 </script>
