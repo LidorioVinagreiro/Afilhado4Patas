@@ -24,18 +24,20 @@
                 right: 'month,agendaWeek,agendaDay,listWeek'
             },
             defaultDate: '2019-01-12',
-            defaultView: 'agendaWeek',
+            defaultView: 'month',
             navLinks: true, // can click day/week names to navigate views
             editable: true,
             eventLimit: true, // allow "more" link when too many events
             contentHeight: 500,
+            //themeSystem: 'standard',
+            themeSystem: 'bootstrap4',
             locale: 'pt',
-            //events: "/Responsavel/EventosCalendario"
-            events: $(function (start, end, timezone, callback)
+            events: "/Responsavel/EventosCalendario"
+            /*events: $(function (start, end, timezone, callback)
             {
             $.ajax({
                 dataType: "json",
-                type: "POST",
+                type: "GET",
                 contentType: "application/json; charset=utf-8",
                 url: "/Responsavel/EventosCalendario",
                 success: function (data) {
@@ -50,7 +52,7 @@
                     callback(events);
                 }
         })
-        })
+        })*/
         });
 
     });

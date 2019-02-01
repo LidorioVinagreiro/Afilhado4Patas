@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace Afilhado4Patas.Controllers.TiposUtilizadores
 {
@@ -1425,12 +1426,19 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
 
             var resSelect = new List<object>();
 
-            var selectPasseios = (from passeio in _context.PedidosPasseio
+            /*var selectPasseios = (from passeio in _context.PedidosPasseio
                                     where passeio.Aprovacao == "Aprovado"
                                     select passeio).Include(u => u.Adotante).ThenInclude(u => u.Perfil);
+
             var selectFinsDeSemana = (from fimDeSemana in _context.PedidosFimSemana
                                         where fimDeSemana.Aprovacao == "Aprovado"
-                                        select fimDeSemana).Include(u => u.Adotante).ThenInclude(u => u.Perfil);
+                                        select fimDeSemana).Include(u => u.Adotante).ThenInclude(u => u.Perfil);*/
+
+            Utilizadores utilizador = _context.Utilizadores.Where(u => u.Id == _userManager.GetUserId(User)).FirstOrDefault();
+            var selectFinsDeSemana = _context.FinsSemanas.Include(u => u.Pedido).Where(a => a.Pedido.DataInicio >= DateTime.Today && a.Pedido.AdotanteId == utilizador.PerfilId).ToList();
+
+            var selectPasseios = _context.Passeios.Include(u => u.Pedido).Where(a => a.Pedido.DataPasseio >= DateTime.Today && a.Pedido.AdotanteId == utilizador.PerfilId).ToList();
+
             resSelect.Union(selectPasseios).Union(selectFinsDeSemana);
 
             foreach (var item in selectFinsDeSemana)
@@ -1438,9 +1446,9 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                 listCalendario.Add(
                         new
                         {
-                            title = item.Adotante.Perfil.FirstName,
-                            start = item.DataInicio,
-                            end = item.DataFim
+                            title = utilizador.PerfilId,
+                            start = item.Pedido.DataInicio,
+                            end = item.Pedido.DataFim
                         }
                     );
             }
@@ -1450,8 +1458,8 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                 listCalendario.Add(
                     new
                     {
-                        title = item.Adotante.Perfil.FirstName,
-                        start = item.DataPasseio,
+                        title = utilizador.PerfilId,
+                        start = item.Pedido.DataPasseio,
                         end = ""
                     }
                 );
