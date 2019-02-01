@@ -76,7 +76,7 @@ namespace Afilhado4Patas.Areas.Identity.Pages.Account
             [Display(Name = "Data de Nascimento")]
             [Required(ErrorMessage = "Preencha este campo com a sua Data de Nascimento!")]
             [DateGreatThen18LessThen120]
-            [DisplayFormat(DataFormatString = "{0:dd/mm/yyyy}", ApplyFormatInEditMode = true)]
+            [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
             public DateTime DataNascimento { get; set; }
 
             [Required(ErrorMessage = "Selecione um dos campos Masculino ou Feminino")]
@@ -108,8 +108,8 @@ namespace Afilhado4Patas.Areas.Identity.Pages.Account
             returnUrl = returnUrl ?? Url.Content("~/");
             if (ModelState.IsValid)
             {
-
-                if (_userManager.FindByEmailAsync(Input.Email) != null)
+                Utilizadores teste = await _userManager.FindByEmailAsync(Input.Email);
+                if (teste == null)
                 {
                     var user = new Utilizadores { UserName = Input.Email, Email = Input.Email, Active = true };
                     var result = await _userManager.CreateAsync(user, Input.Password);

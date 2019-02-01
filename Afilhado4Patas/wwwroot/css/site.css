@@ -5,7 +5,7 @@ body, html {
     margin: 0;
     height: 100vh;
     width: 100%;
-    background-color: #f6f6f6 !important;
+    background-color: #f2f2f2 !important;
 }
 
 .required{
@@ -109,7 +109,7 @@ footer {
 }
 
 #logo {
-    position: fixed;
+    position: absolute;
     top: 1%;
     left: 3%;
     height: 11%;

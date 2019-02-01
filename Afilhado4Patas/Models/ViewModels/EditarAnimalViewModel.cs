@@ -20,8 +20,7 @@ namespace Afilhado4Patas.Models.ViewModels
 
         [Required(ErrorMessage = "Selecione um dos campos Macho ou Fêmea")]
         public string Sexo { get; set; }
-
-        [DisplayFormat(DataFormatString = "{0:dd/mm/yyyy}", ApplyFormatInEditMode = true)]
+        
         [Required(ErrorMessage = "É necessário preencher este campo")]
         [Display(Name = "Data Nascimento")]
         [DateGreaterThen0LessThen30]
