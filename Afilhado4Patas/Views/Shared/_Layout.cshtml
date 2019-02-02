@@ -29,9 +29,10 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.css" rel="stylesheet">
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.js"></script>
     <!-- Calendario -->
-    <link rel='stylesheet' href='~/fullcalendar/fullcalendar.css' />
+    <!--<link rel='stylesheet' href='~/fullcalendar/fullcalendar.css' />-->
+    <link rel='stylesheet' href='~/fullcalendar/fullcalendar-custom.css' />
     <link href='~/fullcalendar/fullcalendar.print.min.css' rel='stylesheet' media="print" />
-    <!---->
+
     <script type="text/javascript" src='~/fullcalendar/lib/jquery.min.js'></script>
     <script type="text/javascript" src='~/fullcalendar/lib/moment.min.js'></script>
     <script type="text/javascript" src='~/fullcalendar/lib/jquery-ui.custom.min.js'></script>
@@ -102,7 +103,6 @@
                             </ul>
                         </li>
                         <li><a asp-controller="Responsavel" asp-action="Contact">Contactos</a></li>
-                        <li><a asp-controller="Responsavel" asp-action="CalendarioUtilizador">Calendario</a></li>
                     }
                     else if (User.IsInRole("Funcionario"))
                     {
@@ -181,6 +181,7 @@
                             </ul>
                         </li>
                         <li><a asp-controller="Guest" asp-action="Contact">Contactos</a></li>
+                        <li><a asp-controller="Guest" asp-action="CalendarioUtilizador">Calendario</a></li>
                     }
                 </ul>
                 <partial name="_LoginPartial" />

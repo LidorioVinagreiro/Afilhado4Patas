@@ -6,9 +6,7 @@
 
 
 
-<br />
-<br />
-<br />
+
 <br />
 <br />
 <br />
@@ -19,16 +17,16 @@
 
         $('#calendar').fullCalendar({
             header: {
-                left: 'prev,next today',
+                left: 'prev',
                 center: 'title',
-                right: 'month,agendaWeek,agendaDay,listWeek'
+                right: 'next'
             },
-            defaultDate: '2019-01-12',
-            defaultView: 'month',
+            //defaultDate: '2019-01-12',
+            defaultView: 'agendaWeek',
             navLinks: true, // can click day/week names to navigate views
             editable: true,
             eventLimit: true, // allow "more" link when too many events
-            contentHeight: 500,
+            contentHeight: 300,
             //themeSystem: 'standard',
             themeSystem: 'bootstrap4',
             locale: 'pt',

@@ -1415,11 +1415,6 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return tarefasModel;
         }
 
-        public IActionResult CalendarioUtilizador()
-        {
-            return View("../Utilizador/CalendarioUtilizador");
-        }
-
         public JsonResult EventosCalendario()
         {
             var listCalendario = new List<object>();
@@ -1467,6 +1462,5 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
 
             return Json(listCalendario);
         }
-
     }
 }
