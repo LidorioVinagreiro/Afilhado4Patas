@@ -5,7 +5,7 @@ body, html {
     margin: 0;
     height: 100vh;
     width: 100%;
-    background-color: #f2f2f2 !important;
+    background-color: #eaeaea !important;
 }
 
 .required{
@@ -109,7 +109,7 @@ footer {
 }
 
 #logo {
-    position: absolute;
+    position: fixed;
     top: 1%;
     left: 3%;
     height: 11%;
@@ -260,10 +260,21 @@ li a {
     }
 
 #logoutForm, #ul_nav_items_login {
-    height: 100%;
-    width: auto;
-    padding-right: 7%;
+    height: 100% !important;
+    width: auto !important;
+    padding-right: 5% !important;
+    margin:0 !important;
+    background-color: transparent !important
 }
+
+#nome, #fechar_sessao{
+    color: #fff !important;
+    text-decoration:none !important;
+}
+
+    #nome:hover, #fechar_sessao:hover {
+        color: #428bca !important;
+    }
 
 #container {
     width: 100%;
@@ -473,7 +484,8 @@ li a {
 #icon_centrado {
     height: 120px;
     width: 120px;
-    margin-bottom: 25px;
+    margin-top: 10px;
+    margin-bottom: 10px;
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -483,7 +495,8 @@ li a {
     border-radius: 50%;
     height: 120px;
     width: 120px;
-    margin-bottom: 25px;
+    margin-top: 10px;
+    margin-bottom: 10px;
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -491,7 +504,16 @@ li a {
 
 #page {
     width: 90%;
-    padding-top: 7%;
+    padding-top: 5%;
+    margin-right: auto;
+    margin-left: auto;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+#login_page, #registo_page {
+    width: 90%;
+    padding-top: 3%;
     margin-right: auto;
     margin-left: auto;
     padding-left: 0;
@@ -554,13 +576,10 @@ li a {
 }
 
 #imagem_perfil {
-    width: 45%;
-    height: 40%;
+    width: 100%;
+    height: 100%;
     background-size: cover;
-    padding-top: 5%;
-    padding-bottom: 5%;
     background-size: cover;
-    border-radius: 50%;
 }
 
 #animals_space {
@@ -921,7 +940,7 @@ li a {
     }
 
         .efeito.efeito_botao:before {
-            content: "\f178";
+            content: "\f061";
             font-family: FontAwesome;
             font-size: 15px;
             position: absolute;

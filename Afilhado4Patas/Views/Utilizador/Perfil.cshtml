@@ -16,18 +16,7 @@
         <span> Perfil de @Html.DisplayFor(model => model.Perfil.FirstName) @Html.DisplayFor(model => model.Perfil.LastName)</span>
     </div>    
     <div id="perfil_container1">
-        @{Utilizadores user = Context.Utilizadores.Where(u => u.Email == UserManager.GetUserName(User)).FirstOrDefault();
-            Perfil perfil = Context.PerfilTable.Where(p => p.Id == user.PerfilId).FirstOrDefault();
-            if (perfil.Photo != null)
-            {
-                string src = "/Utilizadores/" + user.Id + "/" + perfil.Photo;
-                <img id="imagem_perfil" src="@src" />
-            }
-            else
-            {
-                <img id="imagem_perfil" src="~/images/default.jpg" />
-            }
-        }
+        
         <table id="user_info_table">
             <tr id="info_tr">
                 <td id="info_nome">@Html.DisplayNameFor(model => model.Perfil.FirstName)</td>

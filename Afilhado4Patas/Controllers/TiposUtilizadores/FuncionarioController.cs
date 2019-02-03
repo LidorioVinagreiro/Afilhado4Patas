@@ -947,12 +947,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         public ActionResult AceitarPedidoAdocao(int id)
         {
             PedidoAdocao pedido = _context.PedidosAdocao.Where(p => p.Id == id).Include(a => a.Animal).FirstOrDefault();
-            ConvocatoriaViewModel convocatoria = new ConvocatoriaViewModel
+            AprovacaoViewModel aprovacao = new AprovacaoViewModel
             {
-                AnimalNome = pedido.Animal.NomeAnimal,
-                UtilizadorId = _context.Utilizadores.Where(u => u.PerfilId == pedido.AdotanteId).FirstOrDefault().Id
+                PedidoId = pedido.Id       
             };
-            return View("PedidoAdocaoAceite");            
+            return View("PedidoAdocaoAceite", aprovacao);            
         }
 
         [HttpPost]

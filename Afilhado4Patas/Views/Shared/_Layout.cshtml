@@ -41,8 +41,6 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.css" rel="stylesheet">
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.js"></script>
 
-
-
 </head>
 <body>
     @if (User.IsInRole("Responsavel"))
@@ -77,7 +75,15 @@
                     {
                         <li><a asp-controller="Responsavel" asp-action="Index">Inicio</a></li>
                         <li><a asp-controller="Responsavel" asp-action="About">Sobre nós</a></li>
-                        <li><a asp-controller="Responsavel" asp-action="Adotar">Adoções</a></li>
+                        <li>
+                            <a asp-controller="Responsavel" asp-action="Adotar">Adotar</a>
+                            <ul class="sub-menu clearfix">
+                                <li><a asp-controller="Responsavel" asp-action="PedidosAdocao">Pedidos de Adoção</a></li>
+                                <li><a asp-controller="Responsavel" asp-action="PedidosFimSemana">Pedidos Fins de Semana</a></li>
+                                <li><a asp-controller="Responsavel" asp-action="PedidosPasseio">Pedidos de Passeios</a></li>
+                                <li><a asp-controller="Responsavel" asp-action="ConvocarReuniao">Convocar Reunião (Controlo Animal)</a></li>
+                            </ul>
+                        </li>
                         <li><a asp-controller="Responsavel" asp-action="Doar">Doar</a></li>
                         <li>
                             <a>Animais</a>
@@ -85,15 +91,6 @@
                                 <li><a asp-controller="Responsavel" asp-action="Animais">Os nossos Animais</a></li>
                                 <li><a asp-controller="Responsavel" asp-action="RegistoAnimal">Registo Animal</a></li>
                                 <li><a asp-controller="Responsavel" asp-action="ListaAnimais">Lista Animais (Detalhada)</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a>Adoçoes</a>
-                            <ul class="sub-menu clearfix">
-                                <li><a asp-controller="Responsavel" asp-action="PedidosAdocao">Pedidos de Adoção</a></li>
-                                <li><a asp-controller="Responsavel" asp-action="PedidosFimSemana">Pedidos Fins de Semana</a></li>
-                                <li><a asp-controller="Responsavel" asp-action="PedidosPasseio">Pedidos de Passeios</a></li>
-                                <li><a asp-controller="Responsavel" asp-action="ConvocarReuniao">Convocar Reunião (Controlo Animal)</a></li>
                             </ul>
                         </li>
                         <li>
@@ -111,7 +108,15 @@
                     {
                         <li><a asp-controller="Funcionario" asp-action="Index">Inicio</a></li>
                         <li><a asp-controller="Funcionario" asp-action="About">Sobre nós</a></li>
-                        <li><a asp-controller="Funcionario" asp-action="Adotar">Adoções</a></li>
+                        <li>
+                            <a asp-controller="Funcionario" asp-action="Adotar">Adotar</a>
+                            <ul class="sub-menu clearfix">
+                                <li><a asp-controller="Funcionario" asp-action="PedidosAdocao">Pedidos de Adoção</a></li>
+                                <li><a asp-controller="Funcionario" asp-action="PedidosFimSemana">Pedidos Fins de Semana</a></li>
+                                <li><a asp-controller="Funcionario" asp-action="PedidosPasseio">Pedidos de Passeios</a></li>
+                                <li><a asp-controller="Funcionario" asp-action="ConvocarReuniao">Convocar Reunião (Controlo Animal)</a></li>
+                            </ul>
+                        </li>
                         <li><a asp-controller="Funcionario" asp-action="Doar">Doar</a></li>
                         <li>
                             <a asp-controller="Funcionario" asp-action="Animais">Animais</a>
@@ -119,15 +124,6 @@
                                 <li><a asp-controller="Funcionario" asp-action="Animais">Os nossos Animais</a></li>
                                 <li><a asp-controller="Funcionario" asp-action="RegistoAnimal">Registo Animal</a></li>
                                 <li><a asp-controller="Funcionario" asp-action="ListaAnimais">Lista Animais (Detalhada)</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a>Adoçoes</a>
-                            <ul class="sub-menu clearfix">
-                                <li><a asp-controller="Funcionario" asp-action="PedidosAdocao">Pedidos de Adoção</a></li>
-                                <li><a asp-controller="Funcionario" asp-action="PedidosFimSemana">Pedidos Fins de Semana</a></li>
-                                <li><a asp-controller="Funcionario" asp-action="PedidosPasseio">Pedidos de Passeios</a></li>
-                                <li><a asp-controller="Funcionario" asp-action="ConvocarReuniao">Convocar Reunião (Controlo Animal)</a></li>
                             </ul>
                         </li>
                         <li>
@@ -142,22 +138,21 @@
                     {
                         <li><a asp-controller="Utilizador" asp-action="Index">Inicio</a></li>
                         <li><a asp-controller="Utilizador" asp-action="About">Sobre nós</a></li>
-                        <li><a asp-controller="Utilizador" asp-action="Adotar">Adoções</a></li>
+                        <li>
+                            <a asp-controller="Utilizador" asp-action="Adotar">Adotar</a>
+                            <ul class="sub-menu clearfix">
+                                <li><a asp-controller="Utilizador" asp-action="PedidoAdocao" asp-route-id="@UserManager.GetUserId(User)">Realizar Pedido de Adoção</a></li>
+                                <li><a asp-controller="Utilizador" asp-action="MeusPedidos" asp-route-id="@UserManager.GetUserId(User)">As minhas de Adoções</a></li>
+                                <li><a asp-controller="Utilizador" asp-action="MeusPedidosFimSemana" asp-route-id="@UserManager.GetUserId(User)">Os meus Fins de Semanas</a></li>
+                                <li><a asp-controller="Utilizador" asp-action="MeusPedidosPasseio" asp-route-id="@UserManager.GetUserId(User)">Os meus Passeios</a></li>
+                            </ul>
+                        </li>
                         <li><a asp-controller="Utilizador" asp-action="Doar">Doar</a></li>
                         <li>
                             <a>Animais</a>
                             <ul class="sub-menu clearfix">
                                 <li><a asp-controller="Utilizador" asp-action="Animais">Os nossos Animais</a></li>
                                 <li><a asp-controller="Utilizador" asp-action="MeusAnimais" asp-route-id="@UserManager.GetUserId(User)">Os meus animais</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a>Adoçoes</a>
-                            <ul class="sub-menu clearfix">
-                                <li><a asp-controller="Utilizador" asp-action="PedidoAdocao" asp-route-id="@UserManager.GetUserId(User)">Realizar Pedido de Adoção</a></li>
-                                <li><a asp-controller="Utilizador" asp-action="MeusPedidos" asp-route-id="@UserManager.GetUserId(User)">As minhas de Adoções</a></li>
-                                <li><a asp-controller="Utilizador" asp-action="MeusPedidosFimSemana" asp-route-id="@UserManager.GetUserId(User)">Os meus Fins de Semanas</a></li>
-                                <li><a asp-controller="Utilizador" asp-action="MeusPedidosPasseio" asp-route-id="@UserManager.GetUserId(User)">Os meus Passeios</a></li>
                             </ul>
                         </li>
                         <li>
@@ -175,7 +170,7 @@
                     {
                         <li><a asp-controller="Guest" asp-action="Index">Inicio</a></li>
                         <li><a asp-controller="Guest" asp-action="About">Sobre nós</a></li>
-                        <li><a asp-controller="Guest" asp-action="Adotar">Adoções</a></li>
+                        <li><a asp-controller="Guest" asp-action="Adotar">Adotar</a></li>
                         <li><a asp-controller="Guest" asp-action="Doar">Doar</a></li>
                         <li>
                             <a>Animais</a>
@@ -202,7 +197,7 @@
             <p>&copy; 2018 - Afilhado4Patas</p>
         </footer>
             -->
-    </div>   
+    </div>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

@@ -16,5 +16,7 @@ namespace Afilhado4Patas.Models.ViewModels
         
         [Required]
         public int PedidoId { get; set; }
+
+
     }
 }
