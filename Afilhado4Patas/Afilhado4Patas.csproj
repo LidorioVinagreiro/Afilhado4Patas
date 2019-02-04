@@ -30,6 +30,79 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\fullcalendar\locale\af.js" />
+    <None Include="wwwroot\fullcalendar\locale\ar-dz.js" />
+    <None Include="wwwroot\fullcalendar\locale\ar-kw.js" />
+    <None Include="wwwroot\fullcalendar\locale\ar-ly.js" />
+    <None Include="wwwroot\fullcalendar\locale\ar-ma.js" />
+    <None Include="wwwroot\fullcalendar\locale\ar-sa.js" />
+    <None Include="wwwroot\fullcalendar\locale\ar-tn.js" />
+    <None Include="wwwroot\fullcalendar\locale\ar.js" />
+    <None Include="wwwroot\fullcalendar\locale\be.js" />
+    <None Include="wwwroot\fullcalendar\locale\bg.js" />
+    <None Include="wwwroot\fullcalendar\locale\bs.js" />
+    <None Include="wwwroot\fullcalendar\locale\ca.js" />
+    <None Include="wwwroot\fullcalendar\locale\cs.js" />
+    <None Include="wwwroot\fullcalendar\locale\da.js" />
+    <None Include="wwwroot\fullcalendar\locale\de-at.js" />
+    <None Include="wwwroot\fullcalendar\locale\de-ch.js" />
+    <None Include="wwwroot\fullcalendar\locale\de.js" />
+    <None Include="wwwroot\fullcalendar\locale\el.js" />
+    <None Include="wwwroot\fullcalendar\locale\en-au.js" />
+    <None Include="wwwroot\fullcalendar\locale\en-ca.js" />
+    <None Include="wwwroot\fullcalendar\locale\en-gb.js" />
+    <None Include="wwwroot\fullcalendar\locale\en-ie.js" />
+    <None Include="wwwroot\fullcalendar\locale\en-nz.js" />
+    <None Include="wwwroot\fullcalendar\locale\es-do.js" />
+    <None Include="wwwroot\fullcalendar\locale\es-us.js" />
+    <None Include="wwwroot\fullcalendar\locale\es.js" />
+    <None Include="wwwroot\fullcalendar\locale\et.js" />
+    <None Include="wwwroot\fullcalendar\locale\eu.js" />
+    <None Include="wwwroot\fullcalendar\locale\fa.js" />
+    <None Include="wwwroot\fullcalendar\locale\fi.js" />
+    <None Include="wwwroot\fullcalendar\locale\fr-ca.js" />
+    <None Include="wwwroot\fullcalendar\locale\fr-ch.js" />
+    <None Include="wwwroot\fullcalendar\locale\fr.js" />
+    <None Include="wwwroot\fullcalendar\locale\gl.js" />
+    <None Include="wwwroot\fullcalendar\locale\he.js" />
+    <None Include="wwwroot\fullcalendar\locale\hi.js" />
+    <None Include="wwwroot\fullcalendar\locale\hr.js" />
+    <None Include="wwwroot\fullcalendar\locale\hu.js" />
+    <None Include="wwwroot\fullcalendar\locale\id.js" />
+    <None Include="wwwroot\fullcalendar\locale\is.js" />
+    <None Include="wwwroot\fullcalendar\locale\it.js" />
+    <None Include="wwwroot\fullcalendar\locale\ja.js" />
+    <None Include="wwwroot\fullcalendar\locale\ka.js" />
+    <None Include="wwwroot\fullcalendar\locale\kk.js" />
+    <None Include="wwwroot\fullcalendar\locale\ko.js" />
+    <None Include="wwwroot\fullcalendar\locale\lb.js" />
+    <None Include="wwwroot\fullcalendar\locale\lt.js" />
+    <None Include="wwwroot\fullcalendar\locale\lv.js" />
+    <None Include="wwwroot\fullcalendar\locale\mk.js" />
+    <None Include="wwwroot\fullcalendar\locale\ms-my.js" />
+    <None Include="wwwroot\fullcalendar\locale\ms.js" />
+    <None Include="wwwroot\fullcalendar\locale\nb.js" />
+    <None Include="wwwroot\fullcalendar\locale\nl-be.js" />
+    <None Include="wwwroot\fullcalendar\locale\nl.js" />
+    <None Include="wwwroot\fullcalendar\locale\nn.js" />
+    <None Include="wwwroot\fullcalendar\locale\pl.js" />
+    <None Include="wwwroot\fullcalendar\locale\pt-br.js" />
+    <None Include="wwwroot\fullcalendar\locale\pt.js" />
+    <None Include="wwwroot\fullcalendar\locale\ro.js" />
+    <None Include="wwwroot\fullcalendar\locale\ru.js" />
+    <None Include="wwwroot\fullcalendar\locale\sk.js" />
+    <None Include="wwwroot\fullcalendar\locale\sl.js" />
+    <None Include="wwwroot\fullcalendar\locale\sq.js" />
+    <None Include="wwwroot\fullcalendar\locale\sr-cyrl.js" />
+    <None Include="wwwroot\fullcalendar\locale\sr.js" />
+    <None Include="wwwroot\fullcalendar\locale\sv.js" />
+    <None Include="wwwroot\fullcalendar\locale\th.js" />
+    <None Include="wwwroot\fullcalendar\locale\tr.js" />
+    <None Include="wwwroot\fullcalendar\locale\uk.js" />
+    <None Include="wwwroot\fullcalendar\locale\vi.js" />
+    <None Include="wwwroot\fullcalendar\locale\zh-cn.js" />
+    <None Include="wwwroot\fullcalendar\locale\zh-hk.js" />
+    <None Include="wwwroot\fullcalendar\locale\zh-tw.js" />
     <None Include="wwwroot\images\rejeitado.png" />
   </ItemGroup>
 
@@ -38,6 +111,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="fullcalendar" Version="3.9.0" />
     <PackageReference Include="microsoft.aspnetcore.all" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />

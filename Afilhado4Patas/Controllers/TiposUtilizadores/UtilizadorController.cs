@@ -13,6 +13,7 @@ using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using System.Collections.Generic;
 using System.Net.Http.Headers;
+using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Security.Claims;
@@ -1600,6 +1601,18 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public IActionResult PadrinhosAnimal(int id)
+        {
+            var padrinhos = _context.Animais.Where(a => a.Id == id).Include(a => a.Adotantes).ToList();
+
+            return View(padrinhos);
+        }
+
+        public IActionResult CalendarioUtilizador()
+        {
+            return View();
         }
 
     }
