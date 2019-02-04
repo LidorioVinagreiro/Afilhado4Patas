@@ -27,12 +27,12 @@ namespace Afilhado4Patas.Models
         [Display(Name = "Cidade")]
         public string City { get; set; }
 
-        [Display(Name = "Código de Postal")]
+        [Display(Name = "Código Postal")]
         [RegularExpression(@"\d{4}-\d{3}", ErrorMessage = "Insira um código válido")]
         public string Postalcode { get; set; }
 
         [RegularExpression(@"\d{9}")]
-        [Display(Name = "Nif")]
+        [Display(Name = "NIF")]
         public string NIF { get; set; }
    
         public string Directoria { get; set; }

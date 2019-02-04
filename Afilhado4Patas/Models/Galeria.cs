@@ -15,6 +15,7 @@ namespace Afilhado4Patas.Models
         [ForeignKey("Animal")]
         public int AnimalId { get; set; }
 
+        [Display(Name = "Nome do Ficheiro")]
         public string FicheiroNome { get; set; }
     }
 }

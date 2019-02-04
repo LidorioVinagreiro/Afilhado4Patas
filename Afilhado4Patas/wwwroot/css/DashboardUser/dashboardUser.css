@@ -72,7 +72,7 @@
 #informacoes {
     background-color: #fff;
     width: 100%;
-    height: 125px;
+    height: 185px;
     margin-bottom: 5px;
     box-shadow: 0 0 5px hsla(0,0%,70%,.5);
 }
@@ -109,13 +109,11 @@
 #info_first{
     float:left;
     margin-left: 5%;
-    margin-top: 15px;
 }
 
 #info_second {
     float: left;
     margin-left: 5%;
-    margin-top: 15px;
 }
 
 #info{
@@ -131,6 +129,15 @@
     font-size: 20px; 
     margin-right: 10px;
 }
+
+#calendario {
+    background-color: #fff;
+    width: 100%;
+    box-shadow: 0 0 5px hsla(0,0%,70%,.5);
+    margin-bottom: 5px !important;
+}
+
+
 /* LISTA ANIMAIS */
 .animal_item {
     width: 31.3% !important;

@@ -19,14 +19,19 @@ namespace Afilhado4Patas.Models
         [ForeignKey("Animal")]
         public int AnimalId { get; set; }
 
+        [Display(Name = "Data do Pedido")]
         public DateTime DataPedido { get; set; }
 
+        [Display(Name = "Data da Aprovação")]
         public DateTime DataAprovacao { get; set; }
 
+        [Display(Name = "Data do Passeio")]
         public DateTime DataPasseio { get; set; }
 
+        [Display(Name = "Hora do Passeio")]
         public string HoraPasseio { get; set; }
-
+    
+        [Display(Name = "Aprovação")]
         public string Aprovacao { get; set; }
 
         public virtual Utilizadores Adotante { get; set; }

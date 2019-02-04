@@ -21,33 +21,33 @@ namespace Afilhado4Patas.Models
 
         [Display(Name = "Data Nascimento")]
         public DateTime DataNasc { get; set; }
-        
+
         [ForeignKey("Raca")]
         [Display(Name = "Porte")]
         public int PorteId { get; set; }
         public virtual Porte PorteAnimal { get; set; }
 
-        [Display(Name ="Peso")]
+        [Display(Name = "Peso")]
         public double Peso { get; set; }
 
         [Display(Name = "Descrição")]
         public string Descricao { get; set; }
 
-        [Display(Name ="Directoria")]
+        [Display(Name = "Directoria")]
         public string DirectoriaAnimal { get; set; }
 
-        [Display(Name ="Foto")]
+        [Display(Name = "Foto")]
         public string Foto { get; set; }
 
-        [Display(Name ="Adoptado")]
+        [Display(Name = "Adotado")]
         public Boolean Adoptado { get; set; }
-        
+
         [ForeignKey("Raca")]
-        [Display(Name ="Raca")]
+        [Display(Name = "Raça")]
         public int? RacaId { get; set; }
         public virtual Raca RacaAnimal { get; set; }
 
-        [Display(Name ="Ativo")]
+        [Display(Name = "Ativo")]
         public Boolean Ativo { get; set; }
 
         public virtual List<Utilizadores> Adotantes { get; set; }

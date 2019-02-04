@@ -1,6 +1,4 @@
 ﻿body {
-    margin: auto;
-    background: #eaeaea;
     font-family: 'Open Sans', sans-serif;
 }
 
@@ -49,7 +47,16 @@ form {
     overflow: hidden;
 }
 
-span {
+#adocao {
+    border-radius: 5px;
+    max-width: 1100px;
+    width: 75%;
+    margin: 5% auto;
+    background-color: #FFFFFF;
+    overflow: hidden;
+}
+
+.vermelho {
     color: #F00;
 }
 
@@ -82,13 +89,13 @@ a {
 }
 
 textarea {
-    border-radius: 0px 5px 5px 0px;
-    border: 1px solid #EEE;
-    margin: 0;
-    width: 75%;
-    height: 130px;
-    float: left;
-    padding: 0px 15px;
+    border-radius: 0px 5px 5px 0px !important;
+    border: 1px solid #EEE !important;
+    margin: 0 !important;
+    width: 75% !important;
+    height: 80px !important;
+    float: left !important;
+    padding: 0px 15px !important;
 }
 
 .form-group {
@@ -140,6 +147,31 @@ i {
 
 .rightcontact {
     width: 49.5%;
+    float: right;
+    box-sizing: border-box;
+    padding: 0px 0px 0px 15px;
+}
+
+.adocao_esquerda {
+    width: 32.5%;
+    float: left;
+    border-right: 1px dotted #CCC;
+    box-sizing: border-box;
+    padding: 0px 15px 0px 0px;
+    margin-right: 15px;
+}
+
+.adocao_centro {
+    width: 32.5%;
+    float: left;
+    border-right: 1px dotted #CCC;
+    box-sizing: border-box;
+    padding: 0px 0px 0px 15px;
+    margin-right: 15px;
+}
+
+.adocao_direita {
+    width: 30%;
     float: right;
     box-sizing: border-box;
     padding: 0px 0px 0px 15px;
