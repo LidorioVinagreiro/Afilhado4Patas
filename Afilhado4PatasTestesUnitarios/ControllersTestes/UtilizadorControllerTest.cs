@@ -112,6 +112,6 @@ namespace Afilhado4PatasTest.ControllersTest
                 var result = controller.Doar();
                 var viewResult = Assert.IsType<ViewResult>(result);
                 Assert.IsType<ViewResult>(result);
-        }        
+        }
     }
 }

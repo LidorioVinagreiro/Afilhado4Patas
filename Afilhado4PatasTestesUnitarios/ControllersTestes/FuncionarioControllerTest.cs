@@ -14,6 +14,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
+using Afilhado4Patas.Areas.Identity.Services;
 
 namespace Afilhado4PatasTest.ControllersTest
 {
@@ -28,6 +29,8 @@ namespace Afilhado4PatasTest.ControllersTest
         public ILogger<Utilizadores> logger;
         public UserManager<Utilizadores> userManager;
         public ApplicationDbContext context;
+        public RazorView razorView;
+        public EmailSender emailSender;
 
         public FuncionarioControllerTest()//IServiceProvider serviceProvider, IHostingEnvironment hosting, ILogger<Utilizadores> Ilogger)
         {
@@ -44,7 +47,7 @@ namespace Afilhado4PatasTest.ControllersTest
         [Fact]
         public async Task Index_CanLoadFromContext()
         {
-                var controller = new FuncionarioController(context, hostingEnvironment, logger, userManager);
+                var controller = new FuncionarioController(context, hostingEnvironment, logger, userManager, razorView, emailSender);
                 var result = controller.Index();
                 var viewResult = Assert.IsType<ViewResult>(result);
                 Assert.IsType<ViewResult>(result);
@@ -53,7 +56,7 @@ namespace Afilhado4PatasTest.ControllersTest
         [Fact]
         public async Task About_CanLoadFromContext()
         {
-                var controller = new FuncionarioController(context, hostingEnvironment, logger, userManager);
+                var controller = new FuncionarioController(context, hostingEnvironment, logger, userManager, razorView, emailSender);
                 var result = controller.About();
                 var viewResult = Assert.IsType<ViewResult>(result);
                 Assert.IsType<ViewResult>(result);
@@ -62,7 +65,7 @@ namespace Afilhado4PatasTest.ControllersTest
         [Fact]
         public async Task Contact_CanLoadFromContext()
         {
-                var controller = new FuncionarioController(context, hostingEnvironment, logger, userManager);
+                var controller = new FuncionarioController(context, hostingEnvironment, logger, userManager, razorView, emailSender);
                 var result = controller.Contact();
                 var viewResult = Assert.IsType<ViewResult>(result);
                 Assert.IsType<ViewResult>(result);
@@ -71,7 +74,7 @@ namespace Afilhado4PatasTest.ControllersTest
         [Fact]
         public async Task Adotar_CanLoadFromContext()
         {
-                var controller = new FuncionarioController(context, hostingEnvironment, logger, userManager);
+                var controller = new FuncionarioController(context, hostingEnvironment, logger, userManager, razorView, emailSender);
                 var result = controller.Adotar();
                 var viewResult = Assert.IsType<ViewResult>(result);
                 Assert.IsType<ViewResult>(result);
@@ -80,7 +83,7 @@ namespace Afilhado4PatasTest.ControllersTest
         [Fact]
         public async Task Doar_CanLoadFromContext()
         {
-                var controller = new FuncionarioController(context, hostingEnvironment, logger, userManager);
+                var controller = new FuncionarioController(context, hostingEnvironment, logger, userManager, razorView, emailSender);
                 var result = controller.Doar();
                 var viewResult = Assert.IsType<ViewResult>(result);
                 Assert.IsType<ViewResult>(result);
@@ -89,7 +92,7 @@ namespace Afilhado4PatasTest.ControllersTest
         [Fact]
         public async Task Animal_ReturnViewResult_WhenModelStateValid()
         {
-            var controller = new FuncionarioController(context, hostingEnvironment, logger, userManager);
+            var controller = new FuncionarioController(context, hostingEnvironment, logger, userManager, razorView, emailSender);
             var animal = context.Animais.ToList().FirstOrDefault();
 
             var result = controller.DetalhesAnimal(animal.Id);
@@ -102,7 +105,7 @@ namespace Afilhado4PatasTest.ControllersTest
         [Fact]
         public async Task ListaAnimais_CanLoadFromContext()
         {
-            var controller = new FuncionarioController(context, hostingEnvironment, logger, userManager);
+            var controller = new FuncionarioController(context, hostingEnvironment, logger, userManager, razorView, emailSender);
             var result = controller.ListaAnimais();
             //var viewResult = Assert.IsType<ViewResult>(result);
             Assert.IsType<ViewResult>(result);
@@ -111,7 +114,7 @@ namespace Afilhado4PatasTest.ControllersTest
         [Fact]
         public async Task Tarefa_ReturnViewResult_WhenModelStateValid()
         {
-            var controller = new FuncionarioController(context, hostingEnvironment, logger, userManager);
+            var controller = new FuncionarioController(context, hostingEnvironment, logger, userManager, razorView, emailSender);
             var tarefa = context.Tarefa.ToList().FirstOrDefault();
 
             var result = controller.Tarefa(tarefa.Id);
