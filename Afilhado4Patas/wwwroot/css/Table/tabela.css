@@ -8,6 +8,10 @@
         font-size: 0.5em;
     }
 
+.responsive-table{
+    padding-left: 0;
+}
+
 .responsive-table li {
     border-radius: 3px;
     padding: 25px 30px;
@@ -17,10 +21,11 @@
 }
 
 .responsive-table .table-header {
-    background-color: #95a5a6;
+    background-color: #0081c2;
     font-size: 14px;
     text-transform: uppercase;
     letter-spacing: 0.03em;
+    color: #fff;
 }
 
 .responsive-table .table-row {

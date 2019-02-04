@@ -482,8 +482,8 @@ li a {
 }
 
 #icon_centrado {
-    height: 120px;
-    width: 120px;
+    height: 80px;
+    width: 80px;
     margin-top: 10px;
     margin-bottom: 10px;
     display: block;
@@ -500,6 +500,13 @@ li a {
     display: block;
     margin-left: auto;
     margin-right: auto;
+}
+
+#icon_miniatura {
+    height: 50px;
+    width: 50px;
+    margin-left: 10px;
+    margin-top: 0 !important;
 }
 
 #page {

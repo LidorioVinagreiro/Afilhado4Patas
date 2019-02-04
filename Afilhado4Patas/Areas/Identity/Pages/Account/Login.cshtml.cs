@@ -98,11 +98,11 @@ namespace Afilhado4Patas.Areas.Identity.Pages.Account
                             IList<string> roles = await _userManager.GetRolesAsync(user);
                             string role = roles.FirstOrDefault();
                             if (role == "Utilizador")
-                                return RedirectToAction("Index", "Utilizador");//LocalRedirect(returnUrl);
+                                return RedirectToAction("Dashboard", "Utilizador", new { id = user.Email });//LocalRedirect(returnUrl);
                             if (role == "Responsavel")
-                                return RedirectToAction("Index", "Responsavel");//LocalRedirect(returnUrl);
+                                return RedirectToAction("Dashboard", "Responsavel", new { id = user.Email });//LocalRedirect(returnUrl);
                             if (role == "Funcionario")
-                                return RedirectToAction("Index", "Funcionario");//LocalRedirect(returnUrl);
+                                return RedirectToAction("Dashboard", "Funcionario", new { id = user.Email });//LocalRedirect(returnUrl);
 
                         }
                         if (result.RequiresTwoFactor)

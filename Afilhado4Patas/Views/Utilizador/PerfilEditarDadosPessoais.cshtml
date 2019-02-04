@@ -12,9 +12,8 @@
 <link href="~/css/FormularioCSS/formularios.css" rel="stylesheet" />
 
 <div id="registo_page">
-    <form id="login" asp-action="PerfilEditarDadosPessoais" asp-controller="Utilizador">
-        <img id="icon_centrado" src="~/images/edit.png" />
-        <h1>Editar Dados Pessoais</h1>
+    <form id="login" asp-action="PerfilEditarDadosPessoais" asp-controller="Utilizador">        
+        <h1>Editar Dados Pessoais <img id="icon_miniatura" src="~/images/edit.png" /></h1>
         <div class="contentform">
             <div class="centercontact">
                 <div class="form-group">
@@ -88,6 +87,8 @@ Deverá ainda ter uma idade maior de 18 anos."></span>
         todayHighlight: true,
         showOtherMonths: true,
         selectOtherMonths: true,
-        autoclose: true
+        autoclose: true,
+        orientation: "top left",
+        weekStart: 1
     });
 </script>

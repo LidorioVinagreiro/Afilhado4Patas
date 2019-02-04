@@ -9,41 +9,24 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<br />
-<br />
-<br />
-<br />
-<br />
-<h2>As minhas Marcacoes/Fins de Semanas</h2>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Animal.NomeAnimal)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DataPedido)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DataInicio)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DataFim)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Aprovacao)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DataAprovacao)
-            </th>
-        </tr>
-    </thead>
-    <tbody>
+<link href="~/css/Table/tabela.css" rel="stylesheet" />
+<div id="page">
+    <img id="icon_centrado" src="~/images/fimSemana.png" />
+    <h2>Os meus pedidos de Fim de Semana</h2>
+    <br />
+    <ul class="responsive-table">
+        <li class="table-header">
+            <div class="col col-1">@Html.DisplayNameFor(model => model.Animal.NomeAnimal)</div>
+            <div class="col col-2">@Html.DisplayNameFor(model => model.DataInicio)</div>
+            <div class="col col-3">@Html.DisplayNameFor(model => model.DataFim)</div>
+            <div class="col col-4">@Html.DisplayNameFor(model => model.DataPedido)</div>
+            <div class="col col-4">@Html.DisplayNameFor(model => model.Aprovacao)</div>
+            <div class="col col-4">@Html.DisplayNameFor(model => model.DataAprovacao)</div>
+        </li>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
+            <li class="table-row">
+                <div class="col col-4">
                     @if (item.Animal.Foto != null)
                     {
                         string src = "/Animais/" + item.Animal.Id + "/" + item.Animal.Foto;
@@ -54,29 +37,30 @@
                         <img id="icon_mini" src="~/images/dog-profile.png" />
                     }
                     @Html.DisplayFor(modelItem => item.Animal.NomeAnimal)
-                </td>
-                <td>
-                    @item.DataPedido.ToString("dd/MM/yyyy")
-                </td>
-                <td>
+                </div>
+                <div class="col col-4">
                     @item.DataInicio.ToString("dd/MM/yyyy")
-                </td>
-                <td>
+                </div>
+                <div class="col col-4">
                     @item.DataFim.ToString("dd/MM/yyyy")
-                </td>
-                <td>
+                </div>
+                <div class="col col-4">
+                    @item.DataPedido.ToString("dd/MM/yyyy")
+                </div>
+                <div class="col col-4">
                     @Html.DisplayFor(modelItem => item.Aprovacao)
-                </td>
-                <td>
-                    @if (!(item.DataAprovacao.ToString("dd/MM/yyyy").Equals("01/01/0001")))
-                    {
-                        item.DataAprovacao.ToString("dd/MM/yyyy");
-                    }else
+                </div>
+                <div class="col col-4">
+                    @if ((item.DataAprovacao.ToString("dd/MM/yyyy").Equals("01/01/0001")))
                     {
                         @Html.Raw("Sem data");
                     }
-                </td>
-            </tr>
+                    else
+                    {
+                        @Html.Raw(item.DataAprovacao.ToString("dd/MM/yyyy"));
+                    }
+                </div>
+            </li>
         }
-    </tbody>
-</table>
+    </ul>
+</div>

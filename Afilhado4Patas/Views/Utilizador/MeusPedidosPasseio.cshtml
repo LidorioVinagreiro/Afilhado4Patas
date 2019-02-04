@@ -10,7 +10,8 @@
 }
 <link href="~/css/Table/tabela.css" rel="stylesheet" />
 <div id="page">
-    <h2>As minhas Marcacoes/Passeios</h2>
+    <img id="icon_centrado" src="~/images/passeio.png" />
+    <h2>Os meus pedidos de Passeios</h2>
     <br />
     <ul class="responsive-table">
         <li class="table-header">
@@ -49,13 +50,13 @@
                     @Html.DisplayFor(modelItem => item.Aprovacao)
                 </div>
                 <div class="col col-4">
-                    @if (!(item.DataAprovacao.ToString("dd/MM/yyyy").Equals("01/01/0001")))
+                    @if ((item.DataAprovacao.ToString("dd/MM/yyyy").Equals("01/01/0001")))
                     {
-                        item.DataAprovacao.ToString("dd/MM/yyyy");
+                        @Html.Raw("Sem data");
                     }
                     else
                     {
-                        @Html.Raw("Sem data");
+                        @Html.Raw(item.DataAprovacao.ToString("dd/MM/yyyy"));
                     }
                 </div>
             </li>

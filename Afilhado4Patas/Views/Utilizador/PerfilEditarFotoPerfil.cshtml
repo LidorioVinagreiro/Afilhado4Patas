@@ -14,22 +14,22 @@
 <link href="~/css/FormularioCSS/formularios.css" rel="stylesheet" />
 
 <div id="registo_page">
-    <form id="login" method="post" asp-action="PerfilEditarFotoPerfil" asp-controller="Utilizador" enctype="multipart/form-data">
-        @{Utilizadores user = Context.Utilizadores.Where(u => u.Email == UserManager.GetUserName(User)).FirstOrDefault();
-            Perfil perfil = Context.PerfilTable.Where(p => p.Id == user.PerfilId).FirstOrDefault();
-            if (perfil.Photo != null)
-            {
-                string src = "/Utilizadores/" + user.Id + "/" + perfil.Photo;
-                <img id="icon_centrado_arredondado" src="@src" />
-            }
-            else
-            {
-                <img id="icon_centrado_arredondado" src="~/images/default.jpg" />
-            }
-        }
+    <form id="login" method="post" asp-action="PerfilEditarFotoPerfil" asp-controller="Utilizador" enctype="multipart/form-data">        
         <h1>Editar Foto de Perfil</h1>
         <div class="contentform">
             <div class="centercontact">
+                @{Utilizadores user = Context.Utilizadores.Where(u => u.Email == UserManager.GetUserName(User)).FirstOrDefault();
+                    Perfil perfil = Context.PerfilTable.Where(p => p.Id == user.PerfilId).FirstOrDefault();
+                    if (perfil.Photo != null)
+                    {
+                        string src = "/Utilizadores/" + user.Id + "/" + perfil.Photo;
+                        <img id="icon_centrado_arredondado" src="@src" />
+                    }
+                    else
+                    {
+                        <img id="icon_centrado_arredondado" src="~/images/default.jpg" />
+                    }
+                }
                 <div class="form-group">
                     <div>
                         <label asp-for="File" class="control-label"></label>

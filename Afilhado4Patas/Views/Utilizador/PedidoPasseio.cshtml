@@ -7,8 +7,7 @@
 
 <div id="registo_page">
     <form id="login" asp-controller="Utilizador" asp-action="PedidoPasseio">
-        <img id="icon_centrado" src="~/images/passeio.png" />
-        <h1>Pedido Fim Semana</h1>
+        <h1>Pedido Passeio <img id="icon_miniatura" src="~/images/passeio.png" /></h1>
         <div class="contentform">
             <div class="centercontact">
                 <div class="form-group">
@@ -69,11 +68,12 @@
             autoclose: true,
             changeMonth: true,
             changeYear: true,
-            orientation: "top"
+            orientation: "bottom left",
+            weekStart: 1
         });
         $('.clockpicker_marcacaoPasseio').clockpicker({
             autoclose: true,
-            orientation: "top"
+            orientation: "bottom left"
         });
     });
 </script>
