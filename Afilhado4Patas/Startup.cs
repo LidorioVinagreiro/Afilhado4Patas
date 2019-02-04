@@ -16,6 +16,8 @@ using Afilhado4Patas.Areas.Identity.Services;
 using Microsoft.Extensions.Logging;
 using System.Data.SqlClient;
 using System.IO;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
 
 namespace Afilhado4Patas
 {
@@ -64,6 +66,13 @@ namespace Afilhado4Patas
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);            
             services.AddSingleton<EmailSender>();
             services.AddScoped<RazorView>();
+
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                options.SupportedUICultures = new[] { new CultureInfo("pt-PT")};
+                options.SupportedCultures = new[] { new CultureInfo("pt-PT") };
+                options.DefaultRequestCulture = new RequestCulture("pt-PT");
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

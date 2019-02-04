@@ -4,56 +4,57 @@
 @{
     ViewData["Title"] = "Log in";
 }
-<div id="page">
-    <div id="box">
-        <h2>Inicio de Sessão</h2>
-        <form method="post">
-            <hr />
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Input.Email"></label>
-                <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
-                      title="Insira um Email válido
+
+<link href="~/css/FormularioCSS/formularios.css" rel="stylesheet" />
+
+<div id="login_page">
+    <form id="login" method="post">
+        <h1>Inicie sessão</h1>
+        <div class="contentform">
+            <div class="centercontact">
+                <div class="form-group">
+                    <div>
+                        <label asp-for="Input.Email"></label>
+                        <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
+                              title="Insira um Email válido
 Com o seguinte formato: exemplo@exemplo.com "></span>
-                <input asp-for="Input.Email" class="form-control" />
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.Password"></label>
-                <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
-                      title="Inserir uma palavra-passe válida
+                    </div>
+                    <span class="icon-case"><i class="fa fa-envelope"></i></span>
+                    <input asp-for="Input.Email" class="form-control" />
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <div>
+                        <label asp-for="Input.Password"></label>
+                        <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
+                              title="Inserir uma palavra-passe válida
 A password deverá conter pelo menos um caracter dos seguintes e ter um comprimento minimo de 8 caracteres:
 Letras: Aa-Zz
 Numeros: 0-9"></span>
-                <input asp-for="Input.Password" class="form-control" />
-                <span asp-validation-for="Input.Password" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <div class="checkbox">
-                    <label asp-for="Input.RememberMe">
-                        <input asp-for="Input.RememberMe" />
-                        @Html.DisplayNameFor(m => m.Input.RememberMe)
+                    </div>
+                    <span class="icon-case"><i class="fa fa-key"></i></span>
+                    <input asp-for="Input.Password" class="form-control" />
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+                <div>
+                    <label id="erro_conta_bloqueada" style="color:red; display:@Model.display;">
+                        Esta conta não se encontra disponivel, tente com outra diferente.
                     </label>
                 </div>
+                <div class="form-group">
+                    <p>
+                        <a asp-page="./ForgotPassword">Esqueceu-se da sua password?</a>
+                    </p>
+                    <p>
+                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Registe-se como novo utilizador</a>
+                    </p>
+                </div>
             </div>
-            <div>
-                <label id="erro_conta_bloqueada" style="color:red; display:@Model.display;">
-                    Esta conta não se encontra disponivel, tente com outra diferente.
-                </label>
-            </div>
-            <div class="form-group">
-                <button type="submit" class="btn btn-default">Inicie Sessão</button>
-            </div>
-            <div class="form-group">
-                <p>
-                    <a asp-page="./ForgotPassword">Esqueceu-se da sua password?</a>
-                </p>
-                <p>
-                    <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Registe-se como novo utilizador</a>
-                </p>
-            </div>
-        </form>
-    </div>
+        </div>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>        
+        <button type="submit" class="bouton-contact">Iniciar Sessão</button>
+
+    </form>
 </div>
 
 @section Scripts {

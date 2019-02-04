@@ -1201,8 +1201,14 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             pedido.Adotante = _context.Utilizadores.Where(u => u.PerfilId == pedido.AdotanteId).Include(p => p.Perfil).FirstOrDefault();
             pedido.Aprovacao = "Aprovado";
             pedido.DataAprovacao = DateTime.Now;
-            Animal animal = _context.Animais.Where(a => a.Id == pedido.AnimalId).FirstOrDefault();
+            FimSemana fimSemana = new FimSemana
+            {
+                PedidoFimSemanaId = pedido.Id
+            };
+            _context.FinsSemanas.Add(fimSemana);
             _context.SaveChanges();
+            
+            Animal animal = _context.Animais.Where(a => a.Id == pedido.AnimalId).FirstOrDefault();
 
             //Envio de Email
             EmailFimSemanaViewModel emailFimSemanaModel = new EmailFimSemanaViewModel("", pedido.Adotante.Perfil.FirstName, animal.NomeAnimal, pedido.DataInicio, pedido.DataFim);
@@ -1219,8 +1225,14 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             pedido.Adotante = _context.Utilizadores.Where(u => u.PerfilId == pedido.AdotanteId).Include(p => p.Perfil).FirstOrDefault();
             pedido.Aprovacao = "Aprovado";
             pedido.DataAprovacao = DateTime.Now;
-            Animal animal = _context.Animais.Where(a => a.Id == pedido.AnimalId).FirstOrDefault();
+            Passeio passeio = new Passeio
+            {
+                PedidoPasseioId = pedido.Id
+            };
+            _context.Passeios.Add(passeio);
             _context.SaveChanges();
+            
+            Animal animal = _context.Animais.Where(a => a.Id == pedido.AnimalId).FirstOrDefault();
 
             //Envio de Email
             EmailPasseioViewModel emailPasseioModel = new EmailPasseioViewModel("", pedido.Adotante.Perfil.FirstName, animal.NomeAnimal, pedido.DataPasseio, pedido.HoraPasseio);

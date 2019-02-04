@@ -9,54 +9,69 @@
     ViewData["Title"] = "Editar Perfil";
 }
 
-<div id="page">
-    <div id="box">
+<link href="~/css/FormularioCSS/formularios.css" rel="stylesheet" />
+
+<div id="registo_page">
+    <form id="login" asp-action="PerfilEditarDadosPessoais" asp-controller="Utilizador">
         <img id="icon_centrado" src="~/images/edit.png" />
-        <h4>Editar Dados Pessoais </h4>
-        <form asp-action="PerfilEditarDadosPessoais" asp-controller="Utilizador">
-            <div class="form-group">
-                <label asp-for="FirstName" class="control-label"></label>
-                <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
-                      title="Insira o seu Nome"></span>
-                <input asp-for="FirstName" class="form-control" />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LastName" class="control-label"></label>
-                <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
-                      title="Insira o(s) seu(s) Apelido(s)"></span>
-                <input asp-for="LastName" class="form-control" />
-                <span asp-validation-for="LastName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="NIF" class="control-label"></label>
-                <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
-                      title="Insira o seu Numero de Identificação Fiscal no seguinte formato XXXXXXXXX"></span>
-                <input asp-for="NIF" class="form-control" />
-                <span asp-validation-for="NIF" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Birthday" class="control-label"></label>
-                <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
-                      title="Inserir data de nascimento no formato DD-MM-AAAA
-Deverá ainda ter uma idade maior de 18 anos."></span>
-                <div class="input-group date" id="datepicker_registo">
-                    <input asp-for="Birthday" type="text" value="" class="form-control" />
-                    <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                    </span>
+        <h1>Editar Dados Pessoais</h1>
+        <div class="contentform">
+            <div class="centercontact">
+                <div class="form-group">
+                    <div>
+                        <label asp-for="FirstName" class="control-label"></label>
+                        <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
+                              title="Insira o seu Nome"></span>
+                    </div>
+                    <span class="icon-case"><i class="fa fa-user"></i></span>
+                    <input asp-for="FirstName" class="form-control" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
                 </div>
-                <span asp-validation-for="Birthday" class="text-danger"></span>
+                <div class="form-group">
+                    <div>
+                        <label asp-for="LastName" class="control-label"></label>
+                        <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
+                              title="Insira o(s) seu(s) Apelido(s)"></span>
+                    </div>
+                    <span class="icon-case"><i class="fa fa-user"></i></span>
+                    <input asp-for="LastName" class="form-control" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <div>
+                        <label asp-for="NIF" class="control-label"></label>
+                        <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
+                              title="Insira o seu Numero de Identificação Fiscal no seguinte formato XXXXXXXXX"></span>
+                    </div>
+                    <span class="icon-case"><i class="fa fa-sort-numeric-up"></i></span>
+                    <input asp-for="NIF" class="form-control" />
+                    <span asp-validation-for="NIF" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <div>
+                        <label asp-for="Birthday"></label>
+                        <span>*</span>
+                        <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
+                              title="Inserir data de nascimento no formato DD-MM-AAAA
+Deverá ainda ter uma idade maior de 18 anos."></span>
+                    </div>
+                    <div class="input-group date" id="datepicker_registo">
+                        <span class="input-group-addon icon-case hand">
+                            <i class="fa fa-calendar-alt"></i>
+                        </span>
+                        <input asp-for="Birthday" type="text" class="form-control" />
+                    </div>
+                    <span asp-validation-for="Birthday" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Confirmar" class="btn btn-default" />
-            </div>
-        </form>
-    </div>
+        </div>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <button type="submit" class="bouton-contact">Alterar Dados</button>
+    </form>
 </div>
 
 <div>
-    <a asp-controller="Utilizador" asp-action="Perfil" asp-route-id="@UserManager.GetUserName(User)">Voltar ao Perfil</a>
+    <a asp-controller="Utilizador" asp-action="Dashboard" asp-route-id="@UserManager.GetUserName(User)">Voltar ao Perfil</a>
 </div>
 
 @section Scripts {
@@ -66,14 +81,13 @@ Deverá ainda ter uma idade maior de 18 anos."></span>
 <script src="~/js/bootstrap-datepicker.pt-BR.js"></script>
 <script>
     $('#datepicker_registo').datepicker({
-        format: "dd/mm/yyyy",
+        format: "dd/MM/yyyy",
         startDate: new Date(1900, 1, 1),
         endDate: '+1d',
         datesDisabled: '+1d',
         todayHighlight: true,
         showOtherMonths: true,
         selectOtherMonths: true,
-        autoclose: true,
-        language: 'pt-BR'
+        autoclose: true
     });
 </script>

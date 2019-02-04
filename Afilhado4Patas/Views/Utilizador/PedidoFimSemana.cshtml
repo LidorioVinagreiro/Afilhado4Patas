@@ -3,52 +3,59 @@
     ViewData["Title"] = "PedidosFimSemana";
 }
 
-<div id="page">
-    <div id="box">
+<link href="~/css/FormularioCSS/formularios.css" rel="stylesheet" />
+
+<div id="registo_page">
+    <form id="login" asp-controller="Utilizador" asp-action="PedidoFimSemana">
         <img id="icon_centrado" src="~/images/fimSemana.png" />
-        <h2>Pedido de Fim de Semana</h2>
-        <hr />
-        <form asp-controller="Utilizador" asp-action="PedidoFimSemana">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="DataInicio"></label>
-                <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
-                      title="Insira o dia de inicio pretendido para o Fim de Semana com o seu animal.
+        <h1>Pedido Fim Semana</h1>
+        <div class="contentform">
+            <div class="centercontact">
+                <div class="form-group">
+                    <div>
+                        <label asp-for="DataInicio"></label>
+                        <span class="vermelho">*</span>
+                        <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
+                              title="Insira o dia de inicio pretendido para o Fim de Semana com o seu animal.
  Qualquer marcação de Fim de Semana apenas poderá ser marcada com 3 dias de antecedência"></span>
-                <div class="input-group date" id="datepicker_marcacaoFimSemana1">
-                    <input asp-for="DataInicio" type="text" value="" class="form-control" />
-                    <span class="input-group-addon hand">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                    </span>
-                </div>
-                <span asp-validation-for="DataInicio" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DataFim"></label>
-                <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
-                      title="Insira o dia de fim pretendido para o Fim de Semana com o seu animal.
+                    </div>
+                    <div class="input-group date" id="datepicker_marcacaoFimSemana1">
+                        <span class="input-group-addon icon-case hand">
+                            <i class="fa fa-calendar-alt"></i>
+                        </span>
+                        <input asp-for="DataInicio" type="text"  value="" class="form-control" />
+                    </div>
+                    <span asp-validation-for="DataInicio" class="text-danger"></span>
+                </div>                
+                <div class="form-group">
+                    <div>
+                        <label asp-for="DataFim"></label>
+                        <span class="vermelho">*</span>
+                        <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
+      title="Insira o dia de fim pretendido para o Fim de Semana com o seu animal.
  Qualquer marcação de Fim de Semana apenas poderá ser marcada com 3 dias de antecedência"></span>
-                <div class="input-group date" id="datepicker_marcacaoFimSemana2">
-                    <input asp-for="DataFim" type="text" value="" class="form-control" />
-                    <span class="input-group-addon hand">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                    </span>
+                    </div>
+                    <div class="input-group date" id="datepicker_marcacaoFimSemana2">
+                        <span class="input-group-addon icon-case hand">
+                            <i class="fa fa-calendar-alt"></i>
+                        </span>
+                        <input asp-for="DataFim" type="text" value="" class="form-control" />
+                    </div>
+                    <span asp-validation-for="DataFim" class="text-danger"></span>
                 </div>
-                <span asp-validation-for="DataFim" class="text-danger"></span>
+                <div class="form-group" style="display:none">
+                    <label asp-for="AnimalId" class="control-label"></label>
+                    <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
+                          title="Selecione o animal a adotar"></span>
+                    <i class="fa fa-asterisk required" title="Campo Obrigatório"></i>
+                    <input asp-for="AnimalId" class="form-control" />
+                    <span asp-validation-for="AnimalId" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group" style="display:none">
-                <label asp-for="AnimalId" class="control-label"></label>
-                <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
-                      title="Selecione o animal a adotar"></span>
-                <i class="fa fa-asterisk required" title="Campo Obrigatório"></i>
-                <input asp-for="AnimalId" class="form-control" />
-                <span asp-validation-for="AnimalId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Registar Fim de Semana" class="btn btn-default" />
-            </div>
-        </form>
-    </div>
+        </div>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <button type="submit" class="bouton-contact">Realizar Pedido</button>
+    </form>
 </div>
 
 <script src="~/js/bootstrap-datepicker.pt-BR.js"></script>
@@ -63,7 +70,7 @@
                     return { classes: "Highlighted" };
                 }
             },
-            format: "dd/mm/yyyy",
+            format: "dd/MM/yyyy",
             startDate: '+3d',
             autoclose: true,
             todayHighlight: true,
@@ -73,8 +80,7 @@
             changeMonth: true,
             changeYear: true,
             orientation: "top",
-            daysOfWeekDisabled: [1, 2, 3, 4, 5],
-            language: 'pt-BR'
+            daysOfWeekDisabled: [1, 2, 3, 4, 5]
 
         });
         $('#datepicker_marcacaoFimSemana2').datepicker({
@@ -85,7 +91,7 @@
                     return { classes: "Highlighted" };
                 }
             },
-            format: "dd/mm/yyyy",
+            format: "dd/MM/yyyy",
             startDate: '+3d',
             autoclose: true,
             todayHighlight: true,
@@ -95,8 +101,7 @@
             changeMonth: true,
             changeYear: true,
             orientation: "top",
-            daysOfWeekDisabled: [1, 2, 3, 4, 5],
-            language: 'pt-BR'
+            daysOfWeekDisabled: [1, 2, 3, 4, 5]
         });
 
 

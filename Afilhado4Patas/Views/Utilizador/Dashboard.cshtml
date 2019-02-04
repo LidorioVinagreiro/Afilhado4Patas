@@ -1,0 +1,222 @@
+﻿
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+@using Microsoft.AspNetCore.Identity
+@using Afilhado4Patas.Data;
+
+@model Afilhado4Patas.Data.Utilizadores
+
+@inject SignInManager<Utilizadores> SignInManager
+@inject UserManager<Utilizadores> UserManager
+@inject ApplicationDbContext Context
+
+<link href="~/css/DashboardUser/dashboardUser.css" rel="stylesheet" />
+<link href="~/css/Friends/friendsList.css" rel="stylesheet" />
+
+<div id="dashboardUser">
+    <div id="vertical_1">
+        <div class="box_foto">
+            @{Utilizadores user = Context.Utilizadores.Where(u => u.Email == UserManager.GetUserName(User)).FirstOrDefault();
+                Perfil perfil = Context.PerfilTable.Where(p => p.Id == user.PerfilId).FirstOrDefault();
+                if (perfil.Photo != null)
+                {
+                    string src = "/Utilizadores/" + user.Id + "/" + perfil.Photo;
+                    <img id="imagem_perfil" src="@src" />
+                }
+                else
+                {
+                    <img id="imagem_perfil" src="~/images/default.jpg" />
+                }
+            }
+        </div>
+        <div class="edit_perfil primeiro">
+            <a id="botoes" asp-controller="Utilizador" asp-action="PerfilEditarDadosPessoais" asp-route-id="@UserManager.GetUserName(User)" title="Editar Dados Pessoais">
+                <i class="fa fa-user-edit icon"></i>
+            </a>
+        </div>
+        <div class="edit_perfil segundo">
+            <a id="botoes" asp-controller="Utilizador" asp-action="PerfilEditarPalavraPasse" asp-route-id="@UserManager.GetUserName(User)" title="Alterar Palavra-Passe">
+                <i class="fa fa-key icon"></i>
+            </a>
+        </div>
+        <div class="edit_perfil terceiro">
+            <a id="botoes" asp-controller="Utilizador" asp-action="PerfilEditarMorada" asp-route-id="@UserManager.GetUserName(User)" title="Editar Morada">
+                <i class="fa fa-map-marked-alt icon"></i>
+            </a>
+        </div>
+        <div class="edit_perfil quarto">
+            <a id="botoes" asp-controller="Utilizador" asp-action="PerfilEditarFotoPerfil" asp-route-id="@UserManager.GetUserName(User)" title="Editar Foto de Perfil">
+                <i class="fa fa-user-circle icon"></i>
+            </a>
+        </div>
+    </div>
+    <div id="vertical_2">
+        <div id="informacoes">
+            <div id="superior">
+                Dados Pessoais
+            </div>
+            <div id="info_first">
+                <div id="spacing">
+                    <i class="fa fa-user cinzento"></i>
+                    <span id="info">@Model.Perfil.FirstName @Model.Perfil.LastName</span>
+                </div>
+                <div id="spacing">
+                    <i class="fa fa-calendar-alt cinzento"></i>
+                    <span id="info">@Model.Perfil.Birthday.ToString("dd/MM/yyyy")</span>
+                </div>
+                <div id="spacing">
+                    <i class="fa fa-male cinzento"></i>
+                    <span id="info">@Model.Perfil.Genre</span>
+                </div>
+            </div>
+            <div id="info_second">
+                <div id="spacing">
+                    <i class="fa fa-envelope cinzento"></i>
+                    <span id="info">@Model.Email</span>
+                </div>
+                <div id="spacing">
+                    <i class="fa fa-map-marker-alt cinzento"></i>
+                    <span id="info">@Model.Perfil.City</span>
+                </div>
+            </div>
+        </div>
+        <div id="animais">
+            <div id="superior">
+                Os meus Animais
+            </div>
+            @{
+                Utilizadores utilizador = Context.Utilizadores.Where(u => u.Id == Model.Id).FirstOrDefault();
+                List<Adotante> adotantes = Context.Adotantes.Where(a => a.AdotanteId == utilizador.PerfilId).ToList();
+                List<Animal> lista_animais = new List<Animal>();
+                foreach (var adotante in adotantes)
+                {
+                    Animal animal = Context.Animais.Where(a => a.Id == adotante.AnimalId).FirstOrDefault();
+                    animal.PorteAnimal = Context.Portes.Where(p => p.Id == animal.PorteId).FirstOrDefault();
+                    lista_animais.Add(animal);
+                }
+                @Html.Partial("GridMeusAnimais", lista_animais)
+            }
+        </div>
+    </div>
+    <div id="vertical_3">
+        <div id="calendario">
+            <div id="superior">
+                Atividades
+            </div>
+
+
+
+
+        </div>
+        <div class="jumbotron list-content">
+            <ul class="list-group">
+                <li href="#" class="list-group-item title">
+                    Lista de Amigos
+                </li>
+                <li href="#" class="list-group-item text-left">
+                    <img class="img-thumbnail" src="https://bootdey.com/img/Content/User_for_snippets.png">
+                    <label class="name">
+                        Daniel Dias
+                    </label>
+                    <label class="pull-right">
+                        <a class="btn btn-success btn-xs glyphicon glyphicon-user" href="#" title="Ver Amigo"></a>
+                        <a class="btn btn-danger  btn-xs glyphicon glyphicon-trash" href="#" title="Apagar Amizade"></a>
+                    </label>
+                    <div class="break"></div>
+                </li>
+                <li href="#" class="list-group-item text-left">
+                    <img class="img-thumbnail" src="https://bootdey.com/img/Content/user_1.jpg">
+                    <label class="name">
+                        Rodas
+                    </label>
+                    <label class="pull-right">
+                        <a class="btn btn-success btn-xs glyphicon glyphicon-user" href="#" title="Ver Amigo"></a>
+                        <a class="btn btn-danger  btn-xs glyphicon glyphicon-trash" href="#" title="Apagar Amizade"></a>
+                    </label>
+                    <div class="break"></div>
+                </li>
+                <li href="#" class="list-group-item text-left">
+                    <img class="img-thumbnail" src="https://bootdey.com/img/Content/user_2.jpg">
+                    <label class="name">
+                        Joana
+                    </label>
+                    <label class="pull-right">
+                        <a class="btn btn-success btn-xs glyphicon glyphicon-user" href="#" title="Ver Amigo"></a>
+                        <a class="btn btn-danger  btn-xs glyphicon glyphicon-trash" href="#" title="Apagar Amizade"></a>
+                    </label>
+                    <div class="break"></div>
+                </li>
+                <li href="#" class="list-group-item text-left">
+                    <img class="img-thumbnail" src="https://bootdey.com/img/Content/User_for_snippets.png">
+                    <label class="name">
+                        Daniel Dias
+                    </label>
+                    <label class="pull-right">
+                        <a class="btn btn-success btn-xs glyphicon glyphicon-user" href="#" title="Ver Amigo"></a>
+                        <a class="btn btn-danger  btn-xs glyphicon glyphicon-trash" href="#" title="Apagar Amizade"></a>
+                    </label>
+                    <div class="break"></div>
+                </li>
+                <li href="#" class="list-group-item text-left">
+                    <img class="img-thumbnail" src="https://bootdey.com/img/Content/user_1.jpg">
+                    <label class="name">
+                        Rodas
+                    </label>
+                    <label class="pull-right">
+                        <a class="btn btn-success btn-xs glyphicon glyphicon-user" href="#" title="Ver Amigo"></a>
+                        <a class="btn btn-danger  btn-xs glyphicon glyphicon-trash" href="#" title="Apagar Amizade"></a>
+                    </label>
+                    <div class="break"></div>
+                </li>
+                <li href="#" class="list-group-item text-left">
+                    <img class="img-thumbnail" src="https://bootdey.com/img/Content/user_2.jpg">
+                    <label class="name">
+                        Joana
+                    </label>
+                    <label class="pull-right">
+                        <a class="btn btn-success btn-xs glyphicon glyphicon-user" href="#" title="Ver Amigo"></a>
+                        <a class="btn btn-danger  btn-xs glyphicon glyphicon-trash" href="#" title="Apagar Amizade"></a>
+                    </label>
+                    <div class="break"></div>
+                </li>
+                <li href="#" class="list-group-item text-left">
+                    <img class="img-thumbnail" src="https://bootdey.com/img/Content/User_for_snippets.png">
+                    <label class="name">
+                        Daniel Dias
+                    </label>
+                    <label class="pull-right">
+                        <a class="btn btn-success btn-xs glyphicon glyphicon-user" href="#" title="Ver Amigo"></a>
+                        <a class="btn btn-danger  btn-xs glyphicon glyphicon-trash" href="#" title="Apagar Amizade"></a>
+                    </label>
+                    <div class="break"></div>
+                </li>
+                <li href="#" class="list-group-item text-left">
+                    <img class="img-thumbnail" src="https://bootdey.com/img/Content/user_1.jpg">
+                    <label class="name">
+                        Rodas
+                    </label>
+                    <label class="pull-right">
+                        <a class="btn btn-success btn-xs glyphicon glyphicon-user" href="#" title="Ver Amigo"></a>
+                        <a class="btn btn-danger  btn-xs glyphicon glyphicon-trash" href="#" title="Apagar Amizade"></a>
+                    </label>
+                    <div class="break"></div>
+                </li>
+                <li href="#" class="list-group-item text-left">
+                    <img class="img-thumbnail" src="https://bootdey.com/img/Content/user_2.jpg">
+                    <label class="name">
+                        Joana
+                    </label>
+                    <label class="pull-right">
+                        <a class="btn btn-success btn-xs glyphicon glyphicon-user" href="#" title="Ver Amigo"></a>
+                        <a class="btn btn-danger  btn-xs glyphicon glyphicon-trash" href="#" title="Apagar Amizade"></a>
+                    </label>
+                    <div class="break"></div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+</div>
+

@@ -21,14 +21,19 @@ namespace Afilhado4Patas.Models
         public int AnimalId { get; set; }
         public virtual Animal Animal { get; set; }
 
+        [Display(Name = "Data do Pedido")]
         public DateTime DataPedido { get; set; }
 
+        [Display(Name = "Data da Aprovação")]
         public DateTime DataAprovacao { get; set; }
-        
+
+        [Display(Name = "Data de Inicio")]
         public DateTime DataInicio { get; set; }
 
+        [Display(Name = "Data de Fim")]
         public DateTime DataFim { get; set; }
 
+        [Display(Name = "Aprovação")]
         public string Aprovacao { get; set; }
     }
 }

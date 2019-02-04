@@ -23,9 +23,9 @@
                     }
                     @if (User.IsInRole("Utilizador"))
                     {
-                        <a asp-controller="Utilizador" asp-action="Perfil" asp-route-id="@UserManager.GetUserName(User)" title="Perfil de Utilizador">
+                        <a asp-controller="Utilizador" asp-action="Dashboard" asp-route-id="@UserManager.GetUserName(User)" title="Perfil de Utilizador">
                             <img id="icon_utilizador" src="@src"/>
-                            <span>@perfil.FirstName @perfil.LastName</span>
+                            <span id="nome">@perfil.FirstName @perfil.LastName</span>
                         </a>
                     }
 
@@ -33,20 +33,20 @@
                     {
                         <a asp-controller="Funcionario" asp-action="Perfil" asp-route-id="@UserManager.GetUserName(User)" title="Perfil de Utilizador">
                             <img id="icon_utilizador" src="@src" />
-                            <span>@perfil.FirstName @perfil.LastName</span>
+                            <span id="nome">@perfil.FirstName @perfil.LastName</span>
                         </a>
                     }
                     else if (User.IsInRole("Responsavel"))
                     {
                         <a asp-controller="Responsavel" asp-action="Perfil" asp-route-id="@UserManager.GetUserName(User)" title="Perfil de Utilizador">
                             <img id="icon_utilizador" src="@src" />
-                            <span>@perfil.FirstName @perfil.LastName</span>
+                            <span id="nome">@perfil.FirstName @perfil.LastName</span>
                         </a>
                     }
                 }
             </li>
             <li>
-                <button type="submit" class="btn btn-link navbar-btn navbar-link">Fechar Sessao</button>
+                <button type="submit" class="btn btn-link navbar-btn navbar-link" id="fechar_sessao">Fechar Sessao</button>
             </li>
         </ul>
     </form>

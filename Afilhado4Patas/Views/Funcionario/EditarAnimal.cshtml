@@ -127,7 +127,7 @@ O peso deverá ser superior a 0 Kg e menor que 200 Kg"></span>
     var tomorrow = new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate() + 1, 0, 0, 0, 0);
     $(document).ready(function () {
         $('#datepicker_animal').datepicker({
-            format: "dd/mm/yyyy",
+            format: "dd/MM/yyyy",
             startDate: new Date(1990, 1, 1),
             endDate: '+1d',
             datesDisabled: '+1d',
@@ -138,8 +138,7 @@ O peso deverá ser superior a 0 Kg e menor que 200 Kg"></span>
             autoclose: true,
             changeMonth: true,
             changeYear: true,
-            orientation: "button",
-            language: 'pt-BR'
+            orientation: "button"
         });
     });
 </script>

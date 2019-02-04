@@ -114,6 +114,21 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View("../Shared/FichaAnimal", animal);
         }
 
+        public ActionResult Dashboard(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var user = _context.Utilizadores.Where(u => u.Email == id).Include(p => p.Perfil).FirstOrDefault();
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return View(user);
+        }
+
         /****************************************************************************************************/
         /******************************************** Perfil ***********************************************/
         /****************************************************************************************************/

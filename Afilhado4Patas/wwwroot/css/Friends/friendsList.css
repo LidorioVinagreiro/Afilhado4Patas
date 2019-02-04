@@ -1,0 +1,41 @@
+﻿.list-content {
+    max-height: 400px !important;
+}
+
+.list-group {
+    max-height: 400px !important;
+    overflow-y: auto;
+}
+
+    .list-content .list-group .title {
+        background: #0081c2;
+        font-weight: bold;
+        color: #FFFFFF;
+    }
+
+.list-group-item img {
+    height: 80px;
+    width: 80px;
+}
+
+.jumbotron .btn {
+    padding: 5px 5px !important;
+    font-size: 12px !important;
+}
+
+.jumbotron{
+    padding: 0 !important;
+}
+
+.prj-name {
+    color: #0081c2;
+}
+
+.break {
+    width: 100%;
+    margin: 20px;
+}
+
+.name {
+    color: #0081c2;
+}
