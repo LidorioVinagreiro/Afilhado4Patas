@@ -783,6 +783,10 @@ NOTE: use percentage font sizes or else old IE chokes
 .fc-axis {
     color: #2d2d2d;
 }
+
+.fc-center h2{
+    font-size: 18px;
+}
 /*.table-bordered td {
     width: 45px;
 }*/
