@@ -768,11 +768,27 @@ NOTE: use percentage font sizes or else old IE chokes
 }
 
 .fc-today {
-    background-color: #78d1ed !important;
+    /*background-color: #78d1ed !important;*/
+    background-color: #0081c2 !important;
 }
 
 .fc-day-number {
     color: #192ea8;
+}
+
+.fc-day-header a {
+    color: #2d2d2d;
+}
+
+.fc-axis {
+    color: #2d2d2d;
+}
+/*.table-bordered td {
+    width: 45px;
+}*/
+
+.table-bordered th {
+    width: 45px;
 }
 /* Calendario Mensal
 td:nth-child(6) {
@@ -794,19 +810,19 @@ th:nth-child(7) {
 
 /*Calendario Semanal*/
 td:nth-child(7) {
-    background-color: #afdeed;
+    background-color: #80bbe5;
 }
 
 td:nth-child(8) {
-    background-color: #afdeed;
+    background-color: #80bbe5;
 }
 
 th:nth-child(7) {
-    background-color: #afdeed;
+    background-color: #80bbe5;
 }
 
 th:nth-child(8) {
-    background-color: #afdeed;
+    background-color: #80bbe5;
 }
 
 

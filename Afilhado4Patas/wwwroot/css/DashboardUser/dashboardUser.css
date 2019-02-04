@@ -78,7 +78,7 @@
 }
 
 #animais {
-    min-height: 515px;
+    min-height: 505px;
     background-color: #fff;
     width: 100%;
     box-shadow: 0 0 5px hsla(0,0%,70%,.5);
@@ -132,9 +132,23 @@
 
 #calendario {
     background-color: #fff;
-    width: 100%;
+    width: 440px;
+    height: 405px;
     box-shadow: 0 0 5px hsla(0,0%,70%,.5);
     margin-bottom: 5px !important;
+}
+
+#calendar {
+    margin-top: -22px !important;
+    margin-left: 10px !important;
+    margin-right: 0px !important;
+    width: 420px;
+    height: 100%;
+}
+
+.list-group {
+    width: 440px;
+    height: 285px;
 }
 
 
