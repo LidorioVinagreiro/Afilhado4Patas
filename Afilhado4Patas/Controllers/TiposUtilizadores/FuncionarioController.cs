@@ -125,6 +125,21 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View("../Shared/FichaAnimal", animal);
         }
 
+        public ActionResult Dashboard(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var user = _context.Utilizadores.Where(u => u.Email == id).Include(p => p.Perfil).FirstOrDefault();
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return View(user);
+        }
+
         /****************************************************************************************************/
         /******************************************** Perfil ***********************************************/
         /****************************************************************************************************/
@@ -145,6 +160,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             var user = _context.Utilizadores.Where(u => u.Email == id).Include(p => p.Perfil).FirstOrDefault();
             if (user == null)
             {
+                return NotFound();
                 return NotFound();
             }
             return View(user);
@@ -652,11 +668,21 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                 model.Adotantes = new List<Utilizadores>();
                 foreach (var adotantes in _context.Adotantes.Where(a => a.AnimalId == model.Id).Include(u => u.Adotante_User).ToList())
                 {
-                    Utilizadores user = _context.Utilizadores.Where(x => x.PerfilId == adotantes.AdotanteId).FirstOrDefault();
+                    Utilizadores user = _context.Utilizadores.Where(x => x.PerfilId == adotantes.AdotanteId).Include(p => p.Perfil).FirstOrDefault();
                     model.Adotantes.Add(user);
                 }
             }
-            return View(model);
+            List<string> anexos = Directory.GetFiles(_hostingEnvironment.WebRootPath + "\\Animais\\" + model.Id + "\\Anexos\\").ToList();
+            List<string> fotos = Directory.GetFiles(_hostingEnvironment.WebRootPath + "\\Animais\\" + model.Id + "\\Galeria\\").ToList();
+            DetalhesAnimal detalhes = new DetalhesAnimal
+            {
+                Animal = model,
+                FicheirosAnexos = anexos,
+                FicheirosGaleria = fotos,
+                CaminhoAnexos = _hostingEnvironment.WebRootPath + "\\Animais\\" + model.Id + "\\Anexos\\",
+                CaminhoGaleria = _hostingEnvironment.WebRootPath + "\\Animais\\" + model.Id + "\\Galeria\\"
+            };            
+            return View(detalhes);
         }
 
         /// <summary>

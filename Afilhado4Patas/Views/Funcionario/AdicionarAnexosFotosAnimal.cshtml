@@ -10,41 +10,65 @@
     ViewData["Title"] = "Adicionar Fotos Galeria Animal";
 }
 
-<div id="page">
-    <div id="box">
-        @{
-            if (Model.animal.Foto != null)
-            {
-                string src = "/Animais/" + Model.animal.Id + "/" + Model.animal.Foto;
-                <img id="icon_centrado_arredondado" src="@src" />
+<link href="~/css/FileInput/fileInput.css" rel="stylesheet" />
+<link href="~/css/FormularioCSS/formularios.css" rel="stylesheet" />
+
+<div id="registo_page">
+    <form id="login" method="post" asp-action="AdicionarAnexosFotosAnimal" asp-controller="Funcionario" enctype="multipart/form-data">
+        <h1>
+            Adicionar fotos ao Animal
+            @{
+                if (Model.animal.Foto != null)
+                {
+                    string src = "/Animais/" + Model.animal.Id + "/" + Model.animal.Foto;
+                    <img id="icon_redondo_miniatura" src="@src" />
+                }
+                else
+                {
+                    <img id="icon_redondo_miniatura" src="~/images/dog-profile.png" />
+                }
             }
-            else
-            {
-                <img id="icon_centrado_arredondado" src="~/images/dog-profile.png" />
-            }
-        }
-        <h4>Adicionar Fotos Galeria do Animal</h4>
-        <hr />
-        <form method="post" asp-action="AdicionarAnexosFotosAnimal" asp-controller="Funcionario" enctype="multipart/form-data">
-            <div class="form-group">
-                <label asp-for="File" class="control-label"></label>
-                <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
-                      title="Insira a imagem do animal.
+        </h1>
+        <div class="contentform">
+            <div class="centercontact">
+                <div class="form-group">
+                    <div>
+                        <label asp-for="File" class="control-label"></label>
+                        <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
+                              title="Insira a imagem do animal.
 Deverá ter o formato JPG, JPEG, PNG."></span>
-                <input type="file" asp-for="File" class="form-control" />
-                <span asp-validation-for="File" class="text-danger"></span>
+                    </div>
+                    <div class="input-container">
+                        <input type="file" id="real-input" asp-for="File">
+                        <button class="browse-btn" type="button">
+                            Escolher Ficheiro
+                        </button>
+                        <span class="file-info">Nenhum ficheiro inserido</span>
+                    </div>
+                    <span asp-validation-for="File" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Confirmar" class="btn btn-default" />
-            </div>
-        </form>
-    </div>
+        </div>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <button type="submit" class="bouton-contact">Confirmar</button>
+    </form>
 </div>
 
-<div>
-    <a asp-controller="Funcionario" asp-action="DetalhesAnimal" asp-route-id=@Model.animal.Id>Voltar Ficha Animal</a>
+<div class="voltar">
+    <a class="efeito efeito_botao_back" id="voltar" asp-controller="Funcionario" asp-action="DetalhesAnimal" asp-route-id=@Model.animal.Id>Voltar</a>
 </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+<script>
+    $('.browse-btn').bind('click', function () {
+        $('#real-input').trigger('click');
+    });
+
+    $('#real-input').on('change', function () {
+        var name = $('#real-input').val().split(/\\|\//).pop();
+        var truncated = name.length > 20
+            ? name.substr(name.length - 20)
+            : name;
+
+        $('.file-info').text(truncated);
+    });
+</script>

@@ -28,99 +28,130 @@
     });
 </script>
 
-<div id="page">
-    <div id="box">
-        <img id="icon_centrado" src="~/images/edit.png" />
-        <h2>Editar Animal</h2>
-        <hr />
-        <form asp-controller="Funcionario" asp-action="EditarAnimal">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="NomeAnimal" class="control-label"></label>
-                <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
-                      title="Insira o nome do Animal apenas contendo letras"></span>
-                <input asp-for="NomeAnimal" class="form-control" />
-                <span asp-validation-for="NomeAnimal" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Sexo"></label>
-                <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
-                      title="Selecione o sexo do Animal"></span>
-                <div>
-                    Macho
-                    <input asp-for="Sexo" type="radio" value="Macho" />
-                    Femea
-                    <input asp-for="Sexo" type="radio" value="Femea" />
+<link href="~/css/FormularioCSS/formularios.css" rel="stylesheet" />
+
+<div id="registo_page">
+    <form asp-controller="Funcionario" asp-action="EditarAnimal">
+        <h1>Editar Animal <img id="icon_miniatura" src="~/images/edit.png" /></h1>
+        <div class="contentform">
+            <div class="leftcontact">
+                <div class="form-group">
+                    <div>
+                        <label asp-for="NomeAnimal" class="control-label"></label>
+                        <span class="vermelho">*</span>
+                        <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
+                              title="Insira o nome do Animal apenas contendo letras"></span>
+                    </div>
+                    <span class="icon-case"><i class="fa fa-user"></i></span>
+                    <input asp-for="NomeAnimal" class="form-control" />
+                    <span asp-validation-for="NomeAnimal" class="text-danger"></span>
                 </div>
-                <span asp-validation-for="Sexo" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DataNasc"></label>
-                <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
-                      title="Inserir data de nascimento no formato DD-MM-AAAA
+                <div class="form-group">
+                    <div>
+                        <label asp-for="Sexo"></label>
+                        <span class="vermelho">*</span>
+                        <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
+                              title="Selecione o sexo do Animal"></span>
+                    </div>
+                    <span class="icon-case"><i class="fa fa-mars"></i></span>
+                    <select asp-for="Sexo">
+                        <option value="Macho">Macho</option>
+                        <option value="Femea">Femea</option>
+                    </select>
+                    <span asp-validation-for="Sexo" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <div>
+                        <label asp-for="DataNasc"></label>
+                        <span class="vermelho">*</span>
+                        <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
+                              title="Inserir data de nascimento no formato DD-MM-AAAA
 Deverá ainda ter uma idade maior ou igual 0 anos e inferior a 30 anos."></span>
-                <div class="input-group date" id="datepicker_animal">
-                    <input asp-for="DataNasc" type="text" value="" class="form-control" />
-                    <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                    </span>
+                    </div>
+                    <div class="input-group date" id="datepicker_animal">
+                        <span class="input-group-addon icon-case hand">
+                            <i class="fa fa-calendar-alt"></i>
+                        </span>
+                        <input asp-for="DataNasc" type="text" class="form-control" />
+                    </div>
+                    <span asp-validation-for="DataNasc" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <div>
+                        <label asp-for="PorteId"></label>
+                        <span class="vermelho">*</span>
+                        <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
+                              title="Selecione o porte do Animal"></span>
+                    </div>
+                    <span class="icon-case"><i class="fa fa-filter"></i></span>
+                    <select id="PorteID" name="PorteID" asp-for="PorteId" class="form-control" asp-items="@Model.Portes">
+                        <option>Selecione um porte</option>
+                    </select>
+                    <span asp-validation-for="PorteId" class="text-danger"></span>
                 </div>
             </div>
-            <div class="form-group">
-                <label asp-for="PorteId" class="control-label"></label>
-                <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
-                      title="Selecione o porte do animal"></span>
-                <select id="PorteID" name="PorteID" asp-for="PorteId" class="form-control" asp-items="@Model.Portes">
-                    <option>Selecione um porte</option>
-                </select>
-                <span asp-validation-for="PorteId" class="text-danger"></span>
+
+            <div class="rightcontact">
+                <div class="form-group">
+                    <div>
+                        <label asp-for="Descricao" class="control-label"></label>
+                        <span class="vermelho">*</span>
+                        <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
+                              title="Insira uma descrição do animal apenas contendo letras"></span>
+                    </div>
+                    <span class="icon-case"><i class="fa fa-font"></i></span>
+                    <textarea rows="3" asp-for="Descricao" class="form-control"></textarea>
+                    <span asp-validation-for="Descricao" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <div>
+                        <label asp-for="Peso" class="control-label"></label>
+                        <span class="vermelho">*</span>
+                        <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
+                              title="Insira o peso do animal em Kg,
+O peso deverá ser superior a 0.1 Kg e menor que 200 Kg"></span>
+                    </div>
+                    <span class="icon-case"><i class="fa fa-weight"></i></span>
+                    <input asp-for="Peso" />
+                    <span asp-validation-for="Peso" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <div>
+                        <label asp-for="CategoriaId"></label>
+                        <span class="vermelho">*</span>
+                        <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
+                              title="Selecione o categoria do Animal"></span>
+                    </div>
+                    <span class="icon-case"><i class="fa fa-filter"></i></span>
+                    <select id="CategoriaID" name="CategoriaID" asp-for="CategoriaId" class="form-control" asp-items="@Model.Categorias">
+                        <option>Selecione um porte</option>
+                    </select>
+                    <span asp-validation-for="CategoriaId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <div>
+                        <label asp-for="RacaId"></label>
+                        <span class="vermelho">*</span>
+                        <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
+                              title="Selecione a raça do Animal"></span>
+                    </div>
+                    <span class="icon-case"><i class="fa fa-paw"></i></span>
+                    <select id="RacaId" name="RacaId" asp-for="RacaId" class="form-control"
+                            asp-items="@(new SelectList("","RacaId","NomeRaca"))"></select>
+                    <span asp-validation-for="RacaId" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Descricao" class="control-label"></label>
-                <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
-                      title="Insira uma descrição do animal apenas contendo letras"></span>
-                <input asp-for="Descricao" class="form-control" />
-                <span asp-validation-for="Descricao" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Peso" class="control-label"></label>
-                <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
-                      title="Insira o peso do animal em Kg,
-O peso deverá ser superior a 0 Kg e menor que 200 Kg"></span>
-                <input asp-for="Peso" class="form-control" />
-                <span asp-validation-for="Peso" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CategoriaId" class="control-label"></label>
-                <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
-                      title="Selecione a categoria do Animal"></span>
-                <select id="CategoriaID" name="CategoriaID" asp-for="CategoriaId" class="form-control" asp-items="@Model.Categorias">
-                    <option>Selecione uma categoria</option>
-                </select>
-                <span asp-validation-for="CategoriaId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="RacaId" class="control-label"></label>
-                <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
-                      title="Selecione a raça do Animal"></span>
-                <select id="RacaId" name="RacaId" asp-for="RacaId" class="form-control"
-                        asp-items="@(new SelectList("","RacaId","NomeRaca"))"></select>
-                <span asp-validation-for="RacaId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Editar" class="btn btn-default" />
-            </div>
-        </form>
-    </div>
-</div>
-<div id="edit_options">
-    <a asp-controller="Funcionario" asp-action="ListaAnimais">
-        <img id="icon" src="~/images/voltar.png" />
-        <span id="options_spans">Voltar</span>
-    </a>
+        </div>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <button type="submit" class="bouton-contact">Editar Animal</button>
+    </form>
 </div>
 
-<script src="~/js/bootstrap-datepicker.pt-BR.js"></script>
+<div class="voltar">
+    <a class="efeito efeito_botao_back" id="voltar" asp-controller="Funcionario" asp-action="DetalhesAnimal" asp-route-id=@Model.Id>Voltar</a>
+</div>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/locales/bootstrap-datepicker.pt.min.js"></script>
 <script>
     var nowDate = new Date();
     var today = new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate(), 0, 0, 0, 0);
@@ -138,7 +169,9 @@ O peso deverá ser superior a 0 Kg e menor que 200 Kg"></span>
             autoclose: true,
             changeMonth: true,
             changeYear: true,
-            orientation: "button"
+            orientation: "bottom left",
+            weekStart: 1,
+            language: 'pt'
         });
     });
 </script>

@@ -1,4 +1,9 @@
 ﻿@model Afilhado4Patas.Models.ViewModels.PedidoFimSemanaViewModel;
+@using Microsoft.AspNetCore.Identity
+@using Afilhado4Patas.Data;
+
+@inject SignInManager<Utilizadores> SignInManager
+@inject UserManager<Utilizadores> UserManager
 @{
     ViewData["Title"] = "PedidosFimSemana";
 }
@@ -59,8 +64,11 @@
         <button type="submit" class="bouton-contact">Realizar Pedido</button>
     </form>
 </div>
+<div class="voltar">
+    <a class="efeito efeito_botao_back" id="voltar" asp-controller="Utilizador" asp-action="Dashboard" asp-route-id="@UserManager.GetUserName(User)">Voltar</a>
+</div>
 
-<script src="~/js/bootstrap-datepicker.pt-BR.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/locales/bootstrap-datepicker.pt.min.js"></script>
 <script>
     $(document).ready(function () {
         $('#datepicker_marcacaoFimSemana1').datepicker({
@@ -82,7 +90,8 @@
             changeYear: true,
             orientation: "bottom left",
             daysOfWeekDisabled: [1, 2, 3, 4, 5],
-            weekStart: 1
+            weekStart: 1,
+            language: 'pt'
         });
         $('#datepicker_marcacaoFimSemana2').datepicker({
             beforeShowDay: function (date) {
@@ -103,7 +112,8 @@
             changeYear: true,
             daysOfWeekDisabled: [1, 2, 3, 4, 5],
             orientation: "bottom left",
-            weekStart: 1
+            weekStart: 1,
+            language: 'pt'
         });
     });
 </script>

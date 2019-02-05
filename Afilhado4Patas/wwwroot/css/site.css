@@ -6,6 +6,7 @@ body, html {
     height: 100vh;
     width: 100%;
     background-color: #eaeaea !important;
+    font-family: NimbusSan !important;
 }
 
 .required{
@@ -509,6 +510,14 @@ li a {
     margin-top: 0 !important;
 }
 
+#icon_redondo_miniatura {
+    height: 50px;
+    width: 50px;
+    margin-left: 10px;
+    margin-top: 0 !important;
+    border-radius: 50%
+}
+
 #page {
     width: 90%;
     padding-top: 5%;
@@ -948,8 +957,9 @@ li a {
 
         .efeito.efeito_botao:before {
             content: "\f061";
-            font-family: FontAwesome;
+            font-family: 'Font Awesome\ 5 Free';
             font-size: 15px;
+            font-weight: 900;
             position: absolute;
             display: flex;
             align-items: center;
@@ -994,6 +1004,51 @@ li a {
     font-weight: 200;
     color: indianred;
 }
+
+.voltar{
+    margin-left:20px;
+    margin-top: -40px;
+}
+
+#voltar {
+    padding: 10px 10px 10px 0;
+    text-decoration: none;
+    font-family: NimbusSan;
+    font-size: 18px;
+    font-weight: 200;
+    color: #0081c2;
+}
+
+.efeito.efeito_botao_back {
+    transition: all 0.2s linear 0s;
+}
+
+    .efeito.efeito_botao_back:before {
+        content: "\f060";
+        font-family: 'Font Awesome\ 5 Free';
+        font-size: 15px;
+        font-weight: 900;
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        left: 0;
+        top: 0;
+        opacity: 0;
+        height: 100%;
+        width: 40px;
+        transition: all 0.2s linear 0s;
+        margin-left: 10px;
+    }
+
+    .efeito.efeito_botao_back:hover {
+        text-indent: +10px;
+    }
+
+        .efeito.efeito_botao_back:hover:before {
+            opacity: 1;
+            text-indent: 0px;
+        }
 
 /* Date Picker Datas*/
 
@@ -1058,4 +1113,47 @@ li a {
     height: 50px;
     margin-left: auto;
     margin-right: auto
+}
+
+.blue_icon {
+    font-size: 18px !important;
+    color: #0081c2 !important;
+    margin-right: 10px
+}
+
+.green_icon {
+    font-size: 18px !important;
+    color: #628833 !important;
+    margin-right: 10px
+}
+
+.red_icon {
+    font-size: 18px !important;
+    color: indianred !important;
+    margin-right: 10px
+}
+
+.grey_icon {
+    font-size: 22px !important;
+    color: lightgrey !important;
+    margin-right: 10px;
+    margin-bottom: 5px;
+}
+
+#min{
+    height: 30px;
+    width: 30px
+}
+
+#links_animal{
+    text-decoration: none;
+    color: #fff;
+}
+
+    #links_animal:hover {
+        color: darkgreen
+    }
+
+.rounded{
+    border-radius: 50%
 }

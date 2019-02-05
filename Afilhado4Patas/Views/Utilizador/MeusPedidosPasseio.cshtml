@@ -9,58 +9,123 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <link href="~/css/Table/tabela.css" rel="stylesheet" />
+<div id="rectangulo"></div>
 <div id="page">
-    <img id="icon_centrado" src="~/images/passeio.png" />
-    <h2>Os meus pedidos de Passeios</h2>
+    <h3 style="color: #fff">Os meus pedidos de Passeios</h3>
     <br />
-    <ul class="responsive-table">
-        <li class="table-header">
-            <div class="col col-1">@Html.DisplayNameFor(model => model.Animal.NomeAnimal)</div>
-            <div class="col col-2">@Html.DisplayNameFor(model => model.DataPasseio)</div>
-            <div class="col col-3">@Html.DisplayNameFor(model => model.HoraPasseio)</div>
-            <div class="col col-4">@Html.DisplayNameFor(model => model.DataPedido)</div>
-            <div class="col col-4">@Html.DisplayNameFor(model => model.Aprovacao)</div>
-            <div class="col col-4">@Html.DisplayNameFor(model => model.DataAprovacao)</div>
-        </li>
-        @foreach (var item in Model)
-        {
-            <li class="table-row">
-                <div class="col col-4">
-                    @if (item.Animal.Foto != null)
-                    {
-                        string src = "/Animais/" + item.Animal.Id + "/" + item.Animal.Foto;
-                        <img id="icon_mini" src="@src" />
-                    }
-                    else
-                    {
-                        <img id="icon_mini" src="~/images/dog-profile.png" />
-                    }
-                    @Html.DisplayFor(modelItem => item.Animal.NomeAnimal)
-                </div>
-                <div class="col col-4">
-                    @item.DataPasseio.ToString("dd/MM/yyyy")
-                </div>
-                <div class="col col-4">
-                    @Html.DisplayFor(modelItem => item.HoraPasseio)
-                </div>
-                <div class="col col-4">
-                    @item.DataPedido.ToString("dd/MM/yyyy")
-                </div>
-                <div class="col col-4">
-                    @Html.DisplayFor(modelItem => item.Aprovacao)
-                </div>
-                <div class="col col-4">
-                    @if ((item.DataAprovacao.ToString("dd/MM/yyyy").Equals("01/01/0001")))
-                    {
-                        @Html.Raw("Sem data");
-                    }
-                    else
-                    {
-                        @Html.Raw(item.DataAprovacao.ToString("dd/MM/yyyy"));
-                    }
-                </div>
-            </li>
-        }
-    </ul>
+    <div class="table-responsive-vertical shadow-z-1">
+        <table id="table" class="table table-hover table-mc-light-blue">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.Animal.NomeAnimal)</th>
+                    <th>@Html.DisplayNameFor(model => model.DataPasseio)</th>
+                    <th>@Html.DisplayNameFor(model => model.HoraPasseio)</th>
+                    <th>@Html.DisplayNameFor(model => model.DataPedido)</th>
+                    <th>@Html.DisplayNameFor(model => model.Aprovacao)</th>
+                    <th>@Html.DisplayNameFor(model => model.DataAprovacao)</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td data-title="Nome Animal">
+                            @if (item.Animal.Foto != null)
+                            {
+                                string src = "/Animais/" + item.Animal.Id + "/" + item.Animal.Foto;
+                                <img id="icon_mini" src="@src" />
+                            }
+                            else
+                            {
+                                <img id="icon_mini" src="~/images/dog-profile.png" />
+                            }
+                            @Html.DisplayFor(modelItem => item.Animal.NomeAnimal)
+                        </td>
+                        <td data-title="Data do Passeio">
+                            @item.DataPasseio.ToString("dd/MM/yyyy")
+                        </td>
+                        <td data-title="Horas do Passeio">
+                            @Html.DisplayFor(modelItem => item.HoraPasseio)
+                        </td>
+                        <td data-title="Data do Pedido">
+                            @item.DataPedido.ToString("dd/MM/yyyy")
+                        </td>
+                        <td data-title="Aprovacao">
+                            @Html.DisplayFor(modelItem => item.Aprovacao)
+                        </td>
+                        <td data-title="Data Aprovacao">
+                            @if ((item.DataAprovacao.ToString("dd/MM/yyyy").Equals("01/01/0001")))
+                            {
+                                @Html.Raw("Sem data");
+                            }
+                            else
+                            {
+                                @Html.Raw(item.DataAprovacao.ToString("dd/MM/yyyy"));
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>
+
+<script>
+    $(document).ready(function () {
+
+        var table = $('#table');
+
+        // Table bordered
+        $('#table-bordered').change(function () {
+            var value = $(this).val();
+            table.removeClass('table-bordered').addClass(value);
+        });
+
+        // Table striped
+        $('#table-striped').change(function () {
+            var value = $(this).val();
+            table.removeClass('table-striped').addClass(value);
+        });
+
+        // Table hover
+        $('#table-hover').change(function () {
+            var value = $(this).val();
+            table.removeClass('table-hover').addClass(value);
+        });
+
+        // Table color
+        $('#table-color').change(function () {
+            var value = $(this).val();
+            table.removeClass(/^table-mc-/).addClass(value);
+        });
+    });
+
+    // jQuery’s hasClass and removeClass on steroids
+    // by Nikita Vasilyev
+    // https://github.com/NV/jquery-regexp-classes
+    (function (removeClass) {
+
+        jQuery.fn.removeClass = function (value) {
+            if (value && typeof value.test === "function") {
+                for (var i = 0, l = this.length; i < l; i++) {
+                    var elem = this[i];
+                    if (elem.nodeType === 1 && elem.className) {
+                        var classNames = elem.className.split(/\s+/);
+
+                        for (var n = classNames.length; n--;) {
+                            if (value.test(classNames[n])) {
+                                classNames.splice(n, 1);
+                            }
+                        }
+                        elem.className = jQuery.trim(classNames.join(" "));
+                    }
+                }
+            } else {
+                removeClass.call(this, value);
+            }
+            return this;
+        }
+
+    })(jQuery.fn.removeClass);
+</script>
 

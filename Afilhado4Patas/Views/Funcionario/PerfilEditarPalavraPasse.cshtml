@@ -7,58 +7,55 @@
 @inject UserManager<Utilizadores> UserManager
 @inject ApplicationDbContext Context
 
-<div id="page">
-    <div id="box">
-        <img id="icon_centrado" src="~/images/password.png" />
-        <h4>Alterar Palavra-Passe</h4>
-        <hr />
-        @{Utilizadores user = Context.Utilizadores.Where(u => u.Email == UserManager.GetUserName(User)).FirstOrDefault();
-            Perfil perfil = Context.PerfilTable.Where(p => p.Id == user.PerfilId).FirstOrDefault();
-            if (perfil.Photo != null)
-            {
-                string src = "/Utilizadores/" + user.Id + "/" + perfil.Photo;
-                <img src="@src" />
-            }
-            else
-            {
-                <img id="imagem_perfil" src="~/images/default.jpg" />
-            }
-        }
-        <br />
-        <br />
-        <form asp-action="PerfilEditarPalavraPasse" asp-controller="Funcionario">
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="OldPassword"></label>
-                <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
-                      title="Insira a sua palavra-passe antiga"></span>
-                <input asp-for="OldPassword" class="form-control" />
-                <span asp-validation-for="OldPassword" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="NewPassword"></label>
-                <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
-                      title="Inserir uma nova palavra-passe válida
+<link href="~/css/FormularioCSS/formularios.css" rel="stylesheet" />
+
+<div id="registo_page">
+    <form id="login" asp-action="PerfilEditarPalavraPasse" asp-controller="Funcionario">
+        <h1>Editar Palavra-Passe <img id="icon_miniatura" src="~/images/forgot_password.png" /></h1>
+        <div class="contentform">
+            <div class="centercontact">
+                <div class="form-group">
+                    <div>
+                        <label asp-for="OldPassword"></label>
+                        <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
+                              title="Insira a sua palavra-passe antiga"></span>
+                    </div>
+                    <span class="icon-case"><i class="fa fa-key"></i></span>
+                    <input asp-for="OldPassword" class="form-control" />
+                    <span asp-validation-for="OldPassword" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <div>
+                        <label asp-for="NewPassword"></label>
+                        <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
+                              title="Inserir uma nova palavra-passe válida
 A password deverá conter pelo menos um caracter dos seguintes e ter um comprimento minimo de 8 caracteres:
 Letras: Aa-Zz
 Numeros: 0-9"></span>
-                <input asp-for="NewPassword" class="form-control" />
-                <span asp-validation-for="NewPassword" class="text-danger"></span>
+                    </div>
+                    <span class="icon-case"><i class="fa fa-key"></i></span>
+                    <input asp-for="NewPassword" class="form-control" />
+                    <span asp-validation-for="NewPassword" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <div>
+                        <label asp-for="ConfirmNewPassword"></label>
+                        <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
+                              title="Confirme a sua nova palavra-passe"></span>
+                    </div>
+                    <span class="icon-case"><i class="fa fa-key"></i></span>
+                    <input asp-for="ConfirmNewPassword" class="form-control" />
+                    <span asp-validation-for="ConfirmNewPassword" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="ConfirmNewPassword"></label>
-                <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
-                      title="Confirme a sua nova palavra-passe"></span>
-                <input asp-for="ConfirmNewPassword" class="form-control" />
-                <span asp-validation-for="ConfirmNewPassword" class="text-danger"></span>
-            </div>
-            <button type="submit" value="Alterar Palavra-Passe" class="btn btn-default">Alterar Palavra-Passe</button>
-        </form>
-    </div>
+        </div>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <button type="submit" class="bouton-contact">Alterar Palavra-Passe</button>
+    </form>
 </div>
 
-<div>
-    <a asp-controller="Funcionario" asp-action="Perfil" asp-route-id="@UserManager.GetUserName(User)">Voltar ao Perfil</a>
+<div class="voltar">
+    <a class="efeito efeito_botao_back" id="voltar" asp-controller="Funcionario" asp-action="Dashboard" asp-route-id="@UserManager.GetUserName(User)">Voltar</a>
 </div>
 
 @section Scripts {

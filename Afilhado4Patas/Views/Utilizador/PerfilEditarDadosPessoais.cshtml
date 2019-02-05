@@ -12,7 +12,7 @@
 <link href="~/css/FormularioCSS/formularios.css" rel="stylesheet" />
 
 <div id="registo_page">
-    <form id="login" asp-action="PerfilEditarDadosPessoais" asp-controller="Utilizador">        
+    <form id="login" asp-action="PerfilEditarDadosPessoais" asp-controller="Utilizador">
         <h1>Editar Dados Pessoais <img id="icon_miniatura" src="~/images/edit.png" /></h1>
         <div class="contentform">
             <div class="centercontact">
@@ -69,15 +69,15 @@ Deverá ainda ter uma idade maior de 18 anos."></span>
     </form>
 </div>
 
-<div>
-    <a asp-controller="Utilizador" asp-action="Dashboard" asp-route-id="@UserManager.GetUserName(User)">Voltar ao Perfil</a>
+<div class="voltar">
+    <a class="efeito efeito_botao_back" id="voltar" asp-controller="Utilizador" asp-action="Dashboard" asp-route-id="@UserManager.GetUserName(User)">Voltar</a>
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
 
-<script src="~/js/bootstrap-datepicker.pt-BR.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/locales/bootstrap-datepicker.pt.min.js"></script>
 <script>
     $('#datepicker_registo').datepicker({
         format: "dd/MM/yyyy",
@@ -89,6 +89,7 @@ Deverá ainda ter uma idade maior de 18 anos."></span>
         selectOtherMonths: true,
         autoclose: true,
         orientation: "top left",
-        weekStart: 1
+        weekStart: 1, 
+        language: 'pt'
     });
 </script>

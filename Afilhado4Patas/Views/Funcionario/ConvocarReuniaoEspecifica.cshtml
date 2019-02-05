@@ -1,35 +1,44 @@
 ﻿@model Afilhado4Patas.Models.ViewModels.ConvocatoriaViewModel
 
-<div id="page">
-    <div id="box">
-        <img id="icon_centrado" src="~/images/doctor.png" />
-        <h4>Convocar Reunião </h4>
-        <hr />
-        <br />
-        <form asp-controller="Funcionario" asp-action="ConvocarReuniaoEspecifica">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Notas" class="control-label"></label>
-                <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
-                      title="Caso existam outros animais em casa mencione a baixo"></span>
-                <i class="fa fa-asterisk required" title="Campo Obrigatório"></i>
-                <textarea asp-for="Notas" class="form-control"></textarea>
-                <span asp-validation-for="Notas" class="text-danger"></span>
+<link href="~/css/FileInput/fileInput.css" rel="stylesheet" />
+<link href="~/css/FormularioCSS/formularios.css" rel="stylesheet" />
+
+<div id="registo_page">
+    <form id="login" asp-controller="Funcionario" asp-action="ConvocarReuniaoEspecifica">
+        <h1>
+            Pedir Convocatória
+            <img id="icon_miniatura" class="rounded" src="~/images/doctor.png" />
+        </h1>
+        <div class="contentform">
+            <div class="centercontact">
+                <div class="form-group">
+                    <div>
+                        <label asp-for="Notas" class="control-label"></label>
+                        <span class="vermelho">*</span>
+                        <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
+                              title="Caso existam outros animais em casa mencione a baixo"></span>
+                    </div>
+                    <span class="icon-case"><i class="fa fa-font"></i></span>
+                    <textarea asp-for="Notas" class="form-control"></textarea>
+                    <span asp-validation-for="Notas" class="text-danger"></span>
+                </div>
+                <div class="form-group" style="display: none">
+                    <label asp-for="UtilizadorId" class="control-label"></label>
+                    <input asp-for="UtilizadorId" class="form-control" />
+                    <span asp-validation-for="UtilizadorId" class="text-danger"></span>
+                </div>
+                <div class="form-group" style="display: none">
+                    <label asp-for="AnimalNome" class="control-label"></label>
+                    <input asp-for="AnimalNome" class="form-control" />
+                    <span asp-validation-for="AnimalNome" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group" style="display: none">
-                <label asp-for="UtilizadorId" class="control-label"></label>
-                <input asp-for="UtilizadorId" class="form-control" />
-                <span asp-validation-for="UtilizadorId" class="text-danger"></span>
-            </div>
-            <div class="form-group" style="display: none">
-                <label asp-for="AnimalNome" class="control-label"></label>
-                <input asp-for="AnimalNome" class="form-control" />
-                <span asp-validation-for="AnimalNome" class="text-danger"></span>
-            </div>
-            <br />
-            <div class="form-group">
-                <input type="submit" value="Pedir Convocatória" class="btn btn-default" />
-            </div>
-        </form>  
-    </div>
+        </div>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <button type="submit" class="bouton-contact">Realizar Pedido</button>
+    </form>
+</div>
+
+<div class="voltar">
+    <a class="efeito efeito_botao_back" id="voltar" asp-controller="Funcionario" asp-action="ConvocarReuniao">Voltar</a>
 </div>

@@ -30,6 +30,13 @@
     float: left;
 }
 
+#vertical_3_funcionario {
+    width: 185px;
+    margin: 0 0 40px 5px;
+    padding: 0;
+    float: left;
+}
+
 .box_foto, .edit_perfil {
     width: 100%;
     height: 125px;
@@ -53,6 +60,14 @@
     background-color: #caab89;
 }
 
+.quinto {
+    width: 100%;
+    height: 185px;
+    margin-bottom: 5px;
+    box-shadow: 0 0 5px hsla(0,0%,70%,.5);
+    background-color: #3b7373;
+}
+
 #botoes {
     display: inline-block;
     width: 100% !important;
@@ -67,6 +82,23 @@
     left: 25%;
     color: #eeeeee !important;
     font-size: 62.5px;
+}
+
+.imagem_miniatura {
+    position: absolute;
+    top: 25%;
+    left: 25%;
+    height: 92.5px;
+    width: 92.5px
+}
+
+.texto_miniatura {
+    position: absolute;
+    bottom: 10%;
+    left: 25%;
+    color: #fff; 
+    text-align: center; 
+    font-weight: bold
 }
 
 #informacoes {

@@ -9,51 +9,99 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<br />
-<br />
-<br />
-<br />
-<br />
-<h2>Lista de tarefas</h2>
+<link href="~/css/Table/tabela.css" rel="stylesheet" />
+<div id="rectangulo"></div>
+<div id="page">
+    <h3 style="color: #fff">As minhas tarefas</h3>
+    <br />
+    <div class="table-responsive-vertical shadow-z-1">
+        <table id="table" class="table table-hover table-mc-light-blue">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.Inicio)</th>
+                    <th>@Html.DisplayNameFor(model => model.Fim)</th>
+                    <th>@Html.DisplayNameFor(model => model.Descricao)</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                <tr>
+                    <td data-title="Data de Inicio">
+                        @item.Inicio.ToString("dd/MM/yyyy")
+                    </td>
+                    <td data-title="Data do Fim">
+                        @item.Fim.ToString("dd/MM/yyyy")
+                    </td>
+                    <td data-title="Descricao">
+                        @Html.DisplayFor(modelItem => item.Descricao)
+                    </td>
+                    <td>
+                        <a><i class="fa fa-check-circle green_icon" title="Concluir Tarefa"></i></a>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Descricao)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Inicio)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Fim)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Completada)
-            </th>
+<script>
+    $(document).ready(function () {
 
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Descricao)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Inicio)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Fim)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Completada)
-                </td>
-                <td>
-                    <a asp-controller="Funcionario" asp-action="Tarefa" asp-route-id="@item.Id">Ver</a>
-                </td>
-            </tr>
+        var table = $('#table');
+
+        // Table bordered
+        $('#table-bordered').change(function () {
+            var value = $(this).val();
+            table.removeClass('table-bordered').addClass(value);
+        });
+
+        // Table striped
+        $('#table-striped').change(function () {
+            var value = $(this).val();
+            table.removeClass('table-striped').addClass(value);
+        });
+
+        // Table hover
+        $('#table-hover').change(function () {
+            var value = $(this).val();
+            table.removeClass('table-hover').addClass(value);
+        });
+
+        // Table color
+        $('#table-color').change(function () {
+            var value = $(this).val();
+            table.removeClass(/^table-mc-/).addClass(value);
+        });
+    });
+
+    // jQuery’s hasClass and removeClass on steroids
+    // by Nikita Vasilyev
+    // https://github.com/NV/jquery-regexp-classes
+    (function (removeClass) {
+
+        jQuery.fn.removeClass = function (value) {
+            if (value && typeof value.test === "function") {
+                for (var i = 0, l = this.length; i < l; i++) {
+                    var elem = this[i];
+                    if (elem.nodeType === 1 && elem.className) {
+                        var classNames = elem.className.split(/\s+/);
+
+                        for (var n = classNames.length; n--;) {
+                            if (value.test(classNames[n])) {
+                                classNames.splice(n, 1);
+                            }
+                        }
+                        elem.className = jQuery.trim(classNames.join(" "));
+                    }
+                }
+            } else {
+                removeClass.call(this, value);
+            }
+            return this;
         }
-    </tbody>
-</table>
+
+    })(jQuery.fn.removeClass);
+</script>

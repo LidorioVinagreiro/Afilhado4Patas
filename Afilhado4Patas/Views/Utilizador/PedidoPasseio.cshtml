@@ -1,4 +1,9 @@
 ﻿@model Afilhado4Patas.Models.ViewModels.PedidoPasseioViewModel;
+@using Microsoft.AspNetCore.Identity
+@using Afilhado4Patas.Data;
+
+@inject SignInManager<Utilizadores> SignInManager
+@inject UserManager<Utilizadores> UserManager
 @{
     ViewData["Title"] = "PedidosPasseios";
 }
@@ -55,7 +60,11 @@
         <button type="submit" class="bouton-contact">Realizar Pedido</button>
     </form>
 </div>
+<div class="voltar">
+    <a class="efeito efeito_botao_back" id="voltar" asp-controller="Utilizador" asp-action="Dashboard" asp-route-id="@UserManager.GetUserName(User)">Voltar</a>
+</div>
 
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/locales/bootstrap-datepicker.pt.min.js"></script>
 <script>
     $(document).ready(function () {
         $('#datepicker_marcacaoPasseio').datepicker({
@@ -69,7 +78,8 @@
             changeMonth: true,
             changeYear: true,
             orientation: "bottom left",
-            weekStart: 1
+            weekStart: 1,
+            language: 'pt'
         });
         $('.clockpicker_marcacaoPasseio').clockpicker({
             autoclose: true,
