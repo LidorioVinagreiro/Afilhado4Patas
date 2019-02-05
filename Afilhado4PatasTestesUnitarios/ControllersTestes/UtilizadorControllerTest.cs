@@ -113,5 +113,60 @@ namespace Afilhado4PatasTest.ControllersTest
                 var viewResult = Assert.IsType<ViewResult>(result);
                 Assert.IsType<ViewResult>(result);
         }
+
+        [Fact]
+        public async Task Perfil_CanLoadFromcontextDB()
+        {
+            var controller = new UtilizadorController(contextDB, hostingEnvironment, userManager);
+            var result = controller.Perfil("afilhados4patas@gmail.com");
+            var viewResult = Assert.IsType<ViewResult>(result);
+            Assert.IsType<ViewResult>(result);
+        }
+
+        [Fact]
+        public async Task Dashboard_CanLoadFromcontextDB()
+        {
+            var controller = new UtilizadorController(contextDB, hostingEnvironment, userManager);
+            var result = controller.Dashboard("afilhados4patas@gmail.com");
+            var viewResult = Assert.IsType<ViewResult>(result);
+            Assert.IsType<ViewResult>(result);
+        }
+
+        [Fact]
+        public async Task MeusAnimais_CanLoadFromcontextDB()
+        {
+            var controller = new UtilizadorController(contextDB, hostingEnvironment, userManager);
+            var result = controller.MeusAnimais("afilhados4patas@gmail.com");
+            var viewResult = Assert.IsType<ViewResult>(result);
+            Assert.IsType<ViewResult>(result);
+        }
+
+        [Fact]
+        public async Task MeusPedidos_CanLoadFromcontextDB()
+        {
+            var controller = new UtilizadorController(contextDB, hostingEnvironment, userManager);
+            var result = controller.MeusPedidos("afilhados4patas@gmail.com");
+            var viewResult = Assert.IsType<ViewResult>(result);
+            Assert.IsType<ViewResult>(result);
+        }
+
+        [Fact]
+        public async Task MeusPedidosFimSemana_CanLoadFromcontextDB()
+        {
+            var controller = new UtilizadorController(contextDB, hostingEnvironment, userManager);
+            var result = controller.MeusPedidosFimSemana("afilhados4patas@gmail.com");
+            var viewResult = Assert.IsType<ViewResult>(result);
+            Assert.IsType<ViewResult>(result);
+        }
+
+        [Fact]
+        public async Task MeusPedidosPasseio_CanLoadFromcontextDB()
+        {
+            var controller = new UtilizadorController(contextDB, hostingEnvironment, userManager);
+            var result = controller.MeusPedidosPasseio("afilhados4patas@gmail.com");
+            var viewResult = Assert.IsType<ViewResult>(result);
+            Assert.IsType<ViewResult>(result);
+        }
+                 
     }
 }
