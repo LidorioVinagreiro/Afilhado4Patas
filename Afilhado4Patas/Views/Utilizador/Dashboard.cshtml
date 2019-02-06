@@ -12,6 +12,8 @@
 @inject UserManager<Utilizadores> UserManager
 @inject ApplicationDbContext Context
 
+<link rel="stylesheet" href="~/fullcalendar/fullcalendar-custom-dashboard.css" />
+<link href="~/fullcalendar/fullcalendar.print.min.css" rel="stylesheet" media="print" />
 <link href="~/css/DashboardUser/dashboardUser.css" rel="stylesheet" />
 <link href="~/css/Friends/friendsList.css" rel="stylesheet" />
 <link href="~/css/Table/tabela.css" rel="stylesheet" />
@@ -239,7 +241,7 @@
             //themeSystem: 'standard',
             themeSystem: 'bootstrap4',
             locale: 'pt',
-            events: "/Responsavel/EventosCalendario"
+            events: "/Utilizador/EventosCalendarioUtilizador"
             /*events: $(function (start, end, timezone, callback)
             {
             $.ajax({
