@@ -5,126 +5,202 @@
 
 @inject SignInManager<Utilizadores> SignInManager
 @inject UserManager<Utilizadores> UserManager
+@inject ApplicationDbContext Context
 @{
     ViewData["Title"] = "Ficha Funcionario";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2> Ficha de Funcionário de @Html.DisplayFor(model => model.Utilizador.Perfil.FirstName) @Html.DisplayFor(model => model.Utilizador.Perfil.LastName)</h2>
+<link href="~/css/Table/tabela.css" rel="stylesheet" />
+<div id="rectangulo_maior"></div>
+<div id="page" class="page_maior">
+    <div style="height: 120px">
+        <div style="float: left">
+            @{
+                if (Model.Utilizador.Perfil.Photo != null)
+                {
+                    string src = "/Utilizadores/" + Model.Utilizador.Id + "/" + Model.Utilizador.Perfil.Photo;
+                    <img id="imagem_animal" src="@src" />
+                }
+                else
+                {
+                    <img id="imagem_animal" src="~/images/default.jpg" />
+                }
+            }
+        </div>
+    </div>
+    <h3 style="color: #fff">Ficha do Funcionário</h3>
+    <div class="table-responsive-vertical shadow-z-1">
+        <table id="table" class="table table-hover table-mc-light-blue">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.Utilizador.Perfil.FirstName)</th>
+                    <th>@Html.DisplayNameFor(model => model.Utilizador.Perfil.LastName)</th>
+                    <th>@Html.DisplayNameFor(model => model.Utilizador.Email)</th>
+                    <th>@Html.DisplayNameFor(model => model.Utilizador.Perfil.Birthday)</th>
+                    <th>@Html.DisplayNameFor(model => model.Utilizador.Perfil.Genre)</th>
+                    <th>@Html.DisplayNameFor(model => model.Utilizador.Perfil.City)</th>
+                    <th>@Html.DisplayNameFor(model => model.Utilizador.Perfil.Street)</th>
+                    <th>@Html.DisplayNameFor(model => model.Utilizador.Perfil.Postalcode)</th>
+                    <th>@Html.DisplayNameFor(model => model.Utilizador.Perfil.NIF)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td data-title="Nome">
+                        @Model.Utilizador.Perfil.FirstName
+                    </td>
+                    <td data-title="Apelido">
+                        @Model.Utilizador.Perfil.LastName
+                    </td>
+                    <td data-title="Email">
+                        @Model.Utilizador.Email
+                    </td>
+                    <td data-title="Data Nascimneto">
+                        @Model.Utilizador.Perfil.Birthday.ToString("dd/MM/yyyy")
+                    </td>
+                    <td data-title="Sexo">
+                        @Model.Utilizador.Perfil.Genre
+                    </td>
+                    <td data-title="Cidade">
+                        @Model.Utilizador.Perfil.City
+                    </td>
+                    <td data-title="Morada">
+                        @Model.Utilizador.Perfil.Street
+                    </td>
+                    <td data-title="Codigo Postal">
+                        @Model.Utilizador.Perfil.Postalcode
+                    </td>
+                    <td data-title="NIF">
+                        @Model.Utilizador.Perfil.NIF
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
-<div>
-    <dl class="dl-horizontal">
-        <dt>
-            Dados Pessoais
-        </dt>
-        <br />
-        <br />
-        <dt>
-            @Html.DisplayNameFor(model => model.Utilizador.Perfil.Photo)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Utilizador.Perfil.Photo)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Utilizador.Perfil.FirstName)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Utilizador.Perfil.FirstName)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Utilizador.Perfil.LastName)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Utilizador.Perfil.LastName)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Utilizador.Email)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Utilizador.Email)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Utilizador.Perfil.Genre)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Utilizador.Perfil.Genre)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Utilizador.Perfil.Birthday)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Utilizador.Perfil.Birthday)
-        </dd>
-        <br />
-        <dt>
-            Morada
-        </dt>
-        <br />
-        <br />
-        <dt>
-            @Html.DisplayNameFor(model => model.Utilizador.Perfil.City)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Utilizador.Perfil.City)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Utilizador.Perfil.Street)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Utilizador.Perfil.Street)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Utilizador.Perfil.Postalcode)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Utilizador.Perfil.Postalcode)
-        </dd>
-    </dl>
+    <h3 style="color: slategrey">Tarefas</h3>
+    <div class="table-responsive-vertical shadow-z-1">
+        <table id="table" class="table table-hover table-mc-light-blue">
+            <thead>
+                <tr>
+                    <th>@Html.Raw("Data de Inicio")</th>
+                    <th>@Html.Raw("Data de Fim")</th>
+                    <th>@Html.Raw("Descricao")</th>
+                    <th>@Html.Raw("Completada")</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.ListaTarefas)
+                {
+                    <tr>
+                        <td data-title="Funcionario">
+                            @{
+                                Utilizadores utilizador = Context.Utilizadores.Where(u => u.Id == item.FuncionarioId).FirstOrDefault();
+                                utilizador.Perfil = Context.PerfilTable.Where(p => p.Id == utilizador.PerfilId).FirstOrDefault();
+                                if (utilizador.Perfil.Photo != null)
+                                {
+                                    string src = "/Utilizadores/" + utilizador.Id + "/" + utilizador.Perfil.Photo;
+                                    <img id="icon_mini" src="@src" />
+                                }
+                                else
+                                {
+                                    <img id="icon_mini" src="~/images/default.jpg" />
+                                }
+                                @Html.Raw(@utilizador.Perfil.FirstName + " " + @utilizador.Perfil.LastName);
+                            }
+                        </td>
+                        <td data-title="Data de Inicio">
+                            @item.Inicio.ToString("dd/MM/yyyy")
+                        </td>
+                        <td data-title="Data do Fim">
+                            @item.Fim.ToString("dd/MM/yyyy")
+                        </td>
+                        <td data-title="Descricao">
+                            @Html.DisplayFor(modelItem => item.Descricao)
+                        </td>
+                        <td data-title="Completada">
+                            @Html.DisplayFor(modelItem => item.Completada)
+                        </td>
+                        <td>
+                            @if (item.Fim > DateTime.Now || item.Completada == false)
+                            {
+                                <a><i class="fa fa-edit green_icon" title="Editar Tarefa"></i></a>
+                                <a><i class="fa fa-times red_icon" title="Apagar Tarefa"></i></a>
+                            }
+
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>
 
-<h2>Lista de tarefas do Funcionario</h2>
+<div class="voltar">
+    <a class="efeito efeito_botao_back" id="voltar" asp-controller="Responsavel" asp-action="ListaFuncionarios">Voltar</a>
+</div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Descricao
-            </th>
-            <th>
-                Inicio
-            </th>
-            <th>
-                Fim
-            </th>
-            <th>
-                Completada
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.ListaTarefas)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Descricao)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Inicio)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Fim)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Completada)
-                </td>
-            </tr>
+<script>
+    $(document).ready(function () {
+
+        var table = $('#table');
+
+        // Table bordered
+        $('#table-bordered').change(function () {
+            var value = $(this).val();
+            table.removeClass('table-bordered').addClass(value);
+        });
+
+        // Table striped
+        $('#table-striped').change(function () {
+            var value = $(this).val();
+            table.removeClass('table-striped').addClass(value);
+        });
+
+        // Table hover
+        $('#table-hover').change(function () {
+            var value = $(this).val();
+            table.removeClass('table-hover').addClass(value);
+        });
+
+        // Table color
+        $('#table-color').change(function () {
+            var value = $(this).val();
+            table.removeClass(/^table-mc-/).addClass(value);
+        });
+    });
+
+    // jQuery’s hasClass and removeClass on steroids
+    // by Nikita Vasilyev
+    // https://github.com/NV/jquery-regexp-classes
+    (function (removeClass) {
+
+        jQuery.fn.removeClass = function (value) {
+            if (value && typeof value.test === "function") {
+                for (var i = 0, l = this.length; i < l; i++) {
+                    var elem = this[i];
+                    if (elem.nodeType === 1 && elem.className) {
+                        var classNames = elem.className.split(/\s+/);
+
+                        for (var n = classNames.length; n--;) {
+                            if (value.test(classNames[n])) {
+                                classNames.splice(n, 1);
+                            }
+                        }
+                        elem.className = jQuery.trim(classNames.join(" "));
+                    }
+                }
+            } else {
+                removeClass.call(this, value);
+            }
+            return this;
         }
-    </tbody>
-</table>
 
-<div>
-    <a asp-controller="Responsavel" asp-action="ListaFuncionarios">Voltar á Lista de Funcionários</a>
-</div>
+    })(jQuery.fn.removeClass);
+</script>
+
 
 
 

@@ -5,6 +5,8 @@
 
 @inject SignInManager<Utilizadores> SignInManager
 @inject UserManager<Utilizadores> UserManager
+@inject ApplicationDbContext Context
+
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -18,6 +20,7 @@
         <table id="table" class="table table-hover table-mc-light-blue">
             <thead>
                 <tr>
+                    <th>@Html.DisplayNameFor(model => model.FuncionarioId)</th>
                     <th>@Html.DisplayNameFor(model => model.Inicio)</th>
                     <th>@Html.DisplayNameFor(model => model.Fim)</th>
                     <th>@Html.DisplayNameFor(model => model.Descricao)</th>
@@ -28,28 +31,44 @@
             <tbody>
                 @foreach (var item in Model)
                 {
-                <tr>
-                    <td data-title="Data de Inicio">
-                        @item.Inicio.ToString("dd/MM/yyyy")
-                    </td>
-                    <td data-title="Data do Fim">
-                        @item.Fim.ToString("dd/MM/yyyy")
-                    </td>
-                    <td data-title="Descricao">
-                        @Html.DisplayFor(modelItem => item.Descricao)
-                    </td>
-                    <td data-title="Completada">
-                        @Html.DisplayFor(modelItem => item.Completada)
-                    </td>
-                    <td>
-                        @if (item.Fim > DateTime.Now || item.Completada == false)
-                        {
-                            <a><i class="fa fa-edit green_icon" title="Editar Tarefa"></i></a>
-                            <a><i class="fa fa-times red_icon" title="Apagar Tarefa"></i></a>
-                        }
+                    <tr>
+                        <td data-title="Funcionario">
+                            @{
+                                Utilizadores utilizador = Context.Utilizadores.Where(u => u.Id == item.FuncionarioId).FirstOrDefault();
+                                utilizador.Perfil = Context.PerfilTable.Where(p => p.Id == utilizador.PerfilId).FirstOrDefault();
+                                if (utilizador.Perfil.Photo != null)
+                                {
+                                    string src = "/Utilizadores/" + utilizador.Id + "/" + utilizador.Perfil.Photo;
+                                    <img id="icon_mini" src="@src" />
+                                }
+                                else
+                                {
+                                    <img id="icon_mini" src="~/images/default.jpg" />
+                                }
+                                @Html.Raw(@utilizador.Perfil.FirstName + " " + @utilizador.Perfil.LastName);
+                            }
+                        </td>
+                        <td data-title="Data de Inicio">
+                            @item.Inicio.ToString("dd/MM/yyyy")
+                        </td>
+                        <td data-title="Data do Fim">
+                            @item.Fim.ToString("dd/MM/yyyy")
+                        </td>
+                        <td data-title="Descricao">
+                            @Html.DisplayFor(modelItem => item.Descricao)
+                        </td>
+                        <td data-title="Completada">
+                            @Html.DisplayFor(modelItem => item.Completada)
+                        </td>
+                        <td>
+                            @if (item.Fim > DateTime.Now || item.Completada == false)
+                            {
+                                <a><i class="fa fa-edit green_icon" title="Editar Tarefa"></i></a>
+                                <a><i class="fa fa-times red_icon" title="Apagar Tarefa"></i></a>
+                            }
 
-                    </td>
-                </tr>
+                        </td>
+                    </tr>
                 }
             </tbody>
         </table>

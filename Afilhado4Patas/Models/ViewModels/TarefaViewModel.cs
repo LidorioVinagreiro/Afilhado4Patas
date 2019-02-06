@@ -35,7 +35,7 @@ namespace Afilhado4Patas.Models.ViewModels
         public string Descricao { get; set; }
 
         [Display(Name = "Completa")]
-        public bool? Completada { get; set; }
+        public bool Completada { get; set; }
 
         public List<Utilizadores> ListaFuncionarios { get; set; }
     }
