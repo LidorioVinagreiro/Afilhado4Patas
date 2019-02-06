@@ -95,22 +95,6 @@
                 @foreach (var item in Model.ListaTarefas)
                 {
                     <tr>
-                        <td data-title="Funcionario">
-                            @{
-                                Utilizadores utilizador = Context.Utilizadores.Where(u => u.Id == item.FuncionarioId).FirstOrDefault();
-                                utilizador.Perfil = Context.PerfilTable.Where(p => p.Id == utilizador.PerfilId).FirstOrDefault();
-                                if (utilizador.Perfil.Photo != null)
-                                {
-                                    string src = "/Utilizadores/" + utilizador.Id + "/" + utilizador.Perfil.Photo;
-                                    <img id="icon_mini" src="@src" />
-                                }
-                                else
-                                {
-                                    <img id="icon_mini" src="~/images/default.jpg" />
-                                }
-                                @Html.Raw(@utilizador.Perfil.FirstName + " " + @utilizador.Perfil.LastName);
-                            }
-                        </td>
                         <td data-title="Data de Inicio">
                             @item.Inicio.ToString("dd/MM/yyyy")
                         </td>
