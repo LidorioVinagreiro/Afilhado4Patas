@@ -680,20 +680,22 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         /// Ação que remove um funcionario e atualiza a view
         /// </summary>
         /// <returns>View com a lista de funcionarios atualizada</returns>
-        [HttpPost]
-        public async Task<ActionResult> RemoverFuncionarios()
+        public async Task<ActionResult> RemoverFuncionarios(string id)
         {
-            List<string> lista = Request.Form["funcionario"].ToList();
-            foreach (var elemento in lista)
+            if (id == null)
             {
-                var user = _context.Utilizadores.Where(u => u.Id == elemento).Include(p => p.Perfil).FirstOrDefault();
-                user.Active = false;
-                _context.SaveChanges();
-                //Envio de Email
-                var emailModel = new EmailViewModel("", user.Perfil.FirstName);
-                string body = await _razorView.RenderViewToStringAsync("/Views/Emails/RemoveAccount/RemoveAccount.cshtml", emailModel);
-                await _emailSender.SendEmailAsync(user.Email, "Conta Terminada", body);
+                return NotFound();
             }
+
+            var user = _context.Utilizadores.Where(u => u.Id == id).Include(p => p.Perfil).FirstOrDefault();
+            user.Active = false;
+            _context.SaveChanges();
+
+            //Envio de Email
+            var emailModel = new EmailViewModel("", user.Perfil.FirstName);
+            string body = await _razorView.RenderViewToStringAsync("/Views/Emails/RemoveAccount/RemoveAccount.cshtml", emailModel);
+            await _emailSender.SendEmailAsync(user.Email, "Conta Terminada", body);
+
             return View("ListaFuncionarios", ListaTotalFuncionarios());
         }
 
@@ -1213,7 +1215,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             }
             return View(pedidos);
         }
-        
+
         public ActionResult PedidosAdocaoAnalisar(int id)
         {
             PedidoAdocao pedido = _context.PedidosAdocao.Where(p => p.Id == id).Include(a => a.Animal).FirstOrDefault();
@@ -1234,7 +1236,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             pedido.Adotante = _context.Utilizadores.Where(u => u.PerfilId == pedido.AdotanteId).Include(p => p.Perfil).FirstOrDefault();
             return View(pedido);
         }
-        
+
         public ActionResult AceitarPedidoAdocao(int id)
         {
             PedidoAdocao pedido = _context.PedidosAdocao.Where(p => p.Id == id).Include(a => a.Animal).FirstOrDefault();
@@ -1290,7 +1292,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             };
             _context.FinsSemanas.Add(fimSemana);
             _context.SaveChanges();
-            
+
             Animal animal = _context.Animais.Where(a => a.Id == pedido.AnimalId).FirstOrDefault();
 
             //Envio de Email
@@ -1314,7 +1316,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             };
             _context.Passeios.Add(passeio);
             _context.SaveChanges();
-            
+
             Animal animal = _context.Animais.Where(a => a.Id == pedido.AnimalId).FirstOrDefault();
 
             //Envio de Email
@@ -1519,6 +1521,6 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return tarefasModel;
         }
 
-        
+
     }
 }

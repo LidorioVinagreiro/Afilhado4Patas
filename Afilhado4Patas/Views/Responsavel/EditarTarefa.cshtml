@@ -11,9 +11,8 @@
 
 <link href="~/css/FormularioCSS/formularios.css" rel="stylesheet" />
 
-<div id="registo_page">
-    @using (@Html.BeginForm("EditarTarefa", "Responsavel", new { Tarefa = Model }, FormMethod.Post))
-    {
+<div>
+    <form id="login" asp-controller="Responsavel" asp-action="EditarTarefa">
         <h1>Editar Tarefa <img id="icon_miniatura" src="~/images/tarefas.png" /></h1>
         <div class="contentform">
             <div class="centercontact">
@@ -40,7 +39,7 @@ esta deverá ser maior que a data atual"></span>
                         </span>
                         @if (Model.Inicio > DateTime.Now)
                         {
-                            <input asp-for="Inicio" type='text' value="" class="form-control" />
+                            <input asp-for="Inicio" type='text' class="form-control" />
                         }
                         else
                         {
@@ -88,9 +87,10 @@ esta deverá ser maior que a data atual e ainda maior que a data de inicio"></sp
                     <span asp-validation-for="FuncionarioId" class="text-danger"></span>
                 </div>
             </div>
-            <button type="submit" class="btn btn-default">Editar Tarefa</button>
         </div>
-    }
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <button type="submit" class="bouton-contact">Editar Tarefa</button>
+    </form>
 </div>
 
 <div class="voltar">

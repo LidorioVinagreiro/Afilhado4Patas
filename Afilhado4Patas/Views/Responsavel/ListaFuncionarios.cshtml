@@ -41,7 +41,7 @@
                             <a asp-controller="Responsavel" asp-action="VisualizarFuncionario" asp-route-id="@item.Email">
                                 <i class="fa fa-search-plus blue_icon" title="Ver Funcionario"></i>
                             </a>
-                            <a>
+                            <a asp-controller="Responsavel" asp-action="RemoverFuncionarios" asp-route-id="@item.Id">
                                 <i class="fa fa-times red_icon" title="Apagar Funcionario"></i>
                             </a>
 
@@ -51,10 +51,6 @@
             </tbody>
         </table>
     </div>
-</div>
-
-<div class="voltar">
-    <a class="efeito efeito_botao_back" id="voltar" asp-controller="Responsavel" asp-action="AdicionarFuncionario">Adicionar Funcionario</a>
 </div>
 
 <script>
