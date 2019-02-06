@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Afilhado4Patas.Areas.Identity.Services;
 using Afilhado4Patas.Data;
 using Afilhado4Patas.Models;
+using Afilhado4Patas.Models.Estatisticas;
 using Afilhado4Patas.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
@@ -1151,7 +1152,21 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return Json(new SelectList(racas, "Id", "NomeRaca"));
         }
 
+        /************************************************************************************+
+         *****************************Estatisticas***********************************************
+         *****************************************************************************************/
+         [HttpGet]
+        public JsonResult PieAnimal() {
+            DataRetrive dataR = new DataRetrive(_context);
+            return Json(dataR.dataGroupTipoAnimais());
+        }
 
+        [HttpGet]
+        public JsonResult PieMf()
+        {
+            DataRetrive dataR = new DataRetrive(_context);
+            return Json(dataR.dataGroupTipoAnimais());
+        }
 
         /// <summary>
         /// Ação que devolve a view de erro, caso ocorra um erro esta view e devolvida com a informação do erro
