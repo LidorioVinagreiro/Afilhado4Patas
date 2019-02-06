@@ -16,11 +16,13 @@ namespace Afilhado4Patas.Models.ViewModels
         [Required(ErrorMessage = "É necessário preencher este campo")]
         [Display(Name = "Data Inicio do Pedido")]
         [Date3DaysFromNow]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime DataInicio { get; set; }
         
         [Required(ErrorMessage = "É necessário preencher este campo")]
         [Display(Name = "Data Fim do Pedido")]
         [DateGreater1DayThenStartDate("DataInicio")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime DataFim { get; set; }
     }
 }

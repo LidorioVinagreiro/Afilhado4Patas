@@ -16,6 +16,7 @@ namespace Afilhado4Patas.Models.ViewModels
         [Required(ErrorMessage = "É necessário preencher este campo")]
         [Display(Name = "Data do Passeio")]
         [Date3DaysFromNow]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime DataPasseio { get; set; }
 
         [Required(ErrorMessage = "É necessário preencher este campo")]

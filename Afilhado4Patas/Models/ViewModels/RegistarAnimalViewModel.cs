@@ -23,6 +23,7 @@ namespace Afilhado4Patas.Models.ViewModels
         [Required(ErrorMessage = "É necessário preencher este campo")]
         [Display(Name = "Data Nascimento")]
         [DateGreaterThen0LessThen30]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime DataNasc { get; set; }
 
         [Required(ErrorMessage = "É necessário preencher este campo")]
@@ -33,7 +34,7 @@ namespace Afilhado4Patas.Models.ViewModels
 
         [Required(ErrorMessage = "É necessário preencher este campo")]
         [Display(Name ="Peso")]
-        [Range(0.1,200,ErrorMessage = "Peso deve estar compreendido entre 0.1 Kilogramas e 200 Kilogramas")]
+        [Range(0.1,200,ErrorMessage = "Peso deve estar compreendido entre 0,1 Kilogramas e 200 Kilogramas")]
         public double Peso { get; set; }
 
         [Display(Name = "Descrição")]
