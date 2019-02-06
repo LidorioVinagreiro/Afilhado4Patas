@@ -28,7 +28,7 @@
         </div>
         <div style="float:left; margin-left: 20px">
             <div style="margin-bottom: 5px">
-                <a id="links_animal" title="Ver Adotante" asp-controller="Funcionario" asp-action="VisualizarUtilizador" asp-route-id=@Model.Adotante.Id>
+                <a id="links_animal" title="Ver Adotante" asp-controller="Responsavel" asp-action="VisualizarUtilizador" asp-route-id=@Model.Adotante.Id>
                     <i class="fa fa-user grey_icon" title="Remover Ficheiro"></i>
                     @Model.Adotante.Perfil.FirstName @Model.Adotante.Perfil.LastName
                 </a>
@@ -42,10 +42,10 @@
         </div>
         <div style="float:right; margin-right: 10%">
             <div>
-                <a id="links_aprovacao" title="Aceitar Pedido" asp-controller="Funcionario" asp-action="AceitarPedidoAdocao" asp-route-id=@Model.Id>
+                <a id="links_aprovacao" title="Aceitar Pedido" asp-controller="Responsavel" asp-action="AceitarPedidoAdocao" asp-route-id=@Model.Id>
                     <img id="aprovar" src="~/images/aceitar.png" />
                 </a>
-                <a id="links_aprovacao" title="Rejeitar Pedido" asp-controller="Funcionario" asp-action="RejeitarPedidoAdocao" asp-route-id=@Model.Id>
+                <a id="links_aprovacao" title="Rejeitar Pedido" asp-controller="Responsavel" asp-action="RejeitarPedidoAdocao" asp-route-id=@Model.Id>
                     <img id="aprovar" src="~/images/rejeitar.png" />
                 </a>
             </div>
@@ -77,7 +77,7 @@
                         {
                         <img id="icon_mini" src="~/images/dog-profile.png" />
                         }
-                        <a class="link" title="Ver Animal" asp-controller="Funcionario" asp-action="DetalhesAnimal" asp-route-id=@Model.Animal.Id>@Html.DisplayFor(model => model.Animal.NomeAnimal)</a>
+                        <a class="link" title="Ver Animal" asp-controller="Responsavel" asp-action="DetalhesAnimal" asp-route-id=@Model.Animal.Id>@Html.DisplayFor(model => model.Animal.NomeAnimal)</a>
                     </td>
                     <td data-title="Morada">
                         @Html.DisplayFor(model => model.Morada)

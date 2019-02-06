@@ -1117,6 +1117,16 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View("PedidosPasseio", pedidos);
         }
 
+        public ActionResult RejeitarPedidoAdocao(int id)
+        {
+            PedidoAdocao pedido = _context.PedidosAdocao.Where(p => p.Id == id).Include(a => a.Animal).FirstOrDefault();
+            AprovacaoViewModel aprovacao = new AprovacaoViewModel
+            {
+                PedidoId = pedido.Id
+            };
+            return View("PedidoAdocaoRejeitado", aprovacao);
+        }
+
         public async Task<ActionResult> RejeitarPedidoPasseio(int id)
         {
             PedidoPasseio pedido = _context.PedidosPasseio.Where(p => p.Id == id).FirstOrDefault();

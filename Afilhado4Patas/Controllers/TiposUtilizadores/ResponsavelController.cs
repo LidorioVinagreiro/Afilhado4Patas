@@ -1187,18 +1187,30 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         public ActionResult PedidosAdocao()
         {
             List<PedidoAdocao> pedidos = _context.PedidosAdocao.Where(p => p.Aprovacao.Equals("Em espera")).Include(a => a.Animal).ToList();
+            foreach (var pedido in pedidos)
+            {
+                pedido.Adotante = _context.Utilizadores.Where(u => u.PerfilId == pedido.AdotanteId).Include(p => p.Perfil).FirstOrDefault();
+            }
             return View(pedidos);
         }
 
         public ActionResult PedidosFimSemana()
         {
             List<PedidoFimSemana> pedidos = _context.PedidosFimSemana.Where(p => p.Aprovacao.Equals("Em espera")).Include(a => a.Animal).ToList();
+            foreach (var pedido in pedidos)
+            {
+                pedido.Adotante = _context.Utilizadores.Where(u => u.PerfilId == pedido.AdotanteId).Include(p => p.Perfil).FirstOrDefault();
+            }
             return View(pedidos);
         }
 
         public ActionResult PedidosPasseio()
         {
             List<PedidoPasseio> pedidos = _context.PedidosPasseio.Where(p => p.Aprovacao.Equals("Em espera")).Include(a => a.Animal).ToList();
+            foreach (var pedido in pedidos)
+            {
+                pedido.Adotante = _context.Utilizadores.Where(u => u.PerfilId == pedido.AdotanteId).Include(p => p.Perfil).FirstOrDefault();
+            }
             return View(pedidos);
         }
         
@@ -1222,16 +1234,15 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             pedido.Adotante = _context.Utilizadores.Where(u => u.PerfilId == pedido.AdotanteId).Include(p => p.Perfil).FirstOrDefault();
             return View(pedido);
         }
-
+        
         public ActionResult AceitarPedidoAdocao(int id)
         {
             PedidoAdocao pedido = _context.PedidosAdocao.Where(p => p.Id == id).Include(a => a.Animal).FirstOrDefault();
-            ConvocatoriaViewModel convocatoria = new ConvocatoriaViewModel
+            AprovacaoViewModel aprovacao = new AprovacaoViewModel
             {
-                AnimalNome = pedido.Animal.NomeAnimal,
-                UtilizadorId = _context.Utilizadores.Where(u => u.PerfilId == pedido.AdotanteId).FirstOrDefault().Id
+                PedidoId = pedido.Id
             };
-            return View("PedidoAdocaoAceite");
+            return View("PedidoAdocaoAceite", aprovacao);
         }
 
         [HttpPost]
@@ -1349,6 +1360,16 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
 
             List<PedidoFimSemana> pedidos = _context.PedidosFimSemana.Where(p => p.Aprovacao.Equals("Em espera")).Include(a => a.Animal).ToList();
             return View("PedidosFimSemana", pedidos);
+        }
+
+        public ActionResult RejeitarPedidoAdocao(int id)
+        {
+            PedidoAdocao pedido = _context.PedidosAdocao.Where(p => p.Id == id).Include(a => a.Animal).FirstOrDefault();
+            AprovacaoViewModel aprovacao = new AprovacaoViewModel
+            {
+                PedidoId = pedido.Id
+            };
+            return View("PedidoAdocaoRejeitado", aprovacao);
         }
 
         [HttpPost]

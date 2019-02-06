@@ -24,6 +24,7 @@
     <Content Remove="Views\Guest\Edit.cshtml" />
     <Content Remove="Views\Responsavel\Details.cshtml" />
     <Content Remove="Views\Responsavel\Edit.cshtml" />
+    <Content Remove="Views\Utilizador\PedidoAdocaoAnimalInfo.cshtml" />
     <Content Remove="Views\Utilizador\Perfil.cshtml" />
     <Content Remove="wwwroot\js\bootstrap-filestyle.min.js" />
     <Content Remove="wwwroot\js\custom-file-input.js" />
@@ -213,9 +214,11 @@
     </Content>
     <Content Update="Views\Responsavel\PedidoAdocaoAceite.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
     <Content Update="Views\Responsavel\PedidoAdocaoRejeitado.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
     <Content Update="Views\Responsavel\PedidosAdocao.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>

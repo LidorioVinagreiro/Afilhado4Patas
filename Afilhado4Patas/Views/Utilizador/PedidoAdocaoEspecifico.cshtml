@@ -198,3 +198,18 @@ Deverá ter o formato JPG, JPEG, PNG ou PDF"></span>
 <div class="voltar">
     <a class="efeito efeito_botao_back" id="voltar" asp-controller="Utilizador" asp-action="Animais">Voltar</a>
 </div>
+
+<script>
+    $('.browse-btn').bind('click', function () {
+        $('#real-input').trigger('click');
+    });
+
+    $('#real-input').on('change', function () {
+        var name = $('#real-input').val().split(/\\|\//).pop();
+        var truncated = name.length > 20
+            ? name.substr(name.length - 20)
+            : name;
+
+        $('.file-info').text(truncated);
+    });
+</script>
