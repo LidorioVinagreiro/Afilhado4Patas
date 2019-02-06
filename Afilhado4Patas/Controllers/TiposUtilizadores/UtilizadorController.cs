@@ -1612,12 +1612,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View(padrinhos);
         }
 
-        public IActionResult CalendarioUtilizador()
-        {
-            return View();
-        }
-
-        public JsonResult EventosCalendario()
+        public JsonResult EventosCalendarioUtilizador()
         {
             var listCalendario = new List<object>();
 
