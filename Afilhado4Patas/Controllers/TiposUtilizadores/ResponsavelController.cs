@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace Afilhado4Patas.Controllers.TiposUtilizadores
 {
@@ -1497,5 +1498,6 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return tarefasModel;
         }
 
+        
     }
 }

@@ -26,7 +26,7 @@ namespace Afilhado4PatasTest.ControllersTest
         public IHostingEnvironment hostingEnvironment;
         public UserManager<Utilizadores> userManager;
 
-        public UtilizadorControllerTest(IServiceProvider serviceProvider, IHostingEnvironment hosting)
+        public UtilizadorControllerTest()//IServiceProvider serviceProvider, IHostingEnvironment hosting)
         {
             connection = new SqliteConnection(connectionString);
             connection.Open();
@@ -65,68 +65,53 @@ namespace Afilhado4PatasTest.ControllersTest
             utilizador1.PerfilId = perfilResponsavel.Id;
                 GetMockUserManager().Object.AddToRoleAsync(utilizador1, "Utilizador");                
                 contextDB.SaveChanges();    */        
-            userManager = serviceProvider.GetRequiredService<UserManager<Utilizadores>>();
-            hostingEnvironment = hosting;
+            //userManager = serviceProvider.GetRequiredService<UserManager<Utilizadores>>();
+            //hostingEnvironment = hosting;
         }
 
         [Fact]
         public async Task Index_CanLoadFromContext()
         {
-            using (contextDB)
-            {
                 var controller = new UtilizadorController(contextDB, hostingEnvironment, userManager);
                 var result = controller.Index();
                 var viewResult = Assert.IsType<ViewResult>(result);
                 Assert.IsType<ViewResult>(result);
-            }
         }
 
         [Fact]
         public async Task About_CanLoadFromContext()
         {
-            using (contextDB)
-            {
                 var controller = new UtilizadorController(contextDB, hostingEnvironment, userManager);
                 var result = controller.About();
                 var viewResult = Assert.IsType<ViewResult>(result);
                 Assert.IsType<ViewResult>(result);
-            }
         }
 
         [Fact]
         public async Task Contact_CanLoadFromcontextDB()
         {
-            using (contextDB)
-            {
                 var controller = new UtilizadorController(contextDB, hostingEnvironment, userManager);
                 var result = controller.Contact();
                 var viewResult = Assert.IsType<ViewResult>(result);
                 Assert.IsType<ViewResult>(result);
-            }
         }
 
         [Fact]
         public async Task Adotar_CanLoadFromcontextDB()
         {
-            using (contextDB)
-            {
                 var controller = new UtilizadorController(contextDB, hostingEnvironment, userManager);
                 var result = controller.Adotar();
                 var viewResult = Assert.IsType<ViewResult>(result);
                 Assert.IsType<ViewResult>(result);
-            }
         }
 
         [Fact]
         public async Task Doar_CanLoadFromcontextDB()
         {
-            using (contextDB)
-            {
                 var controller = new UtilizadorController(contextDB, hostingEnvironment, userManager);
                 var result = controller.Doar();
                 var viewResult = Assert.IsType<ViewResult>(result);
                 Assert.IsType<ViewResult>(result);
-            }
-        }        
+        }
     }
 }
