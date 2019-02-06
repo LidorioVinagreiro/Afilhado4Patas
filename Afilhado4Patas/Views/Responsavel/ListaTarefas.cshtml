@@ -63,8 +63,8 @@
                         <td>
                             @if (item.Fim > DateTime.Now || item.Completada == false)
                             {
-                                <a><i class="fa fa-edit green_icon" title="Editar Tarefa"></i></a>
-                                <a><i class="fa fa-times red_icon" title="Apagar Tarefa"></i></a>
+                                <a asp-controller="Responsavel" asp-action="EditarTarefa" asp-route-id=@item.Id><i class="fa fa-edit green_icon" title="Editar Tarefa"></i></a>
+                                <a asp-controller="Responsavel" asp-action="ApagarTarefa" asp-route-id=@item.Id><i class="fa fa-times red_icon" title="Apagar Tarefa"></i></a>
                             }
 
                         </td>
@@ -73,10 +73,6 @@
             </tbody>
         </table>
     </div>
-</div>
-
-<div class="voltar">
-    <a class="efeito efeito_botao_back" id="voltar" asp-controller="Responsavel" asp-action="AdicionarTarefa">Adicionar Tarefa</a>
 </div>
 
 <script>

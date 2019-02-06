@@ -88,7 +88,6 @@
                     <th>@Html.Raw("Data de Fim")</th>
                     <th>@Html.Raw("Descricao")</th>
                     <th>@Html.Raw("Completada")</th>
-                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -106,14 +105,6 @@
                         </td>
                         <td data-title="Completada">
                             @Html.DisplayFor(modelItem => item.Completada)
-                        </td>
-                        <td>
-                            @if (item.Fim > DateTime.Now || item.Completada == false)
-                            {
-                                <a><i class="fa fa-edit green_icon" title="Editar Tarefa"></i></a>
-                                <a><i class="fa fa-times red_icon" title="Apagar Tarefa"></i></a>
-                            }
-
                         </td>
                     </tr>
                 }
