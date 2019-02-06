@@ -9,60 +9,112 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<br />
-<br />
-<br />
-<br />
-<br />
-<h2>Lista de tarefas</h2>
+<link href="~/css/Table/tabela.css" rel="stylesheet" />
+<div id="rectangulo"></div>
+<div id="page">
+    <h3 style="color: #fff">Lista de tarefas</h3>
+    <br />
+    <div class="table-responsive-vertical shadow-z-1">
+        <table id="table" class="table table-hover table-mc-light-blue">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.Inicio)</th>
+                    <th>@Html.DisplayNameFor(model => model.Fim)</th>
+                    <th>@Html.DisplayNameFor(model => model.Descricao)</th>
+                    <th>@Html.DisplayNameFor(model => model.Completada)</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                <tr>
+                    <td data-title="Data de Inicio">
+                        @item.Inicio.ToString("dd/MM/yyyy")
+                    </td>
+                    <td data-title="Data do Fim">
+                        @item.Fim.ToString("dd/MM/yyyy")
+                    </td>
+                    <td data-title="Descricao">
+                        @Html.DisplayFor(modelItem => item.Descricao)
+                    </td>
+                    <td data-title="Completada">
+                        @Html.DisplayFor(modelItem => item.Completada)
+                    </td>
+                    <td>
+                        @if (item.Fim > DateTime.Now || item.Completada == false)
+                        {
+                            <a><i class="fa fa-edit green_icon" title="Editar Tarefa"></i></a>
+                            <a><i class="fa fa-times red_icon" title="Apagar Tarefa"></i></a>
+                        }
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Funcionario
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Descricao)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Inicio)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Fim)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Completada)
-            </th>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
 
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Utilizador.Perfil.FirstName) @Html.DisplayFor(modelItem => item.Utilizador.Perfil.LastName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Descricao)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Inicio)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Fim)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Completada)
-                </td>
-                <td>
-                    <a asp-controller="Responsavel" asp-action="EditarTarefa" asp-route-id="@item.Id">Editar</a> |
-                    <a asp-controller="Responsavel" asp-action="Tarefa" asp-route-id="@item.Id">Ver</a> |
-                    <a asp-controller="Responsavel" asp-action="ApagarTarefa" asp-route-id="@item.Id">Apagar</a>
-                </td>
-            </tr>
+<div class="voltar">
+    <a class="efeito efeito_botao_back" id="voltar" asp-controller="Responsavel" asp-action="AdicionarTarefa">Adicionar Tarefa</a>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        var table = $('#table');
+
+        // Table bordered
+        $('#table-bordered').change(function () {
+            var value = $(this).val();
+            table.removeClass('table-bordered').addClass(value);
+        });
+
+        // Table striped
+        $('#table-striped').change(function () {
+            var value = $(this).val();
+            table.removeClass('table-striped').addClass(value);
+        });
+
+        // Table hover
+        $('#table-hover').change(function () {
+            var value = $(this).val();
+            table.removeClass('table-hover').addClass(value);
+        });
+
+        // Table color
+        $('#table-color').change(function () {
+            var value = $(this).val();
+            table.removeClass(/^table-mc-/).addClass(value);
+        });
+    });
+
+    // jQuery’s hasClass and removeClass on steroids
+    // by Nikita Vasilyev
+    // https://github.com/NV/jquery-regexp-classes
+    (function (removeClass) {
+
+        jQuery.fn.removeClass = function (value) {
+            if (value && typeof value.test === "function") {
+                for (var i = 0, l = this.length; i < l; i++) {
+                    var elem = this[i];
+                    if (elem.nodeType === 1 && elem.className) {
+                        var classNames = elem.className.split(/\s+/);
+
+                        for (var n = classNames.length; n--;) {
+                            if (value.test(classNames[n])) {
+                                classNames.splice(n, 1);
+                            }
+                        }
+                        elem.className = jQuery.trim(classNames.join(" "));
+                    }
+                }
+            } else {
+                removeClass.call(this, value);
+            }
+            return this;
         }
-    </tbody>
-</table>
-<a asp-controller="Responsavel" asp-action="AdicionarTarefa">Adicionar Tarefa</a>
+
+    })(jQuery.fn.removeClass);
+</script>

@@ -9,67 +9,87 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<link href="~/css/FormularioCSS/formularios.css" rel="stylesheet" />
 
-<div id="page">
-    <div id="box">
-        <img id="icon_centrado" src="~/images/tasks.png" />
-        <h1>Adicionar Tarefa</h1>
-        <hr />
-        @using (@Html.BeginForm("AdicionarTarefa", "Responsavel", new { Tarefa = Model }, FormMethod.Post))
-        {
-            <div class="form-group">
-                <label asp-for="Descricao"></label>
-                <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
-                      title="Insira uma descrição sumarizada da tarefa"></span>
-                <input asp-for="Descricao" type="text" class="form-control" />
-                <span asp-validation-for="Descricao" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Inicio"></label>
-                <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
-                      title="Insira uma data de inicio para a tarefa,
+<div id="registo_page">
+    @using (@Html.BeginForm("AdicionarTarefa", "Responsavel", new { Tarefa = Model }, FormMethod.Post))
+    {
+        <h1>Adicionar Tarefa <img id="icon_miniatura" src="~/images/tarefas.png" /></h1>
+        <div class="contentform">
+            <div class="leftcontact">
+                <div class="form-group">
+                    <div>
+                        <label asp-for="Inicio"></label>
+                        <span class="vermelho">*</span>
+                        <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
+                              title="Insira uma data de inicio para a tarefa,
 esta deverá ser maior que a data atual"></span>
-                <div class="input-group date" id="datepicker_tarefas1">
-                    <input asp-for="Inicio" type='text' value="" class="form-control" />
-                    <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                    </span>
+                    </div>
+                    <div class="input-group date" id="datepicker_tarefas1">
+                        <span class="input-group-addon icon-case hand">
+                            <i class="fa fa-calendar-alt"></i>
+                        </span>
+                        <input asp-for="Inicio" type="text" class="form-control" />
+                    </div>
+                    <span asp-validation-for="Inicio" class="text-danger"></span>
                 </div>
-                <span asp-validation-for="Inicio" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Fim"></label>
-                <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
-                      title="Insira uma data de inicio para a tarefa,
+                <div class="form-group">
+                    <div>
+                        <label asp-for="Fim"></label>
+                        <span class="vermelho">*</span>
+                        <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
+                              title="Insira uma data de inicio para a tarefa,
 esta deverá ser maior que a data atual e ainda maior que a data de inicio"></span>
-                <div class="input-group date" id="datepicker_tarefas2">
-                    <input asp-for="Fim" type="text" value="" class="form-control" />
-                    <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                    </span>
+                    </div>
+                    <div class="input-group date" id="datepicker_tarefas2">
+                        <span class="input-group-addon icon-case hand">
+                            <i class="fa fa-calendar-alt"></i>
+                        </span>
+                        <input asp-for="Fim" type="text" class="form-control" />
+                    </div>
+                    <span asp-validation-for="Fim" class="text-danger"></span>
+                </div>                
+            </div>
+            <div class="rightcontact">
+                <div class="form-group">
+                    <div>
+                        <label asp-for="Descricao"></label>
+                        <span class="vermelho">*</span>
+                        <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
+                              title="Insira uma descrição sumarizada da tarefa"></span>
+                    </div>
+                    <span class="icon-case"><i class="fa fa-font"></i></span>
+                    <textarea asp-for="Descricao" class="form-control"></textarea>
+                    <span asp-validation-for="Descricao" class="text-danger"></span>
                 </div>
-                <span asp-validation-for="Fim" class="text-danger"></span>
+                <div class="form-group">
+                    <div>
+                        <label asp-for="FuncionarioId"></label>
+                        <span class="vermelho">*</span>
+                        <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
+                              title="Selecione o Funcionario destinado á tarefa"></span>
+                    </div>
+                    <span class="icon-case"><i class="fa fa-user"></i></span>
+                    <select asp-for="FuncionarioId" class="form-control">
+                        @foreach (var funcionario in Model.ListaFuncionarios)
+                        {
+                            <option value="@funcionario.Id">@funcionario.Perfil.FirstName @funcionario.Perfil.LastName</option>
+                        }
+                    </select>
+                    <span asp-validation-for="Descricao" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="FuncionarioId"></label>
-                <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
-                      title="Selecione o Funcionario destinado á tarefa"></span>
-                <select asp-for="FuncionarioId" class="form-control">
-                    @foreach (var funcionario in Model.ListaFuncionarios)
-                    {
-                        <option value="@funcionario.Id">@funcionario.Perfil.FirstName @funcionario.Perfil.LastName</option>
-                    }
-                </select>
-            </div>
-            <button type="submit" class="btn btn-default">Adicionar Tarefa</button>
-        }
-    </div>
-</div>
-<div>
-    <a asp-controller="Responsavel" asp-action="ListaTarefas" asp-route-id="@UserManager.GetUserName(User)">Voltar á Lista de Tarefas</a>
+        </div>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <button type="submit" class="bouton-contact">Alterar Tarefa</button>
+    }
 </div>
 
-<script src="~/js/bootstrap-datepicker.pt-BR.js"></script>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/locales/bootstrap-datepicker.pt.min.js"></script>
 <script>
     var nowDate = new Date();
     var today = new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate(), 0, 0, 0, 0);
@@ -85,7 +105,9 @@ esta deverá ser maior que a data atual e ainda maior que a data de inicio"></sp
             autoclose: true,
             changeMonth: true,
             changeYear: true,
-            orientation: "button"
+            language: 'pt',
+            weekStart: 1,
+            orientation: 'bottom left'
         });
         $('#datepicker_tarefas2').datepicker({
             format: "dd/MM/yyyy",
@@ -97,7 +119,9 @@ esta deverá ser maior que a data atual e ainda maior que a data de inicio"></sp
             autoclose: true,
             changeMonth: true,
             changeYear: true,
-            orientation: "button"
+            language: 'pt',
+            weekStart: 1,
+            orientation: 'bottom left'
         });
     });
 </script>

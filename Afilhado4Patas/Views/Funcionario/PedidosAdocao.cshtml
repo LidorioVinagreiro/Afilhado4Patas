@@ -19,6 +19,7 @@
             <thead>
                 <tr>
                     <th>@Html.DisplayNameFor(model => model.Animal.NomeAnimal)</th>
+                    <th>@Html.DisplayNameFor(model => model.Adotante)</th>
                     <th>@Html.DisplayNameFor(model => model.TipoAdocao)</th>
                     <th>@Html.DisplayNameFor(model => model.DataPedido)</th>
                     <th>@Html.DisplayNameFor(model => model.Aprovacao)</th>
@@ -42,6 +43,18 @@
                         }
                         @Html.DisplayFor(modelItem => item.Animal.NomeAnimal)
                     </td>
+                    <td data-title="Adotante">
+                        @if (item.Adotante.Perfil.Photo != null)
+                        {
+                            string src = "/Utilizadores/" + item.Adotante.Id + "/" + item.Adotante.Perfil.Photo;
+                            <img id="icon_mini" src="@src" />
+                        }
+                        else
+                        {
+                            <img id="icon_mini" src="~/images/default.jpg" />
+                        }
+                        <a class="link" title="Ver Adotante" asp-controller="Funcionario" asp-action="VisualizarUtilizador" asp-route-id=@item.Adotante.Id>@Html.DisplayFor(modelItem => item.Adotante.Perfil.FirstName)</a>
+                    </td>
                     <td data-title="Tipo de Adocao">
                         @Html.DisplayFor(modelItem => item.TipoAdocao)
                     </td>
@@ -62,7 +75,9 @@
                         }
                     </td>
                     <td>
-                        <a><i class="fa fa-search-plus blue_icon" title="Ver Pedido"></i></a>
+                        <a asp-controller="Funcionario" asp-action="PedidosAdocaoAnalisar" asp-route-id=@item.Id>
+                            <i class="fa fa-search blue_icon" title="Ver Pedido"></i>
+                        </a>
                     </td>
                 </tr>
                 }

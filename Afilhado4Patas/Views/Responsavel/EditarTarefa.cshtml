@@ -9,89 +9,102 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<link href="~/css/FormularioCSS/formularios.css" rel="stylesheet" />
 
-<div id="page">
-    <div id="box">
-        <img id="icon_centrado" src="~/images/tasks.png" />
-        <h1>Editar Tarefa</h1>
-        <hr />
-        @using (@Html.BeginForm("EditarTarefa", "Responsavel", new { Tarefa = Model }, FormMethod.Post))
-        {
-            <div class="form-group">
-                <label asp-for="Descricao"></label>
-                <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
-                      title="Insira uma descrição sumarizada da tarefa"></span>
-                <input asp-for="Descricao" type="text" class="form-control" />
-                <span asp-validation-for="Descricao" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Inicio"></label>
-                <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
-                      title="Insira uma data de inicio para a tarefa,
+<div id="registo_page">
+    @using (@Html.BeginForm("EditarTarefa", "Responsavel", new { Tarefa = Model }, FormMethod.Post))
+    {
+        <h1>Editar Tarefa <img id="icon_miniatura" src="~/images/tarefas.png" /></h1>
+        <div class="contentform">
+            <div class="centercontact">
+                <div class="form-group">
+                    <div>
+                        <label asp-for="Descricao"></label>
+                        <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
+                              title="Insira uma descrição sumarizada da tarefa"></span>
+                    </div>
+                    <span class="icon-case"><i class="fa fa-font"></i></span>
+                    <textarea rows="3" asp-for="Descricao" class="form-control"></textarea>
+                    <span asp-validation-for="Descricao" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <div>
+                        <label asp-for="Inicio"></label>
+                        <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
+                              title="Insira uma data de inicio para a tarefa,
 esta deverá ser maior que a data atual"></span>
-                <div class="input-group date" id="datepicker_tarefas1">
-                    @if (Model.Inicio > DateTime.Now)
-                    {
-                        <input asp-for="Inicio" type='text' value="" class="form-control" />
-                    }
-                    else
-                    {
-                        <input type="text" value=@Model.Inicio class="form-control" disabled />
-                        <input asp-for="Inicio" type="text" class="form-control" style="display:none" />
-                    }
-                    <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                    </span>
-                </div>
-                <span asp-validation-for="Inicio" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Fim"></label>
-                <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
-                      title="Insira uma data de inicio para a tarefa,
-esta deverá ser maior que a data atual e ainda maior que a data de inicio"></span>
-                <div class="input-group date" id="datepicker_tarefas2">
-                    <input asp-for="Fim" type="text" class="form-control" />
-                    <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                    </span>
-                </div>
-                <span asp-validation-for="Fim" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FuncionarioId"></label>
-                <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
-                      title="Selecione o Funcionario destinado á tarefa"></span>
-                <select asp-for="FuncionarioId" class="form-control">
-                    @foreach (var funcionario in Model.ListaFuncionarios)
-                    {
-                        if (Model.FuncionarioId == funcionario.Id)
+                    </div>
+                    <div class="input-group date" id="datepicker_tarefas1">
+                        <span class="input-group-addon icon-case hand">
+                            <i class="fa fa-calendar-alt"></i>
+                        </span>
+                        @if (Model.Inicio > DateTime.Now)
                         {
-                            <option value="@funcionario.Id" selected>@funcionario.Perfil.FirstName @funcionario.Perfil.LastName</option>
+                            <input asp-for="Inicio" type='text' value="" class="form-control" />
                         }
                         else
                         {
-                            <option value="@funcionario.Id">@funcionario.Perfil.FirstName @funcionario.Perfil.LastName</option>
+                            <input type="text" value=@Model.Inicio class="form-control" disabled />
+                            <input asp-for="Inicio" type="text" class="form-control" style="display:none" />
                         }
-                    }
-                </select>
+                    </div>
+                    <span asp-validation-for="Inicio" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <div>
+                        <label asp-for="Fim"></label>
+                        <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
+                              title="Insira uma data de inicio para a tarefa,
+esta deverá ser maior que a data atual e ainda maior que a data de inicio"></span>
+                    </div>
+                    <div class="input-group date" id="datepicker_tarefas2">
+                        <span class="input-group-addon icon-case hand">
+                            <i class="fa fa-calendar-alt"></i>
+                        </span>
+                        <input asp-for="Fim" type="text" class="form-control" />
+                    </div>
+                    <span asp-validation-for="Fim" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <div>
+                        <label asp-for="FuncionarioId"></label>
+                        <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
+                              title="Selecione o Funcionario destinado á tarefa"></span>
+                    </div>
+                    <span class="icon-case"><i class="fa fa-filter"></i></span>
+                    <select asp-for="FuncionarioId" class="form-control">
+                        @foreach (var funcionario in Model.ListaFuncionarios)
+                        {
+                            if (Model.FuncionarioId == funcionario.Id)
+                            {
+                                <option value="@funcionario.Id" selected>@funcionario.Perfil.FirstName @funcionario.Perfil.LastName</option>
+                            }
+                            else
+                            {
+                                <option value="@funcionario.Id">@funcionario.Perfil.FirstName @funcionario.Perfil.LastName</option>
+                            }
+                        }
+                    </select>
+                    <span asp-validation-for="FuncionarioId" class="text-danger"></span>
+                </div>
             </div>
             <button type="submit" class="btn btn-default">Editar Tarefa</button>
-        }
-    </div>
-</div>
-<div>
-    <a asp-controller="Responsavel" asp-action="ListaTarefas" asp-route-id="@UserManager.GetUserName(User)">Voltar á Lista de Tarefas</a>
+        </div>
+    }
 </div>
 
-<script src="~/js/bootstrap-datepicker.pt-BR.js"></script>
+<div class="voltar">
+    <a class="efeito efeito_botao_back" id="voltar" asp-controller="Responsavel" asp-action="ListaTarefas">Voltar</a>
+</div>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/locales/bootstrap-datepicker.pt.min.js"></script>
 <script>
     var nowDate = new Date();
     var today = new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate(), 0, 0, 0, 0);
     var tomorrow = new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate() + 1, 0, 0, 0, 0);
     $(document).ready(function () {
         $('#datepicker_tarefas1').datepicker({
-            format: "dd/mm/yyyy",
+            format: "dd/MM/yyyy",
             startDate: today,
             autoclose: true,
             todayHighlight: true,
@@ -100,11 +113,12 @@ esta deverá ser maior que a data atual e ainda maior que a data de inicio"></sp
             autoclose: true,
             changeMonth: true,
             changeYear: true,
-            orientation: "button",
-            language: 'pt-BR'
+            orientation: "bottom left",
+            weekStart: 1,
+            language: 'pt'
         });
         $('#datepicker_tarefas2').datepicker({
-            format: "dd/mm/yyyy",
+            format: "dd/MM/yyyy",
             startDate: today,
             autoclose: true,
             todayHighlight: true,
@@ -113,8 +127,9 @@ esta deverá ser maior que a data atual e ainda maior que a data de inicio"></sp
             autoclose: true,
             changeMonth: true,
             changeYear: true,
-            orientation: "button",
-            language: 'pt-BR'
+            orientation: "bottom left",
+            weekStart: 1,
+            language: 'pt'
         });
     });
 </script>

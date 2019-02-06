@@ -19,6 +19,7 @@
             <thead>
                 <tr>
                     <th>@Html.DisplayNameFor(model => model.Animal.NomeAnimal)</th>
+                    <th>@Html.DisplayNameFor(model => model.Adotante)</th>
                     <th>@Html.DisplayNameFor(model => model.DataInicio)</th>
                     <th>@Html.DisplayNameFor(model => model.DataFim)</th>
                     <th>@Html.DisplayNameFor(model => model.DataPedido)</th>
@@ -30,45 +31,59 @@
             <tbody>
                 @foreach (var item in Model)
                 {
-                <tr>
-                    <td data-title="Nome Animal">
-                        @if (item.Animal.Foto != null)
-                        {
-                            string src = "/Animais/" + item.Animal.Id + "/" + item.Animal.Foto;
-                            <img id="icon_mini" src="@src" />
-                        }
-                        else
-                        {
-                            <img id="icon_mini" src="~/images/dog-profile.png" />
-                        }
-                        @Html.DisplayFor(modelItem => item.Animal.NomeAnimal)
-                    </td>
-                    <td data-title="Data de Inicio">
-                        @item.DataInicio.ToString("dd/MM/yyyy")
-                    </td>
-                    <td data-title="Data de Fim">
-                        @item.DataFim.ToString("dd/MM/yyyy")
-                    </td>
-                    <td data-title="Data do Pedido">
-                        @item.DataPedido.ToString("dd/MM/yyyy")
-                    </td>
-                    <td data-title="Aprovacao">
-                        @Html.DisplayFor(modelItem => item.Aprovacao)
-                    </td>
-                    <td data-title="Data Aprovacao">
-                        @if ((item.DataAprovacao.ToString("dd/MM/yyyy").Equals("01/01/0001")))
-                        {
-                            @Html.Raw("Sem data");
-                        }
-                        else
-                        {
-                            @Html.Raw(item.DataAprovacao.ToString("dd/MM/yyyy"));
-                        }
-                    </td>
-                    <td>
-                        <a><i class="fa fa-search-plus blue_icon" title="Ver Pedido"></i></a>
-                    </td>
-                </tr>
+                    <tr>
+                        <td data-title="Nome Animal">
+                            @if (item.Animal.Foto != null)
+                            {
+                                string src = "/Animais/" + item.Animal.Id + "/" + item.Animal.Foto;
+                                <img id="icon_mini" src="@src" />
+                            }
+                            else
+                            {
+                                <img id="icon_mini" src="~/images/dog-profile.png" />
+                            }
+                            <a class="link" title="Ver Animal" asp-controller="Funcionario" asp-action="DetalhesAnimal" asp-route-id=@item.Animal.Id>@Html.DisplayFor(modelItem => item.Animal.NomeAnimal)</a>
+                        </td>
+                        <td data-title="Adotante">
+                            @if (item.Adotante.Perfil.Photo != null)
+                            {
+                                string src = "/Utilizadores/" + item.Adotante.Id + "/" + item.Adotante.Perfil.Photo;
+                                <img id="icon_mini" src="@src" />
+                            }
+                            else
+                            {
+                                <img id="icon_mini" src="~/images/default.jpg" />
+                            }
+                            <a class="link" title="Ver Adotante" asp-controller="Funcionario" asp-action="VisualizarUtilizador" asp-route-id=@item.Adotante.Id>@Html.DisplayFor(modelItem => item.Adotante.Perfil.FirstName)</a>
+                        </td>
+                        <td data-title="Data de Inicio">
+                            @item.DataInicio.ToString("dd/MM/yyyy")
+                        </td>
+                        <td data-title="Data de Fim">
+                            @item.DataFim.ToString("dd/MM/yyyy")
+                        </td>
+                        <td data-title="Data do Pedido">
+                            @item.DataPedido.ToString("dd/MM/yyyy")
+                        </td>
+                        <td data-title="Aprovacao">
+                            @Html.DisplayFor(modelItem => item.Aprovacao)
+                        </td>
+                        <td data-title="Data Aprovacao">
+                            @if ((item.DataAprovacao.ToString("dd/MM/yyyy").Equals("01/01/0001")))
+                            {
+                                @Html.Raw("Sem data");
+                            }
+                            else
+                            {
+                                @Html.Raw(item.DataAprovacao.ToString("dd/MM/yyyy"));
+                            }
+                        </td>
+                        <td>
+                            <a asp-controller="Funcionario" asp-action="PedidosFimSemanaAnalisar" asp-route-id=@item.Id>
+                                <i class="fa fa-search blue_icon" title="Ver Pedido"></i>
+                            </a>
+                        </td>
+                    </tr>
                 }
             </tbody>
         </table>

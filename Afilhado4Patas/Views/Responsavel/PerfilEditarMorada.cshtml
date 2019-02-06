@@ -6,42 +6,52 @@
 @inject SignInManager<Utilizadores> SignInManager
 @inject UserManager<Utilizadores> UserManager
 
-<div id="page">
-    <div id="box">
-        <img id="icon_centrado" src="~/images/map.png" />
-        <h4>Editar Morada </h4>
-        <hr />
-        <form asp-action="PerfilEditarMorada" asp-controller="Responsavel">
-            <div class="form-group">
-                <label asp-for="Street" class="control-label"></label>
-                <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
-                      title="Insira a sua Morada"></span>
-                <input asp-for="Street" class="form-control" />
-                <span asp-validation-for="Street" class="text-danger"></span>
+<link href="~/css/FormularioCSS/formularios.css" rel="stylesheet" />
+
+<div id="registo_page">
+    <form id="login" asp-action="PerfilEditarMorada" asp-controller="Responsavel">
+        <h1>Editar Morada <img id="icon_miniatura" src="~/images/map.png" /></h1>
+        <div class="contentform">
+            <div class="centercontact">
+                <div class="form-group">
+                    <div>
+                        <label asp-for="City" class="control-label"></label>
+                        <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
+                              title="Insira a sua Cidade apenas contendo letras"></span>
+                    </div>
+                    <span class="icon-case"><i class="fa fa-city"></i></span>
+                    <input asp-for="City" class="form-control" />
+                    <span asp-validation-for="City" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <div>
+                        <label asp-for="Street" class="control-label"></label>
+                        <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
+                              title="Insira a sua Morada"></span>
+                    </div>
+                    <span class="icon-case"><i class="fa fa-road"></i></span>
+                    <input asp-for="Street" class="form-control" />
+                    <span asp-validation-for="Street" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <div>
+                        <label asp-for="Postalcode" class="control-label"></label>
+                        <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
+                              title="Insira o seu código postal no seguinte formato XXXX-XXX"></span>
+                    </div>
+                    <span class="icon-case"><i class="fa fa-sort-numeric-up"></i></span>
+                    <input asp-for="Postalcode" class="form-control" />
+                    <span asp-validation-for="Postalcode" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="City" class="control-label"></label>
-                <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
-                      title="Insira a sua Cidade apenas contendo letras"></span>
-                <input asp-for="City" class="form-control" />
-                <span asp-validation-for="City" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Postalcode" class="control-label"></label>
-                <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
-                      title="Insira o seu código postal no seguinte formato XXXX-XXX"></span>
-                <input asp-for="Postalcode" class="form-control" />
-                <span asp-validation-for="Postalcode" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Confirmar" class="btn btn-default" />
-            </div>
-        </form>
-    </div>
+        </div>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <button type="submit" class="bouton-contact">Alterar Morada</button>
+    </form>
 </div>
 
-<div>
-    <a asp-controller="Responsavel" asp-action="Perfil" asp-route-id="@UserManager.GetUserName(User)">Voltar ao Perfil</a>
+<div class="voltar">
+    <a class="efeito efeito_botao_back" id="voltar" asp-controller="Responsavel" asp-action="Dashboard" asp-route-id="@UserManager.GetUserName(User)">Voltar</a>
 </div>
 
 @section Scripts {

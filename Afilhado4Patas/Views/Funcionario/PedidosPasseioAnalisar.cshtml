@@ -1,0 +1,162 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@using Afilhado4Patas.Data;
+
+@model Afilhado4Patas.Models.PedidoPasseio
+
+@inject SignInManager<Utilizadores> SignInManager
+@inject UserManager<Utilizadores> UserManager
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/css/Table/tabela.css" rel="stylesheet" />
+<div id="rectangulo_maior"></div>
+<div id="page" class="page_maior">
+    <div style="height: 120px">
+        <div style="float: left">
+            @{
+                if (Model.Adotante.Perfil.Photo != null)
+                {
+                    string src = "/Utilizadores/" + Model.Adotante.Id + "/" + Model.Adotante.Perfil.Photo;
+                    <img id="imagem_animal" src="@src" />
+                }
+                else
+                {
+                    <img id="imagem_animal" src="~/images/default.jpg" />
+                }
+            }
+        </div>
+        <div style="float:left; margin-left: 20px">
+            <div style="margin-bottom: 5px">
+                <a id="links_animal" title="Ver Adotante" asp-controller="Funcionario" asp-action="VisualizarUtilizador" asp-route-id=@Model.Adotante.Id>
+                    <i class="fa fa-user grey_icon" title="Remover Ficheiro"></i>
+                    @Model.Adotante.Perfil.FirstName @Model.Adotante.Perfil.LastName
+                </a>
+            </div>
+        </div>
+        <div style="float:right; margin-right: 10%">
+            <div>
+                <a id="links_aprovacao" title="Aceitar Pedido" asp-controller="Funcionario" asp-action="AceitarPedidoPasseio" asp-route-id=@Model.Id>
+                    <img id="aprovar" src="~/images/aceitar.png" />
+                </a>
+                <a id="links_aprovacao" title="Rejeitar Pedido" asp-controller="Funcionario" asp-action="RejeitarPedidoPasseio" asp-route-id=@Model.Id>
+                    <img id="aprovar" src="~/images/rejeitar.png" />
+                </a>
+            </div>
+        </div>
+    </div>
+    <h3 style="color: #fff">Pedido de Passeio</h3>
+    <br />
+    <div class="table-responsive-vertical shadow-z-1">
+        <table id="table" class="table table-hover table-mc-light-blue">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.Animal.NomeAnimal)</th>
+                    <th>@Html.DisplayNameFor(model => model.DataPasseio)</th>
+                    <th>@Html.DisplayNameFor(model => model.HoraPasseio)</th>
+                    <th>@Html.DisplayNameFor(model => model.DataPedido)</th>
+                    <th>@Html.DisplayNameFor(model => model.Aprovacao)</th>
+                    <th>@Html.DisplayNameFor(model => model.DataAprovacao)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td data-title="Nome Animal">
+                        @if (Model.Animal.Foto != null)
+                        {
+                            string src = "/Animais/" + Model.Animal.Id + "/" + Model.Animal.Foto;
+                            <img id="icon_mini" src="@src" />
+                        }
+                        else
+                        {
+                            <img id="icon_mini" src="~/images/dog-profile.png" />
+                        }
+                            <a class="link" title="Ver Animal" asp-controller="Funcionario" asp-action="DetalhesAnimal" asp-route-id=@Model.Animal.Id>@Html.DisplayFor(modelItem => Model.Animal.NomeAnimal)</a>
+                        
+                    </td>
+                    <td data-title="Data do Passeio">
+                        @Model.DataPasseio.ToString("dd/MM/yyyy")
+                    </td>
+                    <td data-title="Horas do Pedido">
+                        @Html.DisplayFor(modelItem => Model.HoraPasseio)
+                    </td>
+                    <td data-title="Data do Pedido">
+                        @Model.DataPedido.ToString("dd/MM/yyyy")
+                    </td>
+                    <td data-title="Aprovacao">
+                        @Html.DisplayFor(modelItem => Model.Aprovacao)
+                    </td>
+                    <td data-title="Data Aprovacao">
+                        @if ((Model.DataAprovacao.ToString("dd/MM/yyyy").Equals("01/01/0001")))
+                        {
+                            @Html.Raw("Sem data");
+                        }
+                        else
+                        {
+                            @Html.Raw(Model.DataAprovacao.ToString("dd/MM/yyyy"));
+                        }
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        var table = $('#table');
+
+        // Table bordered
+        $('#table-bordered').change(function () {
+            var value = $(this).val();
+            table.removeClass('table-bordered').addClass(value);
+        });
+
+        // Table striped
+        $('#table-striped').change(function () {
+            var value = $(this).val();
+            table.removeClass('table-striped').addClass(value);
+        });
+
+        // Table hover
+        $('#table-hover').change(function () {
+            var value = $(this).val();
+            table.removeClass('table-hover').addClass(value);
+        });
+
+        // Table color
+        $('#table-color').change(function () {
+            var value = $(this).val();
+            table.removeClass(/^table-mc-/).addClass(value);
+        });
+    });
+
+    // jQuery’s hasClass and removeClass on steroids
+    // by Nikita Vasilyev
+    // https://github.com/NV/jquery-regexp-classes
+    (function (removeClass) {
+
+        jQuery.fn.removeClass = function (value) {
+            if (value && typeof value.test === "function") {
+                for (var i = 0, l = this.length; i < l; i++) {
+                    var elem = this[i];
+                    if (elem.nodeType === 1 && elem.className) {
+                        var classNames = elem.className.split(/\s+/);
+
+                        for (var n = classNames.length; n--;) {
+                            if (value.test(classNames[n])) {
+                                classNames.splice(n, 1);
+                            }
+                        }
+                        elem.className = jQuery.trim(classNames.join(" "));
+                    }
+                }
+            } else {
+                removeClass.call(this, value);
+            }
+            return this;
+        }
+
+    })(jQuery.fn.removeClass);
+</script>

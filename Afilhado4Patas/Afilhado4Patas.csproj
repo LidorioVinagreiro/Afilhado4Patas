@@ -11,9 +11,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\**" />
     <Compile Remove="Views\Perfil\**" />
+    <Content Remove="Migrations\**" />
     <Content Remove="Views\Perfil\**" />
+    <EmbeddedResource Remove="Migrations\**" />
     <EmbeddedResource Remove="Views\Perfil\**" />
+    <None Remove="Migrations\**" />
     <None Remove="Views\Perfil\**" />
   </ItemGroup>
 
@@ -25,11 +29,18 @@
     <Content Remove="Views\Guest\Edit.cshtml" />
     <Content Remove="Views\Responsavel\Details.cshtml" />
     <Content Remove="Views\Responsavel\Edit.cshtml" />
+    <Content Remove="Views\Responsavel\Perfil.cshtml" />
     <Content Remove="Views\Responsavel\Tarefa.cshtml" />
     <Content Remove="Views\Utilizador\PedidoAdocaoAnimalInfo.cshtml" />
     <Content Remove="Views\Utilizador\Perfil.cshtml" />
     <Content Remove="wwwroot\js\bootstrap-filestyle.min.js" />
     <Content Remove="wwwroot\js\custom-file-input.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Migrations\20190206130220_ adocoes.cs" />
+    <Compile Include="Migrations\20190206130220_ adocoes.Designer.cs" />
+    <Compile Include="Migrations\ApplicationDbContextModelSnapshot.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -85,6 +96,15 @@
     <Content Update="Views\Funcionario\PalavraPasseEditada.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Views\Funcionario\PedidosAdocaoAnalisar.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Funcionario\PedidosFimSemanaAnalisar.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Funcionario\PedidosPasseioAnalisar.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\Funcionario\PerfilEditarDadosPessoais.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
@@ -121,6 +141,9 @@
     <Content Update="Views\Responsavel\ConvocatoriaRegistada.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Views\Responsavel\Dashboard.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\Responsavel\DetalhesAnimal.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
@@ -149,13 +172,19 @@
     <Content Update="Views\Responsavel\PedidosAdocao.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Views\Responsavel\PedidosAdocaoAnalisar.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\Responsavel\PedidosFimSemana.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Responsavel\PedidosFimSemanaAnalisar.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Views\Responsavel\PedidosPasseio.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Views\Responsavel\Perfil.cshtml">
+    <Content Update="Views\Responsavel\PedidosPasseioAnalisar.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Views\Responsavel\PerfilEditarDadosPessoais.cshtml">
@@ -174,6 +203,9 @@
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Views\Responsavel\RegistoAnimalCompleto.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Responsavel\VisualizarUtilizador.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Views\Utilizador\listaAmizades.cshtml">

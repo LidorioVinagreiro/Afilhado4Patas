@@ -9,19 +9,20 @@ body, html {
     font-family: NimbusSan !important;
 }
 
-.required{
+.required {
     color: indianred
 }
 
-.block{
+.block {
     display: block;
 }
+
 footer {
     padding-left: 10px;
 }
 
-.centrado{
-    text-align:center
+.centrado {
+    text-align: center
 }
 /* Wrapping element */
 /* Set some basic padding to keep content from hitting the edges */
@@ -264,13 +265,13 @@ li a {
     height: 100% !important;
     width: auto !important;
     padding-right: 5% !important;
-    margin:0 !important;
+    margin: 0 !important;
     background-color: transparent !important
 }
 
-#nome, #fechar_sessao{
+#nome, #fechar_sessao {
     color: #fff !important;
-    text-decoration:none !important;
+    text-decoration: none !important;
 }
 
     #nome:hover, #fechar_sessao:hover {
@@ -933,7 +934,7 @@ li a {
     display: flex;
 }
 
-.hand{
+.hand {
     cursor: pointer
 }
 
@@ -1005,9 +1006,8 @@ li a {
     color: indianred;
 }
 
-.voltar{
-    margin-left:20px;
-    margin-top: -40px;
+.voltar {
+    margin-left: 20px;
 }
 
 #voltar {
@@ -1064,7 +1064,7 @@ li a {
     color: white !important;
 }
 
-#icon_mini{
+#icon_mini {
     height: 25px;
     width: 25px;
     border-radius: 50%;
@@ -1140,12 +1140,12 @@ li a {
     margin-bottom: 5px;
 }
 
-#min{
+#min {
     height: 30px;
     width: 30px
 }
 
-#links_animal{
+#links_animal {
     text-decoration: none;
     color: #fff;
 }
@@ -1154,6 +1154,29 @@ li a {
         color: darkgreen
     }
 
-.rounded{
+.rounded {
     border-radius: 50%
+}
+
+#centrado_tabela {
+    width: 80%;
+    margin-top: 50px
+}
+
+.link {
+    text-decoration: none;
+    color: #212121
+}
+
+    .link:hover {
+        color: #0081c2
+    }
+
+#links_aprovacao {
+    margin-right: 20px;
+}
+
+#aprovar {
+    width: 80px;
+    height: 80px
 }

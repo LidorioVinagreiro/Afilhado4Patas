@@ -175,7 +175,18 @@
                 {
                     <tr>
                         <td data-title="Nome do Ficheiro">
-                            @Html.Raw(adotante.Perfil.FirstName + " " + adotante.Perfil.LastName)
+                            @if (adotante.Perfil.Photo != null)
+                            {
+                                string src = "/Utilizadores/" + adotante.Id + "/" + adotante.Perfil.Photo;
+                                <img id="icon_mini" src="@src" />
+                            }
+                            else
+                            {
+                                <img id="icon_mini" src="~/images/default.jpg" />
+                            }
+                            <a class="link" title="Ver Adotante" asp-controller="Funcionario" asp-action="VisualizarUtilizador" asp-route-id=@adotante.Id>
+                                @Html.Raw(adotante.Perfil.FirstName + " " + adotante.Perfil.LastName)
+                            </a>
                         </td>
                         <td>
                             <a><i class="fa fa-times red_icon" title="Remover Adotante"></i></a>

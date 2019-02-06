@@ -21,6 +21,7 @@
                     <th>@Html.DisplayNameFor(model => model.Inicio)</th>
                     <th>@Html.DisplayNameFor(model => model.Fim)</th>
                     <th>@Html.DisplayNameFor(model => model.Descricao)</th>
+                    <th>@Html.DisplayNameFor(model => model.Completada)</th>
                     <th></th>
                 </tr>
             </thead>
@@ -36,6 +37,9 @@
                     </td>
                     <td data-title="Descricao">
                         @Html.DisplayFor(modelItem => item.Descricao)
+                    </td>
+                    <td data-title="Completada">
+                        @Html.DisplayFor(modelItem => item.Completada)
                     </td>
                     <td>
                         <a><i class="fa fa-check-circle green_icon" title="Concluir Tarefa"></i></a>
