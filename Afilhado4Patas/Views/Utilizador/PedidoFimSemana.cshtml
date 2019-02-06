@@ -79,7 +79,7 @@
                     return { classes: "Highlighted" };
                 }
             },
-            format: "dd/mm/yyyy",
+            format: "dd/MMM/yyyy",
             startDate: '+3d',
             autoclose: true,
             todayHighlight: true,
@@ -90,8 +90,7 @@
             changeYear: true,
             orientation: "bottom left",
             daysOfWeekDisabled: [1, 2, 3, 4, 5],
-            weekStart: 1,
-            language: 'pt'
+            weekStart: 1
         });
         $('#datepicker_marcacaoFimSemana2').datepicker({
             beforeShowDay: function (date) {
@@ -101,7 +100,7 @@
                     return { classes: "Highlighted" };
                 }
             },
-            format: "dd/mm/yyyy",
+            format: "dd/MM/yyyy",
             startDate: '+3d',
             autoclose: true,
             todayHighlight: true,
@@ -112,8 +111,7 @@
             changeYear: true,
             daysOfWeekDisabled: [1, 2, 3, 4, 5],
             orientation: "bottom left",
-            weekStart: 1,
-            language: 'pt'
+            weekStart: 1
         });
     });
 </script>

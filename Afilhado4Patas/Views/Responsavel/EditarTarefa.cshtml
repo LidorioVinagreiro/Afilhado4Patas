@@ -104,7 +104,7 @@ esta deverá ser maior que a data atual e ainda maior que a data de inicio"></sp
     var tomorrow = new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate() + 1, 0, 0, 0, 0);
     $(document).ready(function () {
         $('#datepicker_tarefas1').datepicker({
-            format: "dd/mm/yyyy",
+            format: "dd/MM/yyyy",
             startDate: today,
             autoclose: true,
             todayHighlight: true,
@@ -114,11 +114,10 @@ esta deverá ser maior que a data atual e ainda maior que a data de inicio"></sp
             changeMonth: true,
             changeYear: true,
             orientation: "bottom left",
-            weekStart: 1,
-            language: 'pt'
+            weekStart: 1
         });
         $('#datepicker_tarefas2').datepicker({
-            format: "dd/mm/yyyy",
+            format: "dd/MM/yyyy",
             startDate: today,
             autoclose: true,
             todayHighlight: true,
@@ -128,8 +127,7 @@ esta deverá ser maior que a data atual e ainda maior que a data de inicio"></sp
             changeMonth: true,
             changeYear: true,
             orientation: "bottom left",
-            weekStart: 1,
-            language: 'pt'
+            weekStart: 1
         });
     });
 </script>
