@@ -802,25 +802,25 @@ NOTE: use percentage font sizes or else old IE chokes
 .table-bordered thead {
     width: 50px;
 }
-/* Calendario Mensal
-td:nth-child(6) {
+/* Calendario Mensal*/
+.table-bordered td:nth-child(6) {
     background-color: #afdeed;
 }
 
-td:nth-child(7) {
+.table-bordered td:nth-child(7) {
     background-color: #afdeed;
 }
 
-th:nth-child(6) {
+.table-bordered th:nth-child(6) {
     background-color: #afdeed;
 }
 
-th:nth-child(7) {
+.table-bordered th:nth-child(7) {
     background-color: #afdeed;
 }
-*/
 
-/*Calendario Semanal*/
+
+/*Calendario Semanal
 .table-bordered td:nth-child(7) {
     background-color: #80bbe5;
 }
@@ -835,7 +835,7 @@ th:nth-child(7) {
 
 .table-bordered th:nth-child(8) {
     background-color: #80bbe5;
-}
+}*/
 
 
 .fc-day-number:hover {

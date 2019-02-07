@@ -1638,7 +1638,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                 listCalendario.Add(
                         new
                         {
-                            title = utilizador.PerfilId,
+                            title = "Fim de Semana com " + utilizador.Perfil.FirstName + " " + utilizador.Perfil.LastName,
                             start = item.Pedido.DataInicio,
                             end = item.Pedido.DataFim
                         }
@@ -1650,7 +1650,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                 listCalendario.Add(
                     new
                     {
-                        title = utilizador.PerfilId,
+                        title = item.Pedido.HoraPasseio,
                         start = item.Pedido.DataPasseio,
                         end = ""
                     }
