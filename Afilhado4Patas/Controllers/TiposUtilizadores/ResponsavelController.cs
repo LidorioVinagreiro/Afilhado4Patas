@@ -637,7 +637,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         {
             if (ModelState.IsValid)
             {
-                var user = await _userManager.FindByEmailAsync(modelo.Email);
+                var user = _context.Utilizadores.Where(u => u.Email == modelo.Email).FirstOrDefault();
                 if (user == null)
                 {
                     var novoFuncionario = new Utilizadores
@@ -664,14 +664,14 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                     if (createFuncionario.Succeeded)
                     {
                         await _userManager.AddToRoleAsync(novoFuncionario, "Funcionario");
+                        return View("ListaFuncionarios", ListaTotalFuncionarios());
                     }
                 }
-                if (_context.Utilizadores.Where(u => u.Email == modelo.Email).Count() > 0)
+                if (_context.Utilizadores.Where(u => u.Email == modelo.Email).ToList().Count > 0)
                 {
                     ModelState.AddModelError("", "O email inserido já encontra em utilização, insira outro!");
                     return View(modelo);
                 }
-                return View("ListaFuncionarios", ListaTotalFuncionarios());
             }
             return View(modelo);
         }
