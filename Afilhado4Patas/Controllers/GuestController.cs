@@ -116,6 +116,12 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View();
         }
 
+        public PartialViewResult AnimaisPorFiltros(int[] items)
+        {
+            List<Animal> animais = _context.Animais.Include(p => p.PorteAnimal).Include(r => r.RacaAnimal).ThenInclude(c => c.CategoriaRaca).Where(a => items.ToList().Contains(a.RacaAnimal.CategoriaRaca.Id)).ToList();
+            return PartialView("~/Views/Shared/GridAnimais.cshtml", animais);
+        }
+
         /// <summary>
         /// Ação que devolve a view de erro, caso ocorra um erro esta view e devolvida com a informação do erro
         /// </summary>

@@ -214,6 +214,7 @@
     </Content>
     <Content Update="Views\Responsavel\GridAnimaisAdotados.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
     <Content Update="Views\Responsavel\ListaAnimais.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>

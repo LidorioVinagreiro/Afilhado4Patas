@@ -1434,8 +1434,21 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View(convocatoria);
         }
 
-
-
+        public PartialViewResult PesquisarAnimal(string pesquisa)
+        {
+            List<Adocao> adocoes = _context.Adocoes.Include(p => p.Pedido).Where(a => a.Pedido.TipoAdocao == "Total").ToList();
+            List<Adocao> adocoesMostrar = new List<Adocao>();
+            foreach (var adocao in adocoes)
+            {
+                adocao.Pedido.Adotante = _context.Utilizadores.Where(u => u.PerfilId == adocao.Pedido.AdotanteId).Include(p => p.Perfil).FirstOrDefault();
+                adocao.Pedido.Animal = _context.Animais.Where(a => a.Id == adocao.Pedido.AnimalId).Include(p => p.PorteAnimal).FirstOrDefault();
+                if (adocao.Pedido.Animal.NomeAnimal.ToLower().Contains(pesquisa))
+                {
+                    adocoesMostrar.Add(adocao);
+                }
+            }
+            return PartialView("~/Views/Responsavel/GridAnimaisAdotados.cshtml", adocoesMostrar);
+        }
 
         private bool CreateFolder(string path)
         {

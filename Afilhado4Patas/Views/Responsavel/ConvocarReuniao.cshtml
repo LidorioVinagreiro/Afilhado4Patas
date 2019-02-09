@@ -31,3 +31,23 @@
     </div>
 </div>
 
+<script>
+    function PesquisarAnimal() {
+        if ($('.searchTerm').val() === "") {
+            alert("Insira algo no campo de pesquisa");
+        } else {
+            $('container_center').html();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Content("~/Funcionario/PesquisarAnimal")',
+                data: {
+                    pesquisa: $('.searchTerm').val()
+                },
+                success: function (result) {
+                    $('#container_center').html(result);
+                }
+            });
+        }
+    }
+</script>
+

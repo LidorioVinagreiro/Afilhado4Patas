@@ -27,36 +27,16 @@
             <ul>
                 @{
                     List<Categoria> categorias = Context.Categorias.ToList();
-                    //List<Raca> racas = Context.Racas.ToList();
-                    List<Porte> portes = Context.Portes.ToList();
-
                     <li>
-                        <h1>Categorias</h1>
+                        <h1 style="color: darkslategrey; margin-bottom: 20px" >Categorias</h1>
                         @foreach (var categoria in categorias)
                         {
-                            <div>
-                                <input type="checkbox" value=@categoria.Id />
-                                <span>@categoria.Nome</span>
-                            </div>
-                        }
-                    </li>
-                    /*<li>
-                        <h1>Raças</h1>
-                        @foreach (var raca in racas)
-                        {
-                            <div>
-                                <input type="checkbox" value=@raca.Id />
-                                <span>@raca.NomeRaca</span>
-                            </div>
-                        }
-                    </li>*/
-                    <li>
-                        <h1>Portes</h1>
-                        @foreach (var porte in portes)
-                        {
-                            <div>
-                                <input type="checkbox" value=@porte.Id />
-                                <span>@porte.TipoPorte</span>
+                            var id = "categoria" + categoria.Id;
+                            <div style="margin-top: 10px">
+                                <label class="pure-material-checkbox">
+                                    <input type="checkbox" value=@categoria.Id id=@id onclick="PesquisarAnimais(@categorias.Count())"/>
+                                    <span id="color_grey">@categoria.Nome</span>
+                                </label>
                             </div>
                         }
                     </li>
@@ -65,3 +45,28 @@
         </div>
     </div>
 </div>
+
+<script>
+    function PesquisarAnimais(number) {
+        alert(number);
+        $('#container_left').html();
+        var selecionados = [];
+        for (var i = 1; i <= number; i++) {
+            var id = "#categoria" + i;
+            if ($(id).is(':checked')) {
+                alert($(id).val());
+                selecionados.push($(id).val());
+            }
+        }
+        $.ajax({
+                type: 'POST',
+                url: '@Url.Content("~/Guest/AnimaisPorFiltros")',
+                data: {
+                    items: selecionados
+                },
+                success: function (result) {
+                    $('#container_left').html(result);
+                }
+            });
+    }
+</script>
