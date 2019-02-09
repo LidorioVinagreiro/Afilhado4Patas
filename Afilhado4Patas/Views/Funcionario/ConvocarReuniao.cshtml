@@ -13,12 +13,12 @@
 <link href="~/css/Table/tabela.css" rel="stylesheet" />
 <div id="rectangulo_medio"></div>
 <div id="page" class="page_maior largura">
-    <h3 class="centrado" style="color: #fff">Convocar Reuniao</h3>    
+    <h3 class="centrado" style="color: #fff">Convocar Reuniao</h3>
     <br />
     <div class="wrap">
         <div class="search">
             <input type="text" class="searchTerm" placeholder="Qual o animal que procura ?">
-            <button type="submit" class="searchButton">
+            <button type="submit" class="searchButton" onclick="PesquisarAnimal()">
                 <i class="fa fa-search"></i>
             </button>
         </div>
@@ -30,4 +30,24 @@
         }
     </div>
 </div>
+
+<script>
+    function PesquisarAnimal() {
+        if ($('.searchTerm').val() === "") {
+            alert("Insira algo no campo de pesquisa");
+        } else {
+            $('container_center').html();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Content("~/Funcionario/PesquisarAnimal")',
+                data: {
+                    pesquisa: $('.searchTerm').val() 
+                },
+                success: function (result) {
+                    $('#container_center').html(result);
+                }
+            });
+        }
+    }    
+</script>
 
