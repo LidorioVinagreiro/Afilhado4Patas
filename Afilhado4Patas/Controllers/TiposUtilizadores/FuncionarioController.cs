@@ -1167,6 +1167,35 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             DataRetrive dataR = new DataRetrive(_context);
             return Json(dataR.dataGroupTipoAnimais());
         }
+        [HttpGet]
+        public JsonResult adocoesPorMes()
+        {
+            DataRetrive dataR = new DataRetrive(_context);
+            return Json(dataR.adocoesPorMes());
+        }
+        [HttpGet]
+        public JsonResult apadrinhamentosPorMes()
+        {
+            DataRetrive dataR = new DataRetrive(_context);
+            return Json(dataR.apadrinhamentosPorMes());
+        }
+        [HttpGet]
+        public JsonResult numeroPedidosPasseioPorMes()
+        {
+            DataRetrive dataR = new DataRetrive(_context);
+            return Json(dataR.numeroPedidosPasseioPorMes());
+        }
+
+        [HttpGet]
+        public JsonResult numeroPedidosFdsPorMes()
+        {
+            DataRetrive dataR = new DataRetrive(_context);
+            return Json(dataR.numeroPedidosFdsPorMes());
+        }
+
+
+
+
 
         /// <summary>
         /// Ação que devolve a view de erro, caso ocorra um erro esta view e devolvida com a informação do erro
