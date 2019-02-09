@@ -94,7 +94,7 @@ namespace Afilhado4Patas.Models.Estatisticas
                 .Where(x => x.DataAprovacao.Year == anoActual && x.Aprovacao == "1" && x.TipoAdocao == "parcial")
                 .Select(z => new {
                     mes = z.DataAprovacao.Month,
-                    valor = int.Parse(z.Aprovacao)
+                    valor = 1
                 }).GroupBy(f => f.mes)
                 .Select(c => new DataObject
                 {
