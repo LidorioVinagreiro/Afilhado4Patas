@@ -10,9 +10,22 @@ namespace Afilhado4Patas.Models.Estatisticas
     {
         private ApplicationDbContext _context;
 
+        public DataGroup utilMF { get; set; }
+        public DataGroup tiposAnimais { get; set; }
+        public DataGroup adocMes { get; set; }
+        public DataGroup apadMes { get; set; }
+        public DataGroup pedPassMes { get; set; }
+        public DataGroup pedFSMes { get; set; }
+
         public DataRetrive(ApplicationDbContext contexto)
         {
             _context = contexto;
+            utilMF = dataGroupMF();
+            tiposAnimais = dataGroupTipoAnimais();
+            adocMes = adocoesPorMes();
+            apadMes = apadrinhamentosPorMes();
+            pedPassMes = numeroPedidosPasseioPorMes();
+            pedFSMes = numeroPedidosFdsPorMes();
         }
 
         public DataGroup dataGroupMF()
