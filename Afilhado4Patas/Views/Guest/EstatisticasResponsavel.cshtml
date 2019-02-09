@@ -4,6 +4,10 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@using Afilhado4Patas.Models.Estatisticas
+
+@model Afilhado4Patas.Models.Estatisticas.DataRetrive
+
 <br/>
 <br />
 <br />
@@ -21,6 +25,9 @@
 
 <script type="text/javascript">
 
+    var dataRetrive = JSON.parse('@Json.Serialize(Model.dataGroupTipoAnimais())');
+
+    //var dataPC = dataTeste
     // Load the Visualization API and the corechart package.
     google.charts.load('current', {'packages':['corechart']});
 

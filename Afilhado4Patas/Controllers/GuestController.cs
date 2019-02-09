@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Afilhado4Patas.Data;
 using Afilhado4Patas.Models;
+using Afilhado4Patas.Models.Estatisticas;
 using Afilhado4Patas.Models.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -118,7 +119,8 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
 
         public IActionResult EstatisticasResponsavel()
         {
-            return View();
+            DataRetrive data = new DataRetrive(_context);
+            return View(data);
         }
 
         /// <summary>
