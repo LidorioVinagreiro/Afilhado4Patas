@@ -9,58 +9,105 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
-<br />
-<br />
-<br />
-<br />
-<h1>Lista de Funcionarios</h1>
-<div id="checkboxes">
-    <form asp-controller="Responsavel" asp-action="RemoverFuncionarios" method="post">
-        <table class="table">
+<link href="~/css/Table/tabela.css" rel="stylesheet" />
+<div id="rectangulo"></div>
+<div id="page">
+    <h3 style="color: #fff">Lista de Funcionários</h3>
+    <br />
+    <div class="table-responsive-vertical shadow-z-1">
+        <table id="table" class="table table-hover table-mc-light-blue">
             <thead>
                 <tr>
-                    <th>
-                        Funcionario
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Perfil.FirstName)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Perfil.LastName)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Perfil.Genre)
-                    </th>
+                    <th>@Html.DisplayNameFor(model => model.Perfil.FirstName)</th>
+                    <th>@Html.DisplayNameFor(model => model.Perfil.LastName)</th>
+                    <th>@Html.DisplayNameFor(model => model.Perfil.Genre)</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var funcionario in Model)
+                @foreach (var item in Model)
                 {
                     <tr>
-                        <td>
-                            <input type="checkbox" value="@funcionario.Id" name="funcionario">
+                        <td data-title="Primeiro Nome">
+                            @Html.DisplayFor(modelItem => item.Perfil.FirstName)
+                        </td>
+                        <td data-title="Apelido">
+                            @Html.DisplayFor(modelItem => item.Perfil.LastName)
+                        </td>
+                        <td data-title="Completada">
+                            @Html.DisplayFor(modelItem => item.Perfil.Genre)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => funcionario.Perfil.FirstName)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => funcionario.Perfil.LastName)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => funcionario.Perfil.Genre)
-                        </td>
-                        <td>
-                            <a asp-controller="Responsavel" asp-action="VisualizarFuncionario" asp-route-id="@funcionario.Email">Ver Funcionario</a>
+                            <a asp-controller="Responsavel" asp-action="VisualizarFuncionario" asp-route-id="@item.Email">
+                                <i class="fa fa-search-plus blue_icon" title="Ver Funcionario"></i>
+                            </a>
+                            <a asp-controller="Responsavel" asp-action="RemoverFuncionarios" asp-route-id="@item.Id">
+                                <i class="fa fa-times red_icon" title="Apagar Funcionario"></i>
+                            </a>
+
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
-        <button type="submit" class="btn btn-default">Remover Funcionarios</button>
-    </form>
+    </div>
 </div>
-<a asp-controller="Responsavel" asp-action="AdicionarFuncionario">Adicionar Funcionario</a>
-<div>
-    <a asp-controller="Responsavel" asp-action="Perfil" asp-route-id="@UserManager.GetUserName(User)">Voltar ao Perfil</a>
-</div>
+
+<script>
+    $(document).ready(function () {
+
+        var table = $('#table');
+
+        // Table bordered
+        $('#table-bordered').change(function () {
+            var value = $(this).val();
+            table.removeClass('table-bordered').addClass(value);
+        });
+
+        // Table striped
+        $('#table-striped').change(function () {
+            var value = $(this).val();
+            table.removeClass('table-striped').addClass(value);
+        });
+
+        // Table hover
+        $('#table-hover').change(function () {
+            var value = $(this).val();
+            table.removeClass('table-hover').addClass(value);
+        });
+
+        // Table color
+        $('#table-color').change(function () {
+            var value = $(this).val();
+            table.removeClass(/^table-mc-/).addClass(value);
+        });
+    });
+
+    // jQuery’s hasClass and removeClass on steroids
+    // by Nikita Vasilyev
+    // https://github.com/NV/jquery-regexp-classes
+    (function (removeClass) {
+
+        jQuery.fn.removeClass = function (value) {
+            if (value && typeof value.test === "function") {
+                for (var i = 0, l = this.length; i < l; i++) {
+                    var elem = this[i];
+                    if (elem.nodeType === 1 && elem.className) {
+                        var classNames = elem.className.split(/\s+/);
+
+                        for (var n = classNames.length; n--;) {
+                            if (value.test(classNames[n])) {
+                                classNames.splice(n, 1);
+                            }
+                        }
+                        elem.className = jQuery.trim(classNames.join(" "));
+                    }
+                }
+            } else {
+                removeClass.call(this, value);
+            }
+            return this;
+        }
+
+    })(jQuery.fn.removeClass);
+</script>

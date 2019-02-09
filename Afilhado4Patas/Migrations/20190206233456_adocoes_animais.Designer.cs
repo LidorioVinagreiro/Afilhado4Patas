@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Afilhado4Patas.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190129142248_adocoes_amigos")]
-    partial class adocoes_amigos
+    [Migration("20190206233456_adocoes_animais")]
+    partial class adocoes_animais
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -282,6 +282,8 @@ namespace Afilhado4Patas.Migrations
                     b.Property<string>("Morada");
 
                     b.Property<string>("Motivo");
+
+                    b.Property<string>("NomeFicheiroID");
 
                     b.Property<string>("OutrosAnimais");
 

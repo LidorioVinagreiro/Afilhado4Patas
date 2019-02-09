@@ -5,85 +5,136 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<link href="~/css/Table/tabela.css" rel="stylesheet" />
+<div id="rectangulo"></div>
+<div id="page">
+    <h3 style="color: #fff">Lista de Animais</h3>
+    <br />
+    <div class="table-responsive-vertical shadow-z-1">
+        <table id="table" class="table table-hover table-mc-light-blue">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.NomeAnimal)</th>
+                    <th>@Html.DisplayNameFor(model => model.DataNasc)</th>
+                    <th>@Html.DisplayNameFor(model => model.PorteAnimal.TipoPorte)</th>
+                    <th>@Html.DisplayNameFor(model => model.Peso)</th>
+                    <th>@Html.DisplayNameFor(model => model.RacaAnimal.CategoriaId)</th>
+                    <th>@Html.DisplayNameFor(model => model.RacaAnimal.NomeRaca)</th>
+                    <th>@Html.DisplayNameFor(model => model.Adoptado)</th>
+                    <th>@Html.DisplayNameFor(model => model.Ativo)</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td data-title="Nome Animal">
+                            @if (item.Foto != null)
+                            {
+                                string src = "/Animais/" + item.Id + "/" + item.Foto;
+                                <img id="icon_mini" src="@src" />
+                            }
+                            else
+                            {
+                                <img id="icon_mini" src="~/images/dog-profile.png" />
+                            }
+                            @Html.DisplayFor(modelItem => item.NomeAnimal)
+                        </td>
+                        <td data-title="Data de Nascimento">
+                            @item.DataNasc.ToString("dd/MM/yyyy")
+                        </td>
+                        <td data-title="Porte">
+                            @Html.DisplayFor(modelItem => item.PorteAnimal.TipoPorte)
+                        </td>
+                        <td data-title="Peso">
+                            @Html.DisplayFor(modelItem => item.Peso) Kg
+                        </td>
+                        <td data-title="Especie">
+                            @Html.DisplayFor(modelItem => item.RacaAnimal.CategoriaRaca.Nome)
+                        </td>
+                        <td data-title="Raça">
+                            @Html.DisplayFor(modelItem => item.RacaAnimal.NomeRaca)
+                        </td>
+                        <td data-title="Adotado">
+                            @Html.DisplayFor(modelItem => item.Adoptado)
+                        </td>
+                        <td data-title="Ativo">
+                            @Html.DisplayFor(modelItem => item.Ativo)
+                        </td>
+                        <td>
+                            <a asp-controller="Responsavel" asp-action="DetalhesAnimal" asp-route-id=@item.Id>
+                                <i class="fa fa-search-plus blue_icon" title="Detalhes do Animal"></i>
+                            </a>
+                            <a asp-controller="Responsavel" asp-action="AtivarAnimal" asp-route-id=@item.Id>
+                                <i class="fa fa-power-off green_icon" title="Ativar Animal"></i>
+                            </a>
+                            <a asp-controller="Responsavel" asp-action="ApagarAnimal" asp-route-id=@item.Id>
+                                <i class="fa fa-power-off red_icon" title="Desativar Animal"></i>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
 
-<br />
-<br />
-<br />
-<br />
-<br />
-<h2>ListaAnimais</h2>
+<script>
+    $(document).ready(function () {
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.NomeAnimal)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DataNasc)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PorteId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Peso)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Descricao)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RacaAnimal.CategoriaId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RacaAnimal)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Adoptado)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Ativo)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.NomeAnimal)
-            </td>
-            <td>
-                @item.DataNasc.ToString("dd/MM/yyyy")
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PorteAnimal.TipoPorte)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Peso)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Descricao)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RacaAnimal.CategoriaRaca.Nome)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RacaAnimal.NomeRaca)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Adoptado)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ativo)
-            </td>
-            <td>
-                <a asp-controller="Responsavel" asp-action="EditarAnimal" asp-route-id=@item.Id>Editar animal</a><span> | </span>
-                <a asp-controller="Responsavel" asp-action="DetalhesAnimal" asp-route-id=@item.Id>Detalhes animal</a><span> | </span>
-                <a asp-controller="Responsavel" asp-action="AtivarAnimal" asp-route-id=@item.Id>Ativar animal</a><span> | </span>
-                <a asp-controller="Responsavel" asp-action="ApagarAnimal" asp-route-id=@item.Id>Apagar animal</a>
-            </td>
-        </tr>
+        var table = $('#table');
+
+        // Table bordered
+        $('#table-bordered').change(function () {
+            var value = $(this).val();
+            table.removeClass('table-bordered').addClass(value);
+        });
+
+        // Table striped
+        $('#table-striped').change(function () {
+            var value = $(this).val();
+            table.removeClass('table-striped').addClass(value);
+        });
+
+        // Table hover
+        $('#table-hover').change(function () {
+            var value = $(this).val();
+            table.removeClass('table-hover').addClass(value);
+        });
+
+        // Table color
+        $('#table-color').change(function () {
+            var value = $(this).val();
+            table.removeClass(/^table-mc-/).addClass(value);
+        });
+    });
+
+    // jQuery’s hasClass and removeClass on steroids
+    // by Nikita Vasilyev
+    // https://github.com/NV/jquery-regexp-classes
+    (function (removeClass) {
+
+        jQuery.fn.removeClass = function (value) {
+            if (value && typeof value.test === "function") {
+                for (var i = 0, l = this.length; i < l; i++) {
+                    var elem = this[i];
+                    if (elem.nodeType === 1 && elem.className) {
+                        var classNames = elem.className.split(/\s+/);
+
+                        for (var n = classNames.length; n--;) {
+                            if (value.test(classNames[n])) {
+                                classNames.splice(n, 1);
+                            }
+                        }
+                        elem.className = jQuery.trim(classNames.join(" "));
+                    }
+                }
+            } else {
+                removeClass.call(this, value);
+            }
+            return this;
         }
-    </tbody>
-</table>
+
+    })(jQuery.fn.removeClass);
+</script>

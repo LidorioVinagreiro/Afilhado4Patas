@@ -9,81 +9,106 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div id="page">
-    <div id="box">
-        <img id="icon_centrado" src="~/images/funcionarios.png" />
-        <h1>Adicionar Funcionario</h1>
-        <hr />
-        @using (@Html.BeginForm("AdicionarFuncionario", "Responsavel", new { Funcionario = Model }, FormMethod.Post))
-        {
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Nome"></label>
-                <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
-                      title="Insira o Nome do Funcionario"></span>
-                <input asp-for="Nome" class="form-control" />
-                <span asp-validation-for="Nome" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Apelido"></label>
-                <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
-                      title="Insira o(s) Apelido(s) do Funcionario"></span>
-                <input asp-for="Apelido" class="form-control" />
-                <span asp-validation-for="Apelido" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Genero"></label>
-                <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
-                      title="Selecione o Genero do Funcionario"></span>
-                <div>
-                    Masculino
-                    <input asp-for="Genero" type="radio" value="Masculino" />
-                    Feminino
-                    <input asp-for="Genero" type="radio" value="Feminino" />
+<link href="~/css/FormularioCSS/formularios.css" rel="stylesheet" />
+<div id="registo_page">
+    @using (@Html.BeginForm("AdicionarFuncionario", "Responsavel", new { Funcionario = Model }, FormMethod.Post))
+    {
+        <h1>
+            Adicionar Funcionário
+            <img id="icon_redondo_miniatura" src="~/images/funcionarios.png" />
+        </h1>
+        <div class="contentform">
+            <div class="leftcontact">
+                <div class="form-group">
+                    <div>
+                        <label asp-for="Nome"></label>
+                        <span class="vermelho">*</span>
+                        <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
+                              title="Insira o Nome do Funcionario"></span>
+                    </div>
+                    <span class="icon-case"><i class="fa fa-user"></i></span>
+                    <input asp-for="Nome" class="form-control" />
+                    <span asp-validation-for="Nome" class="text-danger"></span>
                 </div>
-                <span asp-validation-for="Genero" class="text-danger"></span>
+                <div class="form-group">
+                    <div>
+                        <label asp-for="Apelido"></label>
+                        <span class="vermelho">*</span>
+                        <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
+                              title="Insira o(s) Apelido(s) do Funcionario"></span>
+                    </div>
+                    <span class="icon-case"><i class="fa fa-user"></i></span>
+                    <input asp-for="Apelido" class="form-control" />
+                    <span asp-validation-for="Apelido" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <div>
+                        <label asp-for="Genero"></label>
+                        <span class="vermelho">*</span>
+                        <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
+                              title="Selecione o seu genero"></span>
+                    </div>
+                    <span class="icon-case"><i class="fa fa-female"></i></span>
+                    <select asp-for="Genero">
+                        <option value="Masculino">Masculino</option>
+                        <option value="Feminino">Feminino</option>
+                    </select>
+                    <span asp-validation-for="Genero" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="DataNascimento"></label>
-                <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
-                      title="Insira a data de nascimento no formato DD-MM-AAAA
+
+            <div class="rightcontact">
+                <div class="form-group">
+                    <div>
+                        <label asp-for="DataNascimento"></label>
+                        <span class="vermelho">*</span>
+                        <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
+                              title="Inserir data de nascimento no formato DD-MM-AAAA
 Deverá ainda ter uma idade maior de 18 anos."></span>
-                <div class="input-group date" id="datepicker_registo">
-                    <input asp-for="DataNascimento" type="text" value="" class="form-control" />
-                    <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                    </span>
+                    </div>
+                    <div class="input-group date" id="datepicker_registo">
+                        <span class="input-group-addon icon-case hand">
+                            <i class="fa fa-calendar-alt"></i>
+                        </span>
+                        <input asp-for="DataNascimento" type="text" value="" class="form-control" />
+                    </div>
+                    <span asp-validation-for="DataNascimento" class="text-danger"></span>
                 </div>
-                <span asp-validation-for="DataNascimento" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Email"></label>
-                <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
-                      title="Insira um Email válido
+                <div class="form-group">
+                    <div>
+                        <label asp-for="Email"></label>
+                        <span class="vermelho">*</span>
+                        <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
+                              title="Insira um Email válido
 Com o seguinte formato: exemplo@exemplo.com "></span>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Password"></label>
-                <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
-                      title="Inserir uma palavra-passe válida
+                    </div>
+                    <span class="icon-case"><i class="fa fa-envelope"></i></span>
+                    <input asp-for="Email" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <div>
+                        <label asp-for="Password"></label>
+                        <span class="vermelho">*</span>
+                        <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
+                              title="Inserir uma palavra-passe válida
 A password deverá conter pelo menos um caracter dos seguintes e ter um comprimento minimo de 8 caracteres:
 Letras: Aa-Zz
 Numeros: 0-9"></span>
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                    <span class="icon-case"><i class="fa fa-key"></i></span>
+                    <input asp-for="Password" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
             </div>
-            <button type="submit" class="btn btn-default">Adicionar Funcionarios</button>
-        }
-    </div>
-</div>
-<div>
-    <a asp-controller="Responsavel" asp-action="Perfil" asp-route-id="@UserManager.GetUserName(User)">Voltar ao Perfil</a>
+        </div>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <button type="submit" class="bouton-contact">Registar Funcionário</button>
+    }
 </div>
 
 
-<script src="~/js/bootstrap-datepicker.pt-BR.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/locales/bootstrap-datepicker.pt.min.js"></script>
 <script>
     $('#datepicker_registo').datepicker({
         format: "dd/MM/yyyy",
@@ -93,6 +118,8 @@ Numeros: 0-9"></span>
         todayHighlight: true,
         showOtherMonths: true,
         selectOtherMonths: true,
-        autoclose: true
+        autoclose: true,
+        weekStart: 1,
+        orientation: 'bottom left'
     });
 </script>

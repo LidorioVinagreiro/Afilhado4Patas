@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Afilhado4Patas.Migrations
 {
-    public partial class adocoes_amigos : Migration
+    public partial class adocoes_animais : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -381,7 +381,8 @@ namespace Afilhado4Patas.Migrations
                     DataPedido = table.Column<DateTime>(nullable: false),
                     DataAprovacao = table.Column<DateTime>(nullable: false),
                     TipoAdocao = table.Column<string>(nullable: true),
-                    Aprovacao = table.Column<string>(nullable: true)
+                    Aprovacao = table.Column<string>(nullable: true),
+                    NomeFicheiroID = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

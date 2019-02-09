@@ -41,7 +41,7 @@
                               title="Selecione o seu genero"></span>
                     </div>
                     <span class="icon-case"><i class="fa fa-female"></i></span>
-                    <select>
+                    <select asp-for="Input.Genero">
                         <option value="Masculino">Masculino</option>
                         <option value="Feminino">Feminino</option>
                     </select>
@@ -110,6 +110,7 @@ Numeros: 0-9"></span>
     </form>
 </div>
 
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/locales/bootstrap-datepicker.pt.min.js"></script>
 <script>
     $('#datepicker_registo').datepicker({
         format: "dd/MM/yyyy",
@@ -119,6 +120,7 @@ Numeros: 0-9"></span>
         todayHighlight: true,
         showOtherMonths: true,
         selectOtherMonths: true,
-        autoclose: true
+        autoclose: true,
+        weekStart: 1
     });
 </script>

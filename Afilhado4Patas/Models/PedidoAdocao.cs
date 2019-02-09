@@ -44,5 +44,7 @@ namespace Afilhado4Patas.Models
 
         [Display(Name = "Aprovação")]
         public string Aprovacao { get; set; }
+
+        public virtual string NomeFicheiroID { get; set; }
     }
 }

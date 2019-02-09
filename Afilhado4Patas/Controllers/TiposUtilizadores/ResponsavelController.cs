@@ -123,6 +123,36 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View("../Shared/FichaAnimal", animal);
         }
 
+        public ActionResult Dashboard(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var user = _context.Utilizadores.Where(u => u.Email == id).Include(p => p.Perfil).FirstOrDefault();
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return View(user);
+        }
+
+        public ActionResult VisualizarUtilizador(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var user = _context.Utilizadores.Where(u => u.Id == id).Include(p => p.Perfil).FirstOrDefault();
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return View(user);
+        }
+
         /****************************************************************************************************/
         /******************************************** Perfil ***********************************************/
         /****************************************************************************************************/
@@ -238,7 +268,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                     return NotFound();
                 }
                 var userUpdated = _context.Utilizadores.Where(e => e.Email == id).Include(p => p.Perfil).FirstOrDefault();
-                return View("Perfil", userUpdated);
+                return View("Dashboard", userUpdated);
             }
             return View(editarPerfilViewModel);
         }
@@ -274,7 +304,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                 {
                     return NotFound();
                 }
-                return View("Perfil", user);
+                return View("Dashboard", user);
             }
             return View(editarPerfilViewModel);
         }
@@ -318,7 +348,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                     var filePath = user.Perfil.Directoria + "\\" + model.File.FileName;
                     var fileStream = new FileStream(filePath, FileMode.Create);
                     await model.File.CopyToAsync(fileStream);
-                    return View("Perfil", user);
+                    return View("Dashboard", user);
                 }
             }
             return View();
@@ -607,7 +637,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         {
             if (ModelState.IsValid)
             {
-                var user = await _userManager.FindByEmailAsync(modelo.Email);
+                var user = _context.Utilizadores.Where(u => u.Email == modelo.Email).FirstOrDefault();
                 if (user == null)
                 {
                     var novoFuncionario = new Utilizadores
@@ -634,14 +664,14 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                     if (createFuncionario.Succeeded)
                     {
                         await _userManager.AddToRoleAsync(novoFuncionario, "Funcionario");
+                        return View("ListaFuncionarios", ListaTotalFuncionarios());
                     }
                 }
-                if (_context.Utilizadores.Where(u => u.Email == modelo.Email).Count() > 0)
+                if (_context.Utilizadores.Where(u => u.Email == modelo.Email).ToList().Count > 0)
                 {
                     ModelState.AddModelError("", "O email inserido já encontra em utilização, insira outro!");
                     return View(modelo);
                 }
-                return View("ListaFuncionarios", ListaTotalFuncionarios());
             }
             return View(modelo);
         }
@@ -650,20 +680,22 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         /// Ação que remove um funcionario e atualiza a view
         /// </summary>
         /// <returns>View com a lista de funcionarios atualizada</returns>
-        [HttpPost]
-        public async Task<ActionResult> RemoverFuncionarios()
+        public async Task<ActionResult> RemoverFuncionarios(string id)
         {
-            List<string> lista = Request.Form["funcionario"].ToList();
-            foreach (var elemento in lista)
+            if (id == null)
             {
-                var user = _context.Utilizadores.Where(u => u.Id == elemento).Include(p => p.Perfil).FirstOrDefault();
-                user.Active = false;
-                _context.SaveChanges();
-                //Envio de Email
-                var emailModel = new EmailViewModel("", user.Perfil.FirstName);
-                string body = await _razorView.RenderViewToStringAsync("/Views/Emails/RemoveAccount/RemoveAccount.cshtml", emailModel);
-                await _emailSender.SendEmailAsync(user.Email, "Conta Terminada", body);
+                return NotFound();
             }
+
+            var user = _context.Utilizadores.Where(u => u.Id == id).Include(p => p.Perfil).FirstOrDefault();
+            user.Active = false;
+            _context.SaveChanges();
+
+            //Envio de Email
+            var emailModel = new EmailViewModel("", user.Perfil.FirstName);
+            string body = await _razorView.RenderViewToStringAsync("/Views/Emails/RemoveAccount/RemoveAccount.cshtml", emailModel);
+            await _emailSender.SendEmailAsync(user.Email, "Conta Terminada", body);
+
             return View("ListaFuncionarios", ListaTotalFuncionarios());
         }
 
@@ -856,16 +888,36 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             Animal model = _context.Animais.Where(animal => animal.Id == id).FirstOrDefault();
             model.RacaAnimal = _context.Racas.Where(r => r.Id == model.RacaId).Include(c => c.CategoriaRaca).FirstOrDefault();
             model.PorteAnimal = _context.Portes.Where(p => p.Id == model.PorteId).FirstOrDefault();
+            model.Adotantes = new List<Utilizadores>();
             if (model.Adoptado)
             {
-                model.Adotantes = new List<Utilizadores>();
                 foreach (var adotantes in _context.Adotantes.Where(a => a.AnimalId == model.Id).Include(u => u.Adotante_User).ToList())
                 {
-                    Utilizadores user = _context.Utilizadores.Where(x => x.PerfilId == adotantes.AdotanteId).FirstOrDefault();
+                    Utilizadores user = _context.Utilizadores.Where(x => x.PerfilId == adotantes.AdotanteId).Include(p => p.Perfil).FirstOrDefault();
                     model.Adotantes.Add(user);
                 }
             }
-            return View(model);
+            List<string> anexos = new List<string>();
+            foreach (var anexo in Directory.GetFiles(_hostingEnvironment.WebRootPath + "\\Animais\\" + model.Id + "\\Anexos\\").ToList())
+            {
+                var anexo_temp = Path.GetFileName(anexo);
+                anexos.Add(anexo_temp);
+            }
+            List<string> fotos = new List<string>();
+            foreach (var foto in Directory.GetFiles(_hostingEnvironment.WebRootPath + "\\Animais\\" + model.Id + "\\Galeria\\").ToList())
+            {
+                var foto_temp = Path.GetFileName(foto);
+                fotos.Add(foto_temp);
+            }
+            DetalhesAnimal detalhes = new DetalhesAnimal
+            {
+                Animal = model,
+                FicheirosAnexos = anexos,
+                FicheirosGaleria = fotos,
+                CaminhoAnexos = _hostingEnvironment.WebRootPath + "\\Animais\\" + model.Id + "\\Anexos\\",
+                CaminhoGaleria = _hostingEnvironment.WebRootPath + "\\Animais\\" + model.Id + "\\Galeria\\"
+            };
+            return View(detalhes);
         }
 
         /// <summary>
@@ -1014,7 +1066,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                     var filePath = animal.DirectoriaAnimal + "\\" + model.File.FileName;
                     var fileStream = new FileStream(filePath, FileMode.Create);
                     await model.File.CopyToAsync(fileStream);
-                    return View("DetalhesAnimal", animal);
+                    return RedirectToAction("DetalhesAnimal", "Responsavel", new { id = animal.Id });
                 }
             }
             model.animal = _context.Animais.Where(a => a.Id == id).FirstOrDefault();
@@ -1068,7 +1120,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                     var filePath = model.animal.DirectoriaAnimal + "\\Galeria\\" + model.File.FileName;
                     var fileStream = new FileStream(filePath, FileMode.Create);
                     await model.File.CopyToAsync(fileStream);
-                    return View("DetalhesAnimal", model.animal);
+                    return RedirectToAction("DetalhesAnimal", "Responsavel", new { id = model.animal.Id });
                 }
             }
             model.animal = _context.Animais.Where(a => a.Id == id).FirstOrDefault();
@@ -1122,7 +1174,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                     var filePath = model.animal.DirectoriaAnimal + "\\Anexos\\" + model.File.FileName;
                     var fileStream = new FileStream(filePath, FileMode.Create);
                     await model.File.CopyToAsync(fileStream);
-                    return View("DetalhesAnimal", model.animal);
+                    return RedirectToAction("DetalhesAnimal", "Responsavel", new { id = model.animal.Id });
                 }
             }
             model.animal = _context.Animais.Where(a => a.Id == id).FirstOrDefault();
@@ -1137,30 +1189,62 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         public ActionResult PedidosAdocao()
         {
             List<PedidoAdocao> pedidos = _context.PedidosAdocao.Where(p => p.Aprovacao.Equals("Em espera")).Include(a => a.Animal).ToList();
+            foreach (var pedido in pedidos)
+            {
+                pedido.Adotante = _context.Utilizadores.Where(u => u.PerfilId == pedido.AdotanteId).Include(p => p.Perfil).FirstOrDefault();
+            }
             return View(pedidos);
         }
 
         public ActionResult PedidosFimSemana()
         {
             List<PedidoFimSemana> pedidos = _context.PedidosFimSemana.Where(p => p.Aprovacao.Equals("Em espera")).Include(a => a.Animal).ToList();
+            foreach (var pedido in pedidos)
+            {
+                pedido.Adotante = _context.Utilizadores.Where(u => u.PerfilId == pedido.AdotanteId).Include(p => p.Perfil).FirstOrDefault();
+            }
             return View(pedidos);
         }
 
         public ActionResult PedidosPasseio()
         {
             List<PedidoPasseio> pedidos = _context.PedidosPasseio.Where(p => p.Aprovacao.Equals("Em espera")).Include(a => a.Animal).ToList();
+            foreach (var pedido in pedidos)
+            {
+                pedido.Adotante = _context.Utilizadores.Where(u => u.PerfilId == pedido.AdotanteId).Include(p => p.Perfil).FirstOrDefault();
+            }
             return View(pedidos);
+        }
+
+        public ActionResult PedidosAdocaoAnalisar(int id)
+        {
+            PedidoAdocao pedido = _context.PedidosAdocao.Where(p => p.Id == id).Include(a => a.Animal).FirstOrDefault();
+            pedido.Adotante = _context.Utilizadores.Where(u => u.PerfilId == pedido.AdotanteId).Include(p => p.Perfil).FirstOrDefault();
+            return View(pedido);
+        }
+
+        public ActionResult PedidosFimSemanaAnalisar(int id)
+        {
+            PedidoFimSemana pedido = _context.PedidosFimSemana.Where(p => p.Id == id).Include(a => a.Animal).FirstOrDefault();
+            pedido.Adotante = _context.Utilizadores.Where(u => u.PerfilId == pedido.AdotanteId).Include(p => p.Perfil).FirstOrDefault();
+            return View(pedido);
+        }
+
+        public ActionResult PedidosPasseioAnalisar(int id)
+        {
+            PedidoPasseio pedido = _context.PedidosPasseio.Where(p => p.Id == id).Include(a => a.Animal).FirstOrDefault();
+            pedido.Adotante = _context.Utilizadores.Where(u => u.PerfilId == pedido.AdotanteId).Include(p => p.Perfil).FirstOrDefault();
+            return View(pedido);
         }
 
         public ActionResult AceitarPedidoAdocao(int id)
         {
             PedidoAdocao pedido = _context.PedidosAdocao.Where(p => p.Id == id).Include(a => a.Animal).FirstOrDefault();
-            ConvocatoriaViewModel convocatoria = new ConvocatoriaViewModel
+            AprovacaoViewModel aprovacao = new AprovacaoViewModel
             {
-                AnimalNome = pedido.Animal.NomeAnimal,
-                UtilizadorId = _context.Utilizadores.Where(u => u.PerfilId == pedido.AdotanteId).FirstOrDefault().Id
+                PedidoId = pedido.Id
             };
-            return View("PedidoAdocaoAceite");
+            return View("PedidoAdocaoAceite", aprovacao);
         }
 
         [HttpPost]
@@ -1208,7 +1292,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             };
             _context.FinsSemanas.Add(fimSemana);
             _context.SaveChanges();
-            
+
             Animal animal = _context.Animais.Where(a => a.Id == pedido.AnimalId).FirstOrDefault();
 
             //Envio de Email
@@ -1232,7 +1316,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             };
             _context.Passeios.Add(passeio);
             _context.SaveChanges();
-            
+
             Animal animal = _context.Animais.Where(a => a.Id == pedido.AnimalId).FirstOrDefault();
 
             //Envio de Email
@@ -1278,6 +1362,16 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
 
             List<PedidoFimSemana> pedidos = _context.PedidosFimSemana.Where(p => p.Aprovacao.Equals("Em espera")).Include(a => a.Animal).ToList();
             return View("PedidosFimSemana", pedidos);
+        }
+
+        public ActionResult RejeitarPedidoAdocao(int id)
+        {
+            PedidoAdocao pedido = _context.PedidosAdocao.Where(p => p.Id == id).Include(a => a.Animal).FirstOrDefault();
+            AprovacaoViewModel aprovacao = new AprovacaoViewModel
+            {
+                PedidoId = pedido.Id
+            };
+            return View("PedidoAdocaoRejeitado", aprovacao);
         }
 
         [HttpPost]
@@ -1426,7 +1520,6 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             }
             return tarefasModel;
         }
-
 
 
     }

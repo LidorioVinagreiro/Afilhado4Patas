@@ -31,14 +31,14 @@
 
                     else if (User.IsInRole("Funcionario"))
                     {
-                        <a asp-controller="Funcionario" asp-action="Perfil" asp-route-id="@UserManager.GetUserName(User)" title="Perfil de Utilizador">
+                        <a asp-controller="Funcionario" asp-action="Dashboard" asp-route-id="@UserManager.GetUserName(User)" title="Perfil de Utilizador">
                             <img id="icon_utilizador" src="@src" />
                             <span id="nome">@perfil.FirstName @perfil.LastName</span>
                         </a>
                     }
                     else if (User.IsInRole("Responsavel"))
                     {
-                        <a asp-controller="Responsavel" asp-action="Perfil" asp-route-id="@UserManager.GetUserName(User)" title="Perfil de Utilizador">
+                        <a asp-controller="Responsavel" asp-action="Dashboard" asp-route-id="@UserManager.GetUserName(User)" title="Perfil de Utilizador">
                             <img id="icon_utilizador" src="@src" />
                             <span id="nome">@perfil.FirstName @perfil.LastName</span>
                         </a>

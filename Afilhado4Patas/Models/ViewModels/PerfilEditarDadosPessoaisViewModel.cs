@@ -29,6 +29,7 @@ namespace Afilhado4Patas.Models.ViewModels
 
         [Display(Name = "Data de Nascimento")]
         [DateGreatThen18LessThen120]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime Birthday { get; set; }
     }
 }

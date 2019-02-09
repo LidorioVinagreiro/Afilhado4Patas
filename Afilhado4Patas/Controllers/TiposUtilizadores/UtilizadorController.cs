@@ -246,7 +246,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                     return NotFound();
                 }
                 var userUpdated = _context.Utilizadores.Where(e => e.Email == id).Include(p => p.Perfil).FirstOrDefault();
-                return View("Perfil", userUpdated);
+                return View("Dashboard", userUpdated);
             }
             return View(editarPerfilViewModel);
         }
@@ -282,7 +282,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                 {
                     return NotFound();
                 }
-                return View("Perfil", user);
+                return View("Dashboard", user);
             }
             return View(editarPerfilViewModel);
         }
@@ -326,7 +326,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                     var filePath = user.Perfil.Directoria + "\\" + model.File.FileName;
                     var fileStream = new FileStream(filePath, FileMode.Create);
                     await model.File.CopyToAsync(fileStream);
-                    return View("Perfil", user);
+                    return View("Dashboard", user);
                 }
             }
             return View();
@@ -505,6 +505,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                     _context.PedidosAdocao.Add(novoPedido);
                     _context.SaveChanges();
                     novoPedido.DiretoriaPedido = _hostingEnvironment.WebRootPath + "\\PedidosAdocao\\" + novoPedido.Id;
+                    novoPedido.NomeFicheiroID = PedidoAdocao.File.FileName;
                     CreateFolder(novoPedido.DiretoriaPedido);
                     _context.SaveChanges();
                     var filePath = novoPedido.DiretoriaPedido + "\\" + PedidoAdocao.File.FileName;
@@ -550,6 +551,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                     _context.PedidosAdocao.Add(novoPedido);
                     _context.SaveChanges();
                     novoPedido.DiretoriaPedido = _hostingEnvironment.WebRootPath + "\\PedidosAdocao\\" + novoPedido.Id;
+                    novoPedido.NomeFicheiroID = PedidoAdocao.File.FileName;
                     CreateFolder(novoPedido.DiretoriaPedido);
                     _context.SaveChanges();
                     var filePath = novoPedido.DiretoriaPedido + "\\" + PedidoAdocao.File.FileName;
@@ -1610,12 +1612,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View(padrinhos);
         }
 
-        public IActionResult CalendarioUtilizador()
-        {
-            return View();
-        }
-
-        public JsonResult EventosCalendario()
+        public JsonResult EventosCalendarioUtilizador()
         {
             var listCalendario = new List<object>();
 
@@ -1641,7 +1638,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                 listCalendario.Add(
                         new
                         {
-                            title = utilizador.PerfilId,
+                            title = "Fim de Semana com " + utilizador.Perfil.FirstName + " " + utilizador.Perfil.LastName,
                             start = item.Pedido.DataInicio,
                             end = item.Pedido.DataFim
                         }
@@ -1653,7 +1650,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
                 listCalendario.Add(
                     new
                     {
-                        title = utilizador.PerfilId,
+                        title = item.Pedido.HoraPasseio,
                         start = item.Pedido.DataPasseio,
                         end = ""
                     }

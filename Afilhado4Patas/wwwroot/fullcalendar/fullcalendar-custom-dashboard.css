@@ -791,8 +791,8 @@ NOTE: use percentage font sizes or else old IE chokes
     width: 45px;
 }*/
 
-.table-bordered th {
-    width: 45px;
+.table-bordered thead {
+    width: 50px;
 }
 /* Calendario Mensal
 td:nth-child(6) {
@@ -813,19 +813,19 @@ th:nth-child(7) {
 */
 
 /*Calendario Semanal*/
-td:nth-child(7) {
+.table-bordered td:nth-child(7) {
     background-color: #80bbe5;
 }
 
-td:nth-child(8) {
+.table-bordered td:nth-child(8) {
     background-color: #80bbe5;
 }
 
-th:nth-child(7) {
+.table-bordered th:nth-child(7) {
     background-color: #80bbe5;
 }
 
-th:nth-child(8) {
+.table-bordered th:nth-child(8) {
     background-color: #80bbe5;
 }
 

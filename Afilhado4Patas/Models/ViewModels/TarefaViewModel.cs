@@ -21,21 +21,22 @@ namespace Afilhado4Patas.Models.ViewModels
         [Display(Name = "Data de Inicio")]
         [Required(ErrorMessage = "Preencha este campo com a Data de Inicio da Tarefa!")]
         [DateEqualOrGreaterThenToday]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime Inicio { get; set; }
 
         [Display(Name = "Data de Fim")]
         [Required(ErrorMessage = "Preencha este campo com a Data de Fim esperada para a Tarefa!")]
         [DateGreaterThenStartDate("Inicio")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime Fim { get; set; }
 
         [Display(Name = "Descricao")]
         [Required(ErrorMessage = "Preencha este campo com a descrição da Tarefa!")]
-        [RegularExpression(@"^[a-zA-Zà-úÀ-Úâ-ûÂ-Ûã-õÃ-Õ! ]+$", ErrorMessage = "Este campo apenas nao deverá conter numeros")]
         [StringLength(100, ErrorMessage = "A {0} deverá ter pelo menos {2} e um maximo de {1} caracteres de comprimento.", MinimumLength = 10)]
         public string Descricao { get; set; }
 
         [Display(Name = "Completa")]
-        public bool? Completada { get; set; }
+        public bool Completada { get; set; }
 
         public List<Utilizadores> ListaFuncionarios { get; set; }
     }

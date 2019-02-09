@@ -1,7 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using Afilhado4Patas.Data;
 
-@model Afilhado4Patas.Models.Animal
+@model Afilhado4Patas.Models.ViewModels.DetalhesAnimal
 
 @inject SignInManager<Utilizadores> SignInManager
 @inject UserManager<Utilizadores> UserManager
@@ -11,93 +11,307 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div id="perfil">
-    <div>
-        <span> Ficha Detalhada de animal : @Html.DisplayFor(model => model.NomeAnimal)</span>
-    </div>
-    <div id="perfil_container1">
-        @{
-            if (Model.Foto != null)
-            {
-                string src = "/Animais/" + Model.Id + "/" + Model.Foto;
-                <img id="imagem_perfil" src="@src" />
+<script type="text/javascript" src='~/fullcalendar/lib/jquery.min.js'></script>
+<script type="text/javascript" src='~/fullcalendar/lib/moment.min.js'></script>
+<script type="text/javascript" src='~/fullcalendar/lib/jquery-ui.custom.min.js'></script>
+<script type="text/javascript" src='~/fullcalendar/fullcalendar.js'></script>
+<script type="text/javascript" src='~/fullcalendar/locale-all.js'></script>
+<link rel="stylesheet" href="~/fullcalendar/fullcalendar-custom-fichaAnimal.css" />
+<link href="~/fullcalendar/fullcalendar.print.min.css" rel="stylesheet" media="print" />
+<link href="~/css/Table/tabela.css" rel="stylesheet" />
+<div id="rectangulo_maior"></div>
+<div id="page" class="page_maior">
+    <div style="height: 120px">
+        <div style="float: left">
+            @{
+                if (Model.Animal.Foto != null)
+                {
+                    string src = "/Animais/" + Model.Animal.Id + "/" + Model.Animal.Foto;
+                    <img id="imagem_animal" src="@src" />
+                }
+                else
+                {
+                    <img id="imagem_animal" src="~/images/dog-profile.png" />
+                }
             }
-            else
-            {
-                <img id="imagem_perfil" src="~/images/dog-profile.png" />
-            }
-        }
-                <table id="user_info_table">
-                    <tr id="info_tr">
-                        <td id="info_nome">@Html.DisplayNameFor(model => model.NomeAnimal)</td>
-                        <td id="info_conteudo">@Html.DisplayFor(model => model.NomeAnimal)</td>
-                    </tr>
-                    <tr id="info_tr">
-                        <td id="info_nome">@Html.DisplayNameFor(model => model.RacaAnimal.CategoriaId)</td>
-                        <td id="info_conteudo">@Html.DisplayFor(model => model.RacaAnimal.CategoriaRaca.Nome)</td>
-                    </tr>
-                    <tr id="info_tr">
-                        <td id="info_nome">@Html.DisplayNameFor(model => model.Descricao)</td>
-                        <td id="info_conteudo">@Html.DisplayFor(model => model.Descricao)</td>
-                    </tr>
-                    <tr id="info_tr">
-                        <td id="info_nome">@Html.DisplayNameFor(model => model.PorteId)</td>
-                        <td id="info_conteudo">@Html.DisplayFor(model => model.PorteAnimal.TipoPorte)</td>
-                    </tr>
-                    <tr id="info_tr">
-                        <td id="info_nome">@Html.DisplayNameFor(model => model.Peso)</td>
-                        <td id="info_conteudo">@Html.DisplayFor(model => model.Peso) Kg</td>
-                    </tr>
-                    <tr id="info_tr">
-                        <td id="info_nome">@Html.DisplayNameFor(model => model.Sexo)</td>
-                        <td id="info_conteudo">@Html.DisplayFor(model => model.Sexo)</td>
-                    </tr>
-                    <tr id="info_tr">
-                        <td id="info_nome">@Html.DisplayNameFor(model => model.DataNasc)</td>
-                        <td id="info_conteudo">@Model.DataNasc.ToString("dd/MM/yyyy")</td>
-                    </tr>
-                    <tr id="info_tr">
-                        <td id="info_nome">@Html.DisplayNameFor(model => model.RacaId)</td>
-                        <td id="info_conteudo">@Html.DisplayFor(model => model.RacaAnimal.NomeRaca)</td>
-                    </tr>
-                    <tr id="info_tr">
-                        <td id="info_nome">@Html.DisplayNameFor(model => model.Ativo)</td>
-                        <td id="info_conteudo">@Html.DisplayFor(model => model.Ativo)</td>
-                    </tr>
-                    <tr id="info_tr">
-                        <td id="info_nome">@Html.DisplayNameFor(model => model.Adoptado)</td>
-                        <td id="info_conteudo">@Html.DisplayFor(model => model.Adoptado)</td>
-                    </tr>
-                </table>
-        <div id="edit_options">
-            <a asp-controller="Funcionario" asp-action="EditarAnimal" asp-route-id=@Model.Id>
-                <img id="icon" src="~/images/voltar.png" />
-                <span id="options_spans">Editar</span>
-            </a>
         </div>
-        <div id="edit_options">
-            <a asp-controller="Funcionario" asp-action="EditarAnimalFotoPerfil" asp-route-id=@Model.Id>
-                <img id="icon" src="~/images/picture.png" />
-                <span id="options_spans">Editar Foto Perfil do Animal</span>
-            </a>
-        </div>
-        <div id="edit_options">
-            <a asp-controller="Funcionario" asp-action="AdicionarAnexosFotosAnimal" asp-route-id=@Model.Id>
-                <img id="icon" src="~/images/picture.png" />
-                <span id="options_spans">Adicionar Fotos á Galeria do Animal</span>
-            </a>
-        </div>
-        <div id="edit_options">
-            <a asp-controller="Funcionario" asp-action="AdicionarAnexosFicheirosAnimal" asp-route-id=@Model.Id>
-                <img id="icon" src="~/images/addfile.png" />
-                <span id="options_spans">Adicionar Anexos á Ficha do Animal</span>
-            </a>
-        </div>
-        <div id="edit_options">
-            <a asp-controller="Funcionario" asp-action="ListaAnimais">
-                <img id="icon" src="~/images/voltar.png" />
-                <span id="options_spans">Voltar</span>
-            </a>
+        <div style="float:left; margin-left: 20px">
+            <div style="margin-bottom: 5px">
+                <a id="links_animal" asp-controller="Funcionario" asp-action="EditarAnimal" asp-route-id=@Model.Animal.Id>
+                    <i class="fa fa-edit grey_icon" title="Remover Ficheiro"></i>
+                    Editar Animal
+                </a>
+            </div>
+            <div style="margin-bottom: 5px">
+                <a id="links_animal" asp-controller="Funcionario" asp-action="EditarAnimalFotoPerfil" asp-route-id=@Model.Animal.Id>
+                    <i class="fa fa-user-circle grey_icon" title="Remover Ficheiro"></i>
+                    Editar Foto de Perfil
+                </a>
+            </div>
+            <div style="margin-bottom: 5px">
+                <a id="links_animal" asp-controller="Funcionario" asp-action="AdicionarAnexosFotosAnimal" asp-route-id=@Model.Animal.Id>
+                    <i class="fa fa-image grey_icon" title="Remover Ficheiro"></i>
+                    Adicionar Fotos á Galeria
+                </a>
+            </div>
+            <div style="margin-bottom: 5px">
+                <a id="links_animal" asp-controller="Funcionario" asp-action="AdicionarAnexosFicheirosAnimal" asp-route-id=@Model.Animal.Id>
+                    <i class="fa fa-file-pdf grey_icon" title="Remover Ficheiro"></i>
+                    Adicionar Anexos
+                </a>
+            </div>
         </div>
     </div>
+    <h3 style="color: #fff">Ficha Detalhada</h3>
+    <div class="table-responsive-vertical shadow-z-1">
+        <table id="table" class="table table-hover table-mc-light-blue">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.Animal.NomeAnimal)</th>
+                    <th>@Html.DisplayNameFor(model => model.Animal.DataNasc)</th>
+                    <th>@Html.DisplayNameFor(model => model.Animal.Sexo)</th>
+                    <th>@Html.DisplayNameFor(model => model.Animal.Peso) Kg</th>
+                    <th>@Html.DisplayNameFor(model => model.Animal.Descricao)</th>
+                    <th>@Html.DisplayNameFor(model => model.Animal.PorteId)</th>
+                    <th>@Html.DisplayNameFor(model => model.Animal.RacaAnimal.CategoriaId)</th>
+                    <th>@Html.DisplayNameFor(model => model.Animal.RacaId)</th>
+                    <th>@Html.DisplayNameFor(model => model.Animal.Ativo)</th>
+                    <th>@Html.DisplayNameFor(model => model.Animal.Adoptado)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td data-title="Nome Animal">
+                        @Model.Animal.NomeAnimal
+                    </td>
+                    <td data-title="Data Nascimneto">
+                        @Model.Animal.DataNasc.ToString("dd/MM/yyyy")
+                    </td>
+                    <td data-title="Sexo">
+                        @Model.Animal.Sexo
+                    </td>
+                    <td data-title="Peso">
+                        @Model.Animal.Peso Kg
+                    </td>
+                    <td data-title="Descricao">
+                        @Model.Animal.Descricao
+                    </td>
+                    <td data-title="Porte">
+                        @Model.Animal.PorteAnimal.TipoPorte
+                    </td>
+                    <td data-title="Especie">
+                        @Model.Animal.RacaAnimal.CategoriaRaca.Nome
+                    </td>
+                    <td data-title="Raca">
+                        @Model.Animal.RacaAnimal.NomeRaca
+                    </td>
+                    <td data-title="Ativo">
+                        @Html.DisplayFor(model => model.Animal.Ativo)
+                    </td>
+                    <td data-title="Adotado">
+                        @Html.DisplayFor(model => model.Animal.Adoptado)
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3 style="color: slategrey">Galeria de Fotos</h3>
+    <div class="table-responsive-vertical medio shadow-z-1">
+        <table id="table" class="table table-hover table-mc-light-blue">
+            <thead>
+                <tr>
+                    <th>Nome do Ficheiro</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var fileName in Model.FicheirosGaleria)
+                {
+                    string caminhoTotal = Model.CaminhoGaleria + @fileName;
+                    <tr>
+                        <td data-title="Nome do Ficheiro">
+                            <a href=@caminhoTotal>@Html.Raw(fileName)</a>
+                        </td>
+                        <td>
+                            <a><i class="fa fa-times red_icon" title="Remover Ficheiro"></i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <h3 style="color: slategrey">Anexos</h3>
+    <div class="table-responsive-vertical medio shadow-z-1">
+        <table id="table" class="table table-hover table-mc-light-blue">
+            <thead>
+                <tr>
+                    <th>Nome do Ficheiro</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var fileName in Model.FicheirosAnexos)
+                {
+                    string caminhoTotal = Model.CaminhoAnexos + @fileName;
+                    <tr>
+                        <td data-title="Nome do Ficheiro">
+                            <a href=@caminhoTotal>@Html.Raw(fileName)</a>
+                        </td>
+                        <td>
+                            <a><i class="fa fa-times red_icon" title="Remover Ficheiro"></i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <h3 style="color: slategrey">Adotantes</h3>
+    <div class="table-responsive-vertical pequeno shadow-z-1">
+        <table id="table" class="table table-hover table-mc-light-blue">
+            <thead>
+                <tr>
+                    <th>Nome do Adotante</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var adotante in Model.Animal.Adotantes)
+                {
+                    <tr>
+                        <td data-title="Nome do Ficheiro">
+                            @if (adotante.Perfil.Photo != null)
+                            {
+                                string src = "/Utilizadores/" + adotante.Id + "/" + adotante.Perfil.Photo;
+                                <img id="icon_mini" src="@src" />
+                            }
+                            else
+                            {
+                                <img id="icon_mini" src="~/images/default.jpg" />
+                            }
+                            <a class="link" title="Ver Adotante" asp-controller="Funcionario" asp-action="VisualizarUtilizador" asp-route-id=@adotante.Id>
+                                @Html.Raw(adotante.Perfil.FirstName + " " + adotante.Perfil.LastName)
+                            </a>
+                        </td>
+                        <td>
+                            <a><i class="fa fa-times red_icon" title="Remover Adotante"></i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
 </div>
+
+<div id="centrado_tabela">
+    <h3 id="centrado_tabela">Atividades</h3>
+    <div id="calendar"></div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+
+        $('#calendar').fullCalendar({
+            header: {
+                left: 'prev',
+                center: 'title',
+                right: 'next'
+            },
+            //defaultDate: '2019-01-12',
+            defaultView: 'month',
+            navLinks: true, // can click day/week names to navigate views
+            editable: true,
+            eventLimit: true, // allow "more" link when too many events
+            contentHeight: 450,
+            apectRatio: 1,
+            //themeSystem: 'standard',
+            themeSystem: 'bootstrap4',
+            locale: 'pt',
+            events: "/Funcionario/EventosCalendarioAnimal/@Model.Animal.Id"
+            /*events: $(function (start, end, timezone, callback)
+            {
+            $.ajax({
+                dataType: "json",
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                url: "/Responsavel/EventosCalendario",
+                success: function (data) {
+                    var events = [];
+                    $(data).each(function(i) {
+                        events.push({
+                            title: $(this).attr('title'),
+                            start: $(this).attr('start'),
+                            end: $(this).attr('end')
+                        })
+                    })
+                    callback(events);
+                }
+        })
+        })*/
+        });
+
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+
+        var table = $('#table');
+
+        // Table bordered
+        $('#table-bordered').change(function () {
+            var value = $(this).val();
+            table.removeClass('table-bordered').addClass(value);
+        });
+
+        // Table striped
+        $('#table-striped').change(function () {
+            var value = $(this).val();
+            table.removeClass('table-striped').addClass(value);
+        });
+
+        // Table hover
+        $('#table-hover').change(function () {
+            var value = $(this).val();
+            table.removeClass('table-hover').addClass(value);
+        });
+
+        // Table color
+        $('#table-color').change(function () {
+            var value = $(this).val();
+            table.removeClass(/^table-mc-/).addClass(value);
+        });
+    });
+
+    // jQuery’s hasClass and removeClass on steroids
+    // by Nikita Vasilyev
+    // https://github.com/NV/jquery-regexp-classes
+    (function (removeClass) {
+
+        jQuery.fn.removeClass = function (value) {
+            if (value && typeof value.test === "function") {
+                for (var i = 0, l = this.length; i < l; i++) {
+                    var elem = this[i];
+                    if (elem.nodeType === 1 && elem.className) {
+                        var classNames = elem.className.split(/\s+/);
+
+                        for (var n = classNames.length; n--;) {
+                            if (value.test(classNames[n])) {
+                                classNames.splice(n, 1);
+                            }
+                        }
+                        elem.className = jQuery.trim(classNames.join(" "));
+                    }
+                }
+            } else {
+                removeClass.call(this, value);
+            }
+            return this;
+        }
+
+    })(jQuery.fn.removeClass);
+</script>

@@ -8,8 +8,7 @@
 
 <div id="registo_page">
     <form id="adocao" asp-controller="Utilizador" asp-action="PedidoAdocao" enctype="multipart/form-data">
-        <img id="icon_centrado" src="~/images/adocao.png" style="margin-top: 25px"/>
-        <h1>Pedido de Adoção</h1>
+        <h1>Pedido de Adoção <img id="icon_miniatura" src="~/images/adocao.png"/></h1>        
         <div class="contentform">
             <div class="adocao_esquerda">
                 <div class="form-group">
@@ -37,7 +36,7 @@ Apadrinhamento: Adote um animal a tempo parcial, podendo levá-lo durante fins-d
                               title="Nome do Adotante"></span>
                     </div>
                     <span class="icon-case"><i class="fa fa-user"></i></span>
-                    <input type="text" asp-for="NomeAdotante" disabled/>
+                    <input type="text" asp-for="NomeAdotante" disabled />
                     <span asp-validation-for="NomeAdotante" class="text-danger"></span>
                 </div>
                 <div class="form-group">

@@ -8,8 +8,7 @@
 
 <div id="registo_page">
     <form id="adocao" asp-controller="Utilizador" asp-action="PedidoAdocaoEspecifico" enctype="multipart/form-data">
-        <img id="icon_centrado" src="~/images/adocao.png" style="margin-top: 25px" />
-        <h1>Pedido de Adoção</h1>
+        <h1>Pedido de Adoção <img id="icon_miniatura" src="~/images/adocao.png" /></h1>
         <div class="contentform">
             <div class="adocao_esquerda">
                 <div class="form-group">
@@ -143,14 +142,43 @@ Deverá ter o formato JPG, JPEG, PNG ou PDF"></span>
             </div>
 
             <div class="adocao_direita">
-                <p>Animal a Adotar</p>
-                <br />
                 @{
                     Animal animal = Context.Animais.Where(a => a.Id == Model.AnimalId).FirstOrDefault();
                     animal.PorteAnimal = Context.Portes.Where(p => p.Id == animal.PorteId).FirstOrDefault();
                     animal.RacaAnimal = Context.Racas.Where(r => r.Id == animal.RacaId).FirstOrDefault();
                     animal.RacaAnimal.CategoriaRaca = Context.Categorias.Where(c => c.Id == animal.RacaAnimal.CategoriaId).FirstOrDefault();
-                    @Html.Partial("~/Views/Utilizador/PedidoAdocaoAnimalInfo.cshtml", animal);
+
+                    if (animal.Foto != null)
+                    {
+                        string src = "/Animais/" + animal.Id + "/" + animal.Foto;
+                        <img id="icon_animal" src="@src" />
+                    }
+                    else
+                    {
+                        <img id="icon_animal" src="~/images/dog-profile.png" />
+                    }
+                    <div>
+                        <div class="space">
+                            <span><i class="fa fa-paw cinzento"></i></span>
+                            <span>@animal.NomeAnimal</span>
+                        </div>
+                        <div class="space">
+                            <span><i class="fa fa-phone cinzento"></i></span>
+                            <span>@animal.DataNasc.ToString("dd/MM/yyyy")</span>
+                        </div>
+                        <div class="space">
+                            <span><i class="fa fa-mars cinzento"></i></span>
+                            <span>@animal.Sexo</span>
+                        </div>
+                        <div class="space">
+                            <span><i class="fa fa-weight cinzento"></i></span>
+                            <span>@animal.Peso Kg</span>
+                        </div>
+                        <div class="space">
+                            <span><i class="fa fa-paw cinzento"></i></span>
+                            <span>@animal.RacaAnimal.NomeRaca</span>
+                        </div>
+                    </div>
                 }
                 <div class="form-group" style="display:none">
                     <label asp-for="AnimalId" class="control-label"></label>
@@ -166,3 +194,22 @@ Deverá ter o formato JPG, JPEG, PNG ou PDF"></span>
         <button type="submit" class="bouton-contact">Registar Pedido</button>
     </form>
 </div>
+
+<div class="voltar">
+    <a class="efeito efeito_botao_back" id="voltar" asp-controller="Utilizador" asp-action="Animais">Voltar</a>
+</div>
+
+<script>
+    $('.browse-btn').bind('click', function () {
+        $('#real-input').trigger('click');
+    });
+
+    $('#real-input').on('change', function () {
+        var name = $('#real-input').val().split(/\\|\//).pop();
+        var truncated = name.length > 20
+            ? name.substr(name.length - 20)
+            : name;
+
+        $('.file-info').text(truncated);
+    });
+</script>

@@ -71,13 +71,11 @@ namespace Afilhado4Patas.Models.ViewModels
 
         [Display(Name = "Por que você quer adotar?")]
         [Required(ErrorMessage = "Preencha este campo com a Motivacao para a adoçao!")]
-        [RegularExpression(@"^[a-zA-Zà-úÀ-Úâ-ûÂ-Ûã-õÃ-Õ! ]+$", ErrorMessage = "Este campo apenas nao deverá conter numeros")]
         [StringLength(50, ErrorMessage = "A {0} deverá ter um maximo de {1} caracteres de comprimento.")]
         public string Motivacao { get; set; }
 
         [Display(Name = "Há outros animais na casa? ")]
         [Required(ErrorMessage = "Preencha este campo com a informação de outros animais em sua casa!")]
-        [RegularExpression(@"^[a-zA-Zà-úÀ-Úâ-ûÂ-Ûã-õÃ-Õ! ]+$", ErrorMessage = "Este campo apenas nao deverá conter numeros")]
         [StringLength(50, ErrorMessage = "A {0} deverá ter um maximo de {1} caracteres de comprimento.")]
         public string OutrosAnimais { get; set; }                
     }

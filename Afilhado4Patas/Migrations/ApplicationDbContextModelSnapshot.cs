@@ -281,6 +281,8 @@ namespace Afilhado4Patas.Migrations
 
                     b.Property<string>("Motivo");
 
+                    b.Property<string>("NomeFicheiroID");
+
                     b.Property<string>("OutrosAnimais");
 
                     b.Property<string>("TipoAdocao");

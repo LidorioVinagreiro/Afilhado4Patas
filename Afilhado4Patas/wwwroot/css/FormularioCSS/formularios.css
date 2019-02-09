@@ -21,11 +21,14 @@ label{
 
 form h1 {
     font-size: 18px;
-    padding: 22px 25px;
+    background: #0081c2 none repeat scroll 0% 0%;
+    color: rgb(255, 255, 255);
+    padding: 12px 25px ;
     border-radius: 5px 5px 0px 0px;
     margin: auto;
     text-shadow: none;
-    text-align: left
+    text-align: left;
+    margin-bottom: 15px;
 }
 
 form {
@@ -187,4 +190,21 @@ i {
     width: 100%
 }
 
+.cinzento {
+    color: lightgrey;
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+.space{
+    margin-bottom: 10px;
+}
+
+#icon_animal {
+    border-radius: 50%;
+    height: 100px;
+    width: 100px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
 

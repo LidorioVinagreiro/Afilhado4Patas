@@ -11,107 +11,83 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div id="perfil">
-    <div>
-        <span> Ficha de animal : @Html.DisplayFor(model => model.NomeAnimal)</span>
+<script type="text/javascript" src='~/fullcalendar/lib/jquery.min.js'></script>
+<script type="text/javascript" src='~/fullcalendar/lib/moment.min.js'></script>
+<script type="text/javascript" src='~/fullcalendar/lib/jquery-ui.custom.min.js'></script>
+<script type="text/javascript" src='~/fullcalendar/fullcalendar.js'></script>
+<script type="text/javascript" src='~/fullcalendar/locale-all.js'></script>
+<link rel="stylesheet" href="~/fullcalendar/fullcalendar-custom-fichaAnimal.css" />
+<link href="~/fullcalendar/fullcalendar.print.min.css" rel="stylesheet" media="print" />
+<link href="~/css/Table/tabela.css" rel="stylesheet" />
+<div id="rectangulo_maior"></div>
+<div id="page" class="page_maior">
+    <div style="height: 120px">
+        <div style="float: left; ">
+            @{
+                if (Model.Foto != null)
+                {
+                    string src = "/Animais/" + Model.Id + "/" + Model.Foto;
+                    <img id="imagem_animal" src="@src" />
+                }
+                else
+                {
+                    <img id="imagem_animal" src="~/images/dog-profile.png" />
+                }
+            }
+        </div>
+        <div style="float:left; margin-left: 20px">
+            <div style="margin-bottom: 5px">
+                <p style="color: #fff"><bold>Descrição: </bold></p>
+                <p style="color: #fff">@Model.Descricao</p>
+            </div>
+        </div>
     </div>
-    <div id="perfil_container1">
-        @{Animal animal = Context.Animais.Where(u => u.Id == Model.Id).FirstOrDefault();
-            if (animal.Foto != null)
-            {
-                string src = "/Animais/" + animal.Id + "/" + animal.Foto;
-                <img id="imagem_perfil" src="@src" />
-            }
-            else
-            {
-                <img id="imagem_perfil" src="~/images/dog-profile.png" />
-            }
-        }
-        <table id="user_info_table">
-            <tr id="info_tr">
-                <td id="info_nome">@Html.DisplayNameFor(model => model.NomeAnimal)</td>
-                <td id="info_conteudo">@Html.DisplayFor(model => model.NomeAnimal)</td>
-            </tr>
-            <tr id="info_tr">
-                <td id="info_nome">@Html.DisplayNameFor(model => model.RacaAnimal.CategoriaId)</td>
-                <td id="info_conteudo">@Html.DisplayFor(model => model.RacaAnimal.CategoriaRaca.Nome)</td>
-            </tr>
-            <tr id="info_tr">
-                <td id="info_nome">@Html.DisplayNameFor(model => model.Descricao)</td>
-                <td id="info_conteudo">@Html.DisplayFor(model => model.Descricao)</td>
-            </tr>
-            <tr id="info_tr">
-                <td id="info_nome">@Html.DisplayNameFor(model => model.PorteId)</td>
-                <td id="info_conteudo">@Html.DisplayFor(model => model.PorteAnimal.TipoPorte)</td>
-            </tr>
-            <tr id="info_tr">
-                <td id="info_nome">@Html.DisplayNameFor(model => model.Peso)</td>
-                <td id="info_conteudo">@Html.DisplayFor(model => model.Peso) Kg</td>
-            </tr>
-            <tr id="info_tr">
-                <td id="info_nome">@Html.DisplayNameFor(model => model.Sexo)</td>
-                <td id="info_conteudo">@Html.DisplayFor(model => model.Sexo)</td>
-            </tr>
-            <tr id="info_tr">
-                <td id="info_nome">@Html.DisplayNameFor(model => model.DataNasc)</td>
-                <td id="info_conteudo">@Model.DataNasc.ToString("dd/MM/yyyy")</td>
-            </tr>
-            <tr id="info_tr">
-                <td id="info_nome">@Html.DisplayNameFor(model => model.RacaId)</td>
-                <td id="info_conteudo">@Html.DisplayFor(model => model.RacaAnimal.NomeRaca)</td>
-            </tr>
+    <h3 style="color: #fff">Ficha Animal</h3>
+    <div class="table-responsive-vertical shadow-z-1">
+        <table id="table" class="table table-hover table-mc-light-blue">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.NomeAnimal)</th>
+                    <th>@Html.DisplayNameFor(model => model.DataNasc)</th>
+                    <th>@Html.DisplayNameFor(model => model.Sexo)</th>
+                    <th>@Html.DisplayNameFor(model => model.Peso) Kg</th>
+                    <th>@Html.DisplayNameFor(model => model.PorteId)</th>
+                    <th>@Html.DisplayNameFor(model => model.RacaAnimal.CategoriaId)</th>
+                    <th>@Html.DisplayNameFor(model => model.RacaId)</th>
+                    <th>@Html.DisplayNameFor(model => model.Adoptado)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td data-title="Nome Animal">
+                        @Model.NomeAnimal
+                    </td>
+                    <td data-title="Data Nascimneto">
+                        @Model.DataNasc.ToString("dd/MM/yyyy")
+                    </td>
+                    <td data-title="Sexo">
+                        @Model.Sexo
+                    </td>
+                    <td data-title="Peso">
+                        @Model.Peso Kg
+                    </td>
+                    <td data-title="Porte">
+                        @Model.PorteAnimal.TipoPorte
+                    </td>
+                    <td data-title="Especie">
+                        @Model.RacaAnimal.CategoriaRaca.Nome
+                    </td>
+                    <td data-title="Raca">
+                        @Model.RacaAnimal.NomeRaca
+                    </td>
+                    <td data-title="Adotado">
+                        @Html.DisplayFor(model => model.Adoptado)
+                    </td>
+                </tr>
+            </tbody>
         </table>
-        @if (User.IsInRole("Responsavel"))
-        {
-            <div id="edit_options">
-                <a asp-controller="Responsavel" asp-action="Animais">
-                    <img id="icon" src="~/images/voltar.png" />
-                    <span id="options_spans">Voltar</span>
-                </a>
-            </div>
-        }
-        else if (User.IsInRole("Funcionario"))
-        {
-            <div id="edit_options">
-                <a asp-controller="Funcionario" asp-action="Animais">
-                    <img id="icon" src="~/images/voltar.png" />
-                    <span id="options_spans">Voltar</span>
-                </a>
-            </div>
-        }
-        else if (User.IsInRole("Utilizador"))
-        {
-            <div id="edit_options">
-                <a>
-                    <img id="icon" src="~/images/adotar_icon.png" />
-                    <span id="options_spans">Adotar</span>
-                </a>
-            </div>
-            <div id="edit_options">
-                <a asp-controller="Utilizador" asp-action="Animais">
-                    <img id="icon" src="~/images/voltar.png" />
-                    <span id="options_spans">Voltar</span>
-                </a>
-            </div>
-        }
-        else
-        {
-
-            <div id="edit_options">
-                <a>
-                    <img id="icon" src="~/images/adotar_icon.png" />
-                    <span id="options_spans">Adotar</span>
-                </a>
-            </div>
-            <div id="edit_options">
-                <a asp-controller="Guest" asp-action="Animais">
-                    <img id="icon" src="~/images/voltar.png" />
-                    <span id="options_spans">Voltar</span>
-                </a>
-            </div>
-        }
     </div>
-    <div id="perfil_container2">
+    <div id="centrado_tabela">
         @if (Context.FotosAnimais.Where(i => i.AnimalId == Model.Id).Count() > 0)
         {
             <div class="connected-carousels">
@@ -145,4 +121,144 @@
             </div>
         }
     </div>
+    <div id="centrado_tabela">
+        <h3 id="centrado_tabela">Atividades</h3>
+        <div id="calendar"></div>
+    </div>
+
+
+    <script>
+        $(document).ready(function () {
+
+            $('#calendar').fullCalendar({
+                header: {
+                    left: 'prev',
+                    center: 'title',
+                    right: 'next'
+                },
+                //defaultDate: '2019-01-12',
+                defaultView: 'month',
+                navLinks: true, // can click day/week names to navigate views
+                editable: true,
+                eventLimit: true, // allow "more" link when too many events
+                contentHeight: 450,
+                apectRatio: 1,
+                //themeSystem: 'standard',
+                themeSystem: 'bootstrap4',
+                locale: 'pt',
+                events: "/Funcionario/EventosCalendarioAnimal/@Model.Id"
+                /*
+                 events: $(function (start, end, timezone, callback)
+                {
+                $.ajax({
+                    dataType: "json",
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    url: ,
+                    success: function (data) {
+                        var events = [];
+                        $(data).each(function(i) {
+                            events.push({
+                                title: $(this).attr('title'),
+                                start: $(this).attr('start'),
+                                end: $(this).attr('end')
+                            })
+                        })
+                        callback(events);
+                    }
+            })
+            })*/
+            });
+
+        });
+    </script>
+
+
+
+
+
+
+    @if (User.IsInRole("Responsavel"))
+    {
+        <div class="voltar">
+            <a class="efeito efeito_botao_back" id="voltar" asp-controller="Responsavel" asp-action="Animais">Voltar</a>
+        </div>
+    }
+    else if (User.IsInRole("Funcionario"))
+    {
+        <div class="voltar">
+            <a class="efeito efeito_botao_back" id="voltar" asp-controller="Funcionario" asp-action="Animais">Voltar</a>
+        </div>
+    }
+    else if (User.IsInRole("Utilizador"))
+    {
+        <div class="voltar">
+            <a class="efeito efeito_botao_back" id="voltar" asp-controller="Utilizador" asp-action="Animais">Voltar</a>
+        </div>
+    }
+    else
+    {
+        <div class="voltar">
+            <a class="efeito efeito_botao_back" id="voltar" asp-controller="Guest" asp-action="Animais">Voltar</a>
+        </div>
+    }
 </div>
+
+<script>
+    $(document).ready(function () {
+
+        var table = $('#table');
+
+        // Table bordered
+        $('#table-bordered').change(function () {
+            var value = $(this).val();
+            table.removeClass('table-bordered').addClass(value);
+        });
+
+        // Table striped
+        $('#table-striped').change(function () {
+            var value = $(this).val();
+            table.removeClass('table-striped').addClass(value);
+        });
+
+        // Table hover
+        $('#table-hover').change(function () {
+            var value = $(this).val();
+            table.removeClass('table-hover').addClass(value);
+        });
+
+        // Table color
+        $('#table-color').change(function () {
+            var value = $(this).val();
+            table.removeClass(/^table-mc-/).addClass(value);
+        });
+    });
+
+    // jQuery’s hasClass and removeClass on steroids
+    // by Nikita Vasilyev
+    // https://github.com/NV/jquery-regexp-classes
+    (function (removeClass) {
+
+        jQuery.fn.removeClass = function (value) {
+            if (value && typeof value.test === "function") {
+                for (var i = 0, l = this.length; i < l; i++) {
+                    var elem = this[i];
+                    if (elem.nodeType === 1 && elem.className) {
+                        var classNames = elem.className.split(/\s+/);
+
+                        for (var n = classNames.length; n--;) {
+                            if (value.test(classNames[n])) {
+                                classNames.splice(n, 1);
+                            }
+                        }
+                        elem.className = jQuery.trim(classNames.join(" "));
+                    }
+                }
+            } else {
+                removeClass.call(this, value);
+            }
+            return this;
+        }
+
+    })(jQuery.fn.removeClass);
+</script>

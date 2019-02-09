@@ -4,32 +4,38 @@
 }
 @model Afilhado4Patas.Models.ViewModels.AprovacaoViewModel
 
-<div id="page">
-    <div id="box">
-        <img id="icon_centrado" src="~/images/sucesso.png" />
-        <h4>Adocao Aceite  </h4>
-        <p>Escreva em baixo notas dos motivos que o levaram a esta decisão</p>
-        <hr />
-        <br />
-        <form asp-controller="Funcionario" asp-action="AceitarPedidoAdocao">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Notas" class="control-label"></label>
-                <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
-                      title="Caso existam outros animais em casa mencione a baixo"></span>
-                <i class="fa fa-asterisk required" title="Campo Obrigatório"></i>
-                <textarea asp-for="Notas" class="form-control"></textarea>
-                <span asp-validation-for="Notas" class="text-danger"></span>
+<link href="~/css/FormularioCSS/formularios.css" rel="stylesheet" />
+
+<div id="registo_page">
+    <form id="login" asp-controller="Funcionario" asp-action="AceitarPedidoAdocao">
+        <h1>Adoção Aceite<img id="icon_miniatura" src="~/images/sucesso.png" /></h1>
+        <div class="contentform">
+            <div class="centercontact">
+                <div class="form-group">
+                    <p>Escreva em baixo notas dos motivos que o levaram a esta decisão</p>
+                    <br />
+                    <div>
+                        <label asp-for="Notas" class="control-label"></label>
+                        <span class="vermelho">*</span>
+                        <span data-placement="right" class="glyphicon glyphicon-info-sign" style="color:#539be2"
+                              title="Mencione a baixo o motivo da aceitação da adoção"></span>
+                    </div>
+                    <span class="icon-case"><i class="fa fa-font"></i></span>
+                    <textarea asp-for="Notas" class="form-control"></textarea>
+                    <span asp-validation-for="Notas" class="text-danger"></span>
+                </div>
+                <div class="form-group" style="display: none">
+                    <label asp-for="PedidoId" class="control-label"></label>
+                    <input asp-for="PedidoId" class="form-control" />
+                    <span asp-validation-for="PedidoId" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group" style="display: none">
-                <label asp-for="PedidoId" class="control-label"></label>
-                <input asp-for="PedidoId" class="form-control" />
-                <span asp-validation-for="PedidoId" class="text-danger"></span>
-            </div>
-            <br />
-            <div class="form-group">
-                <input type="submit" value="Aceitar Adocao" class="btn btn-default" />
-            </div>
-        </form>
-    </div>
+        </div>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <button type="submit" class="bouton-contact">Confirmar</button>
+    </form>
+</div>
+
+<div class="voltar">
+    <a class="efeito efeito_botao_back" id="voltar" asp-controller="Funcionario" asp-action="PedidosAdocaoAnalisar" asp-route-id=@Model.PedidoId>Voltar</a>
 </div>
