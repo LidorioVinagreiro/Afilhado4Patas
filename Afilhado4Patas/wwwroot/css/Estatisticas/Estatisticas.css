@@ -1,0 +1,19 @@
+﻿.stat{
+    width: 700px;
+    margin-left: 50px;
+}
+
+#superior {
+    width: 100%;
+    background: #0081c2;
+    font-weight: bold;
+    color: #FFFFFF;
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+    margin-bottom: -1px;
+    border: 1px solid #ddd;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    margin-bottom: 25px;
+}
