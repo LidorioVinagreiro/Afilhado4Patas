@@ -116,6 +116,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View();
         }
 
+        public IActionResult EstatisticasResponsavel()
+        {
+            return View();
+        }
+
         /// <summary>
         /// Ação que devolve a view de erro, caso ocorra um erro esta view e devolvida com a informação do erro
         /// </summary>
@@ -127,12 +132,6 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         }
 
 
-        public IActionResult CalendarioUtilizador()
-        {
-            return View("../Utilizador/CalendarioUtilizador");
-        }
-
-        
     }
 
 }

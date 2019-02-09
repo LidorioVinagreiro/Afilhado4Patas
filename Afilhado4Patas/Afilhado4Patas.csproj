@@ -4,6 +4,7 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <UserSecretsId>aspnet-Afilhado4Patas-1EF55AA4-AE13-4496-908C-EEF23428EEFE</UserSecretsId>
     <StartupObject></StartupObject>
+    <TypeScriptToolsVersion>3.0</TypeScriptToolsVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -280,7 +281,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Guest\" />
     <Folder Include="wwwroot\lib\" />
   </ItemGroup>
 

@@ -1427,6 +1427,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return tarefasModel;
         }
 
-        
+
+
     }
 }
