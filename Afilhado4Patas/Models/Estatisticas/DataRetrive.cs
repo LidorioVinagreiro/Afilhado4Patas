@@ -71,7 +71,7 @@ namespace Afilhado4Patas.Models.Estatisticas
             DataGroup group = new DataGroup("Adoções por mês");
             int anoActual = DateTime.Now.Year;
             var adocoesDesteAno = _context.PedidosAdocao
-                .Where(x => x.DataAprovacao.Year == anoActual && x.Aprovacao == "1" && x.TipoAdocao == "Total")
+                .Where(x => x.DataAprovacao.Year == anoActual && x.Aprovacao == "Aprovado" && x.TipoAdocao == "Total")
                 .Select(z => new {
                     mes = z.DataAprovacao.Month,
                     valor = int.Parse(z.Aprovacao)
@@ -91,7 +91,7 @@ namespace Afilhado4Patas.Models.Estatisticas
             DataGroup group = new DataGroup("Apadrinhamentos por mês");
             int anoActual = DateTime.Now.Year;
             var adocoesDesteAno = _context.PedidosAdocao
-                .Where(x => x.DataAprovacao.Year == anoActual && x.Aprovacao == "1" && x.TipoAdocao == "parcial")
+                .Where(x => x.DataAprovacao.Year == anoActual && x.Aprovacao == "Aprovado" && x.TipoAdocao == "Parcial")
                 .Select(z => new {
                     mes = z.DataAprovacao.Month,
                     valor = 1

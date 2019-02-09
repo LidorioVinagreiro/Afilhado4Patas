@@ -22,23 +22,20 @@
 </div>
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-<script>
-    $.ajax({
+<script type="text/javascript" src="~/js/Estatisticas.js"></script>
+
+<script type="text/javascript">
+
+    var dataRetriveAnimais = $.ajax({
         type: "GET",
-        url: "/Funcionario/apadrinhamentosPorMes",
+        url: "/Funcionario/PieAnimal",
         dataType: "json",
         //data: { model: JSON.stringify(usersRoles) },
-        success: function (data) { alert(data); },
+        success: function (data) { return data; },
         failure: function (errMsg) {
             alert(errMsg);
         }
     });
-
-</script>
-
-<script type="text/javascript">
-
-    var dataRetrive;
 
     //var dataPC = dataTeste
     // Load the Visualization API and the corechart package.
@@ -53,15 +50,19 @@
 
         // Create the data table.
         var data = new google.visualization.DataTable();
-        data.addColumn('string', 'Topping');
-        data.addColumn('number', 'Slices');
-        data.addRows([
+        data.addColumn('string', 'Tipo Animal');
+        data.addColumn('number', 'Quantidade');
+        /*data.addRows([
             ['Mushrooms', 3],
             ['Onions', 1],
             ['Olives', 1],
             ['Zucchini', 1],
             ['Pepperoni', 2]
-        ]);
+        ]);*/
+
+        for (var i = 0; i < dataRetriveAnimais["dataObjects"].length; i++) {
+            data.addRows([[dataRetriveAnimais["dataObjects"][i].label, dataRetriveAnimais["dataObjects"][i].value]])
+        }
 
         // Set chart options
         var optionsPie = {'title':'How Much Pizza I Ate Last Night',
