@@ -146,16 +146,15 @@
                 //themeSystem: 'standard',
                 themeSystem: 'bootstrap4',
                 locale: 'pt',
-                //events: "/Funcionario/EventosCalendarioAnimal/@Model.Id"
-                /**
-                 * /
-                 */events: $(function (start, end, timezone, callback)
+                events: "/Funcionario/EventosCalendarioAnimal/@Model.Id"
+                /*
+                 events: $(function (start, end, timezone, callback)
                 {
                 $.ajax({
                     dataType: "json",
                     type: "GET",
                     contentType: "application/json; charset=utf-8",
-                    url: "/Funcionario/EventosCalendarioAnimal/@Model.Id",
+                    url: ,
                     success: function (data) {
                         var events = [];
                         $(data).each(function(i) {
@@ -168,7 +167,7 @@
                         callback(events);
                     }
             })
-            })
+            })*/
             });
 
         });
