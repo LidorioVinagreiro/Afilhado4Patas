@@ -1285,7 +1285,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return Json(dataR.numeroPedidosFdsPorMes());
         }
 
-
+        public IActionResult EstatisticasResponsavel()
+        {
+            DataRetrive data = new DataRetrive(_context);
+            return View(data);
+        }
 
 
 

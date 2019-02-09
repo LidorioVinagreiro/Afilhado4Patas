@@ -133,6 +133,7 @@
                             </ul>
                         </li>
                         <li><a asp-controller="Funcionario" asp-action="Contact">Contactos</a></li>
+                        <li><a asp-controller="Funcionario" asp-action="EstatisticasResponsavel">Estatisticas Angular</a></li>
                     }
                     else if (User.IsInRole("Utilizador"))
                     {
@@ -179,7 +180,7 @@
                         </li>
                         <li><a asp-controller="Guest" asp-action="Contact">Contactos</a></li>
 
-                        <li><a asp-controller="Guest" asp-action="EstatisticasResponsavel">Estatisticas Angular</a></li>
+                        
                     }
                 </ul>
                 <partial name="_LoginPartial" />

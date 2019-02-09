@@ -117,11 +117,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View();
         }
 
-        public IActionResult EstatisticasResponsavel()
-        {
-            DataRetrive data = new DataRetrive(_context);
-            return View(data);
-        }
+
 
         /// <summary>
         /// Ação que devolve a view de erro, caso ocorra um erro esta view e devolvida com a informação do erro
