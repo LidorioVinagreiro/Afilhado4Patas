@@ -1257,7 +1257,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         public JsonResult PieMf()
         {
             DataRetrive dataR = new DataRetrive(_context);
-            return Json(dataR.dataGroupTipoAnimais());
+            return Json(dataR.dataGroupMF());
         }
         [HttpGet]
         public JsonResult adocoesPorMes()

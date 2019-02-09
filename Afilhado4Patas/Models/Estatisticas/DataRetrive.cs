@@ -31,7 +31,7 @@ namespace Afilhado4Patas.Models.Estatisticas
         public DataGroup dataGroupMF()
         {
 
-            DataGroup group = new DataGroup("Pie Char MF");
+            DataGroup group = new DataGroup("Distribuição do Sexo dos Utilizadores");
 
 
             group.dataObjects = from dados in _context.PerfilTable
@@ -47,7 +47,7 @@ namespace Afilhado4Patas.Models.Estatisticas
 
         public DataGroup dataGroupTipoAnimais()
         {
-            DataGroup group = new DataGroup("Pie Char Animais");
+            DataGroup group = new DataGroup("Tipos de Animais");
 
 
             group.dataObjects = from categorias in _context.Categorias
@@ -74,7 +74,7 @@ namespace Afilhado4Patas.Models.Estatisticas
                 .Where(x => x.DataAprovacao.Year == anoActual && x.Aprovacao == "Aprovado" && x.TipoAdocao == "Total")
                 .Select(z => new {
                     mes = z.DataAprovacao.Month,
-                    valor = int.Parse(z.Aprovacao)
+                    valor = 1 //int.Parse(z.Aprovacao)
                 }).GroupBy(f => f.mes)
                 .Select( c => new DataObject
                 {
