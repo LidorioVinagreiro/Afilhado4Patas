@@ -15,6 +15,8 @@
 <link href="~/css/DashboardUser/dashboardUser.css" rel="stylesheet" />
 <link href="~/css/Friends/friendsList.css" rel="stylesheet" />
 <link href="~/css/Table/tabela.css" rel="stylesheet" />
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript" src="~/js/Estatisticas.js"></script>
 <div id="dashboardUser">
     <div id="vertical_1">
         <div class="box_foto">
@@ -82,6 +84,25 @@
                 </div>
             </div>
         </div>
+        <div id="principal">
+            <div id="superior">Estatisticas do Sistema</div>
+            <div id="stat1" class="stat">
+                <div id="PieChart1"></div>
+                <div id="PieChart2"></div>
+            </div>
+            <div id="stat2" class="stat">
+                <div id="BarChart1"></div>
+            </div>
+            <div id="stat3" class="stat">
+                <div id="BarChart2"></div>
+            </div>
+            <div id="stat4" class="stat">
+                <div id="BarChart3"></div>
+            </div>
+            <div id="stat5" class="stat">
+                <div id="BarChart4"></div>
+            </div>
+        </div>
     </div>
     <div id="vertical_3_funcionario">
         <div class="quinto">
@@ -92,4 +113,183 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    google.charts.load('current', { 'packages': ['corechart'] });
+
+    google.charts.setOnLoadCallback(drawCharts);
+
+    function drawCharts() {
+        $.ajax({
+            type: "GET",
+            url: "/Funcionario/PieAnimal",
+            dataType: "json",
+            success: function (data) {
+                var dataG = new google.visualization.DataTable();
+                dataG.addColumn('string', 'Tipo Animal');
+                dataG.addColumn('number', 'Quantidade');
+
+                var aux = data.dataObjects;
+                for (var i = 0; i < aux.length; i++) {
+                    dataG.addRow([aux[i]["label"], aux[i]["value"]]);
+                }
+                var optionsPie = {
+                    'title': data.title,
+                    is3D: true
+                };
+                var view = new google.visualization.DataView(dataG);
+                view.setColumns([0, 1]);
+
+                var chart1 = new google.visualization.PieChart(document.getElementById('PieChart1'));
+
+                chart1.draw(dataG, optionsPie);
+            },
+            failure: function (errMsg) {
+                alert(errMsg);
+            }
+        });
+
+        $.ajax({
+            type: "GET",
+            url: "/Funcionario/PieMf",
+            dataType: "json",
+            success: function (data) {
+                var dataG = new google.visualization.DataTable();
+                dataG.addColumn('string', 'Sexo Utilizador');
+                dataG.addColumn('number', 'Quantidade');
+
+                var aux = data.dataObjects;
+                for (var i = 0; i < aux.length; i++) {
+                    dataG.addRow([aux[i]["label"], aux[i]["value"]]);
+                }
+                var optionsPie = {
+                    'title': data.title,
+                    is3D: true
+                };
+                var view = new google.visualization.DataView(dataG);
+                view.setColumns([0, 1]);
+
+                var chart1 = new google.visualization.PieChart(document.getElementById('PieChart2'));
+
+                chart1.draw(dataG, optionsPie);
+            },
+            failure: function (errMsg) {
+                alert(errMsg);
+            }
+        });
+
+        $.ajax({
+            type: "GET",
+            url: "/Funcionario/adocoesPorMes",
+            dataType: "json",
+            success: function (data) {
+                var dataG = new google.visualization.DataTable();
+                dataG.addColumn('string', 'Mes');
+                dataG.addColumn('number', 'Adocoes');
+
+                var aux = data.dataObjects;
+                for (var i = 0; i < aux.length; i++) {
+                    dataG.addRow([aux[i]["label"], aux[i]["value"]]);
+                    debugger;
+                }
+                var optionsBar = {
+                    'title': data.title
+                };
+                var view = new google.visualization.DataView(dataG);
+                view.setColumns([0, 1]);
+
+                var chart1 = new google.visualization.BarChart(document.getElementById('BarChart1'));
+
+                chart1.draw(dataG, optionsBar);
+            },
+            failure: function (errMsg) {
+                alert(errMsg);
+            }
+        });
+
+        $.ajax({
+            type: "GET",
+            url: "/Funcionario/apadrinhamentosPorMes",
+            dataType: "json",
+            success: function (data) {
+                var dataG = new google.visualization.DataTable();
+                dataG.addColumn('string', 'Mes');
+                dataG.addColumn('number', 'Apadrinhamentos');
+
+                var aux = data.dataObjects;
+                for (var i = 0; i < aux.length; i++) {
+                    dataG.addRow([aux[i]["label"], aux[i]["value"]]);
+                }
+                var optionsBar = {
+                    'title': data.title
+                };
+                var view = new google.visualization.DataView(dataG);
+                view.setColumns([0, 1]);
+
+                var chart1 = new google.visualization.BarChart(document.getElementById('BarChart2'));
+
+                chart1.draw(dataG, optionsBar);
+            },
+            failure: function (errMsg) {
+                alert(errMsg);
+            }
+        });
+
+        $.ajax({
+            type: "GET",
+            url: "/Funcionario/numeroPedidosPasseioPorMes",
+            dataType: "json",
+            success: function (data) {
+                var dataG = new google.visualization.DataTable();
+                dataG.addColumn('string', 'Mes');
+                dataG.addColumn('number', 'Passeios');
+
+                var aux = data.dataObjects;
+                for (var i = 0; i < aux.length; i++) {
+                    dataG.addRow([aux[i]["label"], aux[i]["value"]]);
+                }
+                var optionsBar = {
+                    'title': data.title
+                };
+                var view = new google.visualization.DataView(dataG);
+                view.setColumns([0, 1]);
+
+                var chart1 = new google.visualization.BarChart(document.getElementById('BarChart3'));
+
+                chart1.draw(dataG, optionsBar);
+            },
+            failure: function (errMsg) {
+                alert(errMsg);
+            }
+        });
+
+        $.ajax({
+            type: "GET",
+            url: "/Funcionario/numeroPedidosFdsPorMes",
+            dataType: "json",
+            success: function (data) {
+                var dataG = new google.visualization.DataTable();
+                dataG.addColumn('string', 'Mes');
+                dataG.addColumn('number', 'Fins de Semana');
+
+                var aux = data.dataObjects;
+                for (var i = 0; i < aux.length; i++) {
+                    dataG.addRow([aux[i]["label"], aux[i]["value"]]);
+                }
+                var optionsBar = {
+                    'title': data.title
+                };
+                var view = new google.visualization.DataView(dataG);
+                view.setColumns([0, 1]);
+
+                var chart1 = new google.visualization.BarChart(document.getElementById('BarChart4'));
+
+                chart1.draw(dataG, optionsBar);
+            },
+            failure: function (errMsg) {
+                alert(errMsg);
+            }
+        });
+    }
+</script>
 

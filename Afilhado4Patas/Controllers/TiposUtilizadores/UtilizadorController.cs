@@ -1618,14 +1618,6 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
 
             var resSelect = new List<object>();
 
-            /*var selectPasseios = (from passeio in _context.PedidosPasseio
-                                    where passeio.Aprovacao == "Aprovado"
-                                    select passeio).Include(u => u.Adotante).ThenInclude(u => u.Perfil);
-
-            var selectFinsDeSemana = (from fimDeSemana in _context.PedidosFimSemana
-                                        where fimDeSemana.Aprovacao == "Aprovado"
-                                        select fimDeSemana).Include(u => u.Adotante).ThenInclude(u => u.Perfil);*/
-
             Utilizadores utilizador = _context.Utilizadores.Where(u => u.Id == _userManager.GetUserId(User)).FirstOrDefault();
             var selectFinsDeSemana = _context.FinsSemanas.Include(u => u.Pedido).Where(a => a.Pedido.DataInicio >= DateTime.Today && a.Pedido.AdotanteId == utilizador.PerfilId).ToList();
 

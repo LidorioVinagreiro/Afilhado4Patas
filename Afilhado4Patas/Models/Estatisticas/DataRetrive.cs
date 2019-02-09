@@ -127,7 +127,7 @@ namespace Afilhado4Patas.Models.Estatisticas
             return group;
         }
         public DataGroup numeroPedidosFdsPorMes() {
-            DataGroup group = new DataGroup("Pedidos FDS por mês");
+            DataGroup group = new DataGroup("Pedidos de Fim de Semana por mês");
             Dictionary<int, string> meses = this.meses();
 
             int anoActual = DateTime.Now.Year;

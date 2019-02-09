@@ -57,6 +57,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         /// <returns>View principal do site</returns>
         public IActionResult Index()
         {
+            var a = EventosCalendarioAnimal(3);
             return View("../Shared/Index");
         }
 
@@ -1324,55 +1325,31 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         {
             var listCalendario = new List<object>();
 
-            var resSelectFins = new List<object>();
-            var resSelectPass = new List<object>();
+            var resSelect = new List<object>();
+ 
+            var selectFinsDeSemana = _context.FinsSemanas.Include(u => u.Pedido).ThenInclude(x => x.Adotante).ThenInclude(x => x.Perfil).Where(a => a.Pedido.DataInicio >= DateTime.Today && a.Pedido.AnimalId == id).ToList();
+            var selectPasseios = _context.Passeios.Include(u => u.Pedido).ThenInclude(x => x.Adotante).ThenInclude(x => x.Perfil).Where(a => a.Pedido.DataPasseio >= DateTime.Today && a.Pedido.AnimalId == id).ToList();
 
-            /*var selectPasseios = (from passeio in _context.PedidosPasseio
-                                    where passeio.Aprovacao == "Aprovado"
-                                    select passeio).Include(u => u.Adotante).ThenInclude(u => u.Perfil);
 
-            var selectFinsDeSemana = (from fimDeSemana in _context.PedidosFimSemana
-                                        where fimDeSemana.Aprovacao == "Aprovado"
-                                        select fimDeSemana).Include(u => u.Adotante).ThenInclude(u => u.Perfil);*/
 
-            var adotantes = _context.Adotantes.Where(u => u.AnimalId == id).ToList();
-
-            //Utilizadores utilizador = _context.Utilizadores.Where(u => u.Id == _userManager.GetUserId(User)).FirstOrDefault();
-            //var selectFinsDeSemana = new List<object>();
-            //var selectPasseios = new List<object>();
-            foreach (var item in adotantes)
-            {
-                var selectFinsDeSemana = _context.FinsSemanas.Include(u => u.Pedido).Where(a => a.Pedido.DataInicio >= DateTime.Today && a.Pedido.AdotanteId == item.AdotanteId).ToList();
-                var selectPasseios = _context.Passeios.Include(u => u.Pedido).Where(a => a.Pedido.DataPasseio >= DateTime.Today && a.Pedido.AdotanteId == item.AdotanteId).ToList();
-                resSelectFins.Union(selectFinsDeSemana);
-                resSelectPass.Union(selectPasseios);
-            }
-            //var selectFinsDeSemana = _context.FinsSemanas.Include(u => u.Pedido).Where(a => a.Pedido.DataInicio >= DateTime.Today && a.Pedido.AdotanteId == utilizador.PerfilId).ToList();
-
-            //var selectPasseios = _context.Passeios.Include(u => u.Pedido).Where(a => a.Pedido.DataPasseio >= DateTime.Today && a.Pedido.AdotanteId == utilizador.PerfilId).ToList();
-
-            
-
-            foreach (FimSemana item in resSelectFins)
+            foreach (var item in selectFinsDeSemana)
             {
 
                 listCalendario.Add(
-                        new
-                        {
-                            title = "Fim de Semana com " + item.Pedido.Adotante.Perfil.FirstName + " " + item.Pedido.Adotante.Perfil.LastName,
-                            start = item.Pedido.DataInicio,
-                            end = item.Pedido.DataFim
-                        }
-                    );
-
+                    new
+                    {
+                        title = item.Pedido.Adotante.Perfil.FirstName + " " + item.Pedido.Adotante.Perfil.LastName,
+                        start = item.Pedido.DataInicio,
+                        end = item.Pedido.DataFim
+                    }
+                );
             }
-
-            foreach (Passeio item in resSelectPass)
+            foreach (var item in selectPasseios)
             {
                 listCalendario.Add(
                     new
                     {
-                        title = item.Pedido.HoraPasseio,
+                        title = item.Pedido.Adotante.Perfil.FirstName +" as " + item.Pedido.HoraPasseio + " horas",
                         start = item.Pedido.DataPasseio,
                         end = ""
                     }
