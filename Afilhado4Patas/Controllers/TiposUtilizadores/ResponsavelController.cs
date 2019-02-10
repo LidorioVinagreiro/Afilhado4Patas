@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Afilhado4Patas.Areas.Identity.Services;
 using Afilhado4Patas.Data;
 using Afilhado4Patas.Models;
+using Afilhado4Patas.Models.Estatisticas;
 using Afilhado4Patas.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
@@ -1534,6 +1535,50 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return tarefasModel;
         }
 
+        [HttpGet]
+        public JsonResult PieAnimal()
+        {
+            DataRetrive dataR = new DataRetrive(_context);
+            return Json(dataR.dataGroupTipoAnimais());
+        }
+
+        [HttpGet]
+        public JsonResult PieMf()
+        {
+            DataRetrive dataR = new DataRetrive(_context);
+            return Json(dataR.dataGroupMF());
+        }
+        [HttpGet]
+        public JsonResult adocoesPorMes()
+        {
+            DataRetrive dataR = new DataRetrive(_context);
+            return Json(dataR.adocoesPorMes());
+        }
+        [HttpGet]
+        public JsonResult apadrinhamentosPorMes()
+        {
+            DataRetrive dataR = new DataRetrive(_context);
+            return Json(dataR.apadrinhamentosPorMes());
+        }
+        [HttpGet]
+        public JsonResult numeroPedidosPasseioPorMes()
+        {
+            DataRetrive dataR = new DataRetrive(_context);
+            return Json(dataR.numeroPedidosPasseioPorMes());
+        }
+
+        [HttpGet]
+        public JsonResult numeroPedidosFdsPorMes()
+        {
+            DataRetrive dataR = new DataRetrive(_context);
+            return Json(dataR.numeroPedidosFdsPorMes());
+        }
+
+        public IActionResult EstatisticasResponsavel()
+        {
+            DataRetrive data = new DataRetrive(_context);
+            return View(data);
+        }
 
     }
 }

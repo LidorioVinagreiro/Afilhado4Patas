@@ -1,0 +1,33 @@
+﻿.stat {
+    width: 80%;
+    height: 200px;
+    margin: auto;
+    padding: 10px;
+}
+#PieChart2 {
+    margin-left: 15%;
+    height: 200px;
+    background: black;
+}
+
+#PieChart1 {
+    width: 15%;
+    height: 200px;
+    background: red;
+    float: left;
+}
+
+/*#superior {
+    width: 100%;
+    background: #0081c2;
+    font-weight: bold;
+    color: #FFFFFF;
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+    margin-bottom: -1px;
+    border: 1px solid #ddd;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    margin-bottom: 25px;
+}*/

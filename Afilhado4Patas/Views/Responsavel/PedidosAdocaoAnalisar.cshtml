@@ -113,57 +113,6 @@
         </table>
     </div>
 
-    <div id="centrado_tabela">
-        <h3 id="centrado_tabela">Atividades</h3>
-        <div id="calendar"></div>
-    </div>
-
-
-    <script>
-        $(document).ready(function () {
-
-            $('#calendar').fullCalendar({
-                header: {
-                    left: 'prev',
-                    center: 'title',
-                    right: 'next'
-                },
-                //defaultDate: '2019-01-12',
-                defaultView: 'month',
-                navLinks: true, // can click day/week names to navigate views
-                editable: true,
-                eventLimit: true, // allow "more" link when too many events
-                contentHeight: 450,
-                apectRatio: 1,
-                //themeSystem: 'standard',
-                themeSystem: 'bootstrap4',
-                locale: 'pt',
-                events: "/Funcionario/EventosCalendarioAnimal/" + @Model.Animal.Id
-                /*events: $(function (start, end, timezone, callback)
-                {
-                $.ajax({
-                    dataType: "json",
-                    type: "GET",
-                    contentType: "application/json; charset=utf-8",
-                    url: "/Responsavel/EventosCalendario",
-                    success: function (data) {
-                        var events = [];
-                        $(data).each(function(i) {
-                            events.push({
-                                title: $(this).attr('title'),
-                                start: $(this).attr('start'),
-                                end: $(this).attr('end')
-                            })
-                        })
-                        callback(events);
-                    }
-            })
-            })*/
-            });
-
-        });
-    </script>
-
     <h3 style="color: slategrey">Ficheiro de Identificação</h3>
     <div class="table-responsive-vertical pequeno shadow-z-1">
         <table id="table" class="table table-hover table-mc-light-blue">
