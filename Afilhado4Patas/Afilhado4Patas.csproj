@@ -13,9 +13,13 @@
 
   <ItemGroup>
     <Compile Remove="Views\Perfil\**" />
+    <Compile Remove="wwwroot\css\Estatisticas\**" />
     <Content Remove="Views\Perfil\**" />
+    <Content Remove="wwwroot\css\Estatisticas\**" />
     <EmbeddedResource Remove="Views\Perfil\**" />
+    <EmbeddedResource Remove="wwwroot\css\Estatisticas\**" />
     <None Remove="Views\Perfil\**" />
+    <None Remove="wwwroot\css\Estatisticas\**" />
   </ItemGroup>
 
   <ItemGroup>

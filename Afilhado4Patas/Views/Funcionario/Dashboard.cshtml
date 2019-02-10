@@ -17,7 +17,7 @@
 <link href="~/css/Table/tabela.css" rel="stylesheet" />
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript" src="~/js/Estatisticas.js"></script>
-<div id="dashboardUser">
+<div id="dashboardFunncionario">
     <div id="vertical_1">
         <div class="box_foto">
             @{Utilizadores user = Context.Utilizadores.Where(u => u.Email == UserManager.GetUserName(User)).FirstOrDefault();
@@ -54,62 +54,84 @@
             </a>
         </div>
     </div>
-    <div id="vertical_2">
-        <div id="informacoes">
-            <div id="superior">
-                Dados Pessoais (FUNCIONÁRIO)
+    <div id="vertical_2_funcionario">
+        <div id="horizontal">
+            <div id="informacoes_funcionario">
+                <div id="superior">
+                    Dados Pessoais (FUNCIONÁRIO)
+                </div>
+                <div id="info_first">
+                    <div id="spacing">
+                        <i class="fa fa-user cinzento"></i>
+                        <span id="info">@Model.Perfil.FirstName @Model.Perfil.LastName</span>
+                    </div>
+                    <div id="spacing">
+                        <i class="fa fa-calendar-alt cinzento"></i>
+                        <span id="info">@Model.Perfil.Birthday.ToString("dd/MM/yyyy")</span>
+                    </div>
+                    <div id="spacing">
+                        <i class="fa fa-male cinzento"></i>
+                        <span id="info">@Model.Perfil.Genre</span>
+                    </div>
+                </div>
+                <div id="info_second">
+                    <div id="spacing">
+                        <i class="fa fa-envelope cinzento"></i>
+                        <span id="info">@Model.Email</span>
+                    </div>
+                    <div id="spacing">
+                        <i class="fa fa-map-marker-alt cinzento"></i>
+                        <span id="info">@Model.Perfil.City</span>
+                    </div>
+                </div>
+
             </div>
-            <div id="info_first">
-                <div id="spacing">
-                    <i class="fa fa-user cinzento"></i>
-                    <span id="info">@Model.Perfil.FirstName @Model.Perfil.LastName</span>
-                </div>
-                <div id="spacing">
-                    <i class="fa fa-calendar-alt cinzento"></i>
-                    <span id="info">@Model.Perfil.Birthday.ToString("dd/MM/yyyy")</span>
-                </div>
-                <div id="spacing">
-                    <i class="fa fa-male cinzento"></i>
-                    <span id="info">@Model.Perfil.Genre</span>
-                </div>
-            </div>
-            <div id="info_second">
-                <div id="spacing">
-                    <i class="fa fa-envelope cinzento"></i>
-                    <span id="info">@Model.Email</span>
-                </div>
-                <div id="spacing">
-                    <i class="fa fa-map-marker-alt cinzento"></i>
-                    <span id="info">@Model.Perfil.City</span>
-                </div>
+            <div class="quinto">
+                <a id="botoes" asp-controller="Funcionario" asp-action="MinhasTarefas" asp-route-id="@UserManager.GetUserName(User)" title="As minhas tarefas">
+                    <img class="imagem_miniatura" src="~/images/tarefas.png" />
+                    <span class="texto_miniatura">Minhas Tarefas</span>
+                </a>
             </div>
         </div>
         <div id="principal">
-            <div id="superior">Estatisticas do Sistema</div>
-            <div id="stat1" class="stat">
-                <div id="PieChart1"></div>
-                <div id="PieChart2"></div>
+            <div id="estatisticas">
+                <div id="superior">Estatisticas do Sistema</div>
+                <div id="lista_botoes">
+                    <div id="caixa_botoes">
+                        <div class="stats_btns primeiro">
+                            <a id="miniaturas" class="hand" title="Tipo de Animais" onclick="chartAnimais()">
+                                <i class="fa fa-chart-pie botoes_graficos"></i>
+                            </a>
+                        </div>
+                        <div class="stats_btns segundo">
+                            <a id="miniaturas" class="hand"  title="Utilizadoes M/F" onclick="chartSexo()">
+                                <i class="fa fa-chart-pie botoes_graficos"></i>
+                            </a>
+                        </div>
+                        <div class="stats_btns terceiro">
+                            <a id="miniaturas" class="hand"  title="Adoções por mês" onclick="chartAdocoes()">
+                                <i class="fa fa-chart-bar botoes_graficos"></i>
+                            </a>
+                        </div>
+                        <div class="stats_btns sexto">
+                            <a id="miniaturas" class="hand"  title="Apadrinhamentos por mês" onclick="chartApadrinhamentos()">
+                                <i class="fa fa-chart-bar botoes_graficos"></i>
+                            </a>
+                        </div>
+                        <div class="stats_btns setimo">
+                            <a id="miniaturas" class="hand"  title="Passeios marcados por mês" onclick="chartPasseios()">
+                                <i class="fa fa-chart-bar botoes_graficos"></i>
+                            </a>
+                        </div>
+                        <div class="stats_btns oitavo">
+                            <a id="miniaturas" class="hand"  title="Fins de Semanas marcados por mês" onclick="chartFinsSemanas()">
+                                <i class="fa fa-chart-bar botoes_graficos"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div id="grafico"></div>
             </div>
-            <div id="stat2" class="stat">
-                <div id="BarChart1"></div>
-            </div>
-            <div id="stat3" class="stat">
-                <div id="BarChart2"></div>
-            </div>
-            <div id="stat4" class="stat">
-                <div id="BarChart3"></div>
-            </div>
-            <div id="stat5" class="stat">
-                <div id="BarChart4"></div>
-            </div>
-        </div>
-    </div>
-    <div id="vertical_3_funcionario">
-        <div class="quinto">
-            <a id="botoes" asp-controller="Funcionario" asp-action="MinhasTarefas" asp-route-id="@UserManager.GetUserName(User)" title="As minhas tarefas">
-                <img class="imagem_miniatura" src="~/images/tarefas.png" />
-                <span class="texto_miniatura">Minhas Tarefas</span>
-            </a>
         </div>
     </div>
 </div>
@@ -117,9 +139,7 @@
 <script type="text/javascript">
     google.charts.load('current', { 'packages': ['corechart'] });
 
-    google.charts.setOnLoadCallback(drawCharts);
-
-    function drawCharts() {
+    function chartAnimais() {
         $.ajax({
             type: "GET",
             url: "/Funcionario/PieAnimal",
@@ -135,12 +155,13 @@
                 }
                 var optionsPie = {
                     'title': data.title,
-                    is3D: true
+                    is3D: true,
+                    chartArea: { height: "100%", width: "50%" }
                 };
                 var view = new google.visualization.DataView(dataG);
                 view.setColumns([0, 1]);
 
-                var chart1 = new google.visualization.PieChart(document.getElementById('PieChart1'));
+                var chart1 = new google.visualization.PieChart(document.getElementById('grafico'));
 
                 chart1.draw(dataG, optionsPie);
             },
@@ -148,7 +169,9 @@
                 alert(errMsg);
             }
         });
+    }
 
+    function chartSexo() {
         $.ajax({
             type: "GET",
             url: "/Funcionario/PieMf",
@@ -163,13 +186,13 @@
                     dataG.addRow([aux[i]["label"], aux[i]["value"]]);
                 }
                 var optionsPie = {
-                    'title': data.title,
-                    is3D: true
+                    is3D: true,
+                    chartArea: { height: "100%", width: "50%" }
                 };
                 var view = new google.visualization.DataView(dataG);
                 view.setColumns([0, 1]);
 
-                var chart1 = new google.visualization.PieChart(document.getElementById('PieChart2'));
+                var chart1 = new google.visualization.PieChart(document.getElementById('grafico'));
 
                 chart1.draw(dataG, optionsPie);
             },
@@ -177,7 +200,9 @@
                 alert(errMsg);
             }
         });
+    }
 
+    function chartAdocoes() {
         $.ajax({
             type: "GET",
             url: "/Funcionario/adocoesPorMes",
@@ -190,15 +215,14 @@
                 var aux = data.dataObjects;
                 for (var i = 0; i < aux.length; i++) {
                     dataG.addRow([aux[i]["label"], aux[i]["value"]]);
-                    debugger;
                 }
                 var optionsBar = {
-                    'title': data.title
+                    chartArea: { height: "80%", width: "40%" }
                 };
                 var view = new google.visualization.DataView(dataG);
                 view.setColumns([0, 1]);
 
-                var chart1 = new google.visualization.BarChart(document.getElementById('BarChart1'));
+                var chart1 = new google.visualization.ColumnChart(document.getElementById('grafico'));
 
                 chart1.draw(dataG, optionsBar);
             },
@@ -206,7 +230,9 @@
                 alert(errMsg);
             }
         });
+    }
 
+    function chartApadrinhamentos() {
         $.ajax({
             type: "GET",
             url: "/Funcionario/apadrinhamentosPorMes",
@@ -221,12 +247,12 @@
                     dataG.addRow([aux[i]["label"], aux[i]["value"]]);
                 }
                 var optionsBar = {
-                    'title': data.title
+                    chartArea: { height: "80%", width: "40%" }
                 };
                 var view = new google.visualization.DataView(dataG);
                 view.setColumns([0, 1]);
 
-                var chart1 = new google.visualization.BarChart(document.getElementById('BarChart2'));
+                var chart1 = new google.visualization.ColumnChart(document.getElementById('grafico'));
 
                 chart1.draw(dataG, optionsBar);
             },
@@ -234,7 +260,9 @@
                 alert(errMsg);
             }
         });
+    }
 
+    function chartPasseios() {
         $.ajax({
             type: "GET",
             url: "/Funcionario/numeroPedidosPasseioPorMes",
@@ -249,12 +277,12 @@
                     dataG.addRow([aux[i]["label"], aux[i]["value"]]);
                 }
                 var optionsBar = {
-                    'title': data.title
+                    chartArea: { height: "80%", width: "40%" }
                 };
                 var view = new google.visualization.DataView(dataG);
                 view.setColumns([0, 1]);
 
-                var chart1 = new google.visualization.BarChart(document.getElementById('BarChart3'));
+                var chart1 = new google.visualization.ColumnChart(document.getElementById('grafico'));
 
                 chart1.draw(dataG, optionsBar);
             },
@@ -262,7 +290,9 @@
                 alert(errMsg);
             }
         });
+    }
 
+    function chartFinsSemanas() {
         $.ajax({
             type: "GET",
             url: "/Funcionario/numeroPedidosFdsPorMes",
@@ -277,12 +307,12 @@
                     dataG.addRow([aux[i]["label"], aux[i]["value"]]);
                 }
                 var optionsBar = {
-                    'title': data.title
+                    chartArea: { height: "80%", width: "40%" }
                 };
                 var view = new google.visualization.DataView(dataG);
                 view.setColumns([0, 1]);
 
-                var chart1 = new google.visualization.BarChart(document.getElementById('BarChart4'));
+                var chart1 = new google.visualization.ColumnChart(document.getElementById('grafico'));
 
                 chart1.draw(dataG, optionsBar);
             },
