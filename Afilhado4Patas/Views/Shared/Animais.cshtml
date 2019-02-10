@@ -20,7 +20,7 @@
         <header id="filtros">
             <p id="p_filtros">
                 Filtros
-                <a id="limpar_filtros">Limpar Todos</a>
+                <a id="limpar_filtros" class="hand" onclick="LimparTodos()">Limpar Todos</a>
             </p>
         </header>
         <div>
@@ -66,5 +66,13 @@
                     $('#container_left').html(result);
                 }
             });
+    }
+
+    function LimparTodos() {
+        for (var i = 1; i <= 4; i++) {
+            var id = "#categoria" + i;
+            $(id).prop('checked', false);
+        }
+        PesquisarAnimais(4);
     }
 </script>
