@@ -130,6 +130,41 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View(user);
         }
 
+        public ActionResult VisualizarAmigo(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var user = _context.Utilizadores.Where(u => u.Id == id).Include(p => p.Perfil).FirstOrDefault();
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return View(user);
+        }
+
+        public ActionResult ApagarAmigo(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var user = _context.Utilizadores.Where(u => u.Id == _userManager.GetUserId(User)).FirstOrDefault();
+            var amigo = _context.Utilizadores.Where(u => u.Id == id).Include(p => p.Perfil).FirstOrDefault();
+            var amizade = _context.Amizades.Where(a => (a.IdPerfilAceitar == amigo.PerfilId && a.IdPerfilPediu == user.PerfilId) || (a.IdPerfilPediu == amigo.PerfilId && a.IdPerfilAceitar == user.PerfilId)).FirstOrDefault();
+            _context.Amizades.Remove(amizade);
+            _context.SaveChanges();
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return View("Dashboard", user);
+        }
+
         /****************************************************************************************************/
         /******************************************** Perfil ***********************************************/
         /****************************************************************************************************/
@@ -1519,6 +1554,8 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             await _context.SaveChangesAsync();
             return RedirectToAction("listaAmizades");
         }
+        
+
         /// <summary>
         /// Esta ação devolve todos os pedidos feitos pelo utilizador
         /// </summary>

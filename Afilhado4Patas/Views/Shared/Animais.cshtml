@@ -48,13 +48,11 @@
 
 <script>
     function PesquisarAnimais(number) {
-        alert(number);
         $('#container_left').html();
         var selecionados = [];
         for (var i = 1; i <= number; i++) {
             var id = "#categoria" + i;
             if ($(id).is(':checked')) {
-                alert($(id).val());
                 selecionados.push($(id).val());
             }
         }

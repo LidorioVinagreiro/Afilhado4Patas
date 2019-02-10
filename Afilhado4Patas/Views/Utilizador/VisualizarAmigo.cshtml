@@ -1,0 +1,186 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Afilhado4Patas.Data;
+
+@model Afilhado4Patas.Data.Utilizadores
+
+@inject SignInManager<Utilizadores> SignInManager
+@inject UserManager<Utilizadores> UserManager
+@inject ApplicationDbContext Context
+
+@{
+    ViewData["Title"] = "Pagina Utilizador";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/css/Table/tabela.css" rel="stylesheet" />
+<div id="rectangulo_maior"></div>
+<div id="page" class="page_maior">
+    <div style="height: 120px">
+        <div style="float: left">
+            @{
+                if (Model.Perfil.Photo != null)
+                {
+                    string src = "/Utilizadores/" + Model.Id + "/" + Model.Perfil.Photo;
+                    <img id="imagem_animal" src="@src" />
+                }
+                else
+                {
+                    <img id="imagem_animal" src="~/images/default.jpg" />
+                }
+            }
+        </div>
+    </div>
+    <h3 style="color: #fff">Ficha do Utilizador</h3>
+    <div class="table-responsive-vertical shadow-z-1">
+        <table id="table" class="table table-hover table-mc-light-blue">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.Perfil.FirstName)</th>
+                    <th>@Html.DisplayNameFor(model => model.Perfil.LastName)</th>
+                    <th>@Html.DisplayNameFor(model => model.Email)</th>
+                    <th>@Html.DisplayNameFor(model => model.Perfil.Birthday)</th>
+                    <th>@Html.DisplayNameFor(model => model.Perfil.Genre)</th>
+                    <th>@Html.DisplayNameFor(model => model.Perfil.City)</th>
+                    <th>@Html.DisplayNameFor(model => model.Perfil.Street)</th>
+                    <th>@Html.DisplayNameFor(model => model.Perfil.Postalcode)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td data-title="Nome">
+                        @Model.Perfil.FirstName
+                    </td>
+                    <td data-title="Apelido">
+                        @Model.Perfil.LastName
+                    </td>
+                    <td data-title="Email">
+                        @Model.Email
+                    </td>
+                    <td data-title="Data Nascimneto">
+                        @Model.Perfil.Birthday.ToString("dd/MM/yyyy")
+                    </td>
+                    <td data-title="Sexo">
+                        @Model.Perfil.Genre
+                    </td>
+                    <td data-title="Cidade">
+                        @Model.Perfil.City
+                    </td>
+                    <td data-title="Morada">
+                        @Model.Perfil.Street
+                    </td>
+                    <td data-title="Codigo Postal">
+                        @Model.Perfil.Postalcode
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3 style="color: slategrey">Adoções</h3>
+    <div class="table-responsive-vertical medio shadow-z-1">
+        <table id="table" class="table table-hover table-mc-light-blue">
+            <thead>
+                <tr>
+                    <th>Nome do Animal</th>
+                    <th>Tipo de Adocao</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    List<Adocao> minhasAdocoes = new List<Adocao>();
+                    List<Adocao> adocoes = Context.Adocoes.ToList();
+                    foreach (var adocao in adocoes)
+                    {
+                        adocao.Pedido = Context.PedidosAdocao.Where(p => p.Id == adocao.PedidoAdocaoId).FirstOrDefault();
+                        if (adocao.Pedido.AdotanteId == Model.PerfilId)
+                        {
+                            adocao.Pedido.Animal = Context.Animais.Where(a => a.Id == adocao.Pedido.AnimalId).FirstOrDefault();
+                            minhasAdocoes.Add(adocao);
+                        }
+                    }
+                    foreach (var adocao in minhasAdocoes)
+                    {
+                        <tr>
+                            <td data-title="Nome do Animal">
+                                @if (adocao.Pedido.Animal.Foto != null)
+                                {
+                                    string src = "/Animais/" + adocao.Pedido.Animal.Id + "/" + adocao.Pedido.Animal.Foto;
+                                    <img id="icon_mini" src="@src" />
+                                }
+                                else
+                                {
+                                    <img id="icon_mini" src="~/images/dog-profile.png" />
+                                }
+                                <a class="link" title="Ver Animal" asp-controller="Utilizador" asp-action="FichaAnimal" asp-route-id=@adocao.Pedido.Animal.Id>
+                                    @adocao.Pedido.Animal.NomeAnimal
+                                </a>
+                            </td>
+                            <td data-title="Tipo de Adocao">
+                                @adocao.Pedido.TipoAdocao
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        var table = $('#table');
+
+        // Table bordered
+        $('#table-bordered').change(function () {
+            var value = $(this).val();
+            table.removeClass('table-bordered').addClass(value);
+        });
+
+        // Table striped
+        $('#table-striped').change(function () {
+            var value = $(this).val();
+            table.removeClass('table-striped').addClass(value);
+        });
+
+        // Table hover
+        $('#table-hover').change(function () {
+            var value = $(this).val();
+            table.removeClass('table-hover').addClass(value);
+        });
+
+        // Table color
+        $('#table-color').change(function () {
+            var value = $(this).val();
+            table.removeClass(/^table-mc-/).addClass(value);
+        });
+    });
+
+    // jQuery’s hasClass and removeClass on steroids
+    // by Nikita Vasilyev
+    // https://github.com/NV/jquery-regexp-classes
+    (function (removeClass) {
+
+        jQuery.fn.removeClass = function (value) {
+            if (value && typeof value.test === "function") {
+                for (var i = 0, l = this.length; i < l; i++) {
+                    var elem = this[i];
+                    if (elem.nodeType === 1 && elem.className) {
+                        var classNames = elem.className.split(/\s+/);
+
+                        for (var n = classNames.length; n--;) {
+                            if (value.test(classNames[n])) {
+                                classNames.splice(n, 1);
+                            }
+                        }
+                        elem.className = jQuery.trim(classNames.join(" "));
+                    }
+                }
+            } else {
+                removeClass.call(this, value);
+            }
+            return this;
+        }
+
+    })(jQuery.fn.removeClass);
+</script>

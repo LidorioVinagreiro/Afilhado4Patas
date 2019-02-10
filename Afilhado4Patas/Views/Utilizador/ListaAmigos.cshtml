@@ -1,0 +1,31 @@
+﻿@using Afilhado4Patas.Data
+
+@model List<Utilizadores>
+
+@{
+    foreach (var user in Model)
+    {
+        <li class="list-group-item text-left">
+            @{
+                if (user.Perfil.Photo != null)
+                {
+                    string src = "/Utilizadores/" + user.Id + "/" + user.Perfil.Photo;
+                    <img class="thumbnail" src="@src" />
+                }
+                else
+                {
+                    <img class="thumbnail" src="~/images/default.jpg" />
+                }
+            }
+            <label class="name">
+                @user.Perfil.FirstName @user.Perfil.LastName
+            </label>
+            <label class="pull-right">
+                <a class="btn btn-success btn-xs glyphicon glyphicon-user" title="Ver Amigo" asp-controller="Utilizador" asp-action="VisualizarAmigo" asp-route-id=@user.Id></a>
+                <a class="btn btn-danger  btn-xs glyphicon glyphicon-trash" title="Apagar Amizade" asp-controller="Utilizador" asp-action="ApagarAmigo" asp-route-id=@user.Id></a>
+            </label>
+            <div class="break"></div>
+        </li>
+    }
+}
+
