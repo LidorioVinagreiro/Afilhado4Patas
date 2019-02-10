@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Afilhado4Patas.Data;
 using Afilhado4Patas.Models;
+using Afilhado4Patas.Models.Estatisticas;
 using Afilhado4Patas.Models.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -149,7 +150,29 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        
+        /// <summary>
+        /// Metodo que devolve os dados para a estatistica dos tipos de animal no sistema
+        /// </summary>
+        /// <returns>Json com os dados da estatistica</returns>
+        [HttpGet]
+        public JsonResult PieAnimal()
+        {
+            DataRetrive dataR = new DataRetrive(_context);
+            return Json(dataR.dataGroupTipoAnimais());
+        }
+
+        /// <summary>
+        /// Metodo que devolve os dados para a estatistica dos utilizadores agrupados por sexo
+        /// </summary>
+        /// <returns>Json com os dados da estatistica</returns>
+        [HttpGet]
+        public JsonResult PieMf()
+        {
+            DataRetrive dataR = new DataRetrive(_context);
+            return Json(dataR.dataGroupMF());
+        }
+
+
     }
 
 }
