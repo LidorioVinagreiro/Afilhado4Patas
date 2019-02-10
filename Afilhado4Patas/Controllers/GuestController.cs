@@ -127,7 +127,15 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         /// <returns></returns>
         public PartialViewResult AnimaisPorFiltros(int[] items)
         {
-            List<Animal> animais = _context.Animais.Include(p => p.PorteAnimal).Include(r => r.RacaAnimal).ThenInclude(c => c.CategoriaRaca).Where(a => items.ToList().Contains(a.RacaAnimal.CategoriaRaca.Id)).ToList();
+            List<Animal> animais = null;
+            if (items.ToList().Count() > 0)
+            {
+                animais = _context.Animais.Include(p => p.PorteAnimal).Include(r => r.RacaAnimal).ThenInclude(c => c.CategoriaRaca).Where(a => items.ToList().Contains(a.RacaAnimal.CategoriaRaca.Id)).ToList();
+
+            }else
+            {
+                animais = _context.Animais.Include(p => p.PorteAnimal).Include(r => r.RacaAnimal).ThenInclude(c => c.CategoriaRaca).ToList();
+            }
             return PartialView("~/Views/Shared/GridAnimais.cshtml", animais);
         }
 
