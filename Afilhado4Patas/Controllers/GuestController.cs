@@ -128,7 +128,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         public PartialViewResult AnimaisPorFiltros(int[] items)
         {
             List<Animal> animais = null;
-            if (items.ToList().Count() > 0)
+            if (items.Length > 0)
             {
                 animais = _context.Animais.Include(p => p.PorteAnimal).Include(r => r.RacaAnimal).ThenInclude(c => c.CategoriaRaca).Where(a => items.ToList().Contains(a.RacaAnimal.CategoriaRaca.Id)).ToList();
 
