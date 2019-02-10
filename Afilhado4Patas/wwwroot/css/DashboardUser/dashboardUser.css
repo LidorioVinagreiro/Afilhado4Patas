@@ -1,5 +1,5 @@
 ﻿#dashboardUser {
-    width: 70% !important;
+    width: 80% !important;
     padding-top: 8% !important;
     margin-right: auto;
     margin-left: auto;
@@ -23,14 +23,14 @@
 }
 
 #vertical_2 {
-    width: 55%;
+    width: 50%;
     margin: 0 0 40px 5px;
     padding: 0;
     float: left;
 }
 
 #vertical_3 {
-    width: 300px;
+    width: 440px;
     margin: 0 0 40px 5px;
     padding: 0;
     float: left;

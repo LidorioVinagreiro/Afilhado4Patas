@@ -113,118 +113,36 @@
                 Atividades
             </div>
             <div id="calendar"></div>
-
-
-
         </div>
         <div class="jumbotron list-content">
             <ul class="list-group">
-                <li href="#" class="list-group-item title">
+                <li class="list-group-item title">
                     Lista de Amigos
                 </li>
-                <li href="#" class="list-group-item text-left">
-                    <img class="img-thumbnail" src="https://bootdey.com/img/Content/User_for_snippets.png">
-                    <label class="name">
-                        Daniel Dias
-                    </label>
-                    <label class="pull-right">
-                        <a class="btn btn-success btn-xs glyphicon glyphicon-user" href="#" title="Ver Amigo"></a>
-                        <a class="btn btn-danger  btn-xs glyphicon glyphicon-trash" href="#" title="Apagar Amizade"></a>
-                    </label>
-                    <div class="break"></div>
-                </li>
-                <li href="#" class="list-group-item text-left">
-                    <img class="img-thumbnail" src="https://bootdey.com/img/Content/user_1.jpg">
-                    <label class="name">
-                        Rodas
-                    </label>
-                    <label class="pull-right">
-                        <a class="btn btn-success btn-xs glyphicon glyphicon-user" href="#" title="Ver Amigo"></a>
-                        <a class="btn btn-danger  btn-xs glyphicon glyphicon-trash" href="#" title="Apagar Amizade"></a>
-                    </label>
-                    <div class="break"></div>
-                </li>
-                <li href="#" class="list-group-item text-left">
-                    <img class="img-thumbnail" src="https://bootdey.com/img/Content/user_2.jpg">
-                    <label class="name">
-                        Joana
-                    </label>
-                    <label class="pull-right">
-                        <a class="btn btn-success btn-xs glyphicon glyphicon-user" href="#" title="Ver Amigo"></a>
-                        <a class="btn btn-danger  btn-xs glyphicon glyphicon-trash" href="#" title="Apagar Amizade"></a>
-                    </label>
-                    <div class="break"></div>
-                </li>
-                <li href="#" class="list-group-item text-left">
-                    <img class="img-thumbnail" src="https://bootdey.com/img/Content/User_for_snippets.png">
-                    <label class="name">
-                        Daniel Dias
-                    </label>
-                    <label class="pull-right">
-                        <a class="btn btn-success btn-xs glyphicon glyphicon-user" href="#" title="Ver Amigo"></a>
-                        <a class="btn btn-danger  btn-xs glyphicon glyphicon-trash" href="#" title="Apagar Amizade"></a>
-                    </label>
-                    <div class="break"></div>
-                </li>
-                <li href="#" class="list-group-item text-left">
-                    <img class="img-thumbnail" src="https://bootdey.com/img/Content/user_1.jpg">
-                    <label class="name">
-                        Rodas
-                    </label>
-                    <label class="pull-right">
-                        <a class="btn btn-success btn-xs glyphicon glyphicon-user" href="#" title="Ver Amigo"></a>
-                        <a class="btn btn-danger  btn-xs glyphicon glyphicon-trash" href="#" title="Apagar Amizade"></a>
-                    </label>
-                    <div class="break"></div>
-                </li>
-                <li href="#" class="list-group-item text-left">
-                    <img class="img-thumbnail" src="https://bootdey.com/img/Content/user_2.jpg">
-                    <label class="name">
-                        Joana
-                    </label>
-                    <label class="pull-right">
-                        <a class="btn btn-success btn-xs glyphicon glyphicon-user" href="#" title="Ver Amigo"></a>
-                        <a class="btn btn-danger  btn-xs glyphicon glyphicon-trash" href="#" title="Apagar Amizade"></a>
-                    </label>
-                    <div class="break"></div>
-                </li>
-                <li href="#" class="list-group-item text-left">
-                    <img class="img-thumbnail" src="https://bootdey.com/img/Content/User_for_snippets.png">
-                    <label class="name">
-                        Daniel Dias
-                    </label>
-                    <label class="pull-right">
-                        <a class="btn btn-success btn-xs glyphicon glyphicon-user" href="#" title="Ver Amigo"></a>
-                        <a class="btn btn-danger  btn-xs glyphicon glyphicon-trash" href="#" title="Apagar Amizade"></a>
-                    </label>
-                    <div class="break"></div>
-                </li>
-                <li href="#" class="list-group-item text-left">
-                    <img class="img-thumbnail" src="https://bootdey.com/img/Content/user_1.jpg">
-                    <label class="name">
-                        Rodas
-                    </label>
-                    <label class="pull-right">
-                        <a class="btn btn-success btn-xs glyphicon glyphicon-user" href="#" title="Ver Amigo"></a>
-                        <a class="btn btn-danger  btn-xs glyphicon glyphicon-trash" href="#" title="Apagar Amizade"></a>
-                    </label>
-                    <div class="break"></div>
-                </li>
-                <li href="#" class="list-group-item text-left">
-                    <img class="img-thumbnail" src="https://bootdey.com/img/Content/user_2.jpg">
-                    <label class="name">
-                        Joana
-                    </label>
-                    <label class="pull-right">
-                        <a class="btn btn-success btn-xs glyphicon glyphicon-user" href="#" title="Ver Amigo"></a>
-                        <a class="btn btn-danger  btn-xs glyphicon glyphicon-trash" href="#" title="Apagar Amizade"></a>
-                    </label>
-                    <div class="break"></div>
-                </li>
+                @{
+                    List<Amizades> amizades = Context.Amizades.Where(a => (a.IdPerfilPediu == Model.PerfilId || a.IdPerfilAceitar == Model.PerfilId) && a.Amigos == true).ToList();
+                    List<Utilizadores> utilizadores = new List<Utilizadores>();
+                    Utilizadores utilizadorAdd = null;
+                    foreach (var amizade in amizades)
+                    {
+                        int amigoID = 0;
+                        if (amizade.IdPerfilPediu == Model.PerfilId)
+                        {
+                            amigoID = amizade.IdPerfilAceitar;
+                        }
+                        else
+                        {
+                            amigoID = amizade.IdPerfilPediu;
+                        }
+                        utilizadorAdd = Context.Utilizadores.Where(u => u.PerfilId == amigoID).FirstOrDefault();
+                        utilizadorAdd.Perfil = Context.PerfilTable.Where(p => p.Id == utilizadorAdd.PerfilId).FirstOrDefault();
+                        utilizadores.Add(utilizadorAdd);
+                    }
+                    @Html.Partial("ListaAmigos", utilizadores)
+                }
             </ul>
         </div>
     </div>
-</div>
 </div>
 <script>
     $(document).ready(function () {

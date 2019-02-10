@@ -22,7 +22,7 @@ namespace Afilhado4Patas.Models
         [Display(Name = "Data Nascimento")]
         public DateTime DataNasc { get; set; }
 
-        [ForeignKey("Raca")]
+        [ForeignKey("Porte")]
         [Display(Name = "Porte")]
         public int PorteId { get; set; }
         public virtual Porte PorteAnimal { get; set; }

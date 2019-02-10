@@ -1,10 +1,12 @@
 ﻿.list-content {
-    max-height: 400px !important;
+    height: 300px !important;
+    width: 430px !important;
 }
 
 .list-group {
-    max-height: 400px !important;
+    height: 100%;
     overflow-y: auto;
+    background-color: #fff
 }
 
     .list-content .list-group .title {
@@ -16,6 +18,9 @@
 .list-group-item img {
     height: 80px;
     width: 80px;
+    float: left;
+    margin-right: 10px !important;
+    display: inline !important;
 }
 
 .jumbotron .btn {
@@ -23,7 +28,7 @@
     font-size: 12px !important;
 }
 
-.jumbotron{
+.jumbotron {
     padding: 0 !important;
 }
 
@@ -38,4 +43,10 @@
 
 .name {
     color: #0081c2;
+    margin-top: 5px !important;
+    float:left;
+}
+
+.list-group-item.text-left{
+    height: 120px;
 }

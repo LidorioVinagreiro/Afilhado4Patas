@@ -1184,8 +1184,10 @@ li a {
 #sem_resultados {
     height: 200px;
     width: 400px;
+    margin-top: 50px;
     margin-left: calc(50% - 200px);
     margin-right: calc(50% - 200px);
+    margin-bottom: 50px;
 }
 
 ul {
