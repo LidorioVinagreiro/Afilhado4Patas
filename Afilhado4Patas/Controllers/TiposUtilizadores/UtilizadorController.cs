@@ -135,6 +135,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View(user);
         }
 
+        /// <summary>
+        /// Ação que devolve a view com os dados de um amigo
+        /// </summary>
+        /// <param name="id">Id do amigo a visualizar</param>
+        /// <returns>View com os dados do amigo</returns>
         public ActionResult VisualizarAmigo(string id)
         {
             if (id == null)
@@ -150,6 +155,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View(user);
         }
 
+        /// <summary>
+        /// Ação que apaga um amigo da lista de amigos
+        /// </summary>
+        /// <param name="id">Id do amigo a apagar</param>
+        /// <returns>Volta ao dashboard depois de apagar o amigo</returns>
         public ActionResult ApagarAmigo(string id)
         {
             if (id == null)
@@ -874,10 +884,10 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         }
 
         /// <summary>
-        /// 
+        /// Metodo que devolve um select list com os animais filtrados por tipo de adoção e sexo
         /// </summary>
-        /// <param name="TipoAdocao"></param>
-        /// <param name="Sexo"></param>
+        /// <param name="TipoAdocao">Tipo de adoção</param>
+        /// <param name="Sexo">Sexo do animal</param>
         /// <returns></returns>
         [HttpGet]
         public JsonResult AnimaisSexo(string TipoAdocao, string Sexo)
@@ -889,6 +899,13 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return Json(new SelectList(animais, "Id", "NomeAnimal"));
         }
 
+        /// <summary>
+        /// Metodo que devolve um select list com os animais filtrados por tipo de adoção, sexo e categoria
+        /// </summary>
+        /// <param name="TipoAdocao">Tipo de adoção</param>
+        /// <param name="Categoria">Categoria de animais</param>
+        /// <param name="Sexo">Sexo do animal</param>
+        /// <returns>Lista de animais filtrada</returns>
         [HttpGet]
         public JsonResult PorteCategoriaSexo(string TipoAdocao, int Categoria, string Sexo)
         {
@@ -946,6 +963,14 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return retorno;
         }
 
+        /// <summary>
+        /// Metodo que devolve um select list com os animais filtrados por tipo de adoção, sexo, categoria e porte
+        /// </summary>
+        /// <param name="TipoAdocao">Tipo de adoção</param>
+        /// <param name="Categoria">Categoria de animais</param>
+        /// <param name="Sexo">Sexo do animal</param>
+        /// <param name="Porte">Porte do animal</param>
+        /// <returns>Lista de animais filtrada</returns>
         [HttpGet]
         public JsonResult RacaCategoriaSexoPorte(string TipoAdocao, int Categoria, string Sexo, int Porte)
         {
@@ -1060,6 +1085,13 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return retorno;
         }
 
+        /// <summary>
+        /// Metodo que devolve um select list com os animais filtrados por tipo de adoção, sexo e categoria
+        /// </summary>
+        /// <param name="TipoAdocao">Tipo de adoção</param>
+        /// <param name="Categoria">Categoria de animais</param>
+        /// <param name="Sexo">Sexo do animal</param>
+        /// <returns>Lista de animais filtrada</returns>
         [HttpGet]
         public JsonResult AnimaisCategoriaSexo(string TipoAdocao, int Categoria, string Sexo)
         {
@@ -1106,6 +1138,14 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return retorno;
         }
 
+        /// <summary>
+        /// Metodo que devolve select list de animais com um tipo de adoção, categoria, sexo e porte
+        /// </summary>
+        /// <param name="TipoAdocao">Tipo de adoção</param>
+        /// <param name="Categoria">Categoria de animais</param>
+        /// <param name="Sexo">Sexo do animal</param>
+        /// <param name="Porte">Porte do animal</param>
+        /// <returns>Lista de animais filtrada</returns>
         [HttpGet]
         public JsonResult AnimaisCategoriaSexoPorte(string TipoAdocao, int Categoria, string Sexo, int Porte)
         {
@@ -1208,7 +1248,7 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         }
 
         /// <summary>
-        /// Metodo que devolve lista de animais com um tipo de adoção, categoria, sexo, porte e raca
+        /// Metodo que devolve um select list de animais com um tipo de adoção, categoria, sexo, porte e raca
         /// </summary>
         /// <param name="TipoAdocao">Tipo de adoção</param>
         /// <param name="Categoria">Categoria de animais</param>
