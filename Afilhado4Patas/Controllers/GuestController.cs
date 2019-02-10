@@ -111,11 +111,20 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View("../Shared/RegistoCompleto");
         }
 
+        /// <summary>
+        /// Ação que efetua o login
+        /// </summary>
+        /// <returns>View de login</returns>
         public IActionResult RealizarLogin()
         {
             return View();
         }
 
+        /// <summary>
+        /// Ação que filtra os animais atraves de certos parametros
+        /// </summary>
+        /// <param name="items">Filtros da lista de animais</param>
+        /// <returns></returns>
         public PartialViewResult AnimaisPorFiltros(int[] items)
         {
             List<Animal> animais = _context.Animais.Include(p => p.PorteAnimal).Include(r => r.RacaAnimal).ThenInclude(c => c.CategoriaRaca).Where(a => items.ToList().Contains(a.RacaAnimal.CategoriaRaca.Id)).ToList();
@@ -130,12 +139,6 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-
-
-        public IActionResult CalendarioUtilizador()
-        {
-            return View("../Utilizador/CalendarioUtilizador");
         }
 
         

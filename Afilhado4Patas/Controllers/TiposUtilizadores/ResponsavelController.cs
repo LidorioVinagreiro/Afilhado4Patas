@@ -124,6 +124,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View("../Shared/FichaAnimal", animal);
         }
 
+        /// <summary>
+        /// Ação que devolve a view do dashboard do responsavel 
+        /// </summary>
+        /// <param name="id">Id do responsavel atual</param>
+        /// <returns>View do dashboard do responsavel atual</returns>
         public ActionResult Dashboard(string id)
         {
             if (id == null)
@@ -139,6 +144,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View(user);
         }
 
+        /// <summary>
+        /// Ação que devolve a view com os dados de um utilizador
+        /// </summary>
+        /// <param name="id">Id do funcionario a mostrar</param>
+        /// <returns>View com os dados de um utilizador</returns>
         public ActionResult VisualizarUtilizador(string id)
         {
             if (id == null)
@@ -1186,7 +1196,10 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         /******************************************** Adocoes ***********************************************/
         /****************************************************************************************************/
 
-
+        /// <summary>
+        /// Ação que mostra os pedidos de adoçao que se encontram em espera
+        /// </summary>
+        /// <returns>View com os pedidos de adocao pendentes</returns>
         public ActionResult PedidosAdocao()
         {
             List<PedidoAdocao> pedidos = _context.PedidosAdocao.Where(p => p.Aprovacao.Equals("Em espera")).Include(a => a.Animal).ToList();
@@ -1197,6 +1210,10 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View(pedidos);
         }
 
+        /// <summary>
+        /// Ação que mostra os pedidos de fim de semana que se encontram em espera
+        /// </summary>
+        /// <returns>View com os pedidos de fim de semana pendentes</returns>
         public ActionResult PedidosFimSemana()
         {
             List<PedidoFimSemana> pedidos = _context.PedidosFimSemana.Where(p => p.Aprovacao.Equals("Em espera")).Include(a => a.Animal).ToList();
@@ -1207,6 +1224,10 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View(pedidos);
         }
 
+        /// <summary>
+        /// Ação que mostra os pedidos de passeio que se encontram em espera
+        /// </summary>
+        /// <returns>View com os pedidos de passeio pendentes</returns>
         public ActionResult PedidosPasseio()
         {
             List<PedidoPasseio> pedidos = _context.PedidosPasseio.Where(p => p.Aprovacao.Equals("Em espera")).Include(a => a.Animal).ToList();
@@ -1217,6 +1238,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View(pedidos);
         }
 
+        /// <summary>
+        /// Ação que mostra o pedido de adocao a ser analisado
+        /// </summary>
+        /// <param name="id">Id do pedido a ser analisado</param>
+        /// <returns>View com os dados do pedido</returns>
         public ActionResult PedidosAdocaoAnalisar(int id)
         {
             PedidoAdocao pedido = _context.PedidosAdocao.Where(p => p.Id == id).Include(a => a.Animal).FirstOrDefault();
@@ -1224,6 +1250,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View(pedido);
         }
 
+        /// <summary>
+        /// Ação que mostra o pedido de fim de semana a ser analisado
+        /// </summary>
+        /// <param name="id">Id do pedido a ser analisado</param>
+        /// <returns>View com os dados do pedido</returns>
         public ActionResult PedidosFimSemanaAnalisar(int id)
         {
             PedidoFimSemana pedido = _context.PedidosFimSemana.Where(p => p.Id == id).Include(a => a.Animal).FirstOrDefault();
@@ -1231,6 +1262,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View(pedido);
         }
 
+        /// <summary>
+        /// Ação que mostra o pedido de passeio a ser analisado
+        /// </summary>
+        /// <param name="id">Id do pedido a ser analisado</param>
+        /// <returns>View com os dados do pedido</returns>
         public ActionResult PedidosPasseioAnalisar(int id)
         {
             PedidoPasseio pedido = _context.PedidosPasseio.Where(p => p.Id == id).Include(a => a.Animal).FirstOrDefault();
@@ -1238,6 +1274,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View(pedido);
         }
 
+        /// <summary>
+        /// Ação que é mostrada quando um pedido de adoção é aceite
+        /// </summary>
+        /// <param name="id">Id do pedido aceite</param>
+        /// <returns>View do pedido aceite</returns>
         public ActionResult AceitarPedidoAdocao(int id)
         {
             PedidoAdocao pedido = _context.PedidosAdocao.Where(p => p.Id == id).Include(a => a.Animal).FirstOrDefault();
@@ -1248,6 +1289,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View("PedidoAdocaoAceite", aprovacao);
         }
 
+        /// <summary>
+        /// Ação que é mostrada quando um pedido de adoção é aceite
+        /// </summary>
+        /// <param name="aprovacao">Model do pedido aceite</param>
+        /// <returns>View do pedido aceite</returns>
         [HttpPost]
         public async Task<ActionResult> AceitarPedidoAdocao(AprovacaoViewModel aprovacao)
         {
@@ -1281,6 +1327,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View("PedidoAdocaoAceite", aprovacao);
         }
 
+        /// <summary>
+        /// Ação que é mostrada quando um pedido de fim de semana é aceite
+        /// </summary>
+        /// <param name="id">Id do pedido aceite</param>
+        /// <returns>View do pedido aceite</returns>
         public async Task<ActionResult> AceitarPedidoFimSemana(int id)
         {
             PedidoFimSemana pedido = _context.PedidosFimSemana.Where(p => p.Id == id).FirstOrDefault();
@@ -1305,6 +1356,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View("PedidosFimSemana", pedidos);
         }
 
+        /// <summary>
+        /// Ação que é mostrada quando um pedido de passeio é aceite
+        /// </summary>
+        /// <param name="id">Id do pedido aceite</param>
+        /// <returns>View do pedido aceite</returns>
         public async Task<ActionResult> AceitarPedidoPasseio(int id)
         {
             PedidoPasseio pedido = _context.PedidosPasseio.Where(p => p.Id == id).FirstOrDefault();
@@ -1329,6 +1385,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View("PedidosPasseio", pedidos);
         }
 
+        /// <summary>
+        /// Ação que é mostrada quando um pedido de passeio é rejeitado
+        /// </summary>
+        /// <param name="id">Id do pedido rejeitado</param>
+        /// <returns>View do pedido rejeitado</returns>
         public async Task<ActionResult> RejeitarPedidoPasseio(int id)
         {
             PedidoPasseio pedido = _context.PedidosPasseio.Where(p => p.Id == id).FirstOrDefault();
@@ -1347,6 +1408,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View("PedidosPasseio", pedidos);
         }
 
+        /// <summary>
+        /// Ação que é mostrada quando um pedido de fim de semana é rejeitado
+        /// </summary>
+        /// <param name="id">Id do pedido rejeitado</param>
+        /// <returns>View do pedido rejeitado</returns>
         public async Task<ActionResult> RejeitarPedidoFimSemana(int id)
         {
             PedidoFimSemana pedido = _context.PedidosFimSemana.Where(p => p.Id == id).FirstOrDefault();
@@ -1365,6 +1431,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View("PedidosFimSemana", pedidos);
         }
 
+        /// <summary>
+        /// Ação que é mostrada quando um pedido de adoção é rejeitado
+        /// </summary>
+        /// <param name="id">Id do pedido rejeitado</param>
+        /// <returns>View do pedido rejeitado</returns>
         public ActionResult RejeitarPedidoAdocao(int id)
         {
             PedidoAdocao pedido = _context.PedidosAdocao.Where(p => p.Id == id).Include(a => a.Animal).FirstOrDefault();
@@ -1375,6 +1446,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View("PedidoAdocaoRejeitado", aprovacao);
         }
 
+        /// <summary>
+        /// Ação que é mostrada quando um pedido de adoção é rejeitado
+        /// </summary>
+        /// <param name="aprovacao">Model do pedido rejeitado</param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<ActionResult> RejeitarPedidoAdocao(AprovacaoViewModel aprovacao)
         {
@@ -1398,7 +1474,10 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
 
         // *************************** CONVOCATORIA
 
-
+        /// <summary>
+        /// Acao que efetua uma reuniao com a pessoa que adotou um animal
+        /// </summary>
+        /// <returns>View com as adocoes disponiveis de escolher</returns>
         public ActionResult ConvocarReuniao()
         {
             List<Adocao> adocoes = _context.Adocoes.Include(p => p.Pedido).Where(a => a.Pedido.TipoAdocao == "Total").ToList();
@@ -1410,6 +1489,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View(adocoes);
         }
 
+        /// <summary>
+        /// Acao que efetua uma reuniao com a pessoa que adotou um animal
+        /// </summary>
+        /// <param name="dicionario">Par de valores com o utilizador e com o animal</param>
+        /// <returns>View com as adocoes disponiveis de escolher</returns>
         public ActionResult ConvocarReuniaoEspecifica(Dictionary<string, string> dicionario)
         {
             ConvocatoriaViewModel convocatoria = new ConvocatoriaViewModel
@@ -1420,6 +1504,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View(convocatoria);
         }
 
+        /// <summary>
+        /// Acao que notifica o utilizador atraves de um email
+        /// </summary>
+        /// <param name="convocatoria">Model com os dados da convocatoria da reuniao</param>
+        /// <returns>View de reuniao registada</returns>
         [HttpPost]
         public async Task<ActionResult> ConvocarReuniaoEspecifica(ConvocatoriaViewModel convocatoria)
         {
@@ -1435,6 +1524,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View(convocatoria);
         }
 
+        /// <summary>
+        /// Ação que efetua uma pesquisa de um animal no sistema
+        /// </summary>
+        /// <param name="pesquisa">Filtro da pesquisa dos animais</param>
+        /// <returns>View com os animais pesquisados</returns>
         public PartialViewResult PesquisarAnimal(string pesquisa)
         {
             List<Adocao> adocoes = _context.Adocoes.Include(p => p.Pedido).Where(a => a.Pedido.TipoAdocao == "Total").ToList();
@@ -1451,6 +1545,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return PartialView("~/Views/Responsavel/GridAnimaisAdotados.cshtml", adocoesMostrar);
         }
 
+        /// <summary>
+        /// Metodo que cria um diretorio na pasta do projeto
+        /// </summary>
+        /// <param name="path">Caminho onde a nova pasta vai ser criada</param>
+        /// <returns>Se o caminho existe ou não</returns>
         private bool CreateFolder(string path)
         {
             if (!Directory.Exists(path))
@@ -1461,6 +1560,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return Directory.Exists(path);
         }
 
+        /// <summary>
+        /// Metodo que devolve um select list em json com as racas agrupadas por categorias
+        /// </summary>
+        /// <param name="CategoriaID">Id da categoria</param>
+        /// <returns>Json com as racas agrupadas por categorias</returns>
         [HttpGet]
         public JsonResult RacasPorCategoria(int CategoriaID)
         {
@@ -1535,6 +1639,10 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return tarefasModel;
         }
 
+        /// <summary>
+        /// Metodo que devolve os dados para a estatistica dos tipos de animal no sistema
+        /// </summary>
+        /// <returns>Json com os dados da estatistica</returns>
         [HttpGet]
         public JsonResult PieAnimal()
         {
@@ -1542,24 +1650,43 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return Json(dataR.dataGroupTipoAnimais());
         }
 
+        /// <summary>
+        /// Metodo que devolve os dados para a estatistica dos utilizadores agrupados por sexo
+        /// </summary>
+        /// <returns>Json com os dados da estatistica</returns>
         [HttpGet]
         public JsonResult PieMf()
         {
             DataRetrive dataR = new DataRetrive(_context);
             return Json(dataR.dataGroupMF());
         }
+
+        /// <summary>
+        ///  Metodo que devolve os dados para a estatistica do numero de adoções por mês
+        /// </summary>
+        /// <returns>Json com os dados da estatistica</returns>
         [HttpGet]
         public JsonResult adocoesPorMes()
         {
             DataRetrive dataR = new DataRetrive(_context);
             return Json(dataR.adocoesPorMes());
         }
+
+        /// <summary>
+        ///  Metodo que devolve os dados para a estatistica do numero de apadrinhamentos por mês
+        /// </summary>
+        /// <returns>Json com os dados da estatistica</returns>
         [HttpGet]
         public JsonResult apadrinhamentosPorMes()
         {
             DataRetrive dataR = new DataRetrive(_context);
             return Json(dataR.apadrinhamentosPorMes());
         }
+
+        /// <summary>
+        /// Metodo que devolve os dados para a estatistica do numero de pedidos de passeio por mês
+        /// </summary>
+        /// <returns>Json com os dados da estatistica</returns>
         [HttpGet]
         public JsonResult numeroPedidosPasseioPorMes()
         {
@@ -1567,18 +1694,15 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return Json(dataR.numeroPedidosPasseioPorMes());
         }
 
+        /// <summary>
+        /// Metodo que devolve os dados para a estatistica do numero de pedidos de fins de semana por mês
+        /// </summary>
+        /// <returns>Json com os dados da estatistica</returns>
         [HttpGet]
         public JsonResult numeroPedidosFdsPorMes()
         {
             DataRetrive dataR = new DataRetrive(_context);
             return Json(dataR.numeroPedidosFdsPorMes());
         }
-
-        public IActionResult EstatisticasResponsavel()
-        {
-            DataRetrive data = new DataRetrive(_context);
-            return View(data);
-        }
-
     }
 }

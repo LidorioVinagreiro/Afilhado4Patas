@@ -115,6 +115,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View("../Shared/FichaAnimal", animal);
         }
 
+        /// <summary>
+        /// Ação que devolve a view do dashboard do utilizador 
+        /// </summary>
+        /// <param name="id">Id do utilizador atual</param>
+        /// <returns>View do dashboard do utilizador atual</returns>
         public ActionResult Dashboard(string id)
         {
             if (id == null)
@@ -406,6 +411,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         /******************************************** Adocoes ***********************************************/
         /****************************************************************************************************/
 
+        /// <summary>
+        /// Ação que devolve a lista dos animais adotados e apadrinhados pelo utilizador
+        /// </summary>
+        /// <param name="id">Id do utilizador</param>
+        /// <returns>View com a lista de animais adotados e apadrinhados pelo utilizador</returns>
         public ActionResult MeusAnimais(string id)
         {
             Utilizadores utilizador = _context.Utilizadores.Where(u => u.Id == id).FirstOrDefault();
@@ -417,7 +427,12 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             }
             return View(lista_animais);
         }
-        
+
+        /// <summary>
+        /// Ação que permite efetuar um pedido de adoção
+        /// </summary>
+        /// <param name="id">Id do utilizador</param>
+        /// <returns>View com o formulário a preencher para efetuar uma adoção</returns>
         public ActionResult PedidoAdocao(string id)
         {
             if (id != null)
@@ -433,6 +448,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return NotFound();
         }
 
+        /// <summary>
+        /// Ação que permite efetuar um pedido de adoção a um determinado animal
+        /// </summary>
+        /// <param name="id">Id do animal</param>
+        /// <returns>View com o formulário a preencher para efetuar uma adoção</returns>
         public ActionResult PedidoAdocaoEspecifico(int id)
         {
             if (id > 0)
@@ -450,6 +470,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return NotFound();
         }
 
+        /// <summary>
+        /// Ação que permite efetuar um pedido de fim de semana a um determinado animal
+        /// </summary>
+        /// <param name="id">Id do animal</param>
+        /// <returns>View com os dados do pedido</returns>
         public ActionResult PedidoFimSemana(int id)
         {
             if (id > 0)
@@ -463,6 +488,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return NotFound();
         }
 
+        /// <summary>
+        /// Ação que permite efetuar um pedido de passeio a um determinado animal
+        /// </summary>
+        /// <param name="id">Id do animal</param>
+        /// <returns>View com os dados do pedido</returns>
         public ActionResult PedidoPasseio(int id)
         {
             if (id > 0)
@@ -476,6 +506,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return NotFound();
         }
 
+        /// <summary>
+        /// Ação que permite efetuar um pedido de adoção
+        /// </summary>
+        /// <param name="PedidoAdocao">Model com os dados do formulário para efetuar adoção</param>
+        /// <returns>View de pedido efetuado</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> PedidoAdocao(PedidoAdocaoViewModel PedidoAdocao)
@@ -522,6 +557,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View(PedidoAdocao);
         }
 
+        /// <summary>
+        /// Ação que permite efetuar um pedido de adoção a um determinado animal
+        /// </summary>
+        /// <param name="PedidoAdocao">Model com os dados do formulário para efetuar adoção</param>
+        /// <returns>View de pedido efetuado</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> PedidoAdocaoEspecifico(PedidoAdocaoViewModel PedidoAdocao)
@@ -568,6 +608,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View(PedidoAdocao);
         }
 
+        /// <summary>
+        /// Ação que permite efetuar um pedido de fim de semana
+        /// </summary>
+        /// <param name="PedidoFimSemana">Model com os dados do formulário para efetuar o pedido de fim de semana</param>
+        /// <returns>View de pedido efetuado</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> PedidoFimSemana(PedidoFimSemanaViewModel PedidoFimSemana)
@@ -604,6 +649,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View(PedidoFimSemana);
         }
 
+        /// <summary>
+        /// Ação que permite efetuar um pedido de passeio
+        /// </summary>
+        /// <param name="PedidoPasseio">Model com os dados do formulário para efetuar o pedido de passeio</param>
+        /// <returns>View de pedido efetuado</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> PedidoPasseio(PedidoPasseioViewModel PedidoPasseio)
@@ -640,6 +690,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View(PedidoPasseio);
         }
 
+        /// <summary>
+        /// Ação que devolve a lista dos pedidos efetuados pelo utilizador atual
+        /// </summary>
+        /// <param name="id">Id do utilizador</param>
+        /// <returns>View com a lista de pedidos de adoção efetuados</returns>
         public ActionResult MeusPedidos(string id)
         {
             Utilizadores utilizador = _context.Utilizadores.Where(u => u.Id == id).Include(p => p.Perfil).FirstOrDefault();
@@ -647,6 +702,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View(pedidosAdocao);
         }
 
+        /// <summary>
+        /// Ação que devolve a lista dos pedidos de fim de semana efetuados pelo utilizador atual
+        /// </summary>
+        /// <param name="id">Id do utilizador</param>
+        /// <returns>View com a lista de pedidos de fim de semana efetuados</returns>
         public ActionResult MeusPedidosFimSemana(string id)
         {
             Utilizadores utilizador = _context.Utilizadores.Where(u => u.Id == id).Include(p => p.Perfil).FirstOrDefault();
@@ -654,6 +714,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View(pedidosFimSemana);
         }
 
+        /// <summary>
+        /// Ação que devolve a lista dos pedidos de passeio efetuados pelo utilizador atual
+        /// </summary>
+        /// <param name="id">Id do utilizador</param>
+        /// <returns>View com a lista de pedidos de passeio efetuados</returns>
         public ActionResult MeusPedidosPasseio(string id)
         {
             Utilizadores utilizador = _context.Utilizadores.Where(u => u.Id == id).Include(p => p.Perfil).FirstOrDefault();
@@ -666,7 +731,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
         /***************************************** CONSULTAS SQL ********************************************/
         /****************************************************************************************************/
 
-
+        /// <summary>
+        /// Metodo que devolve os animais de um certo tipo 
+        /// </summary>
+        /// <param name="TipoAdocao">Tipo de animal</param>
+        /// <returns>select list em json com os animais agrupados por categoria</returns>
         [HttpGet]
         public JsonResult AnimaisTipoAdocao(string TipoAdocao)
         {
@@ -677,6 +746,12 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return Json(new SelectList(animais, "Id", "NomeAnimal"));
         }
 
+        /// <summary>
+        /// Metodo que devolve um select list com o Id e nome
+        /// </summary>
+        /// <param name="TipoAdocao">Tipo de adoção do animal</param>
+        /// <param name="Sexo">Sexo do animal</param>
+        /// <returns>select list com o Id e nome</returns>
         [HttpGet]
         public JsonResult Categorias(string TipoAdocao, string Sexo)
         {
@@ -704,6 +779,12 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return retorno;
         }
 
+        /// <summary>
+        /// Metodo que devovle animais com um certo tipo de adoção e com um determinado sexo
+        /// </summary>
+        /// <param name="TipoAdocao">Tipo de adoção do animal</param>
+        /// <param name="Sexo">Sexo do animal</param>
+        /// <returns>select list com o Id e nome</returns>
         [HttpGet]
         public JsonResult AnimaisTipoAdocaoSexo(string TipoAdocao, string Sexo)
         {
@@ -727,6 +808,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return retorno;
         }
 
+        /// <summary>
+        /// Metodo que devolve os animais adotados
+        /// </summary>
+        /// <param name="TipoAdocao">Tipo de adoção do animal</param>
+        /// <returns>Lista dos animais adotados</returns>
         public List<int> AnimaisNaoMostrar(string TipoAdocao)
         {
             List<int> animaisAdotados = new List<int>();
@@ -752,6 +838,12 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return animaisAdotados;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="TipoAdocao"></param>
+        /// <param name="Sexo"></param>
+        /// <returns></returns>
         [HttpGet]
         public JsonResult AnimaisSexo(string TipoAdocao, string Sexo)
         {
@@ -1079,6 +1171,16 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             }
             return retorno;
         }
+
+        /// <summary>
+        /// Metodo que devolve lista de animais com um tipo de adoção, categoria, sexo, porte e raca
+        /// </summary>
+        /// <param name="TipoAdocao">Tipo de adoção</param>
+        /// <param name="Categoria">Categoria de animais</param>
+        /// <param name="Sexo">Sexo do animal</param>
+        /// <param name="Porte">Porte do animal</param>
+        /// <param name="Raca">Raca do animal</param>
+        /// <returns>Lista de animais filtrada</returns>
         [HttpGet]
         public JsonResult AnimaisCategoriaSexoPorteRaca(string TipoAdocao, int Categoria, string Sexo, int Porte, int Raca)
         {
@@ -1585,6 +1687,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
 
         }
 
+        /// <summary>
+        /// Metodo que cria um diretorio na pasta do projeto
+        /// </summary>
+        /// <param name="path">Caminho onde a nova pasta vai ser criada</param>
+        /// <returns>Se o caminho existe ou não</returns>
         private bool CreateFolder(string path)
         {
             if (!Directory.Exists(path))
@@ -1605,6 +1712,11 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
+        /// <summary>
+        /// Ação que devolve os padrinhos de um animal
+        /// </summary>
+        /// <param name="id">Id do animal</param>
+        /// <returns>View com os padrinhos do animal</returns>
         public IActionResult PadrinhosAnimal(int id)
         {
             var padrinhos = _context.Animais.Where(a => a.Id == id).Include(a => a.Adotantes).ToList();
@@ -1612,6 +1724,10 @@ namespace Afilhado4Patas.Controllers.TiposUtilizadores
             return View(padrinhos);
         }
 
+        /// <summary>
+        /// Metodo que devolve os eventos do calendário relacionados com um utilizador
+        /// </summary>
+        /// <returns>Lista de eventos</returns>
         public JsonResult EventosCalendarioUtilizador()
         {
             var listCalendario = new List<object>();
