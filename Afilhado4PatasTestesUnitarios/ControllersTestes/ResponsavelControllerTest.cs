@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Afilhado4Patas.Areas.Identity.Services;
 using Afilhado4Patas.Controllers.TiposUtilizadores;
 using Afilhado4Patas.Data;
+using Afilhado4Patas.Models.Estatisticas;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -116,6 +117,26 @@ namespace Afilhado4PatasTestesUnitarios.ControllersTestes
                 var controller = new ResponsavelController(context, _userManager, _emailSender, _razorView, _hostingEnvironment);
                 var result = controller.ListaAnimais();
                 Assert.IsType<ViewResult>(result);
+        }
+
+        [Fact]
+        public async Task Estatisticas_TiposAnimais_CanLoadFromContext()
+        {
+            var controller = new ResponsavelController(context, _userManager, _emailSender, _razorView, _hostingEnvironment);
+            var aux = new DataRetrive(context);
+            var data = new JsonResult(aux.dataGroupTipoAnimais());
+            var result = controller.PieAnimal();
+            result.Equals(data);
+        }
+
+        [Fact]
+        public async Task Estatisticas_SexoUtilizadores_CanLoadFromContext()
+        {
+            var controller = new ResponsavelController(context, _userManager, _emailSender, _razorView, _hostingEnvironment);
+            var aux = new DataRetrive(context);
+            var data = new JsonResult(aux.dataGroupMF());
+            var result = controller.PieMf();
+            result.Equals(data);
         }
     }
 }
